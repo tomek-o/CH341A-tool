@@ -12,6 +12,7 @@
 
 #pragma package(smart_init)
 
+CH341A ch341a;
 
 CH341A::~CH341A(void)
 {
@@ -132,7 +133,7 @@ int CH341A::I2CCheckDev(uint8_t addr)
 	uint8_t buf;
 	if (addr >= 0x80)
 	{
-		LOG("I2CCheckDev: invalid I2C address (%u)", static_cast<unsigned int>(addr));
+		LOG("I2CCheckDev: invalid I2C address (%u)\n", static_cast<unsigned int>(addr));
 		return -2;
 	}
 #ifdef __BORLANDC__

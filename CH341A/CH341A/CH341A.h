@@ -37,4 +37,6 @@ private:
 	int index;
 };
 
+extern CH341A ch341a;
+
 #endif

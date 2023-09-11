@@ -2,9 +2,11 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'CH341 tool'
-  ClientHeight = 232
-  ClientWidth = 402
+  ClientHeight = 341
+  ClientWidth = 584
   Color = clBtnFace
+  Constraints.MinHeight = 400
+  Constraints.MinWidth = 600
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -21,10 +23,12 @@ object frmMain: TfrmMain
   TextHeight = 13
   object StatusBar: TStatusBar
     Left = 0
-    Top = 213
-    Width = 402
+    Top = 322
+    Width = 584
     Height = 19
     Panels = <>
+    ExplicitTop = 213
+    ExplicitWidth = 402
   end
   object MainMenu: TMainMenu
     Left = 8

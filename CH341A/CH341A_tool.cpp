@@ -3,11 +3,13 @@
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
+USEFORM("CH341A\FormCH341A.cpp", frmCH341A);
+USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("FormMain.cpp", frmMain);
 USEFORM("FormSettings.cpp", frmSettings);
 USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("LogUnit.cpp", frmLog);
-USEFORM("FormCH341A.cpp", frmCH341A);
+USEFORM("CH341A\tools\FormCH341I2CReadWrite.cpp", frmCH341I2CReadWrite);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -22,6 +24,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmSettings), &frmSettings);
 		Application->CreateForm(__classid(TfrmAbout), &frmAbout);
 		Application->CreateForm(__classid(TfrmLog), &frmLog);
+		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
+		Application->CreateForm(__classid(TfrmCH341I2CReadWrite), &frmCH341I2CReadWrite);
 		Application->Run();
 	}
 	catch (Exception &exception)

@@ -1,11 +1,9 @@
-object frmCH341A: TfrmCH341A
+object frmCH341I2CReadWrite: TfrmCH341I2CReadWrite
   Left = 0
   Top = 0
-  Align = alClient
-  BorderStyle = bsNone
-  Caption = 'CH341A'
-  ClientHeight = 338
-  ClientWidth = 651
+  Caption = 'I2C read/write'
+  ClientHeight = 299
+  ClientWidth = 635
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,46 +15,28 @@ object frmCH341A: TfrmCH341A
   TextHeight = 13
   object lblBytes: TLabel
     Left = 175
-    Top = 61
+    Top = 21
     Width = 35
     Height = 13
     Caption = 'byte(s)'
   end
-  object btnOpen: TButton
-    Left = 16
-    Top = 16
-    Width = 75
-    Height = 25
-    Caption = 'Open'
-    TabOrder = 0
-    OnClick = btnOpenClick
-  end
-  object btnClose: TButton
-    Left = 104
-    Top = 16
-    Width = 75
-    Height = 25
-    Caption = 'Close'
-    TabOrder = 1
-    OnClick = btnCloseClick
-  end
   object btnRead: TButton
     Left = 16
-    Top = 56
+    Top = 16
     Width = 75
     Height = 25
     Caption = 'Read'
-    TabOrder = 2
+    TabOrder = 0
     OnClick = btnReadClick
   end
   object cbReadBytesCount: TComboBox
     Left = 104
-    Top = 58
+    Top = 18
     Width = 65
     Height = 21
     ItemHeight = 13
     ItemIndex = 1
-    TabOrder = 3
+    TabOrder = 1
     Text = '2'
     Items.Strings = (
       '1'
@@ -76,7 +56,7 @@ object frmCH341A: TfrmCH341A
   end
   object memoRead: TMemo
     Left = 104
-    Top = 85
+    Top = 45
     Width = 289
     Height = 76
     Font.Charset = DEFAULT_CHARSET
@@ -85,28 +65,6 @@ object frmCH341A: TfrmCH341A
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
-  end
-  object btnDetectDevices: TButton
-    Left = 16
-    Top = 200
-    Width = 75
-    Height = 25
-    Caption = 'Detect'
-    TabOrder = 5
-    OnClick = btnDetectDevicesClick
-  end
-  object memoDetect: TMemo
-    Left = 104
-    Top = 202
-    Width = 289
-    Height = 76
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Courier New'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 6
+    TabOrder = 2
   end
 end

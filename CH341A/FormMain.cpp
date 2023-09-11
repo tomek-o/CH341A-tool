@@ -19,6 +19,9 @@ TfrmMain *frmMain;
 __fastcall TfrmMain::TfrmMain(TComponent* Owner)
 	: TForm(Owner)
 {
+	frmCH341A = new TfrmCH341A(this);
+	frmCH341A->Parent = this;
+	frmCH341A->Visible = true;
 #ifdef ACCEPT_WM_DROPFILES
 	// inform OS that we accepting dropping files
 	DragAcceptFiles(Handle, True);
@@ -96,12 +99,8 @@ void __fastcall TfrmMain::FormShow(TObject *Sender)
 		frmLog->SetLogLinesLimit(appSettings.Logging.iMaxUiLogLines);		
 		CLog::Instance()->SetLevel(E_LOG_TRACE);
 		CLog::Instance()->callbackLog = frmLog->OnLog;
-
-		frmCH341A = new TfrmCH341A(this);
-		frmCH341A->Parent = this;
-		frmCH341A->Visible = true;
 	}
-	LOG("Application started");
+	LOG("Application started\n");
 }
 //---------------------------------------------------------------------------
 
