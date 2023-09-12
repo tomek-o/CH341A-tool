@@ -28,7 +28,6 @@
         <property category="build.config.1" name="settings.win32b" value="default"/>
         <property category="build.config.1" name="type" value="Toolset"/>
         <property category="build.config.1" name="win32.win32b.builddir" value="Release_Build"/>
-        <property category="build.node" name="lastconfig" value="Release_Build"/>
         <property category="build.node" name="libraries" value="vcl.lib rtl.lib"/>
         <property category="build.node" name="name" value="common.lib"/>
         <property category="build.node" name="packages" value="vclx;vcl;rtl;dbrtl;vcldb;adortl;dbxcds;dbexpress;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;soaprtl;dsnap;bdertl;vcldbx"/>
@@ -150,6 +149,9 @@
           <property category="win32.*.win32b.ilink32" name="option.aa.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.ap.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.dynamicrtl.enabled" value="1"/>
+          <property category="win32.*.win32b.tlib" name="option.P.arg" value="32"/>
+          <property category="win32.*.win32b.tlib" name="option.P.arg.merge" value="1"/>
+          <property category="win32.*.win32b.tlib" name="option.P.enabled" value="1"/>
           <property category="win32.*.win32b.tlib" name="option.dynamicrtl.enabled" value="0"/>
         </optionset>
       </project>
@@ -178,6 +180,9 @@
         <FILE FILENAME="well512.c" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="well512" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="well512.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="TrayIcon.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TrayIcon" FORMNAME="" DESIGNCLASS="" ADDITIONAL="TrayIcon.h"/>
+        <FILE FILENAME="bin2str.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="bin2str" FORMNAME="" DESIGNCLASS="" ADDITIONAL="bin2str.h"/>
+        <FILE FILENAME="ScopedBool.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="ScopedFile.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
