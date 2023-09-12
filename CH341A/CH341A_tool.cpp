@@ -9,7 +9,7 @@ USEFORM("FormMain.cpp", frmMain);
 USEFORM("FormSettings.cpp", frmSettings);
 USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("LogUnit.cpp", frmLog);
-USEFORM("CH341A\tools\FormCH341I2CReadWrite.cpp", frmCH341I2CReadWrite);
+USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -25,7 +25,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmAbout), &frmAbout);
 		Application->CreateForm(__classid(TfrmLog), &frmLog);
 		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
-		Application->CreateForm(__classid(TfrmCH341I2CReadWrite), &frmCH341I2CReadWrite);
+		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
 		Application->Run();
 	}
 	catch (Exception &exception)

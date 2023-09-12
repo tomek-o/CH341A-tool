@@ -1,7 +1,7 @@
-object frmCH341I2CReadWrite: TfrmCH341I2CReadWrite
+object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
   Left = 0
   Top = 0
-  Caption = 'I2C read/write'
+  Caption = 'I2C write/read'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
