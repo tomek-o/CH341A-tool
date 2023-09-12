@@ -7,7 +7,7 @@
 //**  C, VC5.0                          **
 //****************************************
 //
-// Partially translated from Chinese using google translate, some extra comments are added
+// Translated from Chinese using google translate, some extra comments are added
 //
 // USB bus interface chip CH341 parallel port application layer interface library V2.1
 // Nanjing Qinheng Electronics Co., Ltd. Author: W.ch 2008.10
@@ -26,10 +26,6 @@ extern "C" {
 
 #define		mOFFSET( s, m )			( (ULONG) & ( ( ( s * ) 0 ) -> m ) )	// get relative offset address of a structure member
 
-#ifndef		max
-#define		max( a, b )				( ( ( a ) > ( b ) ) ? ( a ) : ( b ) )
-#endif
-
 #ifndef		min
 #define		min( a, b )				( ( ( a ) < ( b ) ) ? ( a ) : ( b ) )
 #endif
@@ -43,95 +39,95 @@ typedef		LONG	NTSTATUS;
 #endif
 
 
-typedef	struct	_USB_SETUP_PKT {				// USB¿ØÖÆ´«ÊäµÄ½¨Á¢½×¶ÎµÄÊı¾İÇëÇó°ü½á¹¹
-	UCHAR			mUspReqType;				// 00H ÇëÇóÀàĞÍ
-	UCHAR			mUspRequest;				// 01H ÇëÇó´úÂë
+typedef	struct	_USB_SETUP_PKT {				// Data request packet structure in the establishment phase of USB control transfer
+	UCHAR			mUspReqType;				// 00H request type
+	UCHAR			mUspRequest;				// 01H request code
 	union	{
 		struct	{
-			UCHAR	mUspValueLow;				// 02H Öµ²ÎÊıµÍ×Ö½Ú
-			UCHAR	mUspValueHigh;				// 03H Öµ²ÎÊı¸ß×Ö½Ú
+			UCHAR	mUspValueLow;				// 02H value parameter low byte
+			UCHAR	mUspValueHigh;				// 03H value parameter high byte
 		};
-		USHORT		mUspValue;					// 02H-03H Öµ²ÎÊı
+		USHORT		mUspValue;					// 02H-03H value parameters
 	};
 	union	{
 		struct	{
-			UCHAR	mUspIndexLow;				// 04H Ë÷Òı²ÎÊıµÍ×Ö½Ú
-			UCHAR	mUspIndexHigh;				// 05H Ë÷Òı²ÎÊı¸ß×Ö½Ú
+			UCHAR	mUspIndexLow;				// 04H Index parameter low byte
+			UCHAR	mUspIndexHigh;				// 05H Index parameter high byte
 		};
-		USHORT		mUspIndex;					// 04H-05H Ë÷Òı²ÎÊı
+		USHORT		mUspIndex;					// 04H-05H index parameters
 	};
-	USHORT			mLength;					// 06H-07H Êı¾İ½×¶ÎµÄÊı¾İ³¤¶È
+	USHORT			mLength;					// 06H-07H Data length of data stage
 } mUSB_SETUP_PKT, *mPUSB_SETUP_PKT;
 
 
-#define		mCH341_PACKET_LENGTH	32			// CH341Ö§³ÖµÄÊı¾İ°üµÄ³¤¶È
-#define		mCH341_PKT_LEN_SHORT	8			// CH341Ö§³ÖµÄ¶ÌÊı¾İ°üµÄ³¤¶È
+#define		mCH341_PACKET_LENGTH	32			// The length of data packets supported by CH341
+#define		mCH341_PKT_LEN_SHORT	8			// The length of short data packets supported by CH341
 
 
-typedef	struct	_WIN32_COMMAND {				// ¶¨ÒåWIN32ÃüÁî½Ó¿Ú½á¹¹
+typedef	struct	_WIN32_COMMAND {				// Define the WIN32 command interface structure
 	union	{
-		ULONG		mFunction;					// ÊäÈëÊ±Ö¸¶¨¹¦ÄÜ´úÂë»òÕß¹ÜµÀºÅ
-		NTSTATUS	mStatus;					// Êä³öÊ±·µ»Ø²Ù×÷×´Ì¬
+		ULONG		mFunction;					// Specify the function code or pipe number when entering
+		NTSTATUS	mStatus;					// Return to operating status when outputting
 	};
-	ULONG			mLength;					// ´æÈ¡³¤¶È,·µ»ØºóĞøÊı¾İµÄ³¤¶È
+	ULONG			mLength;					// Access length, returns the length of subsequent data
 	union	{
-		mUSB_SETUP_PKT	mSetupPkt;				// USB¿ØÖÆ´«ÊäµÄ½¨Á¢½×¶ÎµÄÊı¾İÇëÇó
-		UCHAR			mBuffer[ mCH341_PACKET_LENGTH ];	// Êı¾İ»º³åÇø,³¤¶ÈÎª0ÖÁ255B
+		mUSB_SETUP_PKT	mSetupPkt;				// Data request during the establishment phase of USB control transfer
+		UCHAR			mBuffer[ mCH341_PACKET_LENGTH ];	// Data buffer, length 0 to 255B
 	};
 } mWIN32_COMMAND, *mPWIN32_COMMAND;
 
 
-// WIN32Ó¦ÓÃ²ã½Ó¿ÚÃüÁî
-#define		IOCTL_CH341_COMMAND		( FILE_DEVICE_UNKNOWN << 16 | FILE_ANY_ACCESS << 14 | 0x0f34 << 2 | METHOD_BUFFERED )	// ×¨ÓÃ½Ó¿Ú
+// WIN32 application layer interface commands
+#define		IOCTL_CH341_COMMAND		( FILE_DEVICE_UNKNOWN << 16 | FILE_ANY_ACCESS << 14 | 0x0f34 << 2 | METHOD_BUFFERED )	// dedicated interface
 
-#define		mWIN32_COMMAND_HEAD		mOFFSET( mWIN32_COMMAND, mBuffer )	// WIN32ÃüÁî½Ó¿ÚµÄÍ·³¤¶È
+#define		mWIN32_COMMAND_HEAD		mOFFSET( mWIN32_COMMAND, mBuffer )	// Header length of WIN32 command interface
 
-#define		mCH341_MAX_NUMBER		16			// ×î¶àÍ¬Ê±Á¬½ÓµÄCH341Êı
+#define		mCH341_MAX_NUMBER		16			// Maximum number of CH341s connected simultaneously
 
-#define		mMAX_BUFFER_LENGTH		0x1000		// Êı¾İ»º³åÇø×î´ó³¤¶È4096
+#define		mMAX_BUFFER_LENGTH		0x1000		// The maximum length of the data buffer is 4096
 
-#define		mMAX_COMMAND_LENGTH		( mWIN32_COMMAND_HEAD + mMAX_BUFFER_LENGTH )	// ×î´óÊı¾İ³¤¶È¼ÓÉÏÃüÁî½á¹¹Í·µÄ³¤¶È
+#define		mMAX_COMMAND_LENGTH		( mWIN32_COMMAND_HEAD + mMAX_BUFFER_LENGTH )	// The maximum data length plus the length of the command structure header
 
-#define		mDEFAULT_BUFFER_LEN		0x0400		// Êı¾İ»º³åÇøÄ¬ÈÏ³¤¶È1024
+#define		mDEFAULT_BUFFER_LEN		0x0400		// Data buffer default length 1024
 
-#define		mDEFAULT_COMMAND_LEN	( mWIN32_COMMAND_HEAD + mDEFAULT_BUFFER_LEN )	// Ä¬ÈÏÊı¾İ³¤¶È¼ÓÉÏÃüÁî½á¹¹Í·µÄ³¤¶È
-
-
-// CH341¶ËµãµØÖ·
-#define		mCH341_ENDP_INTER_UP	0x81		// CH341µÄÖĞ¶ÏÊı¾İÉÏ´«¶ËµãµÄµØÖ·
-#define		mCH341_ENDP_INTER_DOWN	0x01		// CH341µÄÖĞ¶ÏÊı¾İÏÂ´«¶ËµãµÄµØÖ·
-#define		mCH341_ENDP_DATA_UP		0x82		// CH341µÄÊı¾İ¿éÉÏ´«¶ËµãµÄµØÖ·
-#define		mCH341_ENDP_DATA_DOWN	0x02		// CH341µÄÊı¾İ¿éÏÂ´«¶ËµãµÄµØÖ·
+#define		mDEFAULT_COMMAND_LEN	( mWIN32_COMMAND_HEAD + mDEFAULT_BUFFER_LEN )	// The default data length plus the length of the command structure header
 
 
-// Éè±¸²ã½Ó¿ÚÌá¹©µÄ¹ÜµÀ²Ù×÷ÃüÁî
-#define		mPipeDeviceCtrl			0x00000004	// CH341µÄ×ÛºÏ¿ØÖÆ¹ÜµÀ
-#define		mPipeInterUp			0x00000005	// CH341µÄÖĞ¶ÏÊı¾İÉÏ´«¹ÜµÀ
-#define		mPipeDataUp				0x00000006	// CH341µÄÊı¾İ¿éÉÏ´«¹ÜµÀ
-#define		mPipeDataDown			0x00000007	// CH341µÄÊı¾İ¿éÏÂ´«¹ÜµÀ
-
-// Ó¦ÓÃ²ã½Ó¿ÚµÄ¹¦ÄÜ´úÂë
-#define		mFuncNoOperation		0x00000000	// ÎŞ²Ù×÷
-#define		mFuncGetVersion			0x00000001	// »ñÈ¡Çı¶¯³ÌĞò°æ±¾ºÅ
-#define		mFuncGetConfig			0x00000002	// »ñÈ¡USBÉè±¸ÅäÖÃÃèÊö·û
-#define		mFuncSetTimeout			0x00000009	// ÉèÖÃUSBÍ¨Ñ¶³¬Ê±
-#define		mFuncSetExclusive		0x0000000b	// ÉèÖÃ¶ÀÕ¼Ê¹ÓÃ
-#define		mFuncResetDevice		0x0000000c	// ¸´Î»USBÉè±¸
-#define		mFuncResetPipe			0x0000000d	// ¸´Î»USB¹ÜµÀ
-#define		mFuncAbortPipe			0x0000000e	// È¡ÏûUSB¹ÜµÀµÄÊı¾İÇëÇó
-
-// CH341²¢¿Ú×¨ÓÃµÄ¹¦ÄÜ´úÂë
-#define		mFuncSetParaMode		0x0000000f	// ÉèÖÃ²¢¿ÚÄ£Ê½
-#define		mFuncReadData0			0x00000010	// ´Ó²¢¿Ú¶ÁÈ¡Êı¾İ¿é0
-#define		mFuncReadData1			0x00000011	// ´Ó²¢¿Ú¶ÁÈ¡Êı¾İ¿é1
-#define		mFuncWriteData0			0x00000012	// Ïò²¢¿ÚĞ´ÈëÊı¾İ¿é0
-#define		mFuncWriteData1			0x00000013	// Ïò²¢¿ÚĞ´ÈëÊı¾İ¿é1
-#define		mFuncWriteRead			0x00000014	// ÏÈÊä³öÔÙÊäÈë
-#define		mFuncBufferMode			0x00000020	// Éè¶¨»º³åÉÏ´«Ä£Ê½¼°²éÑ¯»º³åÇøÖĞµÄÊı¾İ³¤¶È
-#define		mFuncBufferModeDn		0x00000021	// Éè¶¨»º³åÏÂ´«Ä£Ê½¼°²éÑ¯»º³åÇøÖĞµÄÊı¾İ³¤¶È
+// CH341 endpoint address
+#define		mCH341_ENDP_INTER_UP	0x81		// The address of the interrupt data upload endpoint of CH341
+#define		mCH341_ENDP_INTER_DOWN	0x01		// The address of the interrupt data download endpoint of CH341
+#define		mCH341_ENDP_DATA_UP		0x82		// The address of the data block upload endpoint of CH341
+#define		mCH341_ENDP_DATA_DOWN	0x02		// The address of the data block download endpoint of CH341
 
 
-// USBÉè±¸±ê×¼ÇëÇó´úÂë
+// Pipeline operation commands provided by the device layer interface
+#define		mPipeDeviceCtrl			0x00000004	// Integrated control pipeline of CH341
+#define		mPipeInterUp			0x00000005	// CH341 interrupt data upload pipeline
+#define		mPipeDataUp				0x00000006	// CH341 data block upload pipeline
+#define		mPipeDataDown			0x00000007	// CH341 data block download pipeline
+
+// Function code of application layer interface
+#define		mFuncNoOperation		0x00000000	// No operation
+#define		mFuncGetVersion			0x00000001	// Get the driver version number
+#define		mFuncGetConfig			0x00000002	// Get the USB device configuration descriptor
+#define		mFuncSetTimeout			0x00000009	// Set USB communication timeout
+#define		mFuncSetExclusive		0x0000000b	// Set exclusive use
+#define		mFuncResetDevice		0x0000000c	// Reset USB device
+#define		mFuncResetPipe			0x0000000d	// Reset USB pipe
+#define		mFuncAbortPipe			0x0000000e	// Cancel the data request of the USB pipe
+
+// CH341 parallel port dedicated function code
+#define		mFuncSetParaMode		0x0000000f	// Set parallel port mode
+#define		mFuncReadData0			0x00000010	// Read data block 0 from the parallel port
+#define		mFuncReadData1			0x00000011	// Read data block 1 from the parallel port
+#define		mFuncWriteData0			0x00000012	// Write data block 0 to the parallel port
+#define		mFuncWriteData1			0x00000013	// Write data block 1 to the parallel port
+#define		mFuncWriteRead			0x00000014	// Output first and then input
+#define		mFuncBufferMode			0x00000020	// Set the buffer upload mode and query the data length in the buffer
+#define		mFuncBufferModeDn		0x00000021	// Set the buffer download mode and query the data length in the buffer
+
+
+// USB device standard request code
 #define		mUSB_CLR_FEATURE		0x01
 #define		mUSB_SET_FEATURE		0x03
 #define		mUSB_GET_STATUS			0x00
@@ -144,88 +140,88 @@ typedef	struct	_WIN32_COMMAND {				// ¶¨ÒåWIN32ÃüÁî½Ó¿Ú½á¹¹
 #define		mUSB_SET_INTERF			0x0b
 #define		mUSB_SYNC_FRAME			0x0c
 
-// CH341¿ØÖÆ´«ÊäµÄ³§ÉÌ×¨ÓÃÇëÇóÀàĞÍ
-#define		mCH341_VENDOR_READ		0xC0		// Í¨¹ı¿ØÖÆ´«ÊäÊµÏÖµÄCH341³§ÉÌ×¨ÓÃ¶Á²Ù×÷
-#define		mCH341_VENDOR_WRITE		0x40		// Í¨¹ı¿ØÖÆ´«ÊäÊµÏÖµÄCH341³§ÉÌ×¨ÓÃĞ´²Ù×÷
+// Manufacturer-specific request type for CH341 control transmission
+#define		mCH341_VENDOR_READ		0xC0		// CH341 manufacturer-specific read operation implemented through control transmission
+#define		mCH341_VENDOR_WRITE		0x40		// CH341 manufacturer-specific write operation implemented through control transmission
 
 // Manufacturer-specific request code for CH341 control transmission
-#define		mCH341_PARA_INIT		0xB1		// ³õÊ¼»¯²¢¿Ú
-#define		mCH341_I2C_STATUS		0x52		// »ñÈ¡I2C½Ó¿ÚµÄ×´Ì¬
-#define		mCH341_I2C_COMMAND		0x53		// ·¢³öI2C½Ó¿ÚµÄÃüÁî
+#define		mCH341_PARA_INIT		0xB1		// Initialize parallel port
+#define		mCH341_I2C_STATUS		0x52		// Get the status of the I2C interface
+#define		mCH341_I2C_COMMAND		0x53		// Issue the command of the I2C interface
 
-// CH341²¢¿Ú²Ù×÷ÃüÁî´úÂë
-#define		mCH341_PARA_CMD_R0		0xAC		// ´Ó²¢¿Ú¶ÁÊı¾İ0,´Î×Ö½ÚÎª³¤¶È
-#define		mCH341_PARA_CMD_R1		0xAD		// ´Ó²¢¿Ú¶ÁÊı¾İ1,´Î×Ö½ÚÎª³¤¶È
-#define		mCH341_PARA_CMD_W0		0xA6		// Ïò²¢¿ÚĞ´Êı¾İ0,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
-#define		mCH341_PARA_CMD_W1		0xA7		// Ïò²¢¿ÚĞ´Êı¾İ1,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
-#define		mCH341_PARA_CMD_STS		0xA0		// »ñÈ¡²¢¿Ú×´Ì¬
+// CH341 parallel port operation command code
+#define		mCH341_PARA_CMD_R0		0xAC		// Read data 0 from the parallel port, the second byte is the length
+#define		mCH341_PARA_CMD_R1		0xAD		// Read data 1 from the parallel port, the second byte is the length
+#define		mCH341_PARA_CMD_W0		0xA6		// Write data 0 to the parallel port, starting from the sub-byte as the data stream
+#define		mCH341_PARA_CMD_W1		0xA7		// Write data 1 to the parallel port, starting from the sub-byte as the data stream
+#define		mCH341_PARA_CMD_STS		0xA0		// Get parallel port status
 
 // CH341A parallel port operation command code
-#define		mCH341A_CMD_SET_OUTPUT	0xA1		// ÉèÖÃ²¢¿ÚÊä³ö
-#define		mCH341A_CMD_IO_ADDR		0xA2		// MEM´øµØÖ·¶ÁĞ´/ÊäÈëÊä³ö,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÃüÁîÁ÷
-#define		mCH341A_CMD_PRINT_OUT	0xA3		// PRINT¼æÈİ´òÓ¡·½Ê½Êä³ö,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
-#define		mCH341A_CMD_PWM_OUT		0xA4		// PWMÊı¾İÊä³öµÄÃüÁî°ü,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
-#define		mCH341A_CMD_SHORT_PKT	0xA5		// ¶Ì°ü,´Î×Ö½ÚÊÇ¸ÃÃüÁî°üµÄÕæÕı³¤¶È,ÔÙ´Î×Ö½Ú¼°Ö®ºóµÄ×Ö½ÚÊÇÔ­ÃüÁî°ü
-#define		mCH341A_CMD_SPI_STREAM	0xA8		// SPI½Ó¿ÚµÄÃüÁî°ü,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
-//#define		mCH341A_CMD_SIO_STREAM	0xA9		// SIO½Ó¿ÚµÄÃüÁî°ü,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
-#define		mCH341A_CMD_I2C_STREAM	0xAA		// I2C½Ó¿ÚµÄÃüÁî°ü,´Ó´Î×Ö½Ú¿ªÊ¼ÎªI2CÃüÁîÁ÷
-#define		mCH341A_CMD_UIO_STREAM	0xAB		// UIO½Ó¿ÚµÄÃüÁî°ü,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÃüÁîÁ÷
-#define		mCH341A_CMD_PIO_STREAM	0xAE		// PIO½Ó¿ÚµÄÃüÁî°ü,´Ó´Î×Ö½Ú¿ªÊ¼ÎªÊı¾İÁ÷
+#define		mCH341A_CMD_SET_OUTPUT	0xA1		// Set parallel port outpu
+#define		mCH341A_CMD_IO_ADDR		0xA2		// MEM with address read and write/input and output, starting from the sub-byte is the command stream
+#define		mCH341A_CMD_PRINT_OUT	0xA3		// PRINT is compatible with printing mode output, starting from the sub-byte as the data stream
+#define		mCH341A_CMD_PWM_OUT		0xA4		// Command package for PWM data output, starting from the sub-byte for the data stream
+#define		mCH341A_CMD_SHORT_PKT	0xA5		// Short packet, the second byte is the real length of the command packet, the second byte and the following bytes are the original command packet
+#define		mCH341A_CMD_SPI_STREAM	0xA8		// Command package of SPI interface, starting from the sub-byte is the data stream
+//#define		mCH341A_CMD_SIO_STREAM	0xA9		// The command package of the SIO interface, starting from the sub-byte is the data stream
+#define		mCH341A_CMD_I2C_STREAM	0xAA		// Command package of I2C interface, starting from the sub-byte is the I2C command stream
+#define		mCH341A_CMD_UIO_STREAM	0xAB		// Command package of UIO interface, starting from the sub-byte is the command stream
+#define		mCH341A_CMD_PIO_STREAM	0xAE		// Command package of PIO interface, data stream starting from sub-byte
 
-// CH341A¿ØÖÆ´«ÊäµÄ³§ÉÌ×¨ÓÃÇëÇó´úÂë
-#define		mCH341A_BUF_CLEAR		0xB2		// Çå³ıÎ´Íê³ÉµÄÊı¾İ
-#define		mCH341A_I2C_CMD_X		0x54		// ·¢³öI2C½Ó¿ÚµÄÃüÁî,Á¢¼´Ö´ĞĞ
-#define		mCH341A_DELAY_MS		0x5E		// ÒÔÙñÃëÎªµ¥Î»ÑÓÊ±Ö¸¶¨Ê±¼ä
-#define		mCH341A_GET_VER			0x5F		// »ñÈ¡Ğ¾Æ¬°æ±¾
+// Manufacturer-specific request code for CH341A control transmission
+#define		mCH341A_BUF_CLEAR		0xB2		// Clear unfinished data
+#define		mCH341A_I2C_CMD_X		0x54		// Issue the I2C interface command and execute it immediately
+#define		mCH341A_DELAY_MS		0x5E		// Delay the specified time in units of milliseconds
+#define		mCH341A_GET_VER			0x5F		// Get the chip version
 
-#define		mCH341_EPP_IO_MAX		( mCH341_PACKET_LENGTH - 1 )	// CH341ÔÚEPP/MEM·½Ê½ÏÂµ¥´Î¶ÁĞ´Êı¾İ¿éµÄ×î´ó³¤¶È
-#define		mCH341A_EPP_IO_MAX		0xFF		// CH341AÔÚEPP/MEM·½Ê½ÏÂµ¥´Î¶ÁĞ´Êı¾İ¿éµÄ×î´ó³¤¶È
+#define		mCH341_EPP_IO_MAX		( mCH341_PACKET_LENGTH - 1 )	// The maximum length of a single read and write data block of CH341 in EPP/MEM mode
+#define		mCH341A_EPP_IO_MAX		0xFF		// The maximum length of a single read and write data block of CH341A in EPP/MEM mode
 
-#define		mCH341A_CMD_IO_ADDR_W	0x00		// MEM´øµØÖ·¶ÁĞ´/ÊäÈëÊä³öµÄÃüÁîÁ÷:Ğ´Êı¾İ,Î»6-Î»0ÎªµØÖ·,ÏÂÒ»¸ö×Ö½ÚÎª´ıĞ´Êı¾İ
-#define		mCH341A_CMD_IO_ADDR_R	0x80		// MEM´øµØÖ·¶ÁĞ´/ÊäÈëÊä³öµÄÃüÁîÁ÷:¶ÁÊı¾İ,Î»6-Î»0ÎªµØÖ·,¶Á³öÊı¾İÒ»Æğ·µ»Ø
+#define		mCH341A_CMD_IO_ADDR_W	0x00		// MEM command flow with address read and write/input and output: write data, bit 6-bit 0 is the address, the next byte is the data to be written
+#define		mCH341A_CMD_IO_ADDR_R	0x80		// MEM command flow with address read and write/input and output: read data, bit 6-bit 0 is the address, read the data and return together
 
-#define		mCH341A_CMD_I2C_STM_STA	0x74		// I2C½Ó¿ÚµÄÃüÁîÁ÷:²úÉúÆğÊ¼Î»
-#define		mCH341A_CMD_I2C_STM_STO	0x75		// I2C½Ó¿ÚµÄÃüÁîÁ÷:²úÉúÍ£Ö¹Î»
-#define		mCH341A_CMD_I2C_STM_OUT	0x80		// I2C½Ó¿ÚµÄÃüÁîÁ÷:Êä³öÊı¾İ,Î»5-Î»0Îª³¤¶È,ºóĞø×Ö½ÚÎªÊı¾İ,0³¤¶ÈÔòÖ»·¢ËÍÒ»¸ö×Ö½Ú²¢·µ»ØÓ¦´ğ
-#define		mCH341A_CMD_I2C_STM_IN	0xC0		// I2C½Ó¿ÚµÄÃüÁîÁ÷:ÊäÈëÊı¾İ,Î»5-Î»0Îª³¤¶È,0³¤¶ÈÔòÖ»½ÓÊÕÒ»¸ö×Ö½Ú²¢·¢ËÍÎŞÓ¦´ğ
-#define		mCH341A_CMD_I2C_STM_MAX	( min( 0x3F, mCH341_PACKET_LENGTH ) )	// I2C½Ó¿ÚµÄÃüÁîÁ÷µ¥¸öÃüÁîÊäÈëÊä³öÊı¾İµÄ×î´ó³¤¶È
-#define		mCH341A_CMD_I2C_STM_SET	0x60		// I2C½Ó¿ÚµÄÃüÁîÁ÷:ÉèÖÃ²ÎÊı,Î»2=SPIµÄI/OÊı(0=µ¥Èëµ¥³ö,1=Ë«ÈëË«³ö),Î»1Î»0=I2CËÙ¶È(00=µÍËÙ,01=±ê×¼,10=¿ìËÙ,11=¸ßËÙ)
-#define		mCH341A_CMD_I2C_STM_US	0x40		// I2C½Ó¿ÚµÄÃüÁîÁ÷:ÒÔÎ¢ÃëÎªµ¥Î»ÑÓÊ±,Î»3-Î»0ÎªÑÓÊ±Öµ
-#define		mCH341A_CMD_I2C_STM_MS	0x50		// I2C½Ó¿ÚµÄÃüÁîÁ÷:ÒÔÙñÃëÎªµ¥Î»ÑÓÊ±,Î»3-Î»0ÎªÑÓÊ±Öµ
-#define		mCH341A_CMD_I2C_STM_DLY	0x0F		// I2C½Ó¿ÚµÄÃüÁîÁ÷µ¥¸öÃüÁîÑÓÊ±µÄ×î´óÖµ
-#define		mCH341A_CMD_I2C_STM_END	0x00		// I2C½Ó¿ÚµÄÃüÁîÁ÷:ÃüÁî°üÌáÇ°½áÊø
+#define		mCH341A_CMD_I2C_STM_STA	0x74		// Command flow of I2C interface: generate start bit
+#define		mCH341A_CMD_I2C_STM_STO	0x75		// Command flow of I2C interface: generate stop bit
+#define		mCH341A_CMD_I2C_STM_OUT	0x80		// Command flow of I2C interface: output data, bit 5-bit 0 is the length, the subsequent bytes are data, if the length is 0, only one byte is sent and the response is returned
+#define		mCH341A_CMD_I2C_STM_IN	0xC0		// Command flow of I2C interface: input data, bit 5-bit 0 is the length, if the length is 0, only one byte will be received and no response will be sent
+#define		mCH341A_CMD_I2C_STM_MAX	( min( 0x3F, mCH341_PACKET_LENGTH ) )	// The maximum length of the input and output data of a single command in the command stream of the I2C interface
+#define		mCH341A_CMD_I2C_STM_SET	0x60		// Command flow of I2C interface: Set parameters, bit 2=number of SPI I/Os (0=single input, single output, 1=dual input, double output), bit 1, bit 0=I2C speed (00= Low speed, 01=standard, 10=fast, 11=high speed)
+#define		mCH341A_CMD_I2C_STM_US	0x40		// Command flow of I2C interface: delay in microseconds, bit 3-bit 0 is the delay value
+#define		mCH341A_CMD_I2C_STM_MS	0x50		// Command flow of I2C interface: delay in milliseconds, bit 3-bit 0 is the delay value
+#define		mCH341A_CMD_I2C_STM_DLY	0x0F		// The maximum value of a single command delay in the command stream of the I2C interface
+#define		mCH341A_CMD_I2C_STM_END	0x00		// Command flow of I2C interface: command packet ends early
 
-#define		mCH341A_CMD_UIO_STM_IN	0x00		// UIO½Ó¿ÚµÄÃüÁîÁ÷:ÊäÈëÊı¾İD7-D0
-#define		mCH341A_CMD_UIO_STM_DIR	0x40		// UIO½Ó¿ÚµÄÃüÁîÁ÷:Éè¶¨I/O·½ÏòD5-D0,Î»5-Î»0Îª·½ÏòÊı¾İ
-#define		mCH341A_CMD_UIO_STM_OUT	0x80		// UIO½Ó¿ÚµÄÃüÁîÁ÷:Êä³öÊı¾İD5-D0,Î»5-Î»0ÎªÊı¾İ
-#define		mCH341A_CMD_UIO_STM_US	0xC0		// UIO½Ó¿ÚµÄÃüÁîÁ÷:ÒÔÎ¢ÃëÎªµ¥Î»ÑÓÊ±,Î»5-Î»0ÎªÑÓÊ±Öµ
-#define		mCH341A_CMD_UIO_STM_END	0x20		// UIO½Ó¿ÚµÄÃüÁîÁ÷:ÃüÁî°üÌáÇ°½áÊø
-
-
-// CH341²¢¿Ú¹¤×÷Ä£Ê½
-#define		mCH341_PARA_MODE_EPP	0x00		// CH341²¢¿Ú¹¤×÷Ä£Ê½ÎªEPP·½Ê½
-#define		mCH341_PARA_MODE_EPP17	0x00		// CH341A²¢¿Ú¹¤×÷Ä£Ê½ÎªEPP·½Ê½V1.7
-#define		mCH341_PARA_MODE_EPP19	0x01		// CH341A²¢¿Ú¹¤×÷Ä£Ê½ÎªEPP·½Ê½V1.9
-#define		mCH341_PARA_MODE_MEM	0x02		// CH341²¢¿Ú¹¤×÷Ä£Ê½ÎªMEM·½Ê½
-#define		mCH341_PARA_MODE_ECP	0x03		// CH341A²¢¿Ú¹¤×÷Ä£Ê½ÎªECP·½Ê½
+#define		mCH341A_CMD_UIO_STM_IN	0x00		// Command flow of UIO interface: input data D7-D0
+#define		mCH341A_CMD_UIO_STM_DIR	0x40		// Command flow of UIO interface: Set I/O direction D5-D0, bit 5-bit 0 is the direction data
+#define		mCH341A_CMD_UIO_STM_OUT	0x80		// Command flow of UIO interface: output data D5-D0, bit 5-bit 0 is data
+#define		mCH341A_CMD_UIO_STM_US	0xC0		// Command flow of UIO interface: delay in microseconds, bit 5-bit 0 is the delay value
+#define		mCH341A_CMD_UIO_STM_END	0x20		// Command flow of UIO interface: command package ends early
 
 
-// I/O·½ÏòÉèÖÃÎ»¶¨Òå,Ö±½ÓÊäÈëµÄ×´Ì¬ĞÅºÅµÄÎ»¶¨Òå,Ö±½ÓÊä³öµÄÎ»Êı¾İ¶¨Òå
-#define		mStateBitERR			0x00000100	// Ö»¶Á¿ÉĞ´,ERR#Òı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitPEMP			0x00000200	// Ö»¶Á¿ÉĞ´,PEMPÒı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitINT			0x00000400	// Ö»¶Á¿ÉĞ´,INT#Òı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitSLCT			0x00000800	// Ö»¶Á¿ÉĞ´,SLCTÒı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitWAIT			0x00002000	// Ö»¶Á¿ÉĞ´,WAIT#Òı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitDATAS			0x00004000	// Ö»Ğ´¿É¶Á,DATAS#/READ#Òı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitADDRS			0x00008000	// Ö»Ğ´¿É¶Á,ADDRS#/ADDR/ALEÒı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitRESET			0x00010000	// Ö»Ğ´,RESET#Òı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitWRITE			0x00020000	// Ö»Ğ´,WRITE#Òı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitSCL			0x00400000	// Ö»¶Á,SCLÒı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
-#define		mStateBitSDA			0x00800000	// Ö»¶Á,SDAÒı½ÅÊäÈë×´Ì¬,1:¸ßµçÆ½,0:µÍµçÆ½
+// CH341 parallel port working mode
+#define		mCH341_PARA_MODE_EPP	0x00		// CH341 parallel port working mode is EPP mode
+#define		mCH341_PARA_MODE_EPP17	0x00		// CH341A parallel port working mode is EPP mode V1.7
+#define		mCH341_PARA_MODE_EPP19	0x01		// CH341A parallel port working mode is EPP mode V1.9
+#define		mCH341_PARA_MODE_MEM	0x02		// CH341 parallel port working mode is MEM mode
+#define		mCH341_PARA_MODE_ECP	0x03		// CH341A parallel port working mode is ECP mode
 
 
-#define		MAX_DEVICE_PATH_SIZE	128			// Éè±¸Ãû³ÆµÄ×î´ó×Ö·ûÊı
-#define		MAX_DEVICE_ID_SIZE		64			// Éè±¸IDµÄ×î´ó×Ö·ûÊı
+// I/O direction setting bit definition, direct input status signal bit definition, direct output bit data definition
+#define		mStateBitERR			0x00000100	// Read-only and writable, ERR# pin input status, 1: high level, 0: low level
+#define		mStateBitPEMP			0x00000200	// Read-only and writable, PEMP pin input status, 1: high level, 0: low level
+#define		mStateBitINT			0x00000400	// Read-only and writable, INT# pin input status, 1: high level, 0: low level
+#define		mStateBitSLCT			0x00000800	// Read-only and writable, SLCT pin input status, 1: high level, 0: low level
+#define		mStateBitWAIT			0x00002000	// Read-only and writable, WAIT# pin input status, 1: high level, 0: low level
+#define		mStateBitDATAS			0x00004000	// Write-only and readable, DATAS#/READ# pin input status, 1: high level, 0: low level
+#define		mStateBitADDRS			0x00008000	// Write-only and readable, ADDRS#/ADDR/ALE pin input status, 1: high level, 0: low level
+#define		mStateBitRESET			0x00010000	// Write only, RESET# pin input status, 1: high level, 0: low level
+#define		mStateBitWRITE			0x00020000	// Write only, WRITE# pin input status, 1: high level, 0: low level
+#define		mStateBitSCL			0x00400000	// Read-only, SCL pin input status, 1: high level, 0: low level
+#define		mStateBitSDA			0x00800000	// Read-only, SDA pin input status, 1: high level, 0: low level
+
+
+#define		MAX_DEVICE_PATH_SIZE	128			// Maximum number of characters for device name
+#define		MAX_DEVICE_ID_SIZE		64			// Maximum number of characters for device ID
 
 
 typedef VOID ( CALLBACK * mPCH341_INT_ROUTINE ) (	// Interrupt service routine
@@ -269,10 +265,10 @@ BOOL WINAPI CH341GetDeviceDescr(	// Read device descriptor
 	PULONG ioLength );				// Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length.	
 
 
-BOOL	WINAPI	CH341GetConfigDescr(  // ¶ÁÈ¡ÅäÖÃÃèÊö·û
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			oBuffer,  // Ö¸ÏòÒ»¸ö×ã¹»´óµÄ»º³åÇø,ÓÃÓÚ±£´æÃèÊö·û
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸¶ÁÈ¡µÄ³¤¶È,·µ»ØºóÎªÊµ¼Ê¶ÁÈ¡µÄ³¤¶È
+BOOL	WINAPI	CH341GetConfigDescr(  // Read configuration descriptor
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			oBuffer,  // Points to a buffer large enough to save descriptors
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length
 
 
 BOOL WINAPI CH341SetIntRoutine(			// Set interrupt service routine
@@ -287,59 +283,58 @@ BOOL WINAPI CH341ReadInter(		// Read interrupt data
 	// Bit 8 corresponds to the ERR# pin of CH341, bit 9 corresponds to the PEMP pin of CH341, bit 10 corresponds to the INT# pin of CH341, and bit 11 corresponds to the SLCT pin of CH341
 
 
-BOOL	WINAPI	CH341AbortInter(  // ·ÅÆúÖĞ¶ÏÊı¾İ¶Á²Ù×÷
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341AbortInter(  // Abort the interrupt data read operation
+	ULONG			iIndex );  // Specify CH341 device serial number
 
 
-BOOL	WINAPI	CH341SetParaMode(  // ÉèÖÃ²¢¿ÚÄ£Ê½
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iMode );  // Ö¸¶¨²¢¿ÚÄ£Ê½: 0ÎªEPPÄ£Ê½/EPPÄ£Ê½V1.7, 1ÎªEPPÄ£Ê½V1.9, 2ÎªMEMÄ£Ê½
+BOOL	WINAPI	CH341SetParaMode(  // Set parallel port mode
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iMode );  // Specify parallel port mode: 0 is EPP mode/EPP mode V1.7, 1 is EPP mode V1.9, 2 is MEM mode
 
 
-BOOL	WINAPI	CH341InitParallel(  // ¸´Î»²¢³õÊ¼»¯²¢¿Ú,RST#Êä³öµÍµçÆ½Âö³å
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iMode );  // Ö¸¶¨²¢¿ÚÄ£Ê½: 0ÎªEPPÄ£Ê½/EPPÄ£Ê½V1.7, 1ÎªEPPÄ£Ê½V1.9, 2ÎªMEMÄ£Ê½, >= 0x00000100 ±£³Öµ±Ç°Ä£Ê½
+BOOL	WINAPI	CH341InitParallel(  // Reset and initialize the parallel port, RST# outputs low level pulse
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iMode );  // Specify the parallel port mode: 0 is EPP mode/EPP mode V1.7, 1 is EPP mode V1.9, 2 is MEM mode, >= 0x00000100 maintain the current mode
 
 
-BOOL	WINAPI	CH341ReadData0(  // ´Ó0#¶Ë¿Ú¶ÁÈ¡Êı¾İ¿é
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			oBuffer,  // Ö¸ÏòÒ»¸ö×ã¹»´óµÄ»º³åÇø,ÓÃÓÚ±£´æ¶ÁÈ¡µÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸¶ÁÈ¡µÄ³¤¶È,·µ»ØºóÎªÊµ¼Ê¶ÁÈ¡µÄ³¤¶È
+BOOL	WINAPI	CH341ReadData0(  // Read data block from port 0#
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			oBuffer,  // Points to a buffer large enough to save the read data
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length
 
 
-BOOL	WINAPI	CH341ReadData1(  // ´Ó1#¶Ë¿Ú¶ÁÈ¡Êı¾İ¿é
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			oBuffer,  // Ö¸ÏòÒ»¸ö×ã¹»´óµÄ»º³åÇø,ÓÃÓÚ±£´æ¶ÁÈ¡µÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸¶ÁÈ¡µÄ³¤¶È,·µ»ØºóÎªÊµ¼Ê¶ÁÈ¡µÄ³¤¶È
+BOOL	WINAPI	CH341ReadData1(  // Read data block from port 1#
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			oBuffer,  // Points to a buffer large enough to save the read data
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length
 
 
-BOOL	WINAPI	CH341AbortRead(  // ·ÅÆúÊı¾İ¿é¶Á²Ù×÷
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341AbortRead(  // Abort the data block read operation
+	ULONG			iIndex );  // Specify CH341 device serial numbe
 
 
-BOOL	WINAPI	CH341WriteData0(  // Ïò0#¶Ë¿ÚĞ´³öÊı¾İ¿é
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸Ğ´³öµÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341WriteData0(  // Write data block to port 0#
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the data to be written out
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-BOOL	WINAPI	CH341WriteData1(  // Ïò1#¶Ë¿ÚĞ´³öÊı¾İ¿é
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸Ğ´³öµÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341WriteData1(  // Write data block to port 1#
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the data to be written out
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-BOOL	WINAPI	CH341AbortWrite(  // ·ÅÆúÊı¾İ¿éĞ´²Ù×÷
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341AbortWrite(  // Abort the data block write operation
+	ULONG			iIndex );  // Specify CH341 device serial number
 
 
-BOOL	WINAPI	CH341GetStatus(  // Í¨¹ıCH341Ö±½ÓÊäÈëÊı¾İºÍ×´Ì¬
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PULONG			iStatus );  // Ö¸ÏòÒ»¸öË«×Öµ¥Ôª,ÓÃÓÚ±£´æ×´Ì¬Êı¾İ,²Î¿¼ÏÂÃæµÄÎ»ËµÃ÷
-// Î»7-Î»0¶ÔÓ¦CH341µÄD7-D0Òı½Å
-// Î»8¶ÔÓ¦CH341µÄERR#Òı½Å, Î»9¶ÔÓ¦CH341µÄPEMPÒı½Å, Î»10¶ÔÓ¦CH341µÄINT#Òı½Å, Î»11¶ÔÓ¦CH341µÄSLCTÒı½Å, Î»23¶ÔÓ¦CH341µÄSDAÒı½Å
-// Î»13¶ÔÓ¦CH341µÄBUSY/WAIT#Òı½Å, Î»14¶ÔÓ¦CH341µÄAUTOFD#/DATAS#Òı½Å,Î»15¶ÔÓ¦CH341µÄSLCTIN#/ADDRS#Òı½Å
-
+BOOL	WINAPI	CH341GetStatus(  // Directly input data and status through CH34
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PULONG			iStatus );  // Points to a double word unit used to save status data, refer to the following bit description
+//Bit 7-Bit 0 corresponds to the D7-D0 pin of CH341
+// Bit 8 corresponds to the ERR# pin of CH341, bit 9 corresponds to the PEMP pin of CH341, bit 10 corresponds to the INT# pin of CH341, bit 11 corresponds to the SLCT pin of CH341, and bit 23 corresponds to the SDA pin of CH341
+// Bit 13 corresponds to the BUSY/WAIT# pin of CH341, bit 14 corresponds to the AUTOFD#/DATAS# pin of CH341, and bit 15 corresponds to the SLCTIN#/ADDRS# pin of CH341
 
 BOOL WINAPI CH341ReadI2C( 	// Read one byte of data from the I2C interface
 	ULONG iIndex, 			// Specify CH341 device serial number
@@ -361,62 +356,62 @@ BOOL WINAPI CH341EppReadData(	// Read data in EPP mode: WR#=1, DS#=0, AS#=1, D0-
 	PULONG ioLength );			// Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length.	
 
 
-BOOL	WINAPI	CH341EppReadAddr(  // EPP·½Ê½¶ÁµØÖ·: WR#=1, DS#=1, AS#=0, D0-D7=input
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			oBuffer,  // Ö¸ÏòÒ»¸ö×ã¹»´óµÄ»º³åÇø,ÓÃÓÚ±£´æ¶ÁÈ¡µÄµØÖ·Êı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸¶ÁÈ¡µÄ³¤¶È,·µ»ØºóÎªÊµ¼Ê¶ÁÈ¡µÄ³¤¶È
+BOOL	WINAPI	CH341EppReadAddr(  // EPP mode read address: WR#=1, DS#=1, AS#=0, D0-D7=input
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			oBuffer,  // Points to a buffer large enough to save the read address data
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length.
 
 
-BOOL	WINAPI	CH341EppWriteData(  // EPP·½Ê½Ğ´Êı¾İ: WR#=0, DS#=0, AS#=1, D0-D7=output
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸Ğ´³öµÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341EppWriteData(  // Write data in EPP mode: WR#=0, DS#=0, AS#=1, D0-D7=output
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the address data to be written ou
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-BOOL	WINAPI	CH341EppWriteAddr(  // EPP·½Ê½Ğ´µØÖ·: WR#=0, DS#=1, AS#=0, D0-D7=output
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸Ğ´³öµÄµØÖ·Êı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341EppWriteAddr(  // EPP mode write address: WR#=0, DS#=1, AS#=0, D0-D7=output
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the address data to be written out
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-BOOL	WINAPI	CH341EppSetAddr(  // EPP·½Ê½ÉèÖÃµØÖ·: WR#=0, DS#=1, AS#=0, D0-D7=output
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	UCHAR			iAddr );  // Ö¸¶¨EPPµØÖ·
+BOOL	WINAPI	CH341EppSetAddr(  // EPP mode setting address: WR#=0, DS#=1, AS#=0, D0-D7=output
+	ULONG			iIndex,  // Specify CH341 device serial number
+	UCHAR			iAddr );  // Specify EPP address
 
 
-BOOL	WINAPI	CH341MemReadAddr0(  // MEM·½Ê½¶ÁµØÖ·0: WR#=1, DS#/RD#=0, AS#/ADDR=0, D0-D7=input
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			oBuffer,  // Ö¸ÏòÒ»¸ö×ã¹»´óµÄ»º³åÇø,ÓÃÓÚ±£´æ´ÓµØÖ·0¶ÁÈ¡µÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸¶ÁÈ¡µÄ³¤¶È,·µ»ØºóÎªÊµ¼Ê¶ÁÈ¡µÄ³¤¶È
+BOOL	WINAPI	CH341MemReadAddr0(  // MEM mode read address 0: WR#=1, DS#/RD#=0, AS#/ADDR=0, D0-D7=input
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			oBuffer,  // Points to a buffer large enough to save data read from address 0
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length.
 
 
-BOOL	WINAPI	CH341MemReadAddr1(  // MEM·½Ê½¶ÁµØÖ·1: WR#=1, DS#/RD#=0, AS#/ADDR=1, D0-D7=input
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			oBuffer,  // Ö¸ÏòÒ»¸ö×ã¹»´óµÄ»º³åÇø,ÓÃÓÚ±£´æ´ÓµØÖ·1¶ÁÈ¡µÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸¶ÁÈ¡µÄ³¤¶È,·µ»ØºóÎªÊµ¼Ê¶ÁÈ¡µÄ³¤¶È
+BOOL	WINAPI	CH341MemReadAddr1(  // MEM mode read address 1: WR#=1, DS#/RD#=0, AS#/ADDR=1, D0-D7=inpu
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			oBuffer,  // Points to a buffer large enough to save data read from address 1
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length.
 
 
-BOOL	WINAPI	CH341MemWriteAddr0(  // MEM·½Ê½Ğ´µØÖ·0: WR#=0, DS#/RD#=1, AS#/ADDR=0, D0-D7=output
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸ÏòµØÖ·0Ğ´³öµÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341MemWriteAddr0(  // MEM mode write address 0: WR#=0, DS#/RD#=1, AS#/ADDR=0, D0-D7=output
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the data to be written to address 0
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-BOOL	WINAPI	CH341MemWriteAddr1(  // MEM·½Ê½Ğ´µØÖ·1: WR#=0, DS#/RD#=1, AS#/ADDR=1, D0-D7=output
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸ÏòµØÖ·1Ğ´³öµÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341MemWriteAddr1(  // MEM mode write address 1: WR#=0, DS#/RD#=1, AS#/ADDR=1, D0-D7=output
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the data to be written to address 1
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-BOOL	WINAPI	CH341SetExclusive(  // ÉèÖÃ¶ÀÕ¼Ê¹ÓÃµ±Ç°CH341Éè±¸
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iExclusive );  // Îª0ÔòÉè±¸¿ÉÒÔ¹²ÏíÊ¹ÓÃ,·Ç0Ôò¶ÀÕ¼Ê¹ÓÃ
+BOOL	WINAPI	CH341SetExclusive(  // Set exclusive use of the current CH341 device
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iExclusive );  // If it is 0, the device can be shared and used, if not 0, it can be used exclusively.
 
 
-BOOL	WINAPI	CH341SetTimeout(  // ÉèÖÃUSBÊı¾İ¶ÁĞ´µÄ³¬Ê±
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iWriteTimeout,  // Ö¸¶¨USBĞ´³öÊı¾İ¿éµÄ³¬Ê±Ê±¼ä,ÒÔºÁÃëmSÎªµ¥Î»,0xFFFFFFFFÖ¸¶¨²»³¬Ê±(Ä¬ÈÏÖµ)
-	ULONG			iReadTimeout );  // Ö¸¶¨USB¶ÁÈ¡Êı¾İ¿éµÄ³¬Ê±Ê±¼ä,ÒÔºÁÃëmSÎªµ¥Î»,0xFFFFFFFFÖ¸¶¨²»³¬Ê±(Ä¬ÈÏÖµ)
+BOOL	WINAPI	CH341SetTimeout(  // Set the timeout for USB data reading and writing
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iWriteTimeout,  // Specify the timeout time for USB to write data blocks, in milliseconds (mS), 0xFFFFFFFF specifies no timeout (default value)
+	ULONG			iReadTimeout );  // Specify the timeout time for USB to read data blocks, in milliseconds (mS), 0xFFFFFFFF specifies no timeout (default value)
 
 
 BOOL WINAPI CH341ReadData(	// Read data block
@@ -425,24 +420,24 @@ BOOL WINAPI CH341ReadData(	// Read data block
 	PULONG ioLength );		// Points to the length unit. When input, it is the length to be read, and when returned, it is the actual read length.	
 
 
-BOOL	WINAPI	CH341WriteData(  // Ğ´³öÊı¾İ¿é
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PVOID			iBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸Ğ´³öµÄÊı¾İ
-	PULONG			ioLength );  // Ö¸Ïò³¤¶Èµ¥Ôª,ÊäÈëÊ±Îª×¼±¸Ğ´³öµÄ³¤¶È,·µ»ØºóÎªÊµ¼ÊĞ´³öµÄ³¤¶È
+BOOL	WINAPI	CH341WriteData(  // write data block
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PVOID			iBuffer,  // Points to a buffer to place the address data to be written ou
+	PULONG			ioLength );  // Points to the length unit. When input, it is the length to be written, and when returned, it is the actual written length.
 
 
-PVOID	WINAPI	CH341GetDeviceName(  // ·µ»ØÖ¸ÏòCH341Éè±¸Ãû³ÆµÄ»º³åÇø,³ö´íÔò·µ»ØNULL
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
+PVOID	WINAPI	CH341GetDeviceName(  // Returns a buffer pointing to the CH341 device name, or NULL if an error occurs.
+	ULONG			iIndex );  // Specify CH341 device serial number, 0 corresponds to the first device
 
 
-ULONG	WINAPI	CH341GetVerIC(  // »ñÈ¡CH341Ğ¾Æ¬µÄ°æ±¾,·µ»Ø:0=Éè±¸ÎŞĞ§,0x10=CH341,0x20=CH341A
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+ULONG	WINAPI	CH341GetVerIC(  // Get the version of CH341 chip, return: 0=Invalid device, 0x10=CH341, 0x20=CH341A
+	ULONG			iIndex );  // Specify CH341 device serial number
 #define		IC_VER_CH341A		0x20
 #define		IC_VER_CH341A3		0x30
 
 
-BOOL	WINAPI	CH341FlushBuffer(  // Çå¿ÕCH341µÄ»º³åÇø
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341FlushBuffer(  // Clear the buffer of CH341
+	ULONG			iIndex );  // Specify CH341 device serial number
 
 
 BOOL WINAPI CH341WriteRead(	// Execute data flow command, output first and then input
@@ -489,7 +484,7 @@ BOOL WINAPI CH341StreamI2C(	// Processes I2C data stream, 2-wire interface, cloc
 	PVOID oReadBuffer );	// Points to a buffer, and returns the read data	
 	
 
-typedef	enum	_EEPROM_TYPE {					// EEPROMĞÍºÅ
+typedef	enum	_EEPROM_TYPE {					// EEPROM model
 	ID_24C01,
 	ID_24C02,
 	ID_24C04,
@@ -506,138 +501,139 @@ typedef	enum	_EEPROM_TYPE {					// EEPROMĞÍºÅ
 } EEPROM_TYPE;
 
 
-BOOL	WINAPI	CH341ReadEEPROM(  // ´ÓEEPROMÖĞ¶ÁÈ¡Êı¾İ¿é,ËÙ¶ÈÔ¼56K×Ö½Ú
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	EEPROM_TYPE		iEepromID,  // Ö¸¶¨EEPROMĞÍºÅ
-	ULONG			iAddr,  // Ö¸¶¨Êı¾İµ¥ÔªµÄµØÖ·
-	ULONG			iLength,  // ×¼±¸¶ÁÈ¡µÄÊı¾İ×Ö½ÚÊı
-	PUCHAR			oBuffer );  // Ö¸ÏòÒ»¸ö»º³åÇø,·µ»ØºóÊÇ¶ÁÈëµÄÊı¾İ
+BOOL	WINAPI	CH341ReadEEPROM(  // Read data block from EEPROM, the speed is about 56K bytes
+	ULONG			iIndex,  // Specify CH341 device serial number
+	EEPROM_TYPE		iEepromID,  // Specify the EEPROM model
+	ULONG			iAddr,  // Specify the address of the data uni
+	ULONG			iLength,  // Number of data bytes to be read
+	PUCHAR			oBuffer );  // Points to a buffer, and returns the read data
 
 
-BOOL	WINAPI	CH341WriteEEPROM(  // ÏòEEPROMÖĞĞ´ÈëÊı¾İ¿é
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	EEPROM_TYPE		iEepromID,  // Ö¸¶¨EEPROMĞÍºÅ
-	ULONG			iAddr,  // Ö¸¶¨Êı¾İµ¥ÔªµÄµØÖ·
-	ULONG			iLength,  // ×¼±¸Ğ´³öµÄÊı¾İ×Ö½ÚÊı
-	PUCHAR			iBuffer );  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸Ğ´³öµÄÊı¾İ
+BOOL	WINAPI	CH341WriteEEPROM(  // Write data block to EEPROM
+	ULONG			iIndex,  // Specify CH341 device serial number
+	EEPROM_TYPE		iEepromID,  // Specify the EEPROM model
+	ULONG			iAddr,  // Specify the address of the data unit
+	ULONG			iLength,  // Number of data bytes to be written
+	PUCHAR			iBuffer );  // Points to a buffer to place the address data to be written ou
 
 
-BOOL	WINAPI	CH341GetInput(  // Í¨¹ıCH341Ö±½ÓÊäÈëÊı¾İºÍ×´Ì¬,Ğ§ÂÊ±ÈCH341GetStatus¸ü¸ß
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	PULONG			iStatus );  // Ö¸ÏòÒ»¸öË«×Öµ¥Ôª,ÓÃÓÚ±£´æ×´Ì¬Êı¾İ,²Î¿¼ÏÂÃæµÄÎ»ËµÃ÷
-// Î»7-Î»0¶ÔÓ¦CH341µÄD7-D0Òı½Å
-// Î»8¶ÔÓ¦CH341µÄERR#Òı½Å, Î»9¶ÔÓ¦CH341µÄPEMPÒı½Å, Î»10¶ÔÓ¦CH341µÄINT#Òı½Å, Î»11¶ÔÓ¦CH341µÄSLCTÒı½Å, Î»23¶ÔÓ¦CH341µÄSDAÒı½Å
-// Î»13¶ÔÓ¦CH341µÄBUSY/WAIT#Òı½Å, Î»14¶ÔÓ¦CH341µÄAUTOFD#/DATAS#Òı½Å,Î»15¶ÔÓ¦CH341µÄSLCTIN#/ADDRS#Òı½Å
+BOOL	WINAPI	CH341GetInput(  // Directly input data and status through CH341, which is more efficient than CH341GetStatus
+	ULONG			iIndex,  // Specify CH341 device serial number
+	PULONG			iStatus );  // Points to a double word unit used to save status data, refer to the following bit descriptio
+// Bit 7-Bit 0 corresponds to the D7-D0 pin of CH341
+// Bit 8 corresponds to the ERR# pin of CH341, bit 9 corresponds to the PEMP pin of CH341, bit 10 corresponds to the INT# pin of CH341, bit 11 corresponds to the SLCT pin of CH341, and bit 23 corresponds to the SDA pin of CH341
+// Bit 13 corresponds to the BUSY/WAIT# pin of CH341, bit 14 corresponds to the AUTOFD#/DATAS# pin of CH341, and bit 15 corresponds to the SLCTIN#/ADDRS# pin of CH341
 
 
-BOOL	WINAPI	CH341SetOutput(  // ÉèÖÃCH341µÄI/O·½Ïò,²¢Í¨¹ıCH341Ö±½ÓÊä³öÊı¾İ
-/* ***** ½÷É÷Ê¹ÓÃ¸ÃAPI, ·ÀÖ¹ĞŞ¸ÄI/O·½ÏòÊ¹ÊäÈëÒı½Å±äÎªÊä³öÒı½Åµ¼ÖÂÓëÆäËüÊä³öÒı½ÅÖ®¼ä¶ÌÂ·¶øËğ»µĞ¾Æ¬ ***** */
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iEnable,  // Êı¾İÓĞĞ§±êÖ¾,²Î¿¼ÏÂÃæµÄÎ»ËµÃ÷
-// Î»0Îª1ËµÃ÷iSetDataOutµÄÎ»15-Î»8ÓĞĞ§,·ñÔòºöÂÔ
-// Î»1Îª1ËµÃ÷iSetDirOutµÄÎ»15-Î»8ÓĞĞ§,·ñÔòºöÂÔ
-// Î»2Îª1ËµÃ÷iSetDataOutµÄ7-Î»0ÓĞĞ§,·ñÔòºöÂÔ
-// Î»3Îª1ËµÃ÷iSetDirOutµÄÎ»7-Î»0ÓĞĞ§,·ñÔòºöÂÔ
-// Î»4Îª1ËµÃ÷iSetDataOutµÄÎ»23-Î»16ÓĞĞ§,·ñÔòºöÂÔ
-	ULONG			iSetDirOut,  // ÉèÖÃI/O·½Ïò,Ä³Î»Çå0Ôò¶ÔÓ¦Òı½ÅÎªÊäÈë,Ä³Î»ÖÃ1Ôò¶ÔÓ¦Òı½ÅÎªÊä³ö,²¢¿Ú·½Ê½ÏÂÄ¬ÈÏÖµÎª0x000FC000,²Î¿¼ÏÂÃæµÄÎ»ËµÃ÷
-	ULONG			iSetDataOut );  // Êä³öÊı¾İ,Èç¹ûI/O·½ÏòÎªÊä³ö,ÄÇÃ´Ä³Î»Çå0Ê±¶ÔÓ¦Òı½ÅÊä³öµÍµçÆ½,Ä³Î»ÖÃ1Ê±¶ÔÓ¦Òı½ÅÊä³ö¸ßµçÆ½,²Î¿¼ÏÂÃæµÄÎ»ËµÃ÷
-// Î»7-Î»0¶ÔÓ¦CH341µÄD7-D0Òı½Å
-// Î»8¶ÔÓ¦CH341µÄERR#Òı½Å, Î»9¶ÔÓ¦CH341µÄPEMPÒı½Å, Î»10¶ÔÓ¦CH341µÄINT#Òı½Å, Î»11¶ÔÓ¦CH341µÄSLCTÒı½Å
-// Î»13¶ÔÓ¦CH341µÄWAIT#Òı½Å, Î»14¶ÔÓ¦CH341µÄDATAS#/READ#Òı½Å,Î»15¶ÔÓ¦CH341µÄADDRS#/ADDR/ALEÒı½Å
-// ÒÔÏÂÒı½ÅÖ»ÄÜÊä³ö,²»¿¼ÂÇI/O·½Ïò: Î»16¶ÔÓ¦CH341µÄRESET#Òı½Å, Î»17¶ÔÓ¦CH341µÄWRITE#Òı½Å, Î»18¶ÔÓ¦CH341µÄSCLÒı½Å, Î»29¶ÔÓ¦CH341µÄSDAÒı½Å
+
+BOOL	WINAPI	CH341SetOutput(  // Set the I/O direction of CH341 and output data directly through CH341
+/* ***** Use this API with caution to prevent changing the I/O direction to change the input pin into an output pin, resulting in a short circuit with other output pins and damaging the chip ***** */
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iEnable,  // Data valid flag, refer to the bit description below
+// Bit 0 is 1, indicating that bits 15 to 8 of iSetDataOut are valid, otherwise they are ignored.
+// Bit 1 is 1, indicating that bits 15 to 8 of iSetDirOut are valid, otherwise they are ignored.
+// Bit 2 is 1 indicating that 7-bit 0 of iSetDataOut is valid, otherwise it is ignored
+// Bit 3 is 1, indicating that bit 7-bit 0 of iSetDirOut is valid, otherwise it is ignored
+// Bit 4 is 1, indicating that bits 23-16 of iSetDataOut are valid, otherwise they are ignored
+	ULONG			iSetDirOut,  // Set the I/O direction. If a certain bit is cleared to 0, the corresponding pin is input, and if a certain bit is set to 1, the corresponding pin is output. The default value in parallel port mode is 0x000FC000. Please refer to the following bit description.
+	ULONG			iSetDataOut );  // Output data, if the I/O direction is output, then when a certain bit is cleared to 0, the corresponding pin outputs a low level, and when a certain bit is set to 1, the corresponding pin outputs a high level, refer to the following bit descriptions
+// Bit 7-Bit 0 corresponds to the D7-D0 pin of CH341
+// Bit 8 corresponds to the ERR# pin of CH341, bit 9 corresponds to the PEMP pin of CH341, bit 10 corresponds to the INT# pin of CH341, and bit 11 corresponds to the SLCT pin of CH341
+// Bit 13 corresponds to the WAIT# pin of CH341, bit 14 corresponds to the DATAS#/READ# pin of CH341, and bit 15 corresponds to the ADDRS#/ADDR/ALE pin of CH341
+//The following pins can only be output, regardless of I/O direction: Bit 16 corresponds to the RESET# pin of CH341, bit 17 corresponds to the WRITE# pin of CH341, bit 18 corresponds to the SCL pin of CH341, and bit 29 corresponds to the CH341 SDA pin
 
 
-BOOL	WINAPI	CH341Set_D5_D0(  // ÉèÖÃCH341µÄD5-D0Òı½ÅµÄI/O·½Ïò,²¢Í¨¹ıCH341µÄD5-D0Òı½ÅÖ±½ÓÊä³öÊı¾İ,Ğ§ÂÊ±ÈCH341SetOutput¸ü¸ß
-/* ***** ½÷É÷Ê¹ÓÃ¸ÃAPI, ·ÀÖ¹ĞŞ¸ÄI/O·½ÏòÊ¹ÊäÈëÒı½Å±äÎªÊä³öÒı½Åµ¼ÖÂÓëÆäËüÊä³öÒı½ÅÖ®¼ä¶ÌÂ·¶øËğ»µĞ¾Æ¬ ***** */
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iSetDirOut,  // ÉèÖÃD5-D0¸÷Òı½ÅµÄI/O·½Ïò,Ä³Î»Çå0Ôò¶ÔÓ¦Òı½ÅÎªÊäÈë,Ä³Î»ÖÃ1Ôò¶ÔÓ¦Òı½ÅÎªÊä³ö,²¢¿Ú·½Ê½ÏÂÄ¬ÈÏÖµÎª0x00È«²¿ÊäÈë
-	ULONG			iSetDataOut );  // ÉèÖÃD5-D0¸÷Òı½ÅµÄÊä³öÊı¾İ,Èç¹ûI/O·½ÏòÎªÊä³ö,ÄÇÃ´Ä³Î»Çå0Ê±¶ÔÓ¦Òı½ÅÊä³öµÍµçÆ½,Ä³Î»ÖÃ1Ê±¶ÔÓ¦Òı½ÅÊä³ö¸ßµçÆ½
-// ÒÔÉÏÊı¾İµÄÎ»5-Î»0·Ö±ğ¶ÔÓ¦CH341µÄD5-D0Òı½Å
+BOOL	WINAPI	CH341Set_D5_D0(  // Set the I/O direction of the D5-D0 pin of CH341, and directly output data through the D5-D0 pin of CH341, which is more efficient than CH341SetOutput
+/* ***** Use this API with caution to prevent changing the I/O direction to change the input pin into an output pin, resulting in a short circuit with other output pins and damaging the chip ***** */
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iSetDirOut,  // Set the I/O direction of each pin of D5-D0. If a certain bit is cleared to 0, the corresponding pin is input, and if a certain bit is set to 1, the corresponding pin is output. The default value in parallel port mode is 0x00, all input
+	ULONG			iSetDataOut );  // Set the output data of each pin of D5-D0. If the I/O direction is output, then when a certain bit is cleared to 0, the corresponding pin outputs a low level, and when a certain bit is set to 1, the corresponding pin outputs a high level.
+// Bit 5-bit 0 of the above data correspond to the D5-D0 pins of CH341 respectively.
 
 
-BOOL	WINAPI	CH341StreamSPI3(  // ¸ÃAPIÒÑÊ§Ğ§,ÇëÎğÊ¹ÓÃ
+BOOL	WINAPI	CH341StreamSPI3(  // This API is invalid, please do not use it
 	ULONG			iIndex,
 	ULONG			iChipSelect,
 	ULONG			iLength,
 	PVOID			ioBuffer );
 
 
-BOOL	WINAPI	CH341StreamSPI4(  // ´¦ÀíSPIÊı¾İÁ÷,4Ïß½Ó¿Ú,Ê±ÖÓÏßÎªDCK/D3Òı½Å,Êä³öÊı¾İÏßÎªDOUT/D5Òı½Å,ÊäÈëÊı¾İÏßÎªDIN/D7Òı½Å,Æ¬Ñ¡ÏßÎªD0/D1/D2,ËÙ¶ÈÔ¼68K×Ö½Ú
-/* SPIÊ±Ğò: DCK/D3Òı½ÅÎªÊ±ÖÓÊä³ö, Ä¬ÈÏÎªµÍµçÆ½, DOUT/D5Òı½ÅÔÚÊ±ÖÓÉÏÉıÑØÖ®Ç°µÄµÍµçÆ½ÆÚ¼äÊä³ö, DIN/D7Òı½ÅÔÚÊ±ÖÓÏÂ½µÑØÖ®Ç°µÄ¸ßµçÆ½ÆÚ¼äÊäÈë */
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iChipSelect,  // Æ¬Ñ¡¿ØÖÆ, Î»7Îª0ÔòºöÂÔÆ¬Ñ¡¿ØÖÆ, Î»7Îª1Ôò²ÎÊıÓĞĞ§: Î»1Î»0Îª00/01/10·Ö±ğÑ¡ÔñD0/D1/D2Òı½Å×÷ÎªµÍµçÆ½ÓĞĞ§Æ¬Ñ¡
-	ULONG			iLength,  // ×¼±¸´«ÊäµÄÊı¾İ×Ö½ÚÊı
-	PVOID			ioBuffer );  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸´ÓDOUTĞ´³öµÄÊı¾İ,·µ»ØºóÊÇ´ÓDIN¶ÁÈëµÄÊı¾İ
+BOOL	WINAPI	CH341StreamSPI4(  // Process SPI data stream, 4-wire interface, the clock line is DCK/D3 pin, the output data line is DOUT/D5 pin, the input data line is DIN/D7 pin, and the chip select line is D0/ D1/D2, speed is about 68K bytes
+/* SPI timing: The DCK/D3 pin is the clock output, which defaults to low level. The DOUT/D5 pin outputs during the low level before the rising edge of the clock. The DIN/D7 pin outputs the high level before the falling edge of the clock. Enter during normal times */
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iChipSelect,  // Chip select control, if bit 7 is 0, the chip select control is ignored, if bit 7 is 1, the parameters are valid: Bit 1 and bit 0 are 00/01/10, respectively, select the D0/D1/D2 pin as low level. valid chip select
+	ULONG			iLength,  // Number of data bytes to be transmitted
+	PVOID			ioBuffer );  // Point to a buffer, place the data to be written from DOUT, and return the data read from DIN
 
 
-BOOL	WINAPI	CH341StreamSPI5(  // ´¦ÀíSPIÊı¾İÁ÷,5Ïß½Ó¿Ú,Ê±ÖÓÏßÎªDCK/D3Òı½Å,Êä³öÊı¾İÏßÎªDOUT/D5ºÍDOUT2/D4Òı½Å,ÊäÈëÊı¾İÏßÎªDIN/D7ºÍDIN2/D6Òı½Å,Æ¬Ñ¡ÏßÎªD0/D1/D2,ËÙ¶ÈÔ¼30K×Ö½Ú*2
-/* SPIÊ±Ğò: DCK/D3Òı½ÅÎªÊ±ÖÓÊä³ö, Ä¬ÈÏÎªµÍµçÆ½, DOUT/D5ºÍDOUT2/D4Òı½ÅÔÚÊ±ÖÓÉÏÉıÑØÖ®Ç°µÄµÍµçÆ½ÆÚ¼äÊä³ö, DIN/D7ºÍDIN2/D6Òı½ÅÔÚÊ±ÖÓÏÂ½µÑØÖ®Ç°µÄ¸ßµçÆ½ÆÚ¼äÊäÈë */
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iChipSelect,  // Æ¬Ñ¡¿ØÖÆ, Î»7Îª0ÔòºöÂÔÆ¬Ñ¡¿ØÖÆ, Î»7Îª1Ôò²ÎÊıÓĞĞ§: Î»1Î»0Îª00/01/10·Ö±ğÑ¡ÔñD0/D1/D2Òı½Å×÷ÎªµÍµçÆ½ÓĞĞ§Æ¬Ñ¡
-	ULONG			iLength,  // ×¼±¸´«ÊäµÄÊı¾İ×Ö½ÚÊı
-	PVOID			ioBuffer,  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸´ÓDOUTĞ´³öµÄÊı¾İ,·µ»ØºóÊÇ´ÓDIN¶ÁÈëµÄÊı¾İ
-	PVOID			ioBuffer2 );  // Ö¸ÏòµÚ¶ş¸ö»º³åÇø,·ÅÖÃ×¼±¸´ÓDOUT2Ğ´³öµÄÊı¾İ,·µ»ØºóÊÇ´ÓDIN2¶ÁÈëµÄÊı¾İ
+BOOL	WINAPI	CH341StreamSPI5(  // Process SPI data stream, 5-wire interface, the clock line is DCK/D3 pin, the output data line is DOUT/D5 and DOUT2/D4 pin, the input data line is DIN/D7 and DIN2/D6 pin pin, the chip select line is D0/D1/D2, the speed is about 30K bytes*2
+/* SPI timing: DCK/D3 pin is clock output, default is low level, DOUT/D5 and DOUT2/D4 pins output during the low level period before the rising edge of the clock, DIN/D7 and DIN2/D6 pins Input during the high period before the falling edge of the clock */
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iChipSelect,  // Chip select control, if bit 7 is 0, the chip select control is ignored, if bit 7 is 1, the parameters are valid: Bit 1 and bit 0 are 00/01/10, respectively, select the D0/D1/D2 pin as low level. valid chip select
+	ULONG			iLength,  // Number of data bytes to be transmitted
+	PVOID			ioBuffer,  // Points to a buffer to place the data to be written from DOUT. After returning, the data is read from DIN.
+	PVOID			ioBuffer2 );  // Point to the second buffer, place the data to be written from DOUT2, and return the data read from DIN2
 
 
-BOOL	WINAPI	CH341BitStreamSPI(  // ´¦ÀíSPIÎ»Êı¾İÁ÷,4Ïß/5Ïß½Ó¿Ú,Ê±ÖÓÏßÎªDCK/D3Òı½Å,Êä³öÊı¾İÏßÎªDOUT/DOUT2Òı½Å,ÊäÈëÊı¾İÏßÎªDIN/DIN2Òı½Å,Æ¬Ñ¡ÏßÎªD0/D1/D2,ËÙ¶ÈÔ¼8KÎ»*2
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ
-	ULONG			iLength,  // ×¼±¸´«ÊäµÄÊı¾İÎ»Êı,Ò»´Î×î¶à896,½¨Òé²»³¬¹ı256
-	PVOID			ioBuffer );  // Ö¸ÏòÒ»¸ö»º³åÇø,·ÅÖÃ×¼±¸´ÓDOUT/DOUT2/D2-D0Ğ´³öµÄÊı¾İ,·µ»ØºóÊÇ´ÓDIN/DIN2¶ÁÈëµÄÊı¾İ
-/* SPIÊ±Ğò: DCK/D3Òı½ÅÎªÊ±ÖÓÊä³ö, Ä¬ÈÏÎªµÍµçÆ½, DOUT/D5ºÍDOUT2/D4Òı½ÅÔÚÊ±ÖÓÉÏÉıÑØÖ®Ç°µÄµÍµçÆ½ÆÚ¼äÊä³ö, DIN/D7ºÍDIN2/D6Òı½ÅÔÚÊ±ÖÓÏÂ½µÑØÖ®Ç°µÄ¸ßµçÆ½ÆÚ¼äÊäÈë */
-/* ioBufferÖĞµÄÒ»¸ö×Ö½Ú¹²8Î»·Ö±ğ¶ÔÓ¦D7-D0Òı½Å, Î»5Êä³öµ½DOUT, Î»4Êä³öµ½DOUT2, Î»2-Î»0Êä³öµ½D2-D0, Î»7´ÓDINÊäÈë, Î»6´ÓDIN2ÊäÈë, Î»3Êı¾İºöÂÔ */
-/* ÔÚµ÷ÓÃ¸ÃAPIÖ®Ç°,Ó¦¸ÃÏÈµ÷ÓÃCH341Set_D5_D0ÉèÖÃCH341µÄD5-D0Òı½ÅµÄI/O·½Ïò,²¢ÉèÖÃÒı½ÅµÄÄ¬ÈÏµçÆ½ */
+BOOL	WINAPI	CH341BitStreamSPI(  // Process SPI bit data stream, 4-wire/5-wire interface, clock line is DCK/D3 pin, output data line is DOUT/DOUT2 pin, input data line is DIN/DIN2 pin, chip select The line is D0/D1/D2, the speed is about 8K bits*2
+	ULONG			iIndex,  // Specify CH341 device serial number
+	ULONG			iLength,  // The number of data bits to be transmitted, up to 896 at a time, and it is recommended not to exceed 256
+	PVOID			ioBuffer );  // Point to a buffer, place the data to be written from DOUT/DOUT2/D2-D0, and return the data read from DIN/DIN2
+/* SPI timing: DCK/D3 pin is clock output, default is low level, DOUT/D5 and DOUT2/D4 pins output during the low level period before the rising edge of the clock, DIN/D7 and DIN2/D6 pins Input during the high period before the falling edge of the clock*/
+/* A total of 8 bits in a byte in ioBuffer correspond to the D7-D0 pins respectively, bit 5 is output to DOUT, bit 4 is output to DOUT2, bit 2-bit 0 is output to D2-D0, bit 7 is input from DIN, bit 6 Input from DIN2, bit 3 data is ignored*/
+/* Before calling this API, you should first call CH341Set_D5_D0 to set the I/O direction of the D5-D0 pin of CH341 and set the default level of the pin */
 
 
-BOOL	WINAPI	CH341SetBufUpload(  // Éè¶¨ÄÚ²¿»º³åÉÏ´«Ä£Ê½
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
-	ULONG			iEnableOrClear );  // Îª0Ôò½ûÖ¹ÄÚ²¿»º³åÉÏ´«Ä£Ê½,Ê¹ÓÃÖ±½ÓÉÏ´«,·Ç0ÔòÆôÓÃÄÚ²¿»º³åÉÏ´«Ä£Ê½²¢Çå³ı»º³åÇøÖĞµÄÒÑÓĞÊı¾İ
-// Èç¹ûÆôÓÃÄÚ²¿»º³åÉÏ´«Ä£Ê½,ÄÇÃ´CH341Çı¶¯³ÌĞò´´½¨Ïß³Ì×Ô¶¯½ÓÊÕUSBÉÏ´«Êı¾İµ½ÄÚ²¿»º³åÇø,Í¬Ê±Çå³ı»º³åÇøÖĞµÄÒÑÓĞÊı¾İ,µ±Ó¦ÓÃ³ÌĞòµ÷ÓÃCH341ReadDataºó½«Á¢¼´·µ»Ø»º³åÇøÖĞµÄÒÑÓĞÊı¾İ
+BOOL	WINAPI	CH341SetBufUpload(  // Set internal buffer upload mode
+	ULONG			iIndex,  // Specify CH341 device serial number, 0 corresponds to the first device
+	ULONG			iEnableOrClear );  // If it is 0, the internal buffer upload mode is disabled and direct upload is used. If it is not 0, the internal buffer upload mode is enabled and the existing data in the buffer is cleared.
+// If the internal buffered upload mode is enabled, the CH341 driver creates a thread to automatically receive the USB upload data to the internal buffer and clear the existing data in the buffer. When the application calls CH341ReadData, it will immediately return the existing data in the buffer. data
 
 
-LONG	WINAPI	CH341QueryBufUpload(  // ²éÑ¯ÄÚ²¿ÉÏ´«»º³åÇøÖĞµÄÒÑÓĞÊı¾İ°ü¸öÊı,³É¹¦·µ»ØÊı¾İ°ü¸öÊı,³ö´í·µ»Ø-1
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
+LONG	WINAPI	CH341QueryBufUpload(  // Query the number of existing data packets in the internal upload buffer. The number of data packets is returned successfully. If an error occurs, -1 is returned.
+	ULONG			iIndex );  // Specify CH341 device serial number, 0 corresponds to the first device
 
 
 BOOL	WINAPI	CH341SetBufDownload(  // Éè¶¨ÄÚ²¿»º³åÏÂ´«Ä£Ê½
-	ULONG			iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
-	ULONG			iEnableOrClear );  // Îª0Ôò½ûÖ¹ÄÚ²¿»º³åÏÂ´«Ä£Ê½,Ê¹ÓÃÖ±½ÓÏÂ´«,·Ç0ÔòÆôÓÃÄÚ²¿»º³åÏÂ´«Ä£Ê½²¢Çå³ı»º³åÇøÖĞµÄÒÑÓĞÊı¾İ
-// Èç¹ûÆôÓÃÄÚ²¿»º³åÏÂ´«Ä£Ê½,ÄÇÃ´µ±Ó¦ÓÃ³ÌĞòµ÷ÓÃCH341WriteDataºó½«½ö½öÊÇ½«USBÏÂ´«Êı¾İ·Åµ½ÄÚ²¿»º³åÇø²¢Á¢¼´·µ»Ø,¶øÓÉCH341Çı¶¯³ÌĞò´´½¨µÄÏß³Ì×Ô¶¯·¢ËÍÖ±µ½Íê±Ï
+	ULONG			iIndex,  // Specify CH341 device serial number, 0 corresponds to the first device
+	ULONG			iEnableOrClear );  // If it is 0, the internal buffer download mode is disabled and direct download is used. If it is not 0, the internal buffer download mode is enabled and the existing data in the buffer is cleared.
+// If the internal buffer download mode is enabled, then when the application calls CH341WriteData, it will just put the USB download data into the internal buffer and return immediately, and the thread created by the CH341 driver will automatically send it until it is completed.
 
 
-LONG	WINAPI	CH341QueryBufDownload(  // ²éÑ¯ÄÚ²¿ÏÂ´«»º³åÇøÖĞµÄÊ£ÓàÊı¾İ°ü¸öÊı(ÉĞÎ´·¢ËÍ),³É¹¦·µ»ØÊı¾İ°ü¸öÊı,³ö´í·µ»Ø-1
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
+LONG	WINAPI	CH341QueryBufDownload(  // Query the number of remaining data packets in the internal download buffer (not yet sent), return the number of data packets successfully, and return -1 on error
+	ULONG			iIndex );  // Specify CH341 device serial number, 0 corresponds to the first device
 
 
-BOOL	WINAPI	CH341ResetInter(  // ¸´Î»ÖĞ¶ÏÊı¾İ¶Á²Ù×÷
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341ResetInter(  // Reset interrupt data read operation
+	ULONG			iIndex );  // Specify CH341 device serial number
 
 
-BOOL	WINAPI	CH341ResetRead(  // ¸´Î»Êı¾İ¿é¶Á²Ù×÷
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341ResetRead(  // Reset data block read operation
+	ULONG			iIndex );  // Specify CH341 device serial number
 
 
-BOOL	WINAPI	CH341ResetWrite(  // ¸´Î»Êı¾İ¿éĞ´²Ù×÷
-	ULONG			iIndex );  // Ö¸¶¨CH341Éè±¸ĞòºÅ
+BOOL	WINAPI	CH341ResetWrite(  // Reset data block write operation
+	ULONG			iIndex );  // Specify CH341 device serial number
 
 
-typedef		VOID	( CALLBACK	* mPCH341_NOTIFY_ROUTINE ) (  // Éè±¸ÊÂ¼şÍ¨Öª»Øµ÷³ÌĞò
-	ULONG			iEventStatus );  // Éè±¸ÊÂ¼şºÍµ±Ç°×´Ì¬(ÔÚÏÂĞĞ¶¨Òå): 0=Éè±¸°Î³öÊÂ¼ş, 3=Éè±¸²åÈëÊÂ¼ş
+typedef		VOID	( CALLBACK	* mPCH341_NOTIFY_ROUTINE ) (  // Device event notification callback program
+	ULONG			iEventStatus );  // Device events and current status (defined below): 0=device unplugged event, 3=device plugged in event
 
-#define		CH341_DEVICE_ARRIVAL		3		// Éè±¸²åÈëÊÂ¼ş,ÒÑ¾­²åÈë
-#define		CH341_DEVICE_REMOVE_PEND	1		// Éè±¸½«Òª°Î³ö
-#define		CH341_DEVICE_REMOVE			0		// Éè±¸°Î³öÊÂ¼ş,ÒÑ¾­°Î³ö
-
-
-BOOL	WINAPI	CH341SetDeviceNotify(  // Éè¶¨Éè±¸ÊÂ¼şÍ¨Öª³ÌĞò
-	ULONG					iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
-	PCHAR					iDeviceID,  // ¿ÉÑ¡²ÎÊı,Ö¸Ïò×Ö·û´®,Ö¸¶¨±»¼à¿ØµÄÉè±¸µÄID,×Ö·û´®ÒÔ\0ÖÕÖ¹
-	mPCH341_NOTIFY_ROUTINE	iNotifyRoutine );  // Ö¸¶¨Éè±¸ÊÂ¼ş»Øµ÷³ÌĞò,ÎªNULLÔòÈ¡ÏûÊÂ¼şÍ¨Öª,·ñÔòÔÚ¼ì²âµ½ÊÂ¼şÊ±µ÷ÓÃ¸Ã³ÌĞò
+#define		CH341_DEVICE_ARRIVAL		3		// Device insertion event, already inserted
+#define		CH341_DEVICE_REMOVE_PEND	1		// The device is about to be unplugged
+#define		CH341_DEVICE_REMOVE			0		// Device unplug event, has been unplugged
 
 
-BOOL	WINAPI	CH341SetupSerial(  // Éè¶¨CH341µÄ´®¿ÚÌØĞÔ,¸ÃAPIÖ»ÄÜÓÃÓÚ¹¤×÷ÓÚ´®¿Ú·½Ê½µÄCH341Ğ¾Æ¬
-	ULONG					iIndex,  // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
-	ULONG					iParityMode,  // Ö¸¶¨CH341´®¿ÚµÄÊı¾İĞ£ÑéÄ£Ê½: NOPARITY/ODDPARITY/EVENPARITY/MARKPARITY/SPACEPARITY
-	ULONG					iBaudRate );  // Ö¸¶¨CH341´®¿ÚµÄÍ¨Ñ¶²¨ÌØÂÊÖµ,¿ÉÒÔÊÇ50ÖÁ3000000Ö®¼äµÄÈÎÒâÖµ
+BOOL	WINAPI	CH341SetDeviceNotify(  // Set device event notification program
+	ULONG					iIndex,  // Specify CH341 device serial number, 0 corresponds to the first device
+	PCHAR					iDeviceID,  // Optional parameter, pointing to a string, specifying the ID of the device being monitored, the string is terminated with \0
+	mPCH341_NOTIFY_ROUTINE	iNotifyRoutine );  // Specify the device event callback program. If it is NULL, the event notification will be canceled. Otherwise, the program will be called when the event is detected.
+
+
+BOOL	WINAPI	CH341SetupSerial(  // Set the serial port characteristics of CH341. This API can only be used for CH341 chips that work in serial port mode.
+	ULONG					iIndex,  // Specify CH341 device serial number, 0 corresponds to the first device
+	ULONG					iParityMode,  // Specify the data verification mode of the CH341 serial port: NOPARITY/ODDPARITY/EVENPARITY/MARKPARITY/SPACEPARITY
+	ULONG					iBaudRate );  // Specify the communication baud rate value of the CH341 serial port, which can be any value between 50 and 3000000
 
 /*  The following APIs can be used for CH341 chips that work in serial port mode. Other APIs can generally only be used for CH341 chips that work in parallel port mode.
 	CH341OpenDevice
@@ -675,19 +671,19 @@ BOOL	WINAPI	CH341SetupSerial(  // Éè¶¨CH341µÄ´®¿ÚÌØĞÔ,¸ÃAPIÖ»ÄÜÓÃÓÚ¹¤×÷ÓÚ´®¿Ú·½Ê
 	CH341ResetRead
 	CH341ResetWrite
 */
-HANDLE	WINAPI	CH341OpenDeviceEx(   // ´ò¿ªCH341Éè±¸,·µ»Ø¾ä±ú,³ö´íÔòÎŞĞ§
-    ULONG			iIndex );        // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦²åÈëµÄµÚÒ»¸öÉè±¸,1¶ÔÓ¦²åÈëµÄµÚ¶ş¸öÉè±¸,Îª½ÚÔ¼Éè±¸Éè±¸ĞòºÅ×ÊÔ´,ÓÃÍêºóÒª¹Ø±ÕÉè±¸
+HANDLE	WINAPI	CH341OpenDeviceEx(   // Open the CH341 device and return the handle. If an error occurs, it will be invalid.
+    ULONG			iIndex );        // Specify CH341 device serial number, 0 corresponds to the first device inserted, 1 corresponds to the second device inserted, in order to save device serial number resources, the device must be turned off after use
 
-VOID	WINAPI	CH341CloseDeviceEx(  // ¹Ø±ÕCH341Éè±¸
-	ULONG			iIndex );        // Ö¸¶¨CH341Éè±¸ĞòºÅ
+VOID	WINAPI	CH341CloseDeviceEx(  // Close the CH341 device
+	ULONG			iIndex );        // Specify CH341 device serial number
 
-PCHAR	WINAPI	CH341GetDeviceNameEx(   // ·µ»ØÖ¸ÏòCH341Éè±¸Ãû³ÆµÄ»º³åÇø,³ö´íÔò·µ»ØNULL
-	ULONG			iIndex );           // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
+PCHAR	WINAPI	CH341GetDeviceNameEx(   // Returns the buffer pointing to the CH341 device name, or returns NULL if an error occurs
+	ULONG			iIndex );           // Specify CH341 device serial number, 0 corresponds to the first device
 
-BOOL	WINAPI	CH341SetDeviceNotifyEx(       // Éè¶¨Éè±¸ÊÂ¼şÍ¨Öª³ÌĞò
-	ULONG					iIndex,           // Ö¸¶¨CH341Éè±¸ĞòºÅ,0¶ÔÓ¦µÚÒ»¸öÉè±¸
-	PCHAR					iDeviceID,        // ¿ÉÑ¡²ÎÊı,Ö¸Ïò×Ö·û´®,Ö¸¶¨±»¼à¿ØµÄÉè±¸µÄID,×Ö·û´®ÒÔ\0ÖÕÖ¹
-	mPCH341_NOTIFY_ROUTINE	iNotifyRoutine ); // Ö¸¶¨Éè±¸ÊÂ¼ş»Øµ÷³ÌĞò,ÎªNULLÔòÈ¡ÏûÊÂ¼şÍ¨Öª,·ñÔòÔÚ¼ì²âµ½ÊÂ¼şÊ±µ÷ÓÃ¸Ã³ÌĞò
+BOOL	WINAPI	CH341SetDeviceNotifyEx(       // Set device event notification program
+	ULONG					iIndex,           // Specify CH341 device serial number, 0 corresponds to the first device
+	PCHAR					iDeviceID,        // Optional parameter, pointing to a string, specifying the ID of the device being monitored, the string is terminated with \0
+	mPCH341_NOTIFY_ROUTINE	iNotifyRoutine ); // Specify the device event callback program. If it is NULL, the event notification will be canceled. Otherwise, the program will be called when the event is detected.
 
 
 #ifdef __cplusplus
