@@ -22,6 +22,8 @@ public:
 		return (index != INVALID_INDEX);
 	}
 
+	static unsigned int GetMaxDataLengthInRequest(void);
+
 	int I2CReadByte(uint8_t i2cAddr, uint8_t dataAddr, uint8_t &data);
 
 	int ReadData(uint8_t *buffer, unsigned long &count);
@@ -32,6 +34,8 @@ public:
 	int I2CIssueStop(void);
 	int I2COutByteCheckAck(uint8_t outByte);
 	int I2CCheckDev(uint8_t addr);
+
+	int I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t *readBuffer, unsigned int readCount);
 
 private:
 	int index;

@@ -44,6 +44,11 @@ void CH341A::Close(void)
 	}
 }
 
+unsigned int CH341A::GetMaxDataLengthInRequest(void)
+{
+	return mCH341A_CMD_I2C_STM_MAX;
+}
+
 int CH341A::I2CReadByte(uint8_t i2cAddr, uint8_t dataAddr, uint8_t &data)
 {
 	if (index == INVALID_INDEX)
@@ -156,5 +161,82 @@ int CH341A::I2CCheckDev(uint8_t addr)
 		return -1;
 	}
 }
+
+int CH341A::I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t *readBuffer, unsigned int readCount)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+
+	// normalize for CH341 API
+	if (writeBuffer == NULL)
+		writeCount = 0;
+	if (writeCount == 0)
+		writeBuffer = NULL;
+
+	if (readBuffer == NULL)
+		readCount = 0;
+	if (readCount == 0)
+		readBuffer = NULL;
+
+	if (CH341StreamI2C(index, writeCount, writeBuffer, readCount, readBuffer))
+	{
+		return 0;
+	}
+	readCount = 0;
+	return -2;
+}
+
+
+
+#if 0
+BOOL WINAPI PCF8574_WriteIO (// output the PCF8574 I / O
+ULONG iIndex,       // ??device number designated CH341
+ULONG iDeviceAddr,  // ??device address, the lowest order bit of the direction bit
+ULONG iOutByte)     // prepare to write the I / O data
+{                                                               // Could directly use CH341StreamI2C (iIndex, 2, mBuffer, 0, NULL) to achieve
+    UCHAR mBuffer [mCH341_PACKET_LENGTH];
+    ULONG mLength;
+
+	mBuffer [0] = mCH341A_CMD_I2C_STREAM;                       // command code
+	mBuffer [1] = mCH341A_CMD_I2C_STM_STA;                      // generate the start bit
+	mBuffer [2] = (UCHAR) (mCH341A_CMD_I2C_STM_OUT | 2);        // output data, bit 5 - bit 0 is the length of 2 bytes
+	mBuffer [3] = (UCHAR) (iDeviceAddr & 0xFE);                 // device address, write
+	mBuffer [4] = (UCHAR) iOutByte;                             // I / O data
+	mBuffer [5] = mCH341A_CMD_I2C_STM_STO;                      // stop bit generation
+	mBuffer [6] = mCH341A_CMD_I2C_STM_END;                      // end of the current package in advance
+	mLength = 7;
+	return (CH341WriteData (iIndex, mBuffer, & mLength));       // write the data block
+}
+
+// input the PCF8574 I / O
+BOOL WINAPI PCF8574_ReadIO (
+ULONG iIndex,               // ??device number designated CH341
+ULONG iDeviceAddr,          // ??device address, the lowest order bit of the direction bit
+PUCHAR oInByte)             // points to a byte buffer is read back after the I / O data
+{                                                               // Could directly use CH341StreamI2C (iIndex, 1, mBuffer, 1, oInByte) to achieve
+    UCHAR mBuffer [mCH341_PACKET_LENGTH];
+    ULONG mLength, mInLen;
+
+    mBuffer [0] = mCH341A_CMD_I2C_STREAM;                       // command code
+    mBuffer [1] = mCH341A_CMD_I2C_STM_STA;                      // generate the start bit
+    mBuffer [2] = (UCHAR) (mCH341A_CMD_I2C_STM_OUT | 1);        // output data, bit 5 - bit 0 of length, 1 byte
+    mBuffer [3] = (UCHAR) (iDeviceAddr | 0x01);                 // device address, read
+    mBuffer [4] = (UCHAR) (mCH341A_CMD_I2C_STM_IN | 1);         // input data, bit 5 - bit 0 of length, 1 byte
+    mBuffer [5] = mCH341A_CMD_I2C_STM_STO;                      // stop bit generation
+    mBuffer [6] = mCH341A_CMD_I2C_STM_END;                      // end of the current package in advance
+    mLength = 7;
+    mInLen = 0;
+                                                                // execute the command stream, and then input the first output
+    if (CH341WriteRead (iIndex, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, & mInLen, mBuffer)) {  
+        if (mInLen) {
+        *OInByte = mBuffer[mInLen - 1]; // return the data
+        return (TRUE);
+        }
+    }
+    return (FALSE);
+}
+#endif
 
 

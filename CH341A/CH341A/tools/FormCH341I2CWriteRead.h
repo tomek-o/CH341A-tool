@@ -12,10 +12,17 @@ class TfrmCH341I2CWriteRead : public TForm
 {
 __published:	// IDE-managed Components
 	TLabel *lblBytes;
-	TButton *btnRead;
+	TButton *btnWriteRead;
 	TComboBox *cbReadBytesCount;
 	TMemo *memoRead;
-	void __fastcall btnReadClick(TObject *Sender);
+	TMemo *memoWrite;
+	TLabel *lblRead;
+	TLabel *lblWrite;
+	TLabel *lblI2CAddress;
+	TComboBox *cbI2CAddress;
+	TLabel *lblWriteBytesCount;
+	void __fastcall btnWriteReadClick(TObject *Sender);
+	void __fastcall memoWriteChange(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TfrmCH341I2CWriteRead(TComponent* Owner);
