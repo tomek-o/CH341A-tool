@@ -182,8 +182,8 @@ typedef	struct	_WIN32_COMMAND {				// Define the WIN32 command interface structu
 
 #define		mCH341A_CMD_I2C_STM_STA	0x74		// Command flow of I2C interface: generate start bit
 #define		mCH341A_CMD_I2C_STM_STO	0x75		// Command flow of I2C interface: generate stop bit
-#define		mCH341A_CMD_I2C_STM_OUT	0x80		// Command flow of I2C interface: output data, bit 5-bit 0 is the length, the subsequent bytes are data, if the length is 0, only one byte is sent and the response is returned
-#define		mCH341A_CMD_I2C_STM_IN	0xC0		// Command flow of I2C interface: input data, bit 5-bit 0 is the length, if the length is 0, only one byte will be received and no response will be sent
+#define		mCH341A_CMD_I2C_STM_OUT	0x80		// Command flow of I2C interface: output data, bits 5...0 is the length, the subsequent bytes are data, if the length is 0, only one byte is sent and the response is returned
+#define		mCH341A_CMD_I2C_STM_IN	0xC0		// Command flow of I2C interface: input data, bits 5...0 is the length, if the length is 0, only one byte will be received and no response will be sent
 #define		mCH341A_CMD_I2C_STM_MAX	( min( 0x3F, mCH341_PACKET_LENGTH ) )	// The maximum length of the input and output data of a single command in the command stream of the I2C interface
 #define		mCH341A_CMD_I2C_STM_SET	0x60		// Command flow of I2C interface: Set parameters, bit 2=number of SPI I/Os (0=single input, single output, 1=dual input, double output), bit 1, bit 0=I2C speed (00= Low speed, 01=standard, 10=fast, 11=high speed)
 #define		mCH341A_CMD_I2C_STM_US	0x40		// Command flow of I2C interface: delay in microseconds, bit 3-bit 0 is the delay value
