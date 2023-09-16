@@ -31,12 +31,14 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Width = 305
     Height = 281
     Anchors = [akLeft, akTop, akBottom]
+    Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 1
   end
