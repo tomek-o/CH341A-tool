@@ -188,6 +188,27 @@ int CH341A::I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t 
 	return -2;
 }
 
+int CH341A::I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &data)
+{
+	uint8_t writeBuffer[2];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadWord: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+
+	unsigned int readCount = sizeof(data);
+	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), (uint8_t*)&data, readCount);
+}
 
 
 #if 0
@@ -216,26 +237,26 @@ ULONG iIndex,               // ??device number designated CH341
 ULONG iDeviceAddr,          // ??device address, the lowest order bit of the direction bit
 PUCHAR oInByte)             // points to a byte buffer is read back after the I / O data
 {                                                               // Could directly use CH341StreamI2C (iIndex, 1, mBuffer, 1, oInByte) to achieve
-    UCHAR mBuffer [mCH341_PACKET_LENGTH];
-    ULONG mLength, mInLen;
+	UCHAR mBuffer [mCH341_PACKET_LENGTH];
+	ULONG mLength, mInLen;
 
-    mBuffer [0] = mCH341A_CMD_I2C_STREAM;                       // command code
-    mBuffer [1] = mCH341A_CMD_I2C_STM_STA;                      // generate the start bit
-    mBuffer [2] = (UCHAR) (mCH341A_CMD_I2C_STM_OUT | 1);        // output data, bit 5 - bit 0 of length, 1 byte
-    mBuffer [3] = (UCHAR) (iDeviceAddr | 0x01);                 // device address, read
-    mBuffer [4] = (UCHAR) (mCH341A_CMD_I2C_STM_IN | 1);         // input data, bit 5 - bit 0 of length, 1 byte
-    mBuffer [5] = mCH341A_CMD_I2C_STM_STO;                      // stop bit generation
-    mBuffer [6] = mCH341A_CMD_I2C_STM_END;                      // end of the current package in advance
-    mLength = 7;
-    mInLen = 0;
-                                                                // execute the command stream, and then input the first output
-    if (CH341WriteRead (iIndex, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, & mInLen, mBuffer)) {  
-        if (mInLen) {
-        *OInByte = mBuffer[mInLen - 1]; // return the data
-        return (TRUE);
-        }
-    }
-    return (FALSE);
+	mBuffer [0] = mCH341A_CMD_I2C_STREAM;                       // command code
+	mBuffer [1] = mCH341A_CMD_I2C_STM_STA;                      // generate the start bit
+	mBuffer [2] = (UCHAR) (mCH341A_CMD_I2C_STM_OUT | 1);        // output data, bit 5 - bit 0 of length, 1 byte
+	mBuffer [3] = (UCHAR) (iDeviceAddr | 0x01);                 // device address, read
+	mBuffer [4] = (UCHAR) (mCH341A_CMD_I2C_STM_IN | 1);         // input data, bit 5 - bit 0 of length, 1 byte
+	mBuffer [5] = mCH341A_CMD_I2C_STM_STO;                      // stop bit generation
+	mBuffer [6] = mCH341A_CMD_I2C_STM_END;                      // end of the current package in advance
+	mLength = 7;
+	mInLen = 0;
+																// execute the command stream, and then input the first output
+	if (CH341WriteRead (iIndex, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, & mInLen, mBuffer)) {
+		if (mInLen) {
+		*OInByte = mBuffer[mInLen - 1]; // return the data
+		return (TRUE);
+		}
+	}
+	return (FALSE);
 }
 #endif
 

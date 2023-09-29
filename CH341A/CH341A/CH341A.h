@@ -37,6 +37,8 @@ public:
 
 	int I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t *readBuffer, unsigned int readCount);
 
+	int I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &data);
+
 private:
 	int index;
 };
