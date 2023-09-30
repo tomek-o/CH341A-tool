@@ -9,18 +9,18 @@ namespace SmartBattery
 
 enum
 {
-	ADDRESS = 0x0B
+	I2C_ADDRESS = 0x0B
 };
 
 enum Command
 {
-	CMD_MANUFACTURER_ACCESS = 0x00,
-	CMD_REMAINING_CAPACITY_ALARM = 0x01,
-	CMD_REMAINING_TIME_ALARM = 0x02,
+	CMD_MANUFACTURER_ACCESS = 0x00,			///< optional, implementation specific
+	CMD_REMAINING_CAPACITY_ALARM = 0x01,	///< set/get the Low Capacity alarm threshold value
+	CMD_REMAINING_TIME_ALARM = 0x02, 		///< set/gets the Remaining Time alarm value
 
-	CMD_BATTERY_MODE = 0x03,
+	CMD_BATTERY_MODE = 0x03,				///< selects the various battery operational modes and reports the battery’s capabilities, modes, and flags minor conditions requiring attention
 
-	CMD_AT_RATE = 0x04,
+	CMD_AT_RATE = 0x04,						///< first half of a two-function call-set used to set the AtRate value used in calculations made by the AtRateTimeToFull(), AtRateTimeToEmpty(), and AtRateOK() functions
 	CMD_AT_RATE_TIME_TO_FULL = 0x05,
 	CMD_AT_RATE_TIME_TO_EMPTY = 0x06,
 	CMD_AT_RATE_OK = 0x07,
@@ -28,43 +28,64 @@ enum Command
 	CMD_TEMPERATURE = 0x08,
 	CMD_VOLTAGE = 0x09,
 	CMD_CURRENT = 0x0A,
-	CMD_AVERAGE_CURRENT = 0x0B, // last minute
-	CMD_MAX_ERROR = 0x0C, 		// byte, charge calculation
+	CMD_AVERAGE_CURRENT = 0x0B,				///< one-minute rolling average based on the current being supplied (or accepted) through the battery's terminals (mA)
+	CMD_MAX_ERROR = 0x0C, 					///< Returns the expected margin of error (%) in the state of charge calculation. For example, when MaxError() returns 10% and RelativeStateOfCharge() returns 50%, the Relative StateOfCharge() is actually between 50 and 60%.
 
-	CMD_RELATIVE_SOC = 0x0D,	// byte, relative charge
-	CMD_ABSOLUTE_SOC = 0x0E,	// byte
-	CMD_REMAINING_CAPACITY = 0x0F,
-	CMD_FULL_CHARGE_CAPACITY = 0x10,
-	CMD_RUN_TIME_TO_EMPTY = 0x11,
-	CMD_AVERAGE_TIME_TO_EMPTY = 0x12,
-	CMD_TIME_TO_FULL = 0x13,
+	CMD_RELATIVE_STATE_OF_CHARGE = 0x0D,	///< predicted remaining battery capacity expressed as a percentage of FullChargeCapacity() (%)
+	CMD_ABSOLUTE_STATE_OF_CHARGE = 0x0E,	///< predicted remaining battery capacity expressed as a percentage of DesignCapacity() (%)
+	CMD_REMAINING_CAPACITY = 0x0F,			///< predicted remaining battery capacity expressed in either current (mAh at a C/5 discharge rate) or power (10mWh at a P/5 discharge rate) depending on the setting of the BatteryMode()'s CAPACITY_MODE bit
+	CMD_FULL_CHARGE_CAPACITY = 0x10,		///< predicted pack capacity when it is fully charged in either current (mAh at a C/5 discharge rate) or power (10mWh at a P/5 discharge rate) depending on the setting of the BatteryMode()'s CAPACITY_MODE bit
+	CMD_RUN_TIME_TO_EMPTY = 0x11,			///< predicted remaining battery life at the present rate of discharge (minutes), calculated based on either current or power depending on the setting of the BatteryMode()'s CAPACITY_MODE bit
+	CMD_AVERAGE_TIME_TO_EMPTY = 0x12,		///< 1 minute rolling average of the predicted remaining battery life (minutes), calculated based on either current or power depending on the setting of the BatteryMode()'s CAPACITY_MODE bit
+	CMD_AVERAGE_TIME_TO_FULL = 0x13,		///< 1 minute rolling average of the predicted remaining time until the battery reaches full charge (minutes)
 	CMD_CHARGING_CURRENT = 0x14,
 	CMD_CHARGING_VOLTAGE = 0x15,
-	CMD_BATTERY_STATUS = 0x16,
-	CMD_CYCLE_COUNT = 0x17,
-	CMD_DESIGN_CAPACITY = 0x18,
-	CMD_DESIGN_VOLTAGE = 0x19,
-	CMD_SPEC_INFO = 0x1A,
-	CMD_MFG_DATE = 0x1B,
-	CMD_SERIAL_NUM = 0x1C,
+	CMD_BATTERY_STATUS = 0x16,				///< Alarm and Status bit flags
+	CMD_CYCLE_COUNT = 0x17,					///< number of cycles (approximately equal to the value of DesignCapacity) the battery has experienced
+	CMD_DESIGN_CAPACITY = 0x18,				///< theoretical capacity of a new pack, expressed in either current (mAh at a C/5 discharge rate) or power (10mWh at a P/5 discharge rate) depending on the setting of the BatteryMode()'s CAPACITY_MODE bit
+	CMD_DESIGN_VOLTAGE = 0x19,				///< theoretical voltage of a new pack (mV)
+	CMD_SPEC_INFO = 0x1A,					///< version number of the SB specification the battery pack supports, as well as voltage and current and capacity scaling information in a packed unsigned integer
+	CMD_MFG_DATE = 0x1B,					///< returns the date the cell pack was manufactured in a packed integer: (year-1980) * 512 + month * 32 + day
+	CMD_SERIAL_NUM = 0x1C,					///< return a serial number; combined with the ManufacturerName(), the DeviceName(), and the ManufactureDate() will uniquely identify the battery (unsigned int)
 	// RESERVED              0x1D - 0x1F
-	CMD_MFG_NAME = 0x20,   // string
-	CMD_DEV_NAME = 0x21,   // string
-	CMD_CELL_CHEM = 0x22,  // string
-	CMD_MANUFACTURER_DATA = 0x23,
+	CMD_MANUFACTURER_NAME = 0x20,			///< string
+	CMD_DEVICE_NAME = 0x21,					///< string
+	CMD_CELL_CHEMISTRY = 0x22,				///< string
+	CMD_MANUFACTURER_DATA = 0x23,			///< proprietary data
 	// RESERVED_2              0x25 - 0x2E
 
-	CMD_PACK_STATUS = 0x2F,   // r/w Word - OptionalMfgFunction5, Block (size 11) for bq8011
+	CMD_PACK_STATUS = 0x2F,					///< OptionalMfgFunction5, Block (size 11) for bq8011
 
 	// RESERVED_3              0x30 - 0x3B
 
-	CMD_CELL4_VOLTAGE = 0x3C,   // r/w word - OptionalMfgFunction4 - Individual cell voltages don't work on most (Sony, Lenovo and Dell) packs
-	CMD_CELL3_VOLTAGE = 0x3D,   // r/w word
-	CMD_CELL2_VOLTAGE = 0x3E,   // r/w word
-	CMD_CELL1_VOLTAGE = 0x3F,   // r/w word
+	CMD_CELL4_VOLTAGE = 0x3C,   			// r/w word - OptionalMfgFunction4 - Individual cell voltages don't work on most (Sony, Lenovo and Dell) packs
+	CMD_CELL3_VOLTAGE = 0x3D,   			// r/w word
+	CMD_CELL2_VOLTAGE = 0x3E,   			// r/w word
+	CMD_CELL1_VOLTAGE = 0x3F,   			// r/w word
 
-	CMD_STATE_OF_HEALTH = 0x4F,   // byte, percents
+	CMD_STATE_OF_HEALTH = 0x4F,				// byte, percents
 };
+
+enum BatteryModeBits
+{
+	MODE_INTERNAL_CHARGE_CONTROLLER = 0x0001,
+	MODE_CONDITION_FLAG				= 0x0008,
+	MODE_CHARGE_CONTROLLER			= 0x0100,
+	MODE_ALARM						= 0x2000,
+	MODE_CHARGER					= 0x4000,
+	MODE_CAPACITY					= 0x8000
+};
+
+enum BatteryStatusBits
+{
+	STATUS_OVER_CHARGED_ALARM		= 0x8000,
+	STATUS_TERMINATE_CHARGE_ALARM	= 0x4000,
+	STATUS_OVER_TEMP_ALARM			= 0x1000,
+	STATUS_TERMINATE_DISCHARGE_ALARM	= 0x0800,
+	STATUS_REMAINING_CAPACITY_ALARM	= 0x0200,
+	STATUS_REMAINING_TIME_ALARM		= 0x0100
+};
+
 
 }
 
