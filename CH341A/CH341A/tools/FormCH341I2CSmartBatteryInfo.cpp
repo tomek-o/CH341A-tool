@@ -5,6 +5,7 @@
 
 #include "FormCH341I2CSmartBatteryInfo.h"
 #include "CH341A.h"
+#include "SmartBattery.h"
 #include "TabManager.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -20,7 +21,7 @@ __fastcall TfrmCH341I2CSmartBatteryInfo::TfrmCH341I2CSmartBatteryInfo(TComponent
 		text.sprintf("0x%02X (%3u)", i, i);
 		cbI2CAddress->Items->Add(text);
 	}
-	cbI2CAddress->ItemIndex = 11;
+	cbI2CAddress->ItemIndex = SmartBattery::I2C_ADDRESS;
 
 	TabManager::Instance().Register(this);
 }
