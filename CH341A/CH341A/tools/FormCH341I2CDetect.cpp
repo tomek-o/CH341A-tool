@@ -6,6 +6,7 @@
 #include "FormCH341I2CDetect.h"
 #include "CH341A.h"
 #include "TabManager.h"
+#include "common/BtnController.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -19,9 +20,15 @@ __fastcall TfrmCH341I2CDetect::TfrmCH341I2CDetect(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CDetect::btnDetectDevicesClick(TObject *Sender)
 {
+	Detect();
+}
+
+void TfrmCH341I2CDetect::Detect(void)
+{
+	BtnController btnCtrl(btnDetectDevices);
 	if (!ch341a.IsOpened())
 	{
-		MessageBox(this->Handle, "CH341 is not opened", this->Caption.c_str(), MB_ICONEXCLAMATION);
+		memoDetect->Text = "CH341 is not opened!";
 		return;
 	}
 	memoDetect->Clear();
@@ -45,3 +52,10 @@ void __fastcall TfrmCH341I2CDetect::btnDetectDevicesClick(TObject *Sender)
 	}	
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmCH341I2CDetect::tmrAutoDetectTimer(TObject *Sender)
+{
+	if (chbAutoDetect->Checked)
+		Detect();	
+}
+//---------------------------------------------------------------------------
+

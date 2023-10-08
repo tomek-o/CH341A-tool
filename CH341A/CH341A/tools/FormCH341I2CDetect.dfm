@@ -26,10 +26,10 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     OnClick = btnDetectDevicesClick
   end
   object memoDetect: TMemo
-    Left = 104
-    Top = 10
-    Width = 305
-    Height = 281
+    Left = 16
+    Top = 40
+    Width = 393
+    Height = 251
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -41,5 +41,18 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 1
+  end
+  object chbAutoDetect: TCheckBox
+    Left = 97
+    Top = 12
+    Width = 264
+    Height = 17
+    Caption = 'auto detect (repeat detection every second)'
+    TabOrder = 2
+  end
+  object tmrAutoDetect: TTimer
+    OnTimer = tmrAutoDetectTimer
+    Left = 384
+    Top = 8
   end
 end
