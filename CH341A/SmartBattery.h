@@ -68,12 +68,14 @@ enum Command
 
 enum BatteryModeBits
 {
-	MODE_INTERNAL_CHARGE_CONTROLLER = 0x0001,
-	MODE_CONDITION_FLAG				= 0x0008,
-	MODE_CHARGE_CONTROLLER			= 0x0100,
-	MODE_ALARM						= 0x2000,
-	MODE_CHARGER					= 0x4000,
-	MODE_CAPACITY					= 0x8000
+	MODE_INTERNAL_CHARGE_CONTROLLER = 0x0001,	// R
+	MODE_PRIMARY_BATTERY_SUPPORT	= 0x0002,	// R; ability to act as primary/secondary battery in a system
+	MODE_CONDITION_REQUEST			= 0x0008,	// R; Conditioning Cycle Requested
+	MODE_CHARGE_CONTROLLER_ENABLED	= 0x0100,	// R/W; Internal Charge Control Enabled
+	MODE_PRIMARY_BATTERY			= 0x0200,	// R/W; 0 = secondary role, 1 = primary role
+	MODE_ALARM						= 0x2000,	// R/W; enable/disable AlarmWarning broadcast to Host and Smart Battery Charger
+	MODE_CHARGER					= 0x4000,	// R/W; enable/disable broadcasts of ChargingVoltage and ChargingCurrent to Smart Battery Charger
+	MODE_CAPACITY					= 0x8000	// R/W; 0 = report in 1 mA/mAh (default), 1 = report in 10 mA/mAh units
 };
 
 enum BatteryStatusBits
@@ -83,7 +85,11 @@ enum BatteryStatusBits
 	STATUS_OVER_TEMP_ALARM			= 0x1000,
 	STATUS_TERMINATE_DISCHARGE_ALARM	= 0x0800,
 	STATUS_REMAINING_CAPACITY_ALARM	= 0x0200,
-	STATUS_REMAINING_TIME_ALARM		= 0x0100
+	STATUS_REMAINING_TIME_ALARM		= 0x0100,
+	STATUS_INITIALIZED 				= 0x0080,
+	STATUS_DISCHARGING				= 0x0040,
+	STATUS_FULLY_CHARGED			= 0x0020,
+	STATUS_FULLY_DISCHARGED			= 0x0010
 };
 
 

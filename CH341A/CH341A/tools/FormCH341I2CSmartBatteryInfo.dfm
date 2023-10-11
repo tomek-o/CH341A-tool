@@ -68,7 +68,7 @@ object frmCH341I2CSmartBatteryInfo: TfrmCH341I2CSmartBatteryInfo
       Font.Height = -11
       Font.Name = 'Courier New'
       Font.Style = []
-      ItemHeight = 14
+      ItemHeight = 0
       ParentFont = False
       TabOrder = 1
     end
