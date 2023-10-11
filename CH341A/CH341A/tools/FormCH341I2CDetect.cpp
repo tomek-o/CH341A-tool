@@ -54,8 +54,10 @@ void TfrmCH341I2CDetect::Detect(void)
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CDetect::tmrAutoDetectTimer(TObject *Sender)
 {
+	tmrAutoDetect->Enabled = false;
 	if (chbAutoDetect->Checked)
-		Detect();	
+		Detect();
+	tmrAutoDetect->Enabled = true;
 }
 //---------------------------------------------------------------------------
 
