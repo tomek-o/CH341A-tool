@@ -122,12 +122,15 @@ int CH341A::I2COutByteCheckAck(uint8_t outByte)
 	unsigned long mLength, mInLen;
 	mBuffer[0] = mCH341A_CMD_I2C_STREAM;
 	mBuffer[1] = mCH341A_CMD_I2C_STM_OUT;
-	mBuffer[2] = outByte;
+	mBuffer[2] = outByte;	// I2C address, shifted
 	mBuffer[3] = mCH341A_CMD_I2C_STM_END;
 	mLength = 4;
 	mInLen = 0;
-	if (CH341WriteRead( index, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mBuffer )) {
-		if (mInLen && (mBuffer[mInLen - 1] & 0x80) == 0)
+	uint8_t mInBuf[16] = {0};
+	/** \todo Weird/unexpected: despite mInLen = 0, ACK/output is written to mInBuf
+	*/
+	if (CH341WriteRead( index, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mInBuf )) {
+		if (mInLen && (mInBuf[mInLen - 1] & 0x80) == 0)
 			return 0;
 	}
 	return -1;
