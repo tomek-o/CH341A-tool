@@ -59,7 +59,7 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		text.cat_printf("    PRIMARY BATTERY: %d\r\n", (data & MODE_PRIMARY_BATTERY)?1:0);
 		text.cat_printf("    ALARM broadcasts: %d\r\n", (data & MODE_ALARM)?1:0);
 		text.cat_printf("    CHARGER broadcasts: %d\r\n", (data & MODE_CHARGER)?1:0);
-		text.cat_printf("    CAPACITY: x%d\r mA/mAh\n", (data & MODE_CAPACITY)?10:1);
+		text.cat_printf("    CAPACITY mode: x%d\r mA/mAh\n", (data & MODE_CAPACITY)?10:1);
 	}
 
 	status = ch341a.I2CWriteCommandReadWord(address, CMD_BATTERY_STATUS, data);

@@ -29,7 +29,6 @@ object frmCH341I2CSmartBatteryInfo: TfrmCH341I2CSmartBatteryInfo
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 0
-    ExplicitTop = 39
   end
   object pnlTop: TPanel
     Left = 0
@@ -38,9 +37,6 @@ object frmCH341I2CSmartBatteryInfo: TfrmCH341I2CSmartBatteryInfo
     Height = 41
     Align = alTop
     TabOrder = 1
-    ExplicitLeft = 296
-    ExplicitTop = -7
-    ExplicitWidth = 185
     object lblI2CAddress: TLabel
       Left = 193
       Top = 13
@@ -68,7 +64,7 @@ object frmCH341I2CSmartBatteryInfo: TfrmCH341I2CSmartBatteryInfo
       Font.Height = -11
       Font.Name = 'Courier New'
       Font.Style = []
-      ItemHeight = 0
+      ItemHeight = 14
       ParentFont = False
       TabOrder = 1
     end

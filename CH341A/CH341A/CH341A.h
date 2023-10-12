@@ -37,7 +37,11 @@ public:
 
 	int I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t *readBuffer, unsigned int readCount);
 
+	/** Separate address (7-bit) from write buffer, check for ACK after address */
+	int I2CWriteRead2(uint8_t addr, uint8_t *writeBuffer, unsigned int writeCount, uint8_t *readBuffer, unsigned int readCount);
+
 	int I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &data);
+	int I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &data);
 
 private:
 	int index;

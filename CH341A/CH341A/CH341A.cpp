@@ -116,25 +116,30 @@ int CH341A::I2CIssueStop(void)
 	return CH341WriteData(index, mBuffer, &mLength) != true;
 }
 
+// Output one byte of data and check whether the response is valid
 int CH341A::I2COutByteCheckAck(uint8_t outByte)
 {
 	uint8_t mBuffer[mCH341_PACKET_LENGTH];
 	unsigned long mLength, mInLen;
 	mBuffer[0] = mCH341A_CMD_I2C_STREAM;
-	mBuffer[1] = mCH341A_CMD_I2C_STM_OUT;
-	mBuffer[2] = outByte;	// I2C address, shifted
-	mBuffer[3] = mCH341A_CMD_I2C_STM_END;
+	mBuffer[1] = mCH341A_CMD_I2C_STM_OUT;	// Output data, bit 5-bit 0 is the length, if the length is 0, only one byte is sent and a response is returned
+	mBuffer[2] = outByte;					// I2C address, shifted
+	mBuffer[3] = mCH341A_CMD_I2C_STM_END;	// The current packet ends early
 	mLength = 4;
 	mInLen = 0;
 	uint8_t mInBuf[16] = {0};
-	/** \todo Weird/unexpected: despite mInLen = 0, ACK/output is written to mInBuf
+	/** \todo 	Weird/unexpected: despite setting mInLen = 0, CH341 API sets mInLen = 1
+				and ACK/output is written to mInBuf
 	*/
 	if (CH341WriteRead( index, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mInBuf )) {
+		// Bit 7 of the returned data represents the ACK response bit, ACK=0 is valid	
 		if (mInLen && (mInBuf[mInLen - 1] & 0x80) == 0)
 			return 0;
 	}
 	return -1;
 }
+
+
 
 int CH341A::I2CCheckDev(uint8_t addr)
 {
@@ -183,12 +188,58 @@ int CH341A::I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t 
 	if (readCount == 0)
 		readBuffer = NULL;
 
+	/** \todo CH341StreamI2C is not failing if target device is not connected to I2C,
+	returning series of 0xFF bytes. Same goes for CH341PAR.exe from CH341 EVT package.
+	*/
 	if (CH341StreamI2C(index, writeCount, writeBuffer, readCount, readBuffer))
 	{
 		return 0;
 	}
 	readCount = 0;
 	return -2;
+}
+
+int CH341A::I2CWriteRead2(uint8_t addr, uint8_t *writeBuffer, unsigned int writeCount, uint8_t *readBuffer, unsigned int readCount)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+
+	uint8_t addrBuf;
+	if (addr >= 0x80)
+	{
+		LOG("I2CWriteRead2: invalid I2C address (%u)\n", static_cast<unsigned int>(addr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	addrBuf = (addr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+
+	uint8_t mBuffer[mCH341_PACKET_LENGTH];
+	unsigned long mLength, mInLen;
+	unsigned int mBufferPos;
+	uint8_t mInBuf[16] = {0};
+
+	mBufferPos = 0;
+	mBuffer[mBufferPos++] = mCH341A_CMD_I2C_STREAM;
+	mBuffer[mBufferPos++] = mCH341A_CMD_I2C_STM_OUT;	// Output data, bit 5-bit 0 is the length, if the length is 0, only one byte is sent and a response is returned
+	mBuffer[mBufferPos++] = addrBuf;					// I2C address, shifted
+	mLength = mBufferPos++;
+	mInLen = 0;
+	if (CH341WriteRead( index, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mInBuf )) {
+		// Bit 7 of the returned data represents the ACK response bit, ACK=0 is valid
+		if (mInLen && (mInBuf[mInLen - 1] & 0x80) != 0) {
+			LOG("I2CWriteRead2: no ACK after adress is sent!\n");
+			return -3;
+		}
+	}
+
+	return I2CWriteRead(writeBuffer, writeCount, readBuffer, readCount);
 }
 
 int CH341A::I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &data)
@@ -211,6 +262,18 @@ int CH341A::I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &d
 
 	unsigned int readCount = sizeof(data);
 	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), (uint8_t*)&data, readCount);
+}
+
+int CH341A::I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &data)
+{
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadWord: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+
+	unsigned int readCount = sizeof(data);
+	return I2CWriteRead2(i2cAddr, &command, sizeof(command), (uint8_t*)&data, readCount);
 }
 
 
@@ -255,12 +318,72 @@ PUCHAR oInByte)             // points to a byte buffer is read back after the I 
 																// execute the command stream, and then input the first output
 	if (CH341WriteRead (iIndex, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, & mInLen, mBuffer)) {
 		if (mInLen) {
-		*OInByte = mBuffer[mInLen - 1]; // return the data
-		return (TRUE);
+			*OInByte = mBuffer[mInLen - 1]; // return the data
+			return (TRUE);
 		}
 	}
 	return (FALSE);
 }
+
+
+BOOL WINAPI IIC_OutBlockSkipAck(ULONG iIndex, //Specify CH341 device serial number
+	ULONG iOutLength, //The number of data bytes to be written, must be less than 29 bytes at a time
+	PVOID iOutBuffer ) // Points to a buffer to place the data to be written out
+{
+	UCHAR mBuffer[mCH341_PACKET_LENGTH];
+	ULONGmLength;
+	if ( iOutLength == 0 || iOutLength > ( mCH341_PACKET_LENGTH - 1 - 1 - 1 ) )
+		return( FALSE );
+	mBuffer[ 0 ] = mCH341A_CMD_I2C_STREAM; // Command code
+	mBuffer[ 1 ] = (UCHAR)( mCH341A_CMD_I2C_STM_OUT | iOutLength ); // Output data, bit 5-bit 0 is the length
+	memcpy( &mBuffer[2], iOutBuffer, iOutLength ); // data
+	mBuffer[ 1 + 1 + iOutLength ] = mCH341A_CMD_I2C_STM_END; // The current packet ends early
+	mLength = 1 + 1 + iOutLength + 1;
+	return( CH341WriteData( iIndex, mBuffer, &mLength ) ); // Write out the data block
+}
+
+BOOL WINAPI IIC_InBlockByAck( //Input data block, each input byte will generate a valid response
+	ULONG iIndex, //Specify CH341 device serial number
+	ULONG iInLength, //The number of data bytes to be read must be less than 32 bytes at a time
+	PVOID oInBuffer ) // Points to a buffer, and returns the read data
+{
+	UCHAR mBuffer[mCH341_PACKET_LENGTH];
+	ULONG mLength, mInLen;
+	if ( iInLength == 0 || iInLength > mCH341A_CMD_I2C_STM_MAX ) return( FALSE );
+	mBuffer[ 0 ] = mCH341A_CMD_I2C_STREAM; // Command code
+	mBuffer[ 1 ] = (UCHAR)( mCH341A_CMD_I2C_STM_IN | iInLength ); //Input data, bit 5-bit 0 is the length
+	mBuffer[ 2 ] = mCH341A_CMD_I2C_STM_END; // The current packet ends early
+	mLength = 3;
+	mInLen = 0;
+	if ( CH341WriteRead( iIndex, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mBuffer ) ) { // Execute the data flow command, output first and then input
+		if ( mInLen == iInLength ) {
+			memcpy( oInBuffer, &mBuffer[0], iInLength ); // data
+			return(TRUE);
+		}
+	}
+	return(FALSE);
+}
+
+BOOL WINAPI IIC_InByteNoAck( // Input one byte of data, but no response is generated
+	ULONG iIndex, //Specify CH341 device serial number
+	PUCHAR oInByte ) // Points to a byte buffer, and returns the read data
+{
+	UCHAR mBuffer[mCH341_PACKET_LENGTH];
+	ULONG mLength, mInLen;
+	mBuffer[ 0 ] = mCH341A_CMD_I2C_STREAM; // Command code
+	mBuffer[ 1 ] = mCH341A_CMD_I2C_STM_IN; // Input data, bit 5-bit 0 is the length, if the length is 0, only one byte will be received and no response will be sent.
+	mBuffer[ 2 ] = mCH341A_CMD_I2C_STM_END; // The current packet ends early
+	mLength = 3;
+	mInLen = 0;
+	if ( CH341WriteRead( iIndex, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mBuffer ) ) { // Execute the data flow command, output first and then input
+		if ( mInLen ) {
+			*oInByte = mBuffer[ mInLen - 1 ]; // data
+			return(TRUE);
+		}
+	}
+	return(FALSE);
+}
+
 #endif
 
 

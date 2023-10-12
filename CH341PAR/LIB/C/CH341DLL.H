@@ -72,7 +72,7 @@ typedef	struct	_WIN32_COMMAND {				// Define the WIN32 command interface structu
 	ULONG			mLength;					// Access length, returns the length of subsequent data
 	union	{
 		mUSB_SETUP_PKT	mSetupPkt;				// Data request during the establishment phase of USB control transfer
-		UCHAR			mBuffer[ mCH341_PACKET_LENGTH ];	// Data buffer, length 0 to 255B
+		UCHAR			mBuffer[ mCH341_PACKET_LENGTH ];	// Data buffer, length 0 to 255B - nonsense?
 	};
 } mWIN32_COMMAND, *mPWIN32_COMMAND;
 
