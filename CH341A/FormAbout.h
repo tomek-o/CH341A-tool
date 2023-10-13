@@ -22,16 +22,23 @@ __published:
 	TPanel *Panel1;
 	TImage *ProgramIcon;
 	TLabel *ProductName;
-	TLabel *Version;
-	TLabel *Copyright;
 	TButton *OKButton;
 	TLabel *lblVersion;
-	TLabel *lblInfo1;
-	TLabel *lblInfo2;
-	TLabel *lblInfo3;
+	TLabel *lblUrl;
 	TLabel *lblBuilt;
 	TLabel *lblBuildTimestamp;
-	void __fastcall lblInfo2Click(TObject *Sender);
+	TMemo *Memo;
+	TLabel *lblBaresipLicense;
+	TLabel *lblCodeguard;
+	TLabel *lblCodeGuardState;
+	TLabel *lblDebug;
+	TLabel *lblDebugState;
+	TLabel *lblExeLocation;
+	TLabel *lblLocation;
+	TLabel *lblBuildConfig;
+	void __fastcall lblUrlClick(TObject *Sender);
+	void __fastcall lblCodeGuardStateClick(TObject *Sender);
+	void __fastcall lblExeLocationClick(TObject *Sender);
 	void __fastcall FormKeyPress(TObject *Sender, char &Key);
 private:
 public:

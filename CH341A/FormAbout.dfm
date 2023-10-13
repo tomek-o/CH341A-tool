@@ -3,31 +3,32 @@ object frmAbout: TfrmAbout
   Top = 108
   BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 213
-  ClientWidth = 298
+  ClientHeight = 408
+  ClientWidth = 537
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 8
-    Top = 8
-    Width = 281
-    Height = 161
+    Left = 0
+    Top = 0
+    Width = 537
+    Height = 369
     BevelInner = bvRaised
     BevelOuter = bvLowered
     ParentColor = True
     TabOrder = 0
     object ProgramIcon: TImage
-      Left = 10
-      Top = 11
+      Left = 8
+      Top = 10
       Width = 48
       Height = 48
       Picture.Data = {
@@ -250,15 +251,16 @@ object frmAbout: TfrmAbout
         0000000000000000000000000000000000000000000000000000000000000000
         00000000000000000000FF3E31FF3E31FF3E31FF3E31FF3E31FF3E31FF3E3100
         0000}
+      Stretch = True
       Transparent = True
       IsControl = True
     end
     object ProductName: TLabel
       Left = 88
       Top = 8
-      Width = 77
+      Width = 45
       Height = 13
-      Caption = 'ProductName'
+      Caption = 'Product'
       FocusControl = OKButton
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -268,43 +270,30 @@ object frmAbout: TfrmAbout
       ParentFont = False
       IsControl = True
     end
-    object Version: TLabel
-      Left = 88
-      Top = 27
-      Width = 35
-      Height = 13
-      Caption = 'Version'
-      IsControl = True
-    end
     object Copyright: TLabel
       Left = 8
-      Top = 80
-      Width = 172
+      Top = 325
+      Width = 368
       Height = 13
-      Caption = 'Copyright '#169' Tomasz Ostrowski 2023'
+      Caption = 
+        'Copyright '#169'  2023 Tomasz Ostrowski, distributed under BSD 3-Clau' +
+        'se License'
       IsControl = True
     end
     object lblVersion: TLabel
-      Left = 146
-      Top = 27
+      Left = 159
+      Top = 8
       Width = 45
       Height = 13
       Caption = 'lblVersion'
     end
-    object lblInfo1: TLabel
+    object lblUrl: TLabel
       Left = 8
-      Top = 136
-      Width = 19
-      Height = 13
-      Caption = 'Visit'
-    end
-    object lblInfo2: TLabel
-      Left = 33
-      Top = 136
-      Width = 84
+      Top = 344
+      Width = 94
       Height = 13
       Cursor = crHandPoint
-      Caption = 'http://tomeko.net'
+      Caption = 'https://tomeko.net/'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
@@ -313,35 +302,159 @@ object frmAbout: TfrmAbout
       Font.Style = [fsUnderline]
       ParentColor = False
       ParentFont = False
-      OnClick = lblInfo2Click
-    end
-    object lblInfo3: TLabel
-      Left = 123
-      Top = 136
-      Width = 150
-      Height = 13
-      Caption = 'for updates and documentation.'
+      OnClick = lblUrlClick
     end
     object lblBuilt: TLabel
       Left = 88
-      Top = 46
+      Top = 27
       Width = 20
       Height = 13
       Caption = 'Built'
       IsControl = True
     end
     object lblBuildTimestamp: TLabel
-      Left = 146
-      Top = 46
+      Left = 159
+      Top = 27
       Width = 84
       Height = 13
       Caption = 'lblBuildTimestamp'
       IsControl = True
     end
+    object lblBaresipLicense: TLabel
+      Left = 8
+      Top = 84
+      Width = 302
+      Height = 13
+      Caption = 
+        'This application is using source code from the following project' +
+        's:'
+    end
+    object lblCodeguard: TLabel
+      Left = 252
+      Top = 46
+      Width = 54
+      Height = 13
+      Caption = 'CodeGuard'
+      IsControl = True
+    end
+    object lblCodeGuardState: TLabel
+      Left = 312
+      Top = 46
+      Width = 16
+      Height = 13
+      Caption = 'NO'
+      OnClick = lblCodeGuardStateClick
+      IsControl = True
+    end
+    object lblDebug: TLabel
+      Left = 159
+      Top = 46
+      Width = 32
+      Height = 13
+      Caption = 'Debug'
+      IsControl = True
+    end
+    object lblDebugState: TLabel
+      Left = 197
+      Top = 46
+      Width = 16
+      Height = 13
+      Caption = 'NO'
+      IsControl = True
+    end
+    object lblExeLocation: TLabel
+      Left = 159
+      Top = 65
+      Width = 368
+      Height = 13
+      Cursor = crHandPoint
+      AutoSize = False
+      Caption = 'D:\progs\...'
+      Color = clBtnFace
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsUnderline]
+      ParentColor = False
+      ParentFont = False
+      OnClick = lblExeLocationClick
+    end
+    object lblLocation: TLabel
+      Left = 88
+      Top = 65
+      Width = 41
+      Height = 13
+      Caption = 'Location'
+      IsControl = True
+    end
+    object lblBuildConfig: TLabel
+      Left = 88
+      Top = 46
+      Width = 55
+      Height = 13
+      Caption = 'Build config'
+      IsControl = True
+    end
+    object Memo: TMemo
+      Left = 8
+      Top = 103
+      Width = 519
+      Height = 216
+      Color = clBtnFace
+      Lines.Strings = (
+        
+          '================================================================' +
+          '============='#10
+        'json-cpp license:'#10
+        
+          '================================================================' +
+          '============='#10#13#10#10
+        ''
+        
+          'The JsonCpp library'#39's source code, including accompanying docume' +
+          'ntation, tests and demonstration '
+        'applications, are licensed under the following conditions...'#10#13#10#10
+        ''
+        
+          'The author (Baptiste Lepilleur) explicitly disclaims copyright i' +
+          'n all jurisdictions which recognize such a '
+        
+          'disclaimer. In such jurisdictions, this software is released int' +
+          'o the Public Domain.'#10#13#10#10
+        ''
+        
+          'In jurisdictions which do not recognize Public Domain property (' +
+          'e.g. Germany as of 2010), this software is '
+        
+          'Copyright (c) 2007-2010 by Baptiste Lepilleur, and is released u' +
+          'nder the terms of the MIT License.'#10#13#10#10
+        ''
+        
+          'In jurisdictions which recognize Public Domain property, the use' +
+          'r of this software may choose to accept it '
+        
+          'either as 1) Public Domain, 2) under the conditions of the MIT L' +
+          'icense (see below), or 3) under the terms '
+        
+          'of dual Public Domain/MIT License conditions described here, as ' +
+          'they choose.'#10#13#10#10
+        ''
+        
+          'The MIT License is about as close to Public Domain as a license ' +
+          'can get, and is described in clear, '
+        'concise terms at:'#10#13#10#10
+        ''
+        '   http://en.wikipedia.org/wiki/MIT_License '#10
+        '')
+      ReadOnly = True
+      ScrollBars = ssVertical
+      TabOrder = 0
+    end
   end
   object OKButton: TButton
-    Left = 111
-    Top = 180
+    Left = 227
+    Top = 375
     Width = 75
     Height = 25
     Caption = 'OK'
