@@ -7,6 +7,7 @@
 #include "Log.h"
 #include <windows.h>
 #include "CH341PAR/LIB/C/CH341DLL.h"
+#include <System.hpp>
 
 //---------------------------------------------------------------------------
 
@@ -28,9 +29,23 @@ int CH341A::Open(int index)
 
 	HANDLE handle = CH341OpenDevice(index);
 	if (handle == INVALID_HANDLE_VALUE)
+	{
+		LOG("Failed to open CH341A\n");
 		return -1;
+	}
 
 	this->index = index;
+
+	ULONG ver = CH341GetVerIC(index);
+	AnsiString chipVer;
+	if (ver == IC_VER_CH341A) {
+		chipVer.sprintf("0x%08X (CH341A)", ver);
+	} else if (ver == IC_VER_CH341A3) {
+		chipVer.sprintf("0x%08X (CH341A3)", ver);
+	} else {
+		chipVer.sprintf("0x%08X (unknown)", ver);
+	}
+	LOG("CH341A opened, chip version %s\n", chipVer.c_str());
 
 	return 0;
 }
@@ -276,6 +291,33 @@ int CH341A::I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &
 	return I2CWriteRead2(i2cAddr, &command, sizeof(command), (uint8_t*)&data, readCount);
 }
 
+int CH341A::SetGpioOutputs(uint32_t direction, uint32_t dataOut)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	if (CH341SetOutput(index, 0xFFFFFFFF, direction, dataOut))
+		return 0;
+	return -2;
+}
+
+int CH341A::GetGpioInputs(uint32_t &dataIn)
+{
+	dataIn = 0;
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	unsigned long val = 0;
+	if (CH341GetInput(index, &val))
+	{
+		dataIn = val;
+		return 0;
+	}
+	return -2;
+}
+
 
 #if 0
 BOOL WINAPI PCF8574_WriteIO (// output the PCF8574 I / O
@@ -383,6 +425,16 @@ BOOL WINAPI IIC_InByteNoAck( // Input one byte of data, but no response is gener
 	}
 	return(FALSE);
 }
+
+// UIO example CH341Set_D5_D0
+mBuffer[0] = mCH341A_CMD_UIO_STREAM;
+mBuffer[1] = (UCHAR)( mCH341A_CMD_UIO_STM_OUT | iSetDataOut & 0x3F ); // Output data D5 -D0, bit 5-bit 0 is the data
+mBuffer[2] = (UCHAR)( mCH341A_CMD_UIO_STM_DIR | iSetDirOut & 0x3F ); // Set the I/O direction D5-D0, bit 5-bit 0 is the direction data
+mBuffer[3. .n-1] = (UCHAR)( mCH341A_CMD_UIO_STM_OUT | iSetDataOut & 0x3F ); // Repeat the waveform
+mBuffer[n] = mCH341A_CMD_UIO_STM_END; // The command package ends early
+mLength = n+1;
+if ( CH341WriteData( iIndex, mBuffer , &mLength ) ) { // Write out the data block
+
 
 #endif
 

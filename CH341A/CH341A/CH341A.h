@@ -43,6 +43,8 @@ public:
 	int I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &data);
 	int I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &data);
 
+	int SetGpioOutputs(uint32_t direction, uint32_t dataOut);
+	int GetGpioInputs(uint32_t &dataIn);
 private:
 	int index;
 };

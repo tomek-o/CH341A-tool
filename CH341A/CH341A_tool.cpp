@@ -11,6 +11,7 @@ USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("LogUnit.cpp", frmLog);
 USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
+USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -29,6 +30,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
 		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
 		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);
+		Application->CreateForm(__classid(TfrmCH341Gpio), &frmCH341Gpio);
 		Application->Run();
 	}
 	catch (Exception &exception)
