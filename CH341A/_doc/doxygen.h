@@ -6,7 +6,7 @@
 */
 
 /**
-\mainpage Welcome to ...!
+\mainpage CH341 tool
 
 \section intro_sec Introduction
 

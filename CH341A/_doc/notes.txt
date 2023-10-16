@@ -1,0 +1,5 @@
+CS0 is not working as input by default
+
+inputs seems to have pull-ups
+
+on the popular CH341A-based programmer "RUN" LED is connected to SDA and CS0, active low
