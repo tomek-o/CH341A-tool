@@ -4,6 +4,7 @@
 #define CH341AH
 //---------------------------------------------------------------------------
 
+#include "CH341AConf.h"
 #include <stdint.h>
 
 class CH341A
@@ -16,7 +17,7 @@ public:
 	{
 	}
 	~CH341A(void);
-	int Open(int index);
+	int Open(int index, const CH341AConf &cfg);
 	void Close(void);
 	bool IsOpened(void) const {
 		return (index != INVALID_INDEX);

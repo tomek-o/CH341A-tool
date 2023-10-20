@@ -25,6 +25,10 @@ __published:	// IDE-managed Components
 	TLabel *lblUiCapacity;
 	TComboBox *cmbMaxUiLogLines;
 	TCheckBox *chbLogToFile;
+	TTabSheet *tsCH341A;
+	TLabel *lblI2CSpeed;
+	TComboBox *cbI2CSpeed;
+	TLabel *Label1;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall btnCancelClick(TObject *Sender);
 	void __fastcall btnApplyClick(TObject *Sender);

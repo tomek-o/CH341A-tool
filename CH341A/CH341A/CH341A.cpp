@@ -8,6 +8,7 @@
 #include <windows.h>
 #include "CH341PAR/LIB/C/CH341DLL.h"
 #include <System.hpp>
+#include <assert.h>
 
 //---------------------------------------------------------------------------
 
@@ -20,7 +21,7 @@ CH341A::~CH341A(void)
 	Close();
 }
 
-int CH341A::Open(int index)
+int CH341A::Open(int index, const CH341AConf &cfg)
 {
 	if (this->index != INVALID_INDEX)
 	{
@@ -46,6 +47,36 @@ int CH341A::Open(int index)
 		chipVer.sprintf("0x%08X (unknown)", ver);
 	}
 	LOG("CH341A opened, chip version %s\n", chipVer.c_str());
+
+	bool res;
+	ULONG iMode = 0;
+
+    LOG("Setting I2C speed to [%s]\n", CH341AConf::getI2CSpeedDescription(cfg.i2cSpeed));
+	switch (cfg.i2cSpeed)
+	{
+	case CH341AConf::I2C_SPEED_20K:
+		break;
+	case CH341AConf::I2C_SPEED_100K:
+		iMode |= 0x01;
+		break;
+	case CH341AConf::I2C_SPEED_400K:
+		iMode |= 0x02;
+		break;
+	case CH341AConf::I2C_SPEED_750K:
+		iMode |= 0x03;
+		break;
+	default:
+		assert(!"Unhandled I2C speed mode!");
+	}
+
+	res = CH341SetStream(index, iMode);
+	if (res == false)
+	{
+		LOG("CH341A: failed to set stream configuration!\n");
+		CH341CloseDevice(index);	
+		index = INVALID_INDEX;		
+		return -2;
+	}
 
 	return 0;
 }

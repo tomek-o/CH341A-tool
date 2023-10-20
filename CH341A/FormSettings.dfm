@@ -5,7 +5,7 @@ object frmSettings: TfrmSettings
   BorderStyle = bsSingle
   Caption = 'Settings'
   ClientHeight = 251
-  ClientWidth = 341
+  ClientWidth = 357
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,13 +21,14 @@ object frmSettings: TfrmSettings
   object pnlBottom: TPanel
     Left = 0
     Top = 214
-    Width = 341
+    Width = 357
     Height = 37
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitWidth = 341
     object btnCancel: TButton
-      Left = 258
+      Left = 274
       Top = 6
       Width = 75
       Height = 25
@@ -36,7 +37,7 @@ object frmSettings: TfrmSettings
       OnClick = btnCancelClick
     end
     object btnApply: TButton
-      Left = 177
+      Left = 193
       Top = 6
       Width = 75
       Height = 25
@@ -48,13 +49,45 @@ object frmSettings: TfrmSettings
   object pages: TPageControl
     Left = 0
     Top = 0
-    Width = 341
+    Width = 357
     Height = 214
-    ActivePage = tsGeneral
+    ActivePage = tsCH341A
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 341
+    object tsCH341A: TTabSheet
+      Caption = 'CH341A'
+      ImageIndex = 2
+      ExplicitWidth = 333
+      object lblI2CSpeed: TLabel
+        Left = 0
+        Top = 6
+        Width = 49
+        Height = 13
+        Caption = 'I2C speed'
+      end
+      object Label1: TLabel
+        Left = 3
+        Top = 170
+        Width = 332
+        Height = 13
+        Caption = 
+          'Note: CH341A settings are updated after device is opened/reopene' +
+          'd'
+      end
+      object cbI2CSpeed: TComboBox
+        Left = 72
+        Top = 3
+        Width = 145
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 0
+      end
+    end
     object tsGeneral: TTabSheet
       Caption = 'General'
+      ExplicitWidth = 333
       object chbAlwaysOnTop: TCheckBox
         Left = 3
         Top = 3
@@ -68,10 +101,7 @@ object frmSettings: TfrmSettings
     object tsLogging: TTabSheet
       Caption = 'Logging'
       ImageIndex = 1
-      ExplicitLeft = 8
-      ExplicitTop = 22
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 333
       object lblUiCapacity: TLabel
         Left = 5
         Top = 26
@@ -85,7 +115,7 @@ object frmSettings: TfrmSettings
         Width = 111
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = cmbMaxUiLogLinesChange
         Items.Strings = (

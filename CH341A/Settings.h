@@ -7,6 +7,8 @@
 //---------------------------------------------------------------------------
 #include <System.hpp>
 
+#include "CH341A/CH341AConf.h"
+
 class Settings
 {
 public:
@@ -40,6 +42,8 @@ public:
 		int iMaxFileSize;
 		unsigned int iMaxUiLogLines;
 	} Logging;
+
+	CH341AConf ch341a;
 };
 
 extern Settings appSettings;

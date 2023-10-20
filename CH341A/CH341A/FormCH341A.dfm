@@ -22,9 +22,6 @@ object frmCH341A: TfrmCH341A
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitLeft = 400
-    ExplicitTop = 40
-    ExplicitWidth = 185
     object btnClose: TButton
       Left = 118
       Top = 9
@@ -66,10 +63,6 @@ object frmCH341A: TfrmCH341A
     Height = 297
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 272
-    ExplicitTop = 128
-    ExplicitWidth = 289
-    ExplicitHeight = 193
   end
   object tmrStartup: TTimer
     Interval = 200

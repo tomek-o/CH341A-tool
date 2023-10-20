@@ -5,6 +5,7 @@
 
 #include "FormCH341A.h"
 #include "CH341A.h"
+#include "Settings.h"
 #include "TabManager.h"
 #include <vector>
 //---------------------------------------------------------------------------
@@ -21,7 +22,7 @@ void __fastcall TfrmCH341A::btnOpenClick(TObject *Sender)
 {
 	const int devIndex = 0;
 
-	int status = ch341a.Open(devIndex);
+	int status = ch341a.Open(devIndex, appSettings.ch341a);
 	if (status != 0)
 	{
 		MessageBox(this->Handle, "Could not open CH341A device", this->Caption.c_str(), MB_ICONEXCLAMATION);
