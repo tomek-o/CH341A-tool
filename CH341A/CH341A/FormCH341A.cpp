@@ -7,21 +7,21 @@
 #include "CH341A.h"
 #include "Settings.h"
 #include "TabManager.h"
+#include "Log.h"
 #include <vector>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 //---------------------------------------------------------------------------
 __fastcall TfrmCH341A::TfrmCH341A(TComponent* Owner)
-	: TForm(Owner)
+	: TForm(Owner),
+	devIndex(0)
 {
 	TabManager::Instance().Configure(pages, tvTools);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341A::btnOpenClick(TObject *Sender)
 {
-	const int devIndex = 0;
-
 	int status = ch341a.Open(devIndex, appSettings.ch341a);
 	if (status != 0)
 	{
@@ -58,6 +58,24 @@ void __fastcall TfrmCH341A::tmrStartupTimer(TObject *Sender)
 	{
 		tvTools->Items->Item[0]->Selected = true;
 		tvToolsChange(NULL, tvTools->Items->Item[0]);
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341A::FormShow(TObject *Sender)
+{
+	if (appSettings.ch341a.openAtStartup)
+	{
+		int status = ch341a.Open(devIndex, appSettings.ch341a);
+		if (status != 0)
+		{
+			LOG("Could not open CH341A device at startup", this->Caption.c_str(), MB_ICONEXCLAMATION);
+		}
+		else
+		{
+			btnOpen->Enabled = false;
+			btnClose->Enabled = true;
+		}
 	}
 }
 //---------------------------------------------------------------------------

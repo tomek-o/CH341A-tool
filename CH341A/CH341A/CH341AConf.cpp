@@ -32,16 +32,18 @@ void CH341AConf::fromJson(const Json::Value &jv)
 {
 	if (jv.type() != Json::objectValue)
 		return;
+	jv.getBool("openAtStartup", openAtStartup);
 	int tmp = i2cSpeed;
 	jv.getInt("i2cSpeed", tmp);
 	if (tmp >= 0 && tmp < I2C_SPEED__LIMITER)
 	{
-    	i2cSpeed = static_cast<I2CSpeed>(tmp);
+		i2cSpeed = static_cast<I2CSpeed>(tmp);
 	}
 }
 
 void CH341AConf::toJson(Json::Value &jv) const
 {
 	jv = Json::Value(Json::objectValue);
+	jv["openAtStartup"] = openAtStartup;
 	jv["i2cSpeed"] = i2cSpeed;
 }

@@ -28,7 +28,8 @@ __published:	// IDE-managed Components
 	TTabSheet *tsCH341A;
 	TLabel *lblI2CSpeed;
 	TComboBox *cbI2CSpeed;
-	TLabel *Label1;
+	TLabel *lblCH341ANote;
+	TCheckBox *chbCH341AOpenAtStartup;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall btnCancelClick(TObject *Sender);
 	void __fastcall btnApplyClick(TObject *Sender);

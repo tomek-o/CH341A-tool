@@ -11,6 +11,8 @@ namespace Json
 
 struct CH341AConf
 {
+	bool openAtStartup;
+
 	enum I2CSpeed {
 		I2C_SPEED_20K = 0,
 		I2C_SPEED_100K,
@@ -22,6 +24,7 @@ struct CH341AConf
 	static const char* getI2CSpeedDescription(enum I2CSpeed val);
 
 	CH341AConf(void):
+		openAtStartup(true),
 		i2cSpeed(I2C_SPEED_20K)
 	{}
 

@@ -44,6 +44,8 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
 		cmbMaxUiLogLines->ItemHeight = cmbMaxUiLogLines->Items->Count - 1;
 	}
 
+	chbCH341AOpenAtStartup->Checked = tmpSettings.ch341a.openAtStartup;
+
 	if (tmpSettings.ch341a.i2cSpeed < 0 || tmpSettings.ch341a.i2cSpeed >= cbI2CSpeed->Items->Count)
 	{
 		LOG("I2C speed index out of range!\n");
@@ -62,6 +64,8 @@ void __fastcall TfrmSettings::btnCancelClick(TObject *Sender)
 void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
 {
 	tmpSettings.Logging.bLogToFile = chbLogToFile->Checked;
+
+	tmpSettings.ch341a.openAtStartup = chbCH341AOpenAtStartup->Checked;
 
 	tmpSettings.ch341a.i2cSpeed = static_cast<CH341AConf::I2CSpeed>(cbI2CSpeed->ItemIndex);
 

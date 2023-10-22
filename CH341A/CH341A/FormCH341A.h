@@ -25,8 +25,9 @@ __published:	// IDE-managed Components
 	void __fastcall btnCloseClick(TObject *Sender);
 	void __fastcall tvToolsChange(TObject *Sender, TTreeNode *Node);
 	void __fastcall tmrStartupTimer(TObject *Sender);
+	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
-
+	const int devIndex;
 public:		// User declarations
 	__fastcall TfrmCH341A(TComponent* Owner);
 };
