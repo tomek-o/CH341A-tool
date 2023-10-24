@@ -44,6 +44,15 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 	AnsiString text;
 	int16_t data = 0;
 
+	// controller can get into sleep mode?
+	for (unsigned int i=0; i<3; i++)
+	{
+		status = ch341a.I2COutByteCheckAck(address);
+		if (status == 0)
+			break;
+		Sleep(5);
+	}
+
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_BATTERY_MODE, data);
 	if (status != 0)
 	{
@@ -109,14 +118,35 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		AnsiString str;
 		status = ReadString(address, SmartBattery::CMD_MANUFACTURER_NAME, str);
 		if (status != 0)
-		{
 			text += "Error on CMD_MANUFACTURER_NAME\r\n";
-		}
 		else
-		{
 			text.cat_printf("Manufacturer name: %s\r\n", str.c_str());
-		}
 	}
+
+	{
+		AnsiString str;
+		status = ReadString(address, SmartBattery::CMD_DEVICE_NAME, str);
+		if (status != 0)
+			text += "Error on CMD_DEVICE_NAME\r\n";
+		else
+			text.cat_printf("Device name: %s\r\n", str.c_str());
+	}
+
+	{
+		AnsiString str;
+		status = ReadString(address, SmartBattery::CMD_CELL_CHEMISTRY, str);
+		if (status != 0)
+			text += "Error on CMD_CELL_CHEMISTRY\r\n";
+		else
+			text.cat_printf("Device chemistry: %s\r\n", str.c_str());
+	}
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_STATE_OF_HEALTH, data);
+	if (status != 0)
+		text += "Error on CMD_STATE_OF_HEALTH\r\n";
+	else
+		text.cat_printf("Health: %d%%\r\n", static_cast<int>(data));
+
 
 	memoInfo->Text = text;
 }
