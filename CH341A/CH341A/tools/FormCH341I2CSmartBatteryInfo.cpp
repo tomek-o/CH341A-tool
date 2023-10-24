@@ -99,9 +99,49 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 	}
 	else
 	{
-		text.cat_printf("Mfg date: %d\r\n", static_cast<int>(data));
+		int day = data & 0x1F;
+		int month = (data >> 5) & 0x0F;
+		int year = 1980 + ((data >> 9) & 0x7F);
+		text.cat_printf("Mfg date: %04d.%02d.%02d (raw value: %d)\r\n", year, month, day, static_cast<int>(data));
+	}
+
+	{
+		AnsiString str;
+		status = ReadString(address, SmartBattery::CMD_MANUFACTURER_NAME, str);
+		if (status != 0)
+		{
+			text += "Error on CMD_MANUFACTURER_NAME\r\n";
+		}
+		else
+		{
+			text.cat_printf("Manufacturer name: %s\r\n", str.c_str());
+		}
 	}
 
 	memoInfo->Text = text;
 }
 //---------------------------------------------------------------------------
+
+int TfrmCH341I2CSmartBatteryInfo::ReadString(uint8_t address, uint8_t command, AnsiString &str)
+{
+	int status;
+	uint8_t len = 0;
+
+	str = "";
+
+	status = ch341a.I2CWriteCommandReadByte(address, command, len);
+	if (status != 0)
+	{
+		return status;
+	}
+
+	uint8_t buffer[257] = {0};
+	status = ch341a.I2CWriteCommandReadBuffer(address, command, buffer, len+1);	// read length (again) and data
+	if (status != 0)
+	{
+		return status;
+	}
+	str = reinterpret_cast<char*>(buffer+1);	// +1: skip length
+	return status;
+}
+

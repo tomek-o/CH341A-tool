@@ -19,6 +19,7 @@ __published:	// IDE-managed Components
 	TComboBox *cbI2CAddress;
 	void __fastcall btnReadInfoClick(TObject *Sender);
 private:	// User declarations
+	int ReadString(uint8_t address, uint8_t command, AnsiString &str);
 public:		// User declarations
 	__fastcall TfrmCH341I2CSmartBatteryInfo(TComponent* Owner);
 };

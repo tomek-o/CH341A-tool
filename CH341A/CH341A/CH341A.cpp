@@ -322,6 +322,50 @@ int CH341A::I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &
 	return I2CWriteRead2(i2cAddr, &command, sizeof(command), (uint8_t*)&data, readCount);
 }
 
+int CH341A::I2CWriteCommandReadByte(uint8_t i2cAddr, uint8_t command, uint8_t &data)
+{
+	uint8_t writeBuffer[2];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadByte: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+
+	unsigned int readCount = sizeof(data);
+	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), &data, readCount);
+}
+
+int CH341A::I2CWriteCommandReadBuffer(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int dataSize)
+{
+	uint8_t writeBuffer[2];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadBuffer: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+
+	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), data, dataSize);
+}
+
+
 int CH341A::SetGpioOutputs(uint32_t direction, uint32_t dataOut)
 {
 	if (index == INVALID_INDEX)
