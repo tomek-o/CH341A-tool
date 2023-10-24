@@ -7,6 +7,7 @@
 #include "CH341A.h"
 #include "SmartBattery.h"
 #include "TabManager.h"
+#include "Log.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -50,8 +51,11 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		status = ch341a.I2COutByteCheckAck(address);
 		if (status == 0)
 			break;
-		Sleep(5);
+		Sleep(10);
 	}
+	Sleep(10);
+
+	unsigned int capacityMode = 1;
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_BATTERY_MODE, data);
 	if (status != 0)
@@ -69,6 +73,8 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		text.cat_printf("    ALARM broadcasts: %d\r\n", (data & MODE_ALARM)?1:0);
 		text.cat_printf("    CHARGER broadcasts: %d\r\n", (data & MODE_CHARGER)?1:0);
 		text.cat_printf("    CAPACITY mode: x%d\r mA/mAh\r\n", (data & MODE_CAPACITY)?10:1);
+		if (data & MODE_CAPACITY)
+			capacityMode = 10;		
 	}
 
 	status = ch341a.I2CWriteCommandReadWord(address, CMD_BATTERY_STATUS, data);
@@ -89,29 +95,6 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		text.cat_printf("    DISCHARGING = %d\r\n", (data & STATUS_DISCHARGING)?1:0);
 		text.cat_printf("    FULLY CHARGED = %d\r\n", (data & STATUS_FULLY_CHARGED)?1:0);
 		text.cat_printf("    FULLY DISCHARGED = %d\r\n", (data & STATUS_FULLY_DISCHARGED)?1:0);
-	}
-
-	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_VOLTAGE, data);
-	if (status != 0)
-	{
-		text += "Error on CMD_VOLTAGE\r\n";
-	}
-	else
-	{
-		text.cat_printf("Voltage: %d mV\r\n", static_cast<int>(data));
-	}
-
-	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_MFG_DATE, data);
-	if (status != 0)
-	{
-		text += "Error on CMD_MFG_DATE\r\n";
-	}
-	else
-	{
-		int day = data & 0x1F;
-		int month = (data >> 5) & 0x0F;
-		int year = 1980 + ((data >> 9) & 0x7F);
-		text.cat_printf("Mfg date: %04d.%02d.%02d (raw value: %d)\r\n", year, month, day, static_cast<int>(data));
 	}
 
 	{
@@ -141,11 +124,52 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 			text.cat_printf("Device chemistry: %s\r\n", str.c_str());
 	}
 
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_MFG_DATE, data);
+	if (status != 0)
+	{
+		text += "Error on CMD_MFG_DATE\r\n";
+	}
+	else
+	{
+		int day = data & 0x1F;
+		int month = (data >> 5) & 0x0F;
+		int year = 1980 + ((data >> 9) & 0x7F);
+		text.cat_printf("Mfg date: %04d.%02d.%02d (raw value: %d)\r\n", year, month, day, static_cast<int>(data));
+	}	
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_VOLTAGE, data);
+	if (status != 0)
+	{
+		text += "Error on CMD_VOLTAGE\r\n";
+	}
+	else
+	{
+		text.cat_printf("Voltage: %d mV\r\n", static_cast<int>(data));
+	}
+
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_STATE_OF_HEALTH, data);
 	if (status != 0)
 		text += "Error on CMD_STATE_OF_HEALTH\r\n";
 	else
 		text.cat_printf("Health: %d%%\r\n", static_cast<int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CHARGING_VOLTAGE, data);
+	if (status != 0)
+		text += "Error on CMD_CHARGING_VOLTAGE\r\n";
+	else
+		text.cat_printf("Charging voltage: %d mV\r\n", static_cast<int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CYCLE_COUNT, data);
+	if (status != 0)
+		text += "Error on CMD_CYCLE_COUNT\r\n";
+	else
+		text.cat_printf("Cycle count: %u\r\n", static_cast<unsigned int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_DESIGN_CAPACITY, data);
+	if (status != 0)
+		text += "Error on CMD_DESIGN_CAPACITY\r\n";
+	else
+		text.cat_printf("Design capacity: %u mAh\r\n", capacityMode * static_cast<unsigned int>(data));
 
 
 	memoInfo->Text = text;
@@ -164,6 +188,9 @@ int TfrmCH341I2CSmartBatteryInfo::ReadString(uint8_t address, uint8_t command, A
 	{
 		return status;
 	}
+
+	//LOG("Smart battery string len = %u\n", static_cast<unsigned int>(len));
+	//Sleep(1);
 
 	uint8_t buffer[257] = {0};
 	status = ch341a.I2CWriteCommandReadBuffer(address, command, buffer, len+1);	// read length (again) and data
