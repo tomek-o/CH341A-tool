@@ -46,16 +46,25 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 	int16_t data = 0;
 
 	// controller can get into sleep mode?
-	for (unsigned int i=0; i<3; i++)
+	for (unsigned int i=0; i<5; i++)
 	{
-		status = ch341a.I2COutByteCheckAck(address);
+		status = ch341a.I2CCheckDev(address);
 		if (status == 0)
 			break;
 		Sleep(10);
 	}
+
+	if (status != 0)
+	{
+		memoInfo->Text = "No ACK from the I2C device / battery!";
+		return;
+	}
+
 	Sleep(10);
 
-	unsigned int capacityMode = 1;
+	unsigned int capacityMultiplier = 1;
+	const char *chargeUnit = "mA";
+	const char *capacityUnit = "mAh";
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_BATTERY_MODE, data);
 	if (status != 0)
@@ -72,10 +81,16 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		text.cat_printf("    PRIMARY BATTERY: %d\r\n", (data & MODE_PRIMARY_BATTERY)?1:0);
 		text.cat_printf("    ALARM broadcasts: %d\r\n", (data & MODE_ALARM)?1:0);
 		text.cat_printf("    CHARGER broadcasts: %d\r\n", (data & MODE_CHARGER)?1:0);
-		text.cat_printf("    CAPACITY mode: x%d\r mA/mAh\r\n", (data & MODE_CAPACITY)?10:1);
+		text.cat_printf("    CAPACITY mode: %s\r\n", (data & MODE_CAPACITY)?"x10 mW/mWh":"x1 mA/mAh");
 		if (data & MODE_CAPACITY)
-			capacityMode = 10;		
+		{
+			capacityMultiplier = 10;
+			chargeUnit = "mW";
+			capacityUnit = "mWh";
+		}
 	}
+
+	(void)chargeUnit;
 
 	status = ch341a.I2CWriteCommandReadWord(address, CMD_BATTERY_STATUS, data);
 	if (status != 0)
@@ -135,7 +150,13 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 		int month = (data >> 5) & 0x0F;
 		int year = 1980 + ((data >> 9) & 0x7F);
 		text.cat_printf("Mfg date: %04d.%02d.%02d (raw value: %d)\r\n", year, month, day, static_cast<int>(data));
-	}	
+	}
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_SERIAL_NUM, data);
+	if (status != 0)
+		text += "Error on CMD_SERIAL_NUM\r\n";
+	else
+		text.cat_printf("Serial number: %u\r\n", static_cast<unsigned int>(data));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_VOLTAGE, data);
 	if (status != 0)
@@ -159,17 +180,71 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 	else
 		text.cat_printf("Charging voltage: %d mV\r\n", static_cast<int>(data));
 
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CHARGING_CURRENT, data);
+	if (status != 0)
+		text += "Error on CMD_CHARGING_CURRENT\r\n";
+	else
+		text.cat_printf("Charging current: %d mA\r\n", static_cast<int>(data));
+
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CYCLE_COUNT, data);
 	if (status != 0)
 		text += "Error on CMD_CYCLE_COUNT\r\n";
 	else
 		text.cat_printf("Cycle count: %u\r\n", static_cast<unsigned int>(data));
 
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_REMAINING_CAPACITY, data);
+	if (status != 0)
+		text += "Error on CMD_REMAINING_CAPACITY\r\n";
+	else
+		text.cat_printf("Remaining capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(data), capacityUnit);
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_RELATIVE_STATE_OF_CHARGE, data);
+	if (status != 0)
+		text += "Error on CMD_RELATIVE_STATE_OF_CHARGE\r\n";
+	else
+		text.cat_printf("Relative state of charge: %u%%\r\n", static_cast<unsigned int>(data));
+
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_DESIGN_CAPACITY, data);
 	if (status != 0)
 		text += "Error on CMD_DESIGN_CAPACITY\r\n";
 	else
-		text.cat_printf("Design capacity: %u mAh\r\n", capacityMode * static_cast<unsigned int>(data));
+		text.cat_printf("Design capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(data), capacityUnit);
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_DESIGN_VOLTAGE, data);
+	if (status != 0)
+		text += "Error on CMD_DESIGN_VOLTAGE\r\n";
+	else
+		text.cat_printf("Design voltage: %u mV\r\n", static_cast<unsigned int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_FULL_CHARGE_CAPACITY, data);
+	if (status != 0)
+		text += "Error on CMD_FULL_CHARGE_CAPACITY\r\n";
+	else
+		text.cat_printf("Full charge capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(data), capacityUnit);
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL1_VOLTAGE, data);
+	if (status != 0)
+		text += "Error on CMD_CELL1_VOLTAGE\r\n";
+	else
+		text.cat_printf("Cell 1 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL2_VOLTAGE, data);
+	if (status != 0)
+		text += "Error on CMD_CELL2_VOLTAGE\r\n";
+	else
+		text.cat_printf("Cell 2 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL3_VOLTAGE, data);
+	if (status != 0)
+		text += "Error on CMD_CELL3_VOLTAGE\r\n";
+	else
+		text.cat_printf("Cell 3 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+
+	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL4_VOLTAGE, data);
+	if (status != 0)
+		text += "Error on CMD_CELL4_VOLTAGE\r\n";
+	else
+		text.cat_printf("Cell 4 voltage: %u mV\r\n", static_cast<unsigned int>(data));
 
 
 	memoInfo->Text = text;
