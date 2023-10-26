@@ -12,4 +12,4 @@ In jurisdictions which recognize Public Domain property, the user of this softwa
 
 The MIT License is about as close to Public Domain as a license can get, and is described in clear, concise terms at:
 
-   http://en.wikipedia.org/wiki/MIT_License 
+   http://en.wikipedia.org/wiki/MIT_License
