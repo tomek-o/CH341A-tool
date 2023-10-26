@@ -13,9 +13,15 @@ class TfrmCH341I2CBme280 : public TForm
 {
 __published:	// IDE-managed Components
 	TButton *btnRead;
-	TMemo *memo;
 	TCheckBox *chbAutoRead;
 	TTimer *tmrAutoRead;
+	TLabel *lblStatus;
+	TLabel *lblTemperature;
+	TEdit *edTemperature;
+	TLabel *lblPressure;
+	TEdit *edPressure;
+	TLabel *lblHumidity;
+	TEdit *edHumidity;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 private:	// User declarations

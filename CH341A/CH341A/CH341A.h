@@ -47,6 +47,11 @@ public:
 	int I2CWriteCommandReadByte(uint8_t i2cAddr, uint8_t command, uint8_t &data);
 	int I2CWriteCommandReadBuffer(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int dataSize);
 
+	int I2CWriteCommandWriteByte(uint8_t i2cAddr, uint8_t command, uint8_t data);
+
+	int I2CWriteByte(uint8_t i2cAddr, uint8_t data);
+	int I2CReadByte(uint8_t i2cAddr, uint8_t &data);
+
 	int SetGpioOutputs(uint32_t direction, uint32_t dataOut);
 	int GetGpioInputs(uint32_t &dataIn);
 private:
