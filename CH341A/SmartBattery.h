@@ -75,7 +75,7 @@ enum BatteryModeBits
 	MODE_PRIMARY_BATTERY			= 0x0200,	// R/W; 0 = secondary role, 1 = primary role
 	MODE_ALARM						= 0x2000,	// R/W; enable/disable AlarmWarning broadcast to Host and Smart Battery Charger
 	MODE_CHARGER					= 0x4000,	// R/W; enable/disable broadcasts of ChargingVoltage and ChargingCurrent to Smart Battery Charger
-	MODE_CAPACITY					= 0x8000	// R/W; 0 = report in 1 mA/mAh (default), 1 = report in 10 mA/mAh units
+	MODE_CAPACITY					= 0x8000	// R/W; 0 = report in 1 mA/mAh (default), 1 = report in 10 mW/mWh units
 };
 
 enum BatteryStatusBits
