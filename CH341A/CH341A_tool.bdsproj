@@ -261,6 +261,7 @@
         <FILE FILENAME="TabManager.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TabManager" FORMNAME="" DESIGNCLASS="" ADDITIONAL="TabManager.h"/>
         <FILE FILENAME="SmartBattery.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="SmartBattery" FORMNAME="" DESIGNCLASS="" ADDITIONAL="SmartBattery.h"/>
         <FILE FILENAME="_doc\ideas.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="CH341A\tools\FormCH341I2CBmp180.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CBmp180" FORMNAME="frmCH341I2CBmp180" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CBmp180.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CBme280.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CBme280" FORMNAME="frmCH341I2CBme280" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CBme280.h"/>
       </FILELIST>
       <IDEOPTIONS>
@@ -326,10 +327,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-			<buildevent file="turbocpp_template.bdsproj">
-				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+      <buildevent file="turbocpp_template.bdsproj">
+        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-			</buildevent>
-		</buildevents>
+      </buildevent>
+    </buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>
