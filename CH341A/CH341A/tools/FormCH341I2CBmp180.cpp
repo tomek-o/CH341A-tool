@@ -76,12 +76,24 @@ private:
 
 	uint16_t swap_uint16( uint16_t val )
 	{
+#ifdef __BORLANDC__
+#pragma warn -8071
+#endif
 		return ((val & 0xFF) << 8) | (val >> 8 );
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
 	}
 
 	int16_t swap_int16( int16_t val )
 	{
+#ifdef __BORLANDC__
+#pragma warn -8071
+#endif
 		return (val << 8) | ((val >> 8) & 0xFF);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
 	}
 
 	int16_t readi16(uint8_t reg)
@@ -150,13 +162,65 @@ public:
 	int read(float &temperature, float &pressure)
 	{
 		int status;
-		//status = ch341a.I2CWriteByte(ADDRESS, REGISTER_PRESSUREDATA);
-		//if (status != 0)
-		//	return status;
 
-		uint32_t rawTemperature = 0;
+		temperature = -999;
+		pressure = -999;
+
+		int32_t rawTemperature = 0;
 		uint32_t rawPressure = 0;
+		long B5;
 
+		{
+			status = ch341a.I2CWriteCommandWriteByte(ADDRESS, REGISTER_CONTROL, CONTROL_MEASURE_TEMPERATURE);
+			if (status != 0)
+				return status;
+			Sleep(5);
+			rawTemperature = readu16(REGISTER_OUT_MSB);
+
+			long X1 = (rawTemperature - cal.AC6) * (long)cal.AC5 >> 15;
+			long X2 = (static_cast<long>(cal.MC) << 11) / (X1 + cal.MD);
+			B5 = X1 + X2;
+			rawTemperature = (B5 + 8) >> 4;			
+		}
+
+		{
+			status = ch341a.I2CWriteCommandWriteByte(ADDRESS, REGISTER_CONTROL, CONTROL_MEASURE_PRESSURE_OSS0);
+			if (status != 0)
+				return status;
+			Sleep(5);
+			unsigned int oversampling = 0;
+			rawPressure = readu16(REGISTER_OUT_MSB);
+		#if 0
+			// no point reading XLSB if oversampling is not used
+			rawPressure <<= 8;
+			rawPressure |= read8(REGISTER_OUT_XLSB);
+		#endif
+
+			long B6, X1, X2, X3, B3, p;
+			unsigned long B4, B7;
+			B6 = B5 - 4000;
+			X1 = (static_cast<int32_t>(cal.B2) * (B6 * B6 >> 12)) >> 11;
+			X2 = (static_cast<int32_t>(cal.AC2) * B6) >> 11;
+			X3 = X1 + X2;
+			B3 = (((static_cast<int32_t>(cal.AC1) * 4 + X3) << oversampling) + 2) >> 2;
+			X1 = (static_cast<int32_t>(cal.AC3) * B6) >> 13;
+			X2 = (static_cast<int32_t>(cal.B1) * (B6 * B6 >> 12)) >> 16;
+			X3 = ((X1 + X2) + 2) >> 2;
+			B4 = static_cast<uint32_t>(cal.AC4) * (uint32_t)(X3 + 32768) >> 15;
+			B7 = (static_cast<uint32_t>(rawPressure) - B3) * (50000 >> oversampling);
+			if (B7 < 0x80000000)
+				p = (B7 * 2) / B4;
+			else
+				p = (B7 / B4) * 2;
+			X1 = (p >> 8) * (p >> 8);
+			X1 = (X1 * 3038) >> 16;
+			X2 = (-7357 * p) >> 16;
+			p = p + ((X1 + X2 + 3791) >> 4);
+			rawPressure = p;
+		}
+
+		temperature = static_cast<float>(rawTemperature)/10.0f;
+		pressure = static_cast<float>(rawPressure)/100.0f;
 
 		return status;
 	}
