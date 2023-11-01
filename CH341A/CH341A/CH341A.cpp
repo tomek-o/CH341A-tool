@@ -566,15 +566,6 @@ BOOL WINAPI IIC_InByteNoAck( // Input one byte of data, but no response is gener
 	return(FALSE);
 }
 
-// UIO example CH341Set_D5_D0
-mBuffer[0] = mCH341A_CMD_UIO_STREAM;
-mBuffer[1] = (UCHAR)( mCH341A_CMD_UIO_STM_OUT | iSetDataOut & 0x3F ); // Output data D5 -D0, bit 5-bit 0 is the data
-mBuffer[2] = (UCHAR)( mCH341A_CMD_UIO_STM_DIR | iSetDirOut & 0x3F ); // Set the I/O direction D5-D0, bit 5-bit 0 is the direction data
-mBuffer[3. .n-1] = (UCHAR)( mCH341A_CMD_UIO_STM_OUT | iSetDataOut & 0x3F ); // Repeat the waveform
-mBuffer[n] = mCH341A_CMD_UIO_STM_END; // The command package ends early
-mLength = n+1;
-if ( CH341WriteData( iIndex, mBuffer , &mLength ) ) { // Write out the data block
-
 
 #endif
 
