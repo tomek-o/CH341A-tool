@@ -85,7 +85,7 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
     Top = 100
     Width = 105
     Height = 25
-    Caption = 'Init'
+    Caption = 'Init and write'
     TabOrder = 3
     OnClick = btnInitClick
   end
