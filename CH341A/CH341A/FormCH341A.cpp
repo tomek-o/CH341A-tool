@@ -46,6 +46,7 @@ void __fastcall TfrmCH341A::btnCloseClick(TObject *Sender)
 void __fastcall TfrmCH341A::tvToolsChange(TObject *Sender, TTreeNode *Node)
 {
 	TabManager::Instance().SwitchToPage(Node->Index);
+	appSettings.ch341a.lastPage = Node->Text;
 }
 //---------------------------------------------------------------------------
 
@@ -56,8 +57,20 @@ void __fastcall TfrmCH341A::tmrStartupTimer(TObject *Sender)
 
 	if (tvTools->Items->Count)
 	{
-		tvTools->Items->Item[0]->Selected = true;
-		tvToolsChange(NULL, tvTools->Items->Item[0]);
+		int itemId = 0;
+		if (appSettings.ch341a.lastPage != "")
+		{
+			for (int i=0; i<tvTools->Items->Count; i++)
+			{
+				if (tvTools->Items->Item[i]->Text == appSettings.ch341a.lastPage)
+				{
+					itemId = i;
+					break;
+				}
+			}
+		}
+		tvTools->Items->Item[itemId]->Selected = true;
+		tvToolsChange(NULL, tvTools->Items->Item[itemId]);
 	}
 }
 //---------------------------------------------------------------------------

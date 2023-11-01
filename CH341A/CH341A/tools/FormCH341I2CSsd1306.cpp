@@ -151,7 +151,7 @@ void __fastcall TfrmCH341I2CSsd1306::trbarContrastChange(TObject *Sender)
 		lblStatus->Caption = "Display is not initialized!";
 		return;
 	}
-	display->setContrast(trbarContrast->Position);
+	display->setContrast(static_cast<unsigned char>(trbarContrast->Position));
 }
 //---------------------------------------------------------------------------
 

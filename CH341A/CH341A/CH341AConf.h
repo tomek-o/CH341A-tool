@@ -4,6 +4,8 @@
 #define CH341AConfH
 //---------------------------------------------------------------------------
 
+#include <System.hpp>
+
 namespace Json
 {
 	class Value;
@@ -22,6 +24,8 @@ struct CH341AConf
 	} i2cSpeed;
 
 	static const char* getI2CSpeedDescription(enum I2CSpeed val);
+
+	AnsiString lastPage;
 
 	CH341AConf(void):
 		openAtStartup(true),

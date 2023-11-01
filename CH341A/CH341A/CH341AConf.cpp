@@ -39,6 +39,7 @@ void CH341AConf::fromJson(const Json::Value &jv)
 	{
 		i2cSpeed = static_cast<I2CSpeed>(tmp);
 	}
+	jv.getAString("lastPage", lastPage);
 }
 
 void CH341AConf::toJson(Json::Value &jv) const
@@ -46,4 +47,5 @@ void CH341AConf::toJson(Json::Value &jv) const
 	jv = Json::Value(Json::objectValue);
 	jv["openAtStartup"] = openAtStartup;
 	jv["i2cSpeed"] = i2cSpeed;
+	jv["lastPage"] = lastPage;
 }
