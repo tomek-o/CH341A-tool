@@ -15,6 +15,7 @@ USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("LogUnit.cpp", frmLog);
 USEFORM("CH341A\tools\FormCH341I2CBmp180.cpp", frmCH341I2CBmp180);
 USEFORM("CH341A\tools\FormCH341I2CSsd1306.cpp", frmCH341I2CSsd1306);
+USEFORM("CH341A\tools\FormCH341I2CRda5807m.cpp", frmCH341I2CRda5807m);
 USEFORM("CH341A\tools\FormCH341I2CBme280.cpp", frmCH341I2CBme280);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
@@ -39,6 +40,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CBmp180), &frmCH341I2CBmp180);
 		Application->CreateForm(__classid(TfrmCH341I2CSi7021), &frmCH341I2CSi7021);
 		Application->CreateForm(__classid(TfrmCH341I2CSsd1306), &frmCH341I2CSsd1306);
+		Application->CreateForm(__classid(TfrmCH341I2CRda5807m), &frmCH341I2CRda5807m);
 		Application->Run();
 	}
 	catch (Exception &exception)

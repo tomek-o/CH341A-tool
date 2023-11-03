@@ -14,8 +14,6 @@ object frmCH341A: TfrmCH341A
   Font.Style = []
   OldCreateOrder = False
   OnShow = FormShow
-  ExplicitWidth = 320
-  ExplicitHeight = 240
   PixelsPerInch = 96
   TextHeight = 13
   object pnlTop: TPanel
@@ -58,6 +56,8 @@ object frmCH341A: TfrmCH341A
     ShowRoot = False
     TabOrder = 1
     OnChange = tvToolsChange
+    ExplicitLeft = -6
+    ExplicitTop = 40
   end
   object pages: TPageControl
     Left = 137
