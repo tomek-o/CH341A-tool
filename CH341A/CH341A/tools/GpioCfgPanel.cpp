@@ -64,6 +64,8 @@ __fastcall TGpioCfgPanel::TGpioCfgPanel(TComponent* Owner, unsigned int id, Ansi
 	chbDataIn->Top = top;
 	chbDataIn->Visible = true;
 	chbDataIn->Width = 30;
+	chbDataIn->Enabled = false;
+	chbDataIn->Color = clBtnFace;
 }
 
 
