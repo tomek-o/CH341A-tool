@@ -52,6 +52,7 @@ void TfrmCH341I2CSsd1306::Write(void)
 {
 	BtnController btnCtrl(btnWrite);
 
+	lblStatus->Caption = "";
 	if (!ch341a.IsOpened())
 	{
 		lblStatus->Caption = "CH341 is not opened!";
@@ -102,6 +103,7 @@ void __fastcall TfrmCH341I2CSsd1306::btnTurnOnClick(TObject *Sender)
 {
 	BtnController btnCtrl(dynamic_cast<TButton*>(Sender));
 
+	lblStatus->Caption = "";
 	if (!ch341a.IsOpened())
 	{
 		lblStatus->Caption = "CH341 is not opened!";
@@ -122,6 +124,7 @@ void __fastcall TfrmCH341I2CSsd1306::btnTurnOffClick(TObject *Sender)
 {
 	BtnController btnCtrl(dynamic_cast<TButton*>(Sender));
 
+	lblStatus->Caption = "";
 	if (!ch341a.IsOpened())
 	{
 		lblStatus->Caption = "CH341 is not opened!";

@@ -16,7 +16,7 @@ object frmCH341I2CBme280: TfrmCH341I2CBme280
   object lblStatus: TLabel
     Left = 16
     Top = 56
-    Width = 429
+    Width = 3
     Height = 13
   end
   object lblTemperature: TLabel

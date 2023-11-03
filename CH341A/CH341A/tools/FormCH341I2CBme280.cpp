@@ -265,6 +265,7 @@ void TfrmCH341I2CBme280::Read(void)
 	edPressure->Text = "";
 	edHumidity->Text = "";
 
+	lblStatus->Caption = "";
 	if (!ch341a.IsOpened())
 	{
 		lblStatus->Caption = "CH341 is not opened!";
