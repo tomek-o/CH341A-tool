@@ -38,7 +38,7 @@ void TfrmCH341I2CDetect::Detect(void)
 	{
 		if (ch341a.I2CCheckDev(i) == 0)
 		{
-			text.cat_printf("Found device at address %u (0x%02X)\n", static_cast<unsigned int>(i), static_cast<unsigned int>(i));
+			text.cat_printf("Found device at address %u (0x%02X)\r\n", static_cast<unsigned int>(i), static_cast<unsigned int>(i));
 			found = true;
 		}
 	}
