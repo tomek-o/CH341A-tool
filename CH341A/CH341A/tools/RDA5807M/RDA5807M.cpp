@@ -84,7 +84,6 @@ static void RDA5807M_write_reg(uint8_t regidx)
 {
 	LLOG(("write reg %u\n", static_cast<unsigned int>(regidx)));
 	uint8_t buf[4];
-	int TODO__CHECK_ADDR_LSB;
 	buf[0] = ADDRESS_SINGLE << 1;
 	buf[1] = regs[regidx].reg_addr;
 	buf[2] = static_cast<uint8_t>(regs[regidx].value >> 8);
@@ -98,7 +97,6 @@ uint8_t RDA5807M_write(void)
 
     uint8_t buf[1 + ((REGS_CNT) * 2)];
 
-    int TODO__CHECK_LSB;
 	buf[0] = ADDRESS_MULTI << 1;
 	for (unsigned int i=0; i<REGS_CNT; i++)
 	{
@@ -183,8 +181,6 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
 {
 	//LOG(("get_status\n"));
 	status->valid = 0;
-	
-	uint8_t i = 0;
 
 	enum { REG_CNT = 6 };
 
@@ -203,7 +199,7 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
 	ch341a.I2CWriteRead(&addr, 1, data, sizeof(data));
 
 	uint8_t x = 0;
-	for(i = 0; i < REG_CNT*2; ++i)
+	for(unsigned int i = 0; i < REG_CNT*2; ++i)
 	{
 		buffer[x] = data[i];
         i++;

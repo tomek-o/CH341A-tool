@@ -74,7 +74,7 @@ int CH341A::Open(int index, const CH341AConf &cfg)
 	{
 		LOG("CH341A: failed to set stream configuration!\n");
 		CH341CloseDevice(index);	
-		index = INVALID_INDEX;		
+		this->index = INVALID_INDEX;		
 		return -2;
 	}
 
@@ -241,7 +241,6 @@ int CH341A::I2CWriteRead(uint8_t *writeBuffer, unsigned int writeCount, uint8_t 
 	{
 		return 0;
 	}
-	readCount = 0;
 	return -2;
 }
 
@@ -276,6 +275,7 @@ int CH341A::I2CWriteRead2(uint8_t addr, uint8_t *writeBuffer, unsigned int write
 	mBuffer[mBufferPos++] = mCH341A_CMD_I2C_STM_OUT;	// Output data, bit 5-bit 0 is the length, if the length is 0, only one byte is sent and a response is returned
 	mBuffer[mBufferPos++] = addrBuf;					// I2C address, shifted
 	mLength = mBufferPos++;
+	(void)mBufferPos;
 	mInLen = 0;
 	if (CH341WriteRead( index, mLength, mBuffer, mCH341A_CMD_I2C_STM_MAX, 1, &mInLen, mInBuf )) {
 		// Bit 7 of the returned data represents the ACK response bit, ACK=0 is valid
