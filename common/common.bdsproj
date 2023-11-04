@@ -14,7 +14,7 @@
 		</Source>
 		<BCBPROJECT>
       <project version="10.0">
-        <property category="build.config" name="active" value="0"/>
+        <property category="build.config" name="active" value="1"/>
         <property category="build.config" name="count" value="1"/>
         <property category="build.config" name="excludedefaultforzero" value="0"/>
         <property category="build.config.0" name="builddir" value="Debug"/>
@@ -159,7 +159,7 @@
         <FILE FILENAME="common.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="common" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="base64.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="base64" FORMNAME="" DESIGNCLASS="" ADDITIONAL="base64.h"/>
         <FILE FILENAME="BtnController.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
-        <FILE FILENAME="TimerController.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="TimerController.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="Colors.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Colors" FORMNAME="" DESIGNCLASS="" ADDITIONAL="Colors.h"/>
         <FILE FILENAME="ecc.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ecc" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="ecc.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
