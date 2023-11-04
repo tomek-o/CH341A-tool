@@ -58,14 +58,12 @@ __fastcall TGpioCfgPanel::TGpioCfgPanel(TComponent* Owner, unsigned int id, Ansi
 	chbDataOut->Visible = true;
 
 	left += 100;
-	chbDataIn = new TCheckBox(this);
-	chbDataIn->Parent = this;
-	chbDataIn->Left = left;
-	chbDataIn->Top = top;
-	chbDataIn->Visible = true;
-	chbDataIn->Width = 30;
-	chbDataIn->Enabled = false;
-	chbDataIn->Color = clBtnFace;
+	lblDataIn = new TLabel(this);
+	lblDataIn->Caption = "?";
+	lblDataIn->Parent = this;
+	lblDataIn->Left = left;
+	lblDataIn->Top = top;
+	lblDataIn->Visible = true;
 }
 
 

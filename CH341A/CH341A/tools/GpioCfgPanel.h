@@ -24,13 +24,13 @@ public:
 		return chbDataOut->Checked;
 	}
 	void SetDataIn(bool val) {
-		chbDataIn->Checked = val;
+		lblDataIn->Caption = val ? "1" : "0";
 	}
 __published:
 	TLabel *label;
 	TCheckBox *chbDirection;
 	TCheckBox *chbDataOut;
-	TCheckBox *chbDataIn;
+	TLabel *lblDataIn;
 };
 //---------------------------------------------------------------------------
 #endif
