@@ -10,7 +10,7 @@
 
 #define LOCAL_DEBUG
 #ifdef LOCAL_DEBUG
-#define LLOG(args) (LOG(PROMPT), LOG args)
+#define LLOG(args) LOG(PROMPT); LOG args
 #endif
 
 enum {
@@ -323,5 +323,4 @@ void RDA5807M_shutdown(void)
 	regs[R2].value &= ~R2_ENABLE;
 	RDA5807M_write_reg(R2);
 }
-
 
