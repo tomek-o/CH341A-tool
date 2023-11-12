@@ -12,7 +12,7 @@
 class TfrmCH341GpioHd44780 : public TForm
 {
 __published:	// IDE-managed Components
-	TMemo *Memo1;
+	TMemo *memoInstruction;
 	TPanel *pnlBottom;
 	TButton *btnWrite;
 	TLabel *lblStatus;

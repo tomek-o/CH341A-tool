@@ -13,7 +13,7 @@ object frmCH341GpioHd44780: TfrmCH341GpioHd44780
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Memo1: TMemo
+  object memoInstruction: TMemo
     Left = 0
     Top = 0
     Width = 635
