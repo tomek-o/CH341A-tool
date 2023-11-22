@@ -20,7 +20,8 @@ namespace
 class Bme280
 {
 public:
-	enum { ADDRESS = 0x76 };
+	enum { FIRST_ADDR = 0x76 };
+	enum { LAST_ADDR = 0x77 };
 private:
 	enum {
 		REGISTER_DIG_T1 = 0x88,			// calib00
@@ -127,7 +128,7 @@ private:
 	int16_t read16(uint8_t reg)
 	{
 		int16_t data = 0xFFFF;
-		int status = ch341a.I2CWriteCommandReadWord(ADDRESS, reg, data);
+		int status = ch341a.I2CWriteCommandReadWord(address, reg, data);
 		(void)status;
 		return data;
 	}
@@ -135,7 +136,7 @@ private:
 	uint8_t read8(uint8_t reg)
 	{
 		uint8_t data = 0xFF;
-		int status = ch341a.I2CWriteCommandReadByte(ADDRESS, reg, data);
+		int status = ch341a.I2CWriteCommandReadByte(address, reg, data);
 		(void)status;
 		return data;
 	}
@@ -143,12 +144,17 @@ private:
 	uint8_t read8(void)
 	{
 		uint8_t data = 0xFF;
-		int status = ch341a.I2CReadByte(ADDRESS, data);
+		int status = ch341a.I2CReadByte(address, data);
 		(void)status;
 		return data;
 	}
 
+	uint8_t address;
+
 public:
+	Bme280(uint8_t address):
+		address(address)
+	{}
 	int readCalibration(void)
 	{
 		if (!ch341a.IsOpened())
@@ -190,17 +196,17 @@ public:
 	int setupRead(void)
 	{
 		int status;
-		status = ch341a.I2CWriteCommandWriteByte(ADDRESS, REGISTER_CONTROLHUMID, 0x01);
+		status = ch341a.I2CWriteCommandWriteByte(address, REGISTER_CONTROLHUMID, 0x01);
 		if (status != 0)
 			return status;
-		ch341a.I2CWriteCommandWriteByte(ADDRESS, REGISTER_CONTROL, 0x25);
+		ch341a.I2CWriteCommandWriteByte(address, REGISTER_CONTROL, 0x25);
 		return status;
 	}
 
 	int read(float &temperature, float &pressure, float &humidity)
 	{
 		int status;
-		status = ch341a.I2CWriteByte(ADDRESS, REGISTER_PRESSUREDATA);
+		status = ch341a.I2CWriteByte(address, REGISTER_PRESSUREDATA);
 		if (status != 0)
 			return status;
 
@@ -250,6 +256,14 @@ __fastcall TfrmCH341I2CBme280::TfrmCH341I2CBme280(TComponent* Owner)
 	: TForm(Owner)
 {
 	TabManager::Instance().Register(this);
+
+	for (unsigned int i=Bme280::FIRST_ADDR; i<=Bme280::LAST_ADDR; i++)
+	{
+		AnsiString text;
+		text.sprintf("0x%02X (%3u)", i, i);
+		cbI2CAddress->Items->Add(text);
+	}
+	cbI2CAddress->ItemIndex = 0;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CBme280::btnReadClick(TObject *Sender)
@@ -272,14 +286,16 @@ void TfrmCH341I2CBme280::Read(void)
 		return;
 	}
 
-	int status = ch341a.I2CCheckDev(Bme280::ADDRESS);
+	uint8_t address = static_cast<uint8_t>(Bme280::FIRST_ADDR + cbI2CAddress->ItemIndex);
+
+	int status = ch341a.I2CCheckDev(address);
 	if (status != 0)
 	{
 		lblStatus->Caption = "No ACK after sending expected BME280 address!";
 		return;
 	}
 
-	Bme280 bme280;
+	Bme280 bme280(address);
 	bme280.readCalibration();
 	bme280.setupRead();
 

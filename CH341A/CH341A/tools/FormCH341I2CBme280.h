@@ -22,6 +22,9 @@ __published:	// IDE-managed Components
 	TEdit *edPressure;
 	TLabel *lblHumidity;
 	TEdit *edHumidity;
+	TLabel *lblI2CAddress;
+	TComboBox *cbI2CAddress;
+	TLabel *lblHumidityInfo;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 private:	// User declarations

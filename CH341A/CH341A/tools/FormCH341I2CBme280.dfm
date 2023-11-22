@@ -1,7 +1,7 @@
 object frmCH341I2CBme280: TfrmCH341I2CBme280
   Left = 0
   Top = 0
-  Caption = 'BME280 sensor'
+  Caption = 'BME280/BMP280 sensor'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
@@ -14,35 +14,49 @@ object frmCH341I2CBme280: TfrmCH341I2CBme280
   PixelsPerInch = 96
   TextHeight = 13
   object lblStatus: TLabel
-    Left = 16
-    Top = 56
+    Left = 8
+    Top = 88
     Width = 3
     Height = 13
   end
   object lblTemperature: TLabel
-    Left = 16
-    Top = 88
+    Left = 8
+    Top = 120
     Width = 62
     Height = 13
     Caption = 'Temperature'
   end
   object lblPressure: TLabel
-    Left = 16
-    Top = 120
+    Left = 8
+    Top = 152
     Width = 42
     Height = 13
     Caption = 'Pressure'
   end
   object lblHumidity: TLabel
-    Left = 16
-    Top = 152
+    Left = 8
+    Top = 184
     Width = 41
     Height = 13
     Caption = 'Humidity'
   end
-  object btnRead: TButton
-    Left = 16
+  object lblI2CAddress: TLabel
+    Left = 8
     Top = 8
+    Width = 126
+    Height = 13
+    Caption = 'Device I2C address (7-bit)'
+  end
+  object lblHumidityInfo: TLabel
+    Left = 200
+    Top = 184
+    Width = 111
+    Height = 13
+    Caption = '(valid only for BME280)'
+  end
+  object btnRead: TButton
+    Left = 8
+    Top = 40
     Width = 75
     Height = 25
     Caption = 'Read'
@@ -50,16 +64,16 @@ object frmCH341I2CBme280: TfrmCH341I2CBme280
     OnClick = btnReadClick
   end
   object chbAutoRead: TCheckBox
-    Left = 97
-    Top = 12
+    Left = 89
+    Top = 44
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every second)'
     TabOrder = 1
   end
   object edTemperature: TEdit
-    Left = 97
-    Top = 85
+    Left = 89
+    Top = 117
     Width = 96
     Height = 21
     Color = clBtnFace
@@ -67,8 +81,8 @@ object frmCH341I2CBme280: TfrmCH341I2CBme280
     TabOrder = 2
   end
   object edPressure: TEdit
-    Left = 97
-    Top = 117
+    Left = 89
+    Top = 149
     Width = 96
     Height = 21
     Color = clBtnFace
@@ -76,17 +90,32 @@ object frmCH341I2CBme280: TfrmCH341I2CBme280
     TabOrder = 3
   end
   object edHumidity: TEdit
-    Left = 97
-    Top = 149
+    Left = 89
+    Top = 181
     Width = 96
     Height = 21
     Color = clBtnFace
     ReadOnly = True
     TabOrder = 4
   end
+  object cbI2CAddress: TComboBox
+    Left = 152
+    Top = 5
+    Width = 96
+    Height = 22
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ItemHeight = 14
+    ParentFont = False
+    TabOrder = 5
+  end
   object tmrAutoRead: TTimer
     OnTimer = tmrAutoReadTimer
-    Left = 384
-    Top = 8
+    Left = 376
+    Top = 40
   end
 end
