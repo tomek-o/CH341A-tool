@@ -8,9 +8,11 @@
 
 #define PROMPT "RDA5807M: "
 
-#define LOCAL_DEBUG
+//#define LOCAL_DEBUG
 #ifdef LOCAL_DEBUG
 #define LLOG(args) LOG(PROMPT); LOG args
+#else
+#define LLOG(args)
 #endif
 
 enum {
