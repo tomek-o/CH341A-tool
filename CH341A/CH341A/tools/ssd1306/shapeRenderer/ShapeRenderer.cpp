@@ -2,7 +2,7 @@
 
 void pico_ssd1306::drawLine(pico_ssd1306::SSD1306 *ssd1306, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1,
                             pico_ssd1306::WriteMode mode) {
-    int x, y, dx, dy, dx0, dy0, px, py, xe, ye, i;
+	int x, y, dx, dy, dx0, dy0, px, py, xe, ye;
     dx = x1 - x0;
     dy = y1 - y0;
     dx0 = fabs(dx);
@@ -20,7 +20,7 @@ void pico_ssd1306::drawLine(pico_ssd1306::SSD1306 *ssd1306, uint8_t x0, uint8_t 
             xe = x0;
         }
         ssd1306->setPixel(x, y, mode);
-        for (i = 0; x < xe; i++) {
+		for (; x < xe;) {
             x = x + 1;
             if (px < 0) {
                 px = px + 2 * dy0;
@@ -45,7 +45,7 @@ void pico_ssd1306::drawLine(pico_ssd1306::SSD1306 *ssd1306, uint8_t x0, uint8_t 
             ye = y0;
         }
         ssd1306->setPixel(x, y, mode);
-        for (i = 0; y < ye; i++) {
+        for (; y < ye;) {
             y = y + 1;
             if (py <= 0) {
                 py = py + 2 * dx0;

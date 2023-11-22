@@ -90,10 +90,8 @@ public:
 
 			sleep();
 
-			uint8_t tempH, tempL;
-
-			tempH = read8();
-			tempL = read8();
+			uint8_t tempH = read8();
+			uint8_t tempL = read8();
 
 			float temp = (static_cast<unsigned int>(tempH) << 8) | tempL;
 			temperature = ((175.72f * temp)/65536)-46.85f;
@@ -107,9 +105,8 @@ public:
 
 			sleep();
 
-			uint8_t humH, humL;
-			humH = read8();
-			humL = read8();
+			uint8_t humH = read8();
+			uint8_t humL = read8();
 
 			float hum = (static_cast<unsigned int>(humH)<<8) | humL;
 			humidity = ((125.0f*hum)/65536)-6;

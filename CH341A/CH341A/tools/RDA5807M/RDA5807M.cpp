@@ -189,14 +189,6 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
 	uint8_t data[REG_CNT * 2] = {0};
 	uint16_t buffer[REG_CNT] = {0};
 
-	bool rdsready = 0;
-	bool rds_sync =0;
-	bool blke = 0;
-
-	bool ABCD_E = 0;
-	unsigned int BLERA = 0;
-    unsigned int BLERB = 0;
-    
 	uint8_t addr = ADDRESS_MULTI << 1;
 	ch341a.I2CWriteRead(&addr, 1, data, sizeof(data));
 
@@ -227,7 +219,7 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
     // The seek/tune complete flag is set when the seek or tune operation completes.
 	status->tuneok  = (buffer[0] >> 14) & 0x01;
     // RDS ready 0 = No RDS/RBDS group ready(default) 1 = New RDS/RBDS group ready    
-	rdsready = (buffer[0] >> 15) & 0x01;
+	bool rdsready = (buffer[0] >> 15) & 0x01;
     // Seek Fail.
     // 0 = Seek successful; 1 = Seek failure
     // The seek fail flag is set when the seek operation fails to find a channel 
@@ -236,14 +228,14 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
     // RDS Synchronization 
     // 0 = RDS decoder not synchronized(default) 
     // 1 = RDS decoder synchronized Available only in RDS Verbose mode    
-	rds_sync = (buffer[0] >> 12) & 0x01;
+	bool rds_sync = (buffer[0] >> 12) & 0x01;
     // When RDS enable:
     // 1 = Block E has been found
     // 0 = no Block E has been found
-	blke = (buffer[0] >> 11) & 0x01;
+	bool blke = (buffer[0] >> 11) & 0x01;
     // 1= the block id of register 0cH,0dH,0eH,0fH is E
     // 0= the block id of register 0cH, 0dH, 0eH,0fH is A, B, C, D
-	ABCD_E = (buffer[1] >> 4) & 0x01;
+	bool ABCD_E = (buffer[1] >> 4) & 0x01;
     // Block Errors Level of RDS_DATA_0, and is always read as Errors Level of 
     // RDS BLOCK A (in RDS mode) or BLOCK E (in RBDS mode when ABCD_E flag is 1)
     // 00= 0 errors requiring correction
@@ -251,7 +243,7 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
     // 10= 3~5 errors requiring correction
     // 11= 6+ errors or error in checkword, correction not possible.
     // Available only in RDS Verbose mode    
-    BLERA = (buffer[1] >> 2) & 0x03;
+	unsigned int BLERA = (buffer[1] >> 2) & 0x03;
     // Block Errors Level of RDS_DATA_1, and is always read as Errors Level of 
     // RDS BLOCK B (in RDS mode ) or E (in RBDS mode when ABCD_E flag is 1).
     // 00= 0 errors requiring correction
@@ -259,7 +251,7 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
     // 10= 3...5 errors requiring correction
     // 11= 6+ errors or error in checkword, correction not possible.
     // Available only in RDS Verbose mode            
-	BLERB = buffer[1] & 0x03;
+	unsigned int BLERB = buffer[1] & 0x03;
 
 	//LOG(("%04X, %04X, %02X, %u\r\n", buffer[1], buffer[1] >> 9, info->rssi, info->rssi));    	
 	//LOG(("RDSS %d, BLK_E %d ABCD_E %d BLERA %d BLERB %d\r\n", rds_sync, blke, ABCD_E, BLERA, BLERB));
