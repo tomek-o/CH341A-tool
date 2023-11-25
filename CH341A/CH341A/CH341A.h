@@ -54,6 +54,9 @@ public:
 
 	int SetGpioOutputs(uint32_t direction, uint32_t dataOut);
 	int GetGpioInputs(uint32_t &dataIn);
+
+	int SpiTransfer(uint8_t *buffer, unsigned int count);
+
 private:
 	int index;
 };

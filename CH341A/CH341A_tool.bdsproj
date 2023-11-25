@@ -14,7 +14,7 @@
 		</Source>
 		<BCBPROJECT>
       <project version="10.0">
-        <property category="build.config" name="active" value="1"/>
+        <property category="build.config" name="active" value="0"/>
         <property category="build.config" name="count" value="1"/>
         <property category="build.config" name="excludedefaultforzero" value="0"/>
         <property category="build.config.0" name="builddir" value="Debug"/>
@@ -334,7 +334,7 @@
         <FILE FILENAME="CH341A\tools\FormCH341I2CDetect.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CDetect" FORMNAME="frmCH341I2CDetect" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CDetect.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CSi7021.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CSi7021" FORMNAME="frmCH341I2CSi7021" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CSi7021.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CAHT20.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CAHT20" FORMNAME="frmCH341I2CAHT20" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CAHT20.h"/>
-        <FILE FILENAME="CH341A\tools\FormCH341I2CWriteRead.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CWriteRead" FORMNAME="frmCH341I2CWriteRead" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CWriteRead.h"/>
+        <FILE FILENAME="CH341A\tools\FormCH341SpiWriteRead.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341SpiWriteRead" FORMNAME="frmCH341SpiWriteRead" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341SpiWriteRead.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CSmartBatteryInfo.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CSmartBatteryInfo" FORMNAME="frmCH341I2CSmartBatteryInfo" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CSmartBatteryInfo.h"/>
         <FILE FILENAME="CH341A_tool.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH341A_tool" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A_tool.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="CH341A_tool.res" FORMNAME="" DESIGNCLASS=""/>
@@ -355,6 +355,7 @@
         <FILE FILENAME="CH341A\tools\FormCH341GpioHd44780.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341GpioHd44780" FORMNAME="frmCH341GpioHd44780" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341GpioHd44780.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CHd44780.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CHd44780" FORMNAME="frmCH341I2CHd44780" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CHd44780.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CBmp180.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CBmp180" FORMNAME="frmCH341I2CBmp180" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CBmp180.h"/>
+        <FILE FILENAME="CH341A\tools\FormCH341I2CWriteRead.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CWriteRead" FORMNAME="frmCH341I2CWriteRead" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CWriteRead.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>

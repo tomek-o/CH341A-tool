@@ -69,6 +69,11 @@ int CH341A::Open(int index, const CH341AConf &cfg)
 		assert(!"Unhandled I2C speed mode!");
 	}
 
+	{
+		iMode |= 0x80;
+		LOG("Setting SPI mode / bit order to MSB first\n");
+	}
+
 	res = CH341SetStream(index, iMode);
 	if (res == false)
 	{
@@ -453,6 +458,19 @@ int CH341A::GetGpioInputs(uint32_t &dataIn)
 	if (CH341GetInput(index, &val))
 	{
 		dataIn = val;
+		return 0;
+	}
+	return -2;
+}
+
+int CH341A::SpiTransfer(uint8_t *buffer, unsigned int count)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	if (CH341StreamSPI4(index, 0x80 /* CS control using CS0 */, count, buffer))
+	{
 		return 0;
 	}
 	return -2;

@@ -18,7 +18,11 @@ Version 1.0 - first release
 
 Version 1.1
 - added reading temperature from LM75 I2C sensor
-
-
+- added writing to HD44780 display using GPIO
+- added writing to HD44780 + PCF8574 (I2C) display
+- added I2C address selection to BME280
+- BMP280 is listed next to BME280
+- added AHT10/AHT20 temperature + humidity sensor
+- added writing/reading raw SPI data (but CH341 SPI is quite limited)
 
 */

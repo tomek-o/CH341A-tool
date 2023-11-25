@@ -551,15 +551,22 @@ BOOL	WINAPI	CH341Set_D5_D0(  // Set the I/O direction of the D5-D0 pin of CH341,
 // Bit 5-bit 0 of the above data correspond to the D5-D0 pins of CH341 respectively.
 
 
-BOOL	WINAPI	CH341StreamSPI3(  // This API is invalid, please do not use it
+// This API is invalid, please do not use it
+BOOL	WINAPI	CH341StreamSPI3(
 	ULONG			iIndex,
 	ULONG			iChipSelect,
 	ULONG			iLength,
 	PVOID			ioBuffer );
 
 
-BOOL	WINAPI	CH341StreamSPI4(  // Process SPI data stream, 4-wire interface, the clock line is DCK/D3 pin, the output data line is DOUT/D5 pin, the input data line is DIN/D7 pin, and the chip select line is D0/ D1/D2, speed is about 68K bytes
-/* SPI timing: The DCK/D3 pin is the clock output, which defaults to low level. The DOUT/D5 pin outputs during the low level before the rising edge of the clock. The DIN/D7 pin outputs the high level before the falling edge of the clock. Enter during normal times */
+// SPI transfer, 4-wire interface, the clock line is DCK/D3 pin,
+// the output data line is DOUT/D5 pin, the input data line is DIN/D7 pin,
+// and the chip select line is D0/ D1/D2, speed is about 68K bytes (WTF this means?)
+// Real measured clock speed: 1.4 MHz on average, but clock is irregular.
+// SPI timing: The DCK/D3 pin is the clock output, which defaults to low level.
+// The DOUT/D5 pin outputs during the low level before the rising edge of the clock.
+// The DIN/D7 pin outputs the high level before the falling edge of the clock.
+BOOL	WINAPI	CH341StreamSPI4(
 	ULONG			iIndex,  // Specify CH341 device serial number
 	ULONG			iChipSelect,  // Chip select control, if bit 7 is 0, the chip select control is ignored, if bit 7 is 1, the parameters are valid: Bit 1 and bit 0 are 00/01/10, respectively, select the D0/D1/D2 pin as low level. valid chip select
 	ULONG			iLength,  // Number of data bytes to be transmitted
@@ -575,7 +582,12 @@ BOOL	WINAPI	CH341StreamSPI5(  // Process SPI data stream, 5-wire interface, the 
 	PVOID			ioBuffer2 );  // Point to the second buffer, place the data to be written from DOUT2, and return the data read from DIN2
 
 
-BOOL	WINAPI	CH341BitStreamSPI(  // Process SPI bit data stream, 4-wire/5-wire interface, clock line is DCK/D3 pin, output data line is DOUT/DOUT2 pin, input data line is DIN/DIN2 pin, chip select The line is D0/D1/D2, the speed is about 8K bits*2
+// SPI with lower clock speed, ~300 kHz
+// Process SPI bit data stream, 4-wire/5-wire interface,
+// clock line is DCK/D3 pin, output data line is DOUT/DOUT2 pin,
+// input data line is DIN/DIN2 pin, chip select The line is D0/D1/D2,
+// the speed is about 8K bits*2
+BOOL	WINAPI	CH341BitStreamSPI(
 	ULONG			iIndex,  // Specify CH341 device serial number
 	ULONG			iLength,  // The number of data bits to be transmitted, up to 896 at a time, and it is recommended not to exceed 256
 	PVOID			ioBuffer );  // Point to a buffer, place the data to be written from DOUT/DOUT2/D2-D0, and return the data read from DIN/DIN2

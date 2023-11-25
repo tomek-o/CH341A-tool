@@ -8,7 +8,7 @@ USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("CH341A\tools\FormCH341I2CSi7021.cpp", frmCH341I2CSi7021);
 USEFORM("CH341A\tools\FormCH341I2CAHT20.cpp", frmCH341I2CAHT20);
-USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
+USEFORM("CH341A\tools\FormCH341SpiWriteRead.cpp", frmCH341SpiWriteRead);
 USEFORM("CH341A\tools\FormCH341I2CSmartBatteryInfo.cpp", frmCH341I2CSmartBatteryInfo);
 USEFORM("FormMain.cpp", frmMain);
 USEFORM("FormSettings.cpp", frmSettings);
@@ -21,6 +21,7 @@ USEFORM("CH341A\tools\FormCH341I2CBme280.cpp", frmCH341I2CBme280);
 USEFORM("CH341A\tools\FormCH341GpioHd44780.cpp", frmCH341GpioHd44780);
 USEFORM("CH341A\tools\FormCH341I2CHd44780.cpp", frmCH341I2CHd44780);
 USEFORM("CH341A\tools\FormCH341I2CBmp180.cpp", frmCH341I2CBmp180);
+USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -38,6 +39,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmLog), &frmLog);
 		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
 		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
+		Application->CreateForm(__classid(TfrmCH341SpiWriteRead), &frmCH341SpiWriteRead);
 		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);
 		Application->CreateForm(__classid(TfrmCH341Gpio), &frmCH341Gpio);
 		Application->CreateForm(__classid(TfrmCH341I2CSi7021), &frmCH341I2CSi7021);
