@@ -476,6 +476,32 @@ int CH341A::SpiTransfer(uint8_t *buffer, unsigned int count)
 	return -2;
 }
 
+int CH341A::SpiTransfer3Wire(uint8_t *buffer, unsigned int count)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	if (CH341StreamSPI3(index, 0x80 /* CS control using CS0 */, count, buffer))
+	{
+		return 0;
+	}
+	return -2;
+}
+
+int CH341A::SpiTransferBitStream(uint8_t *buffer, unsigned int count)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	if (CH341BitStreamSPI(index, count, buffer))
+	{
+		return 0;
+	}
+	return -2;
+}
+
 
 #if 0
 BOOL WINAPI PCF8574_WriteIO (// output the PCF8574 I / O

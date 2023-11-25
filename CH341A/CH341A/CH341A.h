@@ -55,7 +55,18 @@ public:
 	int SetGpioOutputs(uint32_t direction, uint32_t dataOut);
 	int GetGpioInputs(uint32_t &dataIn);
 
+	/** Regular SPI with 4 lines */
 	int SpiTransfer(uint8_t *buffer, unsigned int count);
+
+	/** SPI transfer with 3-line interface (bidirectional data line)
+		- like used by DS1626 and maybe DS1302.
+		This uses SCL + SDA + D0 (CS) pins.
+	*/
+	int SpiTransfer3Wire(uint8_t *buffer, unsigned int count);
+
+	/** SPI-like transfer with 5 output lines and 2 input lines
+	*/
+	int SpiTransferBitStream(uint8_t *buffer, unsigned int count);
 
 private:
 	int index;
