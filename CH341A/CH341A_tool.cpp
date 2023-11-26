@@ -40,8 +40,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
 		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
 		Application->CreateForm(__classid(TfrmCH341SpiWriteRead), &frmCH341SpiWriteRead);
-		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);
 		Application->CreateForm(__classid(TfrmCH341Gpio), &frmCH341Gpio);
+		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);
 		Application->CreateForm(__classid(TfrmCH341I2CSi7021), &frmCH341I2CSi7021);
 		Application->CreateForm(__classid(TfrmCH341I2CBme280), &frmCH341I2CBme280);
 		Application->CreateForm(__classid(TfrmCH341I2CBmp180), &frmCH341I2CBmp180);
