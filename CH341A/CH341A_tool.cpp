@@ -16,12 +16,13 @@ USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("LogUnit.cpp", frmLog);
 USEFORM("CH341A\tools\FormCH341I2CSsd1306.cpp", frmCH341I2CSsd1306);
 USEFORM("CH341A\tools\FormCH341I2CRda5807m.cpp", frmCH341I2CRda5807m);
-USEFORM("CH341A\tools\FormCH341I2CLm75.cpp", frmCH341I2CLm75);
 USEFORM("CH341A\tools\FormCH341I2CBme280.cpp", frmCH341I2CBme280);
+USEFORM("CH341A\tools\FormCH341I2CLm75.cpp", frmCH341I2CLm75);
 USEFORM("CH341A\tools\FormCH341GpioHd44780.cpp", frmCH341GpioHd44780);
 USEFORM("CH341A\tools\FormCH341I2CHd44780.cpp", frmCH341I2CHd44780);
 USEFORM("CH341A\tools\FormCH341I2CBmp180.cpp", frmCH341I2CBmp180);
 USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
+USEFORM("CH341A\tools\FormCH341SpiMax7219Led8x8.cpp", CH341SpiMax7219Led8x8);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -51,6 +52,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341GpioHd44780), &frmCH341GpioHd44780);
 		Application->CreateForm(__classid(TfrmCH341I2CHd44780), &frmCH341I2CHd44780);
 		Application->CreateForm(__classid(TfrmCH341I2CRda5807m), &frmCH341I2CRda5807m);
+		Application->CreateForm(__classid(TCH341SpiMax7219Led8x8), &CH341SpiMax7219Led8x8);
 		Application->Run();
 	}
 	catch (Exception &exception)

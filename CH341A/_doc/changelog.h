@@ -24,5 +24,5 @@ Version 1.1
 - BMP280 is listed next to BME280
 - added AHT10/AHT20 temperature + humidity sensor
 - added writing/reading raw SPI data (but CH341 SPI is quite limited)
-
+- added writing to SPI MAX7219 8x8 LED matrix display
 */
