@@ -25,4 +25,5 @@ Version 1.1
 - added AHT10/AHT20 temperature + humidity sensor
 - added writing/reading raw SPI data (but CH341 SPI is quite limited)
 - added writing to SPI MAX7219 8x8 LED matrix display
+- added AS5600 - magnetic rotary position sensor with 12-bit resolution
 */
