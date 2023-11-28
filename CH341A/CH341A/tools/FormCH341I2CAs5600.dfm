@@ -1681,7 +1681,7 @@ object frmCH341I2CAs5600: TfrmCH341I2CAs5600
     Top = 80
     Width = 276
     Height = 17
-    Caption = 'auto refresh (repeat reading every second)'
+    Caption = 'auto refresh (repeat reading with 100 ms interval)'
     TabOrder = 1
     OnClick = chbAutoReadClick
     OnKeyPress = chbAutoReadKeyPress
