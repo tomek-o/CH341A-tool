@@ -7,4 +7,8 @@ Windows application adding extra functionality to popular EEPROM/FLASH programme
 
 ![CH341A tool](http://tomeko.net/software/CH341A_tool/CH341A_SSD1306.jpg)
 
+![CH341A tool](http://tomeko.net/software/CH341A_tool/CH341A_AS5600.png)
+
+![CH341A tool](http://tomeko.net/software/CH341A_tool/CH341A_MAX7219_8x8_LED.jpg)
+
 https://tomeko.net/software/CH341A_tool/
