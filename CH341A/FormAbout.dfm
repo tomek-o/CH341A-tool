@@ -409,27 +409,27 @@ object frmAbout: TfrmAbout
         'json-cpp license:'#10
         
           '================================================================' +
-          '============='#10#13#10#10
-        ''
+          '============='#10
+        #10
         
           'The JsonCpp library'#39's source code, including accompanying docume' +
           'ntation, tests and demonstration '
-        'applications, are licensed under the following conditions...'#10#13#10#10
-        ''
+        'applications, are licensed under the following conditions...'#10
+        #10
         
           'The author (Baptiste Lepilleur) explicitly disclaims copyright i' +
           'n all jurisdictions which recognize such a '
         
           'disclaimer. In such jurisdictions, this software is released int' +
-          'o the Public Domain.'#10#13#10#10
-        ''
+          'o the Public Domain.'#10
+        #10
         
           'In jurisdictions which do not recognize Public Domain property (' +
           'e.g. Germany as of 2010), this software is '
         
           'Copyright (c) 2007-2010 by Baptiste Lepilleur, and is released u' +
-          'nder the terms of the MIT License.'#10#13#10#10
-        ''
+          'nder the terms of the MIT License.'#10
+        #10
         
           'In jurisdictions which recognize Public Domain property, the use' +
           'r of this software may choose to accept it '
@@ -438,16 +438,16 @@ object frmAbout: TfrmAbout
           'icense (see below), or 3) under the terms '
         
           'of dual Public Domain/MIT License conditions described here, as ' +
-          'they choose.'#10#13#10#10
-        ''
+          'they choose.'#10
+        #10
         
           'The MIT License is about as close to Public Domain as a license ' +
           'can get, and is described in clear, '
-        'concise terms at:'#10#13#10#10
-        ''
-        '   http://en.wikipedia.org/wiki/MIT_License'#10#13#10#10
-        #13#10#10
-        ''
+        'concise terms at:'#10
+        #10
+        '   http://en.wikipedia.org/wiki/MIT_License'#10
+        #10
+        #10
         
           '================================================================' +
           '============='#10
@@ -457,32 +457,32 @@ object frmAbout: TfrmAbout
           '=============   '#10
         '   '#10
         'Copyright (c) 2021, Harbys'#10
-        'All rights reserved.'#10#13#10#10
-        ''
+        'All rights reserved.'#10
+        #10
         
           'Redistribution and use in source and binary forms, with or witho' +
           'ut modification, are permitted provided that '
-        'the following conditions are met:'#10#13#10#10
-        ''
+        'the following conditions are met:'#10
+        #10
         
           '1. Redistributions of source code must retain the above copyrigh' +
           't notice, this list of conditions and the '
-        'following disclaimer.'#10#13#10#10
-        ''
+        'following disclaimer.'#10
+        #10
         
           '2. Redistributions in binary form must reproduce the above copyr' +
           'ight notice, this list of conditions and the '
         
           'following disclaimer in the documentation and/or other materials' +
-          ' provided with the distribution.'#10#13#10#10
-        ''
+          ' provided with the distribution.'#10
+        #10
         
           '3. Neither the name of the copyright holder nor the names of its' +
           ' contributors may be used to endorse or '
         
           'promote products derived from this software without specific pri' +
-          'or written permission.'#10#13#10#10
-        ''
+          'or written permission.'#10
+        #10
         
           'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUT' +
           'ORS "AS IS" '
