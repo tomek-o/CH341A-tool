@@ -382,7 +382,7 @@
           <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
           <VersionInfo Name="AutoIncBuild">False</VersionInfo>
           <VersionInfo Name="MajorVer">1</VersionInfo>
-          <VersionInfo Name="MinorVer">0</VersionInfo>
+          <VersionInfo Name="MinorVer">1</VersionInfo>
           <VersionInfo Name="Release">0</VersionInfo>
           <VersionInfo Name="Build">0</VersionInfo>
           <VersionInfo Name="Debug">False</VersionInfo>
@@ -396,13 +396,13 @@
         <VersionInfoKeys>
           <VersionInfoKeys Name="CompanyName">Tomasz Ostrowski</VersionInfoKeys>
           <VersionInfoKeys Name="FileDescription">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.1.0.0</VersionInfoKeys>
           <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
           <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
           <VersionInfoKeys Name="ProductName">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="ProductVersion">1.0</VersionInfoKeys>
+          <VersionInfoKeys Name="ProductVersion">1.1</VersionInfoKeys>
           <VersionInfoKeys Name="Comments"></VersionInfoKeys>
         </VersionInfoKeys>
         <Debugging>
@@ -440,10 +440,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-      <buildevent file="turbocpp_template.bdsproj">
-        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+			<buildevent file="turbocpp_template.bdsproj">
+				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-      </buildevent>
-    </buildevents>
+			</buildevent>
+		</buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>
