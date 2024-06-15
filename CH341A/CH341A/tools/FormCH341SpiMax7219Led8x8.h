@@ -13,7 +13,7 @@
 
 #include <vector>
 
-class TCH341SpiMax7219Led8x8 : public TForm
+class TfrmCH341SpiMax7219Led8x8 : public TForm
 {
 __published:	// IDE-managed Components
 	TButton *btnInit;
@@ -36,9 +36,9 @@ private:	// User declarations
 	void Init(void);
 	void Write(void);
 public:		// User declarations
-	__fastcall TCH341SpiMax7219Led8x8(TComponent* Owner);
+	__fastcall TfrmCH341SpiMax7219Led8x8(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TCH341SpiMax7219Led8x8 *CH341SpiMax7219Led8x8;
+extern PACKAGE TfrmCH341SpiMax7219Led8x8 *frmCH341SpiMax7219Led8x8;
 //---------------------------------------------------------------------------
 #endif

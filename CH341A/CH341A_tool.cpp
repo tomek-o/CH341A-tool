@@ -23,7 +23,7 @@ USEFORM("CH341A\tools\FormCH341GpioHd44780.cpp", frmCH341GpioHd44780);
 USEFORM("CH341A\tools\FormCH341I2CHd44780.cpp", frmCH341I2CHd44780);
 USEFORM("CH341A\tools\FormCH341I2CBmp180.cpp", frmCH341I2CBmp180);
 USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
-USEFORM("CH341A\tools\FormCH341SpiMax7219Led8x8.cpp", CH341SpiMax7219Led8x8);
+USEFORM("CH341A\tools\FormCH341SpiMax7219Led8x8.cpp", frmCH341SpiMax7219Led8x8);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"

@@ -14,7 +14,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TCH341SpiMax7219Led8x8 *CH341SpiMax7219Led8x8;
+TfrmCH341SpiMax7219Led8x8 *frmCH341SpiMax7219Led8x8;
 //---------------------------------------------------------------------------
 
 namespace
@@ -28,7 +28,7 @@ const TColor INACTIVE_COLOR = 0x303030;
 }	// namespace
 
 
-__fastcall TCH341SpiMax7219Led8x8::TCH341SpiMax7219Led8x8(TComponent* Owner)
+__fastcall TfrmCH341SpiMax7219Led8x8::TfrmCH341SpiMax7219Led8x8(TComponent* Owner)
 	: TForm(Owner)
 {
 	for (unsigned int row = 0; row < 8; row++)
@@ -72,13 +72,13 @@ __fastcall TCH341SpiMax7219Led8x8::TCH341SpiMax7219Led8x8(TComponent* Owner)
 	TabManager::Instance().Register(this);
 }
 //---------------------------------------------------------------------------
-void __fastcall TCH341SpiMax7219Led8x8::btnInitClick(TObject *Sender)
+void __fastcall TfrmCH341SpiMax7219Led8x8::btnInitClick(TObject *Sender)
 {
 	Init();
 	Write();
 }
 
-void TCH341SpiMax7219Led8x8::Init(void)
+void TfrmCH341SpiMax7219Led8x8::Init(void)
 {
 	BtnController btnCtrl(btnInit);
 
@@ -92,7 +92,7 @@ void TCH341SpiMax7219Led8x8::Init(void)
 	MAX7219::init(static_cast<uint8_t>(trbarIntensity->Position), DIGIT_COUNT);
 }
 
-void TCH341SpiMax7219Led8x8::Write(void)
+void TfrmCH341SpiMax7219Led8x8::Write(void)
 {
 	BtnController btnCtrl(btnWrite);
 
@@ -121,14 +121,14 @@ void TCH341SpiMax7219Led8x8::Write(void)
 
 //---------------------------------------------------------------------------
 
-void __fastcall TCH341SpiMax7219Led8x8::trbarIntensityChange(TObject *Sender)
+void __fastcall TfrmCH341SpiMax7219Led8x8::trbarIntensityChange(TObject *Sender)
 {
 	MAX7219::setIntensity(static_cast<uint8_t>(trbarIntensity->Position));	
 }
 //---------------------------------------------------------------------------
 
 
-void __fastcall TCH341SpiMax7219Led8x8::ShapeMouseDown(TObject *Sender,
+void __fastcall TfrmCH341SpiMax7219Led8x8::ShapeMouseDown(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
 	TShape *shape = dynamic_cast<TShape*>(Sender);
@@ -141,13 +141,13 @@ void __fastcall TCH341SpiMax7219Led8x8::ShapeMouseDown(TObject *Sender,
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TCH341SpiMax7219Led8x8::btnWriteClick(TObject *Sender)
+void __fastcall TfrmCH341SpiMax7219Led8x8::btnWriteClick(TObject *Sender)
 {
 	Write();	
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TCH341SpiMax7219Led8x8::btnClearClick(TObject *Sender)
+void __fastcall TfrmCH341SpiMax7219Led8x8::btnClearClick(TObject *Sender)
 {
 	for (unsigned int i=0; i<shapes.size(); i++)
 	{

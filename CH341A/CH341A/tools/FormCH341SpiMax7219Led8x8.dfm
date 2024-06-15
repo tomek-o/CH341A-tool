@@ -1,4 +1,4 @@
-object CH341SpiMax7219Led8x8: TCH341SpiMax7219Led8x8
+object frmCH341SpiMax7219Led8x8: TfrmCH341SpiMax7219Led8x8
   Left = 0
   Top = 0
   Caption = 'MAX7219 SPI 8x8 LED'
