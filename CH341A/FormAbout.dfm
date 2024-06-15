@@ -512,7 +512,57 @@ object frmAbout: TfrmAbout
           'OF THE USE OF '
         
           'THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE' +
-          '.    ')
+          '.    '#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        'SI5351 library license:'#10
+        
+          '================================================================' +
+          '=============   '#10
+        #10
+        'Copyright (c) 2020 Aleksander Alekseev'#10
+        #10
+        
+          'Permission is hereby granted, free of charge, to any person obta' +
+          'ining a copy of this software and '
+        
+          'associated documentation files (the "Software"), to deal in the ' +
+          'Software without restriction, including '
+        'without limitation the rights'#10
+        
+          'to use, copy, modify, merge, publish, distribute, sublicense, an' +
+          'd/or sell copies of the Software, and to '
+        
+          'permit persons to whom the Software is furnished to do so, subje' +
+          'ct to the following conditions:'#10
+        #10
+        
+          'The above copyright notice and this permission notice shall be i' +
+          'ncluded in all copies or substantial '
+        'portions of the Software.'#10
+        #10
+        
+          'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, ' +
+          'EXPRESS OR '
+        
+          'IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANT' +
+          'ABILITY, FITNESS '
+        
+          'FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL ' +
+          'THE'#10
+        
+          'AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR' +
+          ' OTHER '
+        
+          'LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ' +
+          'ARISING FROM, '
+        
+          'OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DE' +
+          'ALINGS IN THE'#10
+        'SOFTWARE.')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
