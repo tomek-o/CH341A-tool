@@ -46,7 +46,7 @@ object frmCH341A: TfrmCH341A
   object tvTools: TTreeView
     Left = 0
     Top = 41
-    Width = 150
+    Width = 169
     Height = 297
     Align = alLeft
     HideSelection = False
@@ -58,14 +58,14 @@ object frmCH341A: TfrmCH341A
     OnChange = tvToolsChange
   end
   object pages: TPageControl
-    Left = 150
+    Left = 169
     Top = 41
-    Width = 501
+    Width = 482
     Height = 297
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 137
-    ExplicitWidth = 514
+    ExplicitLeft = 150
+    ExplicitWidth = 501
   end
   object tmrStartup: TTimer
     Interval = 200
