@@ -26,4 +26,8 @@ Version 1.1
 - added writing/reading raw SPI data (but CH341 SPI is quite limited)
 - added writing to SPI MAX7219 8x8 LED matrix display
 - added AS5600 - magnetic rotary position sensor with 12-bit resolution
+
+Version 1.2
+- added Si5351A clock generator module
+- added VL53L0X ToF distance sensor reading
 */

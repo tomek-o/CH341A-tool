@@ -531,13 +531,13 @@ object frmAbout: TfrmAbout
         
           'associated documentation files (the "Software"), to deal in the ' +
           'Software without restriction, including '
-        'without limitation the rights'#10
         
-          'to use, copy, modify, merge, publish, distribute, sublicense, an' +
-          'd/or sell copies of the Software, and to '
+          'without limitation the rights to use, copy, modify, merge, publi' +
+          'sh, distribute, sublicense, and/or sell copies '
         
-          'permit persons to whom the Software is furnished to do so, subje' +
-          'ct to the following conditions:'#10
+          'of the Software, and to permit persons to whom the Software is f' +
+          'urnished to do so, subject to the following '
+        'conditions:'#10
         #10
         
           'The above copyright notice and this permission notice shall be i' +
@@ -552,17 +552,147 @@ object frmAbout: TfrmAbout
           'ABILITY, FITNESS '
         
           'FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL ' +
-          'THE'#10
+          'THE AUTHORS '
         
-          'AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR' +
-          ' OTHER '
+          'OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER L' +
+          'IABILITY, '
         
-          'LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ' +
-          'ARISING FROM, '
+          'WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FRO' +
+          'M, OUT OF OR IN '
         
-          'OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DE' +
-          'ALINGS IN THE'#10
-        'SOFTWARE.')
+          'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE' +
+          ' SOFTWARE.'#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        'VL53L0X library license:'#10
+        
+          '================================================================' +
+          '============= '#10
+        #10
+        
+          'Copyright (c) 2017-2022 Pololu Corporation.  For more informatio' +
+          'n, see'#10
+        #10
+        'https://www.pololu.com/'#10
+        'https://forum.pololu.com/'#10
+        #10
+        
+          'Permission is hereby granted, free of charge, to any person obta' +
+          'ining a copy of this software and '
+        
+          'associated documentation files (the "Software"), to deal in the ' +
+          'Software without restriction, including '
+        
+          'without limitation the rights to use, copy, modify, merge, publi' +
+          'sh, distribute, sublicense, and/or sell copies '
+        
+          'of the Software, and to permit persons to whom the Software is f' +
+          'urnished to do so, subject to the following '
+        'conditions:'#10
+        #10
+        
+          'The above copyright notice and this permission notice shall be i' +
+          'ncluded in all copies or substantial '
+        'portions of the Software.'#10
+        #10
+        
+          'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, ' +
+          'EXPRESS OR '
+        
+          'IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANT' +
+          'ABILITY, FITNESS '
+        
+          'FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL ' +
+          'THE AUTHORS '
+        
+          'OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER L' +
+          'IABILITY, '
+        
+          'WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FRO' +
+          'M, OUT OF OR IN '
+        
+          'CONNECTION WITH THE SOFTWARE OR THE USE OR THER DEALINGS IN THE ' +
+          'SOFTWARE.'#10
+        #10
+        
+          '================================================================' +
+          '='#10
+        #10
+        
+          'Most of the functionality of this library is based on the VL53L0' +
+          'X API provided by ST (STSW-IMG005), and '
+        
+          'some of the explanatory comments are quoted or paraphrased from ' +
+          'the API source code, API user manual '
+        '(UM2039), and the VL53L0X datasheet.'#10
+        #10
+        
+          'The following applies to source code reproduced or derived from ' +
+          'the API:'#10
+        #10
+        
+          '----------------------------------------------------------------' +
+          '-'#10
+        #10
+        
+          'Copyright '#169' 2016, STMicroelectronics International N.V.  All rig' +
+          'hts reserved.'#10
+        #10
+        
+          'Redistribution and use in source and binary forms, with or witho' +
+          'ut modification, are permitted provided that '
+        'the following conditions are met:'#10
+        
+          '* Redistributions of source code must retain the above copyright' +
+          ' notice, this list of conditions and the '
+        'following disclaimer.'#10
+        
+          '* Redistributions in binary form must reproduce the above copyri' +
+          'ght notice, this list of conditions and the '
+        
+          'following disclaimer in the documentation and/or other materials' +
+          ' provided with the distribution.'#10
+        
+          '* Neither the name of STMicroelectronics nor the names of its co' +
+          'ntributors may be used to endorse or '
+        
+          'promote products derived from this software without specific pri' +
+          'or written permission.'#10
+        #10
+        
+          'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUT' +
+          'ORS "AS IS" '
+        
+          'AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITE' +
+          'D TO, THE '
+        
+          'IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR ' +
+          'PURPOSE, AND '
+        
+          'NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS ARE DISCLAIMED.' +
+          ' IN NO EVENT '
+        
+          'SHALL STMICROELECTRONICS INTERNATIONAL N.V. BE LIABLE FOR ANY DI' +
+          'RECT, INDIRECT, '
+        
+          'INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUD' +
+          'ING, BUT NOT '
+        
+          'LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF' +
+          ' USE, DATA, OR '
+        
+          'PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE' +
+          'ORY OF '
+        
+          'LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLU' +
+          'DING NEGLIGENCE OR '
+        
+          'OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, E' +
+          'VEN IF ADVISED '
+        'OF THE POSSIBILITY OF SUCH DAMAGE.')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
