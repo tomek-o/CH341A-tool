@@ -1,4 +1,8 @@
-﻿#include <si5351.h>
+﻿#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#include <si5351.h>
 #include "CH341A.h"
 #include "Log.h"
 

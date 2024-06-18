@@ -1,3 +1,7 @@
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #include "RDA5807M.h"
 #include "Log.h"
 #include "CH341A.h"
@@ -150,7 +154,7 @@ void RDA5807M_tune(uint16_t value)
     //RDA5807M_write(tune_config, TUNE_CONFIG_LEN);
 	
 	uint16_t chan = static_cast<uint16_t>((value - 8700) / 10);
-	LOG(PROMPT"Tune to %u.%02uMHz, chan = %u\n", value/100, value%100, chan);
+	LOG(PROMPT "Tune to %u.%02uMHz, chan = %u\n", value/100, value%100, chan);
 	
 	uint16_t r3= regs[R3].value;
 	r3 &= ~R3_CHAN_MASK;
@@ -164,7 +168,7 @@ void RDA5807M_tune(uint16_t value)
 
 void RDA5807M_search(uint8_t up)
 {
-	LOG(PROMPT"search: up = %d\n", static_cast<int>(up));
+	LOG(PROMPT "search: up = %d\n", static_cast<int>(up));
 	if (up)
 	{
 		regs[R2].value |= (R2_SEEKUP|R2_SEEK);
@@ -277,7 +281,7 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
 
 void RDA5807M_set_volume(uint8_t volume)
 {
-	LOG(PROMPT"Set volume = %u\n", static_cast<unsigned int>(volume));
+	LOG(PROMPT "Set volume = %u\n", static_cast<unsigned int>(volume));
 	regs[R5].value &= ~R5_VOLUME_MASK;
 	regs[R5].value |= static_cast<uint16_t>(volume & R5_VOLUME_MASK);
 	RDA5807M_write_reg(R5);
@@ -288,7 +292,7 @@ void RDA5807M_set_stereo(uint8_t on)
 	LOG(PROMPT"Set stereo = %u\n", static_cast<unsigned int>(on));
 	if (on == 0)
 	{
-		LOG(PROMPT"Forcing mono\n");
+		LOG(PROMPT "Forcing mono\n");
 		regs[R2].value |= R2_MONO;
 	}
 	else
@@ -313,7 +317,7 @@ void RDA5807M_mute(bool state)
 
 void RDA5807M_shutdown(void)
 {
-	LOG(PROMPT"shutdown\n");	
+	LOG(PROMPT "shutdown\n");
 	regs[R2].value &= ~R2_ENABLE;
 	RDA5807M_write_reg(R2);
 }
