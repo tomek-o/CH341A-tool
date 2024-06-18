@@ -43,11 +43,17 @@ public:
 
 	int I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &data);
 	int I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &data);
+	int I2CWriteCommandReadU16FromMsb(uint8_t i2cAddr, uint8_t command, uint16_t &data);
+	int I2CWriteCommandReadU32FromMsb(uint8_t i2cAddr, uint8_t command, uint32_t &data);
 
 	int I2CWriteCommandReadByte(uint8_t i2cAddr, uint8_t command, uint8_t &data);
 	int I2CWriteCommandReadBuffer(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int dataSize);
 
 	int I2CWriteCommandWriteByte(uint8_t i2cAddr, uint8_t command, uint8_t data);
+	int I2CWriteCommandWrite2B(uint8_t i2cAddr, uint8_t command, uint8_t data1, uint8_t data2);
+	int I2CWriteCommandWriteBytes(uint8_t i2cAddr, uint8_t command, const uint8_t *data, unsigned int count);
+	int I2CWriteCommandWriteUintFromMsb(uint8_t i2cAddr, uint8_t command, uint32_t value);
+	int I2CWriteCommandReadBytes(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int count);
 
 	int I2CWriteByte(uint8_t i2cAddr, uint8_t data);
 	int I2CReadByte(uint8_t i2cAddr, uint8_t &data);

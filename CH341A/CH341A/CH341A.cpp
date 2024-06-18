@@ -9,6 +9,7 @@
 #include "CH341PAR/LIB/C/CH341DLL.h"
 #include <System.hpp>
 #include <assert.h>
+#include <vector>
 
 //---------------------------------------------------------------------------
 
@@ -315,6 +316,69 @@ int CH341A::I2CWriteCommandReadWord(uint8_t i2cAddr, uint8_t command, int16_t &d
 	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), (uint8_t*)&data, readCount);
 }
 
+int CH341A::I2CWriteCommandReadU16FromMsb(uint8_t i2cAddr, uint8_t command, uint16_t &data)
+{
+	uint8_t writeBuffer[2];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadU16FromMsb: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+
+	unsigned int readCount = sizeof(data);
+	int status = I2CWriteRead(writeBuffer, sizeof(writeBuffer), (uint8_t*)&data, readCount);
+#ifdef __BORLANDC__
+#pragma warn -8071
+#endif
+	data = (data << 8) | (data >> 8);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	return status;
+}
+
+int CH341A::I2CWriteCommandReadU32FromMsb(uint8_t i2cAddr, uint8_t command, uint32_t &data)
+{
+	uint8_t writeBuffer[2];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadU16FromMsb: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+
+	unsigned int readCount = sizeof(data);
+	int status = I2CWriteRead(writeBuffer, sizeof(writeBuffer), (uint8_t*)&data, readCount);
+#ifdef __BORLANDC__
+#pragma warn -8071
+#endif
+	data = 	((data>>24)&0xff) | 	// move byte 3 to byte 0
+			((data<<8)&0xff0000) |	// move byte 1 to byte 2
+			((data>>8)&0xff00) |	// move byte 2 to byte 1
+			((data<<24)&0xff000000);// byte 0 to byte 3
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	return status;
+}
+
 int CH341A::I2CWriteCommandReadWord2(uint8_t i2cAddr, uint8_t command, int16_t &data)
 {
 	if (i2cAddr >= 0x80)
@@ -392,6 +456,104 @@ int CH341A::I2CWriteCommandWriteByte(uint8_t i2cAddr, uint8_t command, uint8_t d
 	unsigned int readCount = 0;
 	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), NULL, readCount);
 }
+
+int CH341A::I2CWriteCommandWrite2B(uint8_t i2cAddr, uint8_t command, uint8_t data1, uint8_t data2)
+{
+	uint8_t writeBuffer[4];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandWrite2B: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+	writeBuffer[2] = data1;
+	writeBuffer[3] = data2;
+
+	unsigned int readCount = 0;
+	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), NULL, readCount);
+}
+
+int CH341A::I2CWriteCommandWriteBytes(uint8_t i2cAddr, uint8_t command, const uint8_t *data, unsigned int count)
+{
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandWriteBytes: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+
+	std::vector<uint8_t> writeBuffer;
+	writeBuffer.resize(2 + count);
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+	memcpy(&writeBuffer[2], data, count);
+
+	unsigned int readCount = 0;
+	return I2CWriteRead(&writeBuffer[0], writeBuffer.size(), NULL, readCount);
+}
+
+
+int CH341A::I2CWriteCommandWriteUintFromMsb(uint8_t i2cAddr, uint8_t command, uint32_t value)
+{
+	uint8_t writeBuffer[6];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandWriteUintFromMsb: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	writeBuffer[1] = command;
+	writeBuffer[2] = (uint8_t)(value >> 24); // value highest byte
+	writeBuffer[3] = (uint8_t)(value >> 16);
+	writeBuffer[4] = (uint8_t)(value >>  8);
+	writeBuffer[5] = (uint8_t)(value);       // value lowest byte
+
+	unsigned int readCount = 0;
+	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), NULL, readCount);
+}
+
+int CH341A::I2CWriteCommandReadBytes(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int count)
+{
+	uint8_t writeBuffer[1];
+
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteCommandReadBytes: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+
+	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), data, count);
+}
+
+
+
 
 int CH341A::I2CWriteByte(uint8_t i2cAddr, uint8_t data)
 {
