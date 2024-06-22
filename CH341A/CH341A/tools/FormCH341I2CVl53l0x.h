@@ -20,6 +20,10 @@ __published:	// IDE-managed Components
 	TEdit *edDistance;
 	TLabel *lblMm;
 	TLabel *lblInfo;
+	TCheckBox *chbLongRange;
+	TLabel *lblMeasurementTimingBudget;
+	TComboBox *cbMeasurementTimingBudget;
+	TLabel *lblUs;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 private:	// User declarations
