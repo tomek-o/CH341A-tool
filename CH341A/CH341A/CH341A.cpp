@@ -534,7 +534,7 @@ int CH341A::I2CWriteCommandWriteUintFromMsb(uint8_t i2cAddr, uint8_t command, ui
 
 int CH341A::I2CWriteCommandReadBytes(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int count)
 {
-	uint8_t writeBuffer[1];
+	uint8_t writeBuffer[2];
 
 	if (i2cAddr >= 0x80)
 	{
@@ -548,6 +548,7 @@ int CH341A::I2CWriteCommandReadBytes(uint8_t i2cAddr, uint8_t command, uint8_t *
 #ifdef __BORLANDC__
 #pragma warn .8071
 #endif
+	writeBuffer[1] = command;
 
 	return I2CWriteRead(writeBuffer, sizeof(writeBuffer), data, count);
 }
