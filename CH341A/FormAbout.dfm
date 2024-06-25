@@ -692,7 +692,22 @@ object frmAbout: TfrmAbout
         
           'OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, E' +
           'VEN IF ADVISED '
-        'OF THE POSSIBILITY OF SUCH DAMAGE.')
+        'OF THE POSSIBILITY OF SUCH DAMAGE.'#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        'APDS-9960 library license:'#10
+        
+          '================================================================' +
+          '============= '#10
+        #10
+        'Shawn Hymel (SparkFun Electronics)'#10
+        
+          'This code is public domain but you buy me a beer if you use this' +
+          ' and we meet someday (Beerware '
+        'license).')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0

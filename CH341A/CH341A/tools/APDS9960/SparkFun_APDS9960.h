@@ -29,11 +29,12 @@
 #define GESTURE_SENSITIVITY_2   20
 
 /* Error code for returned values */
-#define ERROR                   0xFF
+#define APDS9960_ERROR          0xFF
 
 /* Acceptable device IDs */
 #define APDS9960_ID_1           0xAB
 #define APDS9960_ID_2           0x9C 
+#define APDS9960_ID_3           0xA8 
 
 /* Misc parameters */
 #define FIFO_PAUSE_TIME         30      // Wait period (ms) between FIFO reads

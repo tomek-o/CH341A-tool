@@ -71,7 +71,7 @@ bool SparkFun_APDS9960::init()
     if( !wireReadDataByte(APDS9960_ID, id) ) {
         return false;
     }
-    if( !(id == APDS9960_ID_1 || id == APDS9960_ID_2) ) {
+    if( !(id == APDS9960_ID_1 || id == APDS9960_ID_2 || id == APDS9960_ID_3) ) {
         return false;
     }
      
@@ -216,8 +216,8 @@ uint8_t SparkFun_APDS9960::getStatusRegister()
     uint8_t status_value;
 
     /* Read current ENABLE register */
-    if(!wireReadDataByte(APDS9960_STATUS, status_value) ) {
-        return ERROR;
+	if(!wireReadDataByte(APDS9960_STATUS, status_value) ) {
+		return APDS9960_ERROR;
     }
 
     return status_value;
@@ -234,7 +234,7 @@ uint8_t SparkFun_APDS9960::getMode()
     
     /* Read current ENABLE register */
     if( !wireReadDataByte(APDS9960_ENABLE, enable_value) ) {
-        return ERROR;
+		return APDS9960_ERROR;
     }
     
     return enable_value;
@@ -253,7 +253,7 @@ bool SparkFun_APDS9960::setMode(uint8_t mode, uint8_t enable)
 
     /* Read current ENABLE register */
     reg_val = getMode();
-    if( reg_val == ERROR ) {
+	if( reg_val == APDS9960_ERROR ) {
         return false;
     }
     
@@ -467,7 +467,7 @@ bool SparkFun_APDS9960::isGestureAvailable()
     
     /* Read value from GSTATUS register */
     if( !wireReadDataByte(APDS9960_GSTATUS, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out GVALID bit */
@@ -499,16 +499,19 @@ int SparkFun_APDS9960::readGesture()
     if( !isGestureAvailable() || !(getMode() & 0x41 /*0b01000001*/) ) {
         return DIR_NONE;
     }
-    
-    /* Keep looping as long as gesture data is valid */
-    while(1) {
-    
-        /* Wait some time to collect next batch of FIFO data */
-        SleepWithMsgProcessing(FIFO_PAUSE_TIME);
-        
+
+#if 1
+	/* Keep looping as long as gesture data is valid */
+	while(1) {
+
+		/* Wait some time to collect next batch of FIFO data */
+		SleepWithMsgProcessing(FIFO_PAUSE_TIME);
+#else
+	{
+#endif
         /* Get the contents of the STATUS register. Is data still valid? */
         if( !wireReadDataByte(APDS9960_GSTATUS, gstatus) ) {
-            return ERROR;
+            return APDS9960_ERROR;
         }
         
         /* If we have valid data, read in FIFO */
@@ -516,7 +519,7 @@ int SparkFun_APDS9960::readGesture()
         
             /* Read the current FIFO level */
             if( !wireReadDataByte(APDS9960_GFLVL, fifo_level) ) {
-                return ERROR;
+                return APDS9960_ERROR;
             }
 
 #if DEBUG
@@ -525,12 +528,17 @@ int SparkFun_APDS9960::readGesture()
 #endif
 
             /* If there's stuff in the FIFO, read it into our data block */
-            if( fifo_level > 0) {
+			if( fifo_level > 0) {
+				if (fifo_level > 32) {
+					// limit to sane value
+                	fifo_level = 32;
+				}
+
 				bytes_read = wireReadDataBlock(  APDS9960_GFIFO_U,
                                                 (uint8_t*)fifo_data, 
                                                 (fifo_level * 4) );
                 if( bytes_read == -1 ) {
-                    return ERROR;
+                    return APDS9960_ERROR;
                 }
 #if DEBUG
                 Serial.print("FIFO Dump: ");
@@ -1122,7 +1130,7 @@ uint8_t SparkFun_APDS9960::getLEDDrive()
     
     /* Read value from CONTROL register */
     if( !wireReadDataByte(APDS9960_CONTROL, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out LED drive bits */
@@ -1183,7 +1191,7 @@ uint8_t SparkFun_APDS9960::getProximityGain()
     
     /* Read value from CONTROL register */
     if( !wireReadDataByte(APDS9960_CONTROL, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out PDRIVE bits */
@@ -1244,7 +1252,7 @@ uint8_t SparkFun_APDS9960::getAmbientLightGain()
     
     /* Read value from CONTROL register */
     if( !wireReadDataByte(APDS9960_CONTROL, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out ADRIVE bits */
@@ -1304,7 +1312,7 @@ uint8_t SparkFun_APDS9960::getLEDBoost()
     
     /* Read value from CONFIG2 register */
     if( !wireReadDataByte(APDS9960_CONFIG2, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out LED_BOOST bits */
@@ -1359,7 +1367,7 @@ uint8_t SparkFun_APDS9960::getProxGainCompEnable()
     
     /* Read value from CONFIG3 register */
     if( !wireReadDataByte(APDS9960_CONFIG3, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out PCMP bits */
@@ -1415,7 +1423,7 @@ uint8_t SparkFun_APDS9960::getProxPhotoMask()
     
     /* Read value from CONFIG3 register */
     if( !wireReadDataByte(APDS9960_CONFIG3, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Mask out photodiode enable mask bits */
@@ -1540,7 +1548,7 @@ uint8_t SparkFun_APDS9960::getGestureGain()
     
     /* Read value from GCONF2 register */
     if( !wireReadDataByte(APDS9960_GCONF2, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out GGAIN bits */
@@ -1601,7 +1609,7 @@ uint8_t SparkFun_APDS9960::getGestureLEDDrive()
     
     /* Read value from GCONF2 register */
     if( !wireReadDataByte(APDS9960_GCONF2, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out GLDRIVE bits */
@@ -1666,7 +1674,7 @@ uint8_t SparkFun_APDS9960::getGestureWaitTime()
     
     /* Read value from GCONF2 register */
     if( !wireReadDataByte(APDS9960_GCONF2, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Mask out GWTIME bits */
@@ -1902,7 +1910,7 @@ uint8_t SparkFun_APDS9960::getAmbientLightIntEnable()
     
     /* Read value from ENABLE register */
     if( !wireReadDataByte(APDS9960_ENABLE, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out AIEN bit */
@@ -1951,7 +1959,7 @@ uint8_t SparkFun_APDS9960::getProximityIntEnable()
     
     /* Read value from ENABLE register */
     if( !wireReadDataByte(APDS9960_ENABLE, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out PIEN bit */
@@ -2000,7 +2008,7 @@ uint8_t SparkFun_APDS9960::getGestureIntEnable()
     
     /* Read value from GCONF4 register */
     if( !wireReadDataByte(APDS9960_GCONF4, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Shift and mask out GIEN bit */
@@ -2079,7 +2087,7 @@ uint8_t SparkFun_APDS9960::getGestureMode()
     
     /* Read value from GCONF4 register */
     if( !wireReadDataByte(APDS9960_GCONF4, val) ) {
-        return ERROR;
+        return APDS9960_ERROR;
     }
     
     /* Mask out GMODE bit */
@@ -2190,8 +2198,11 @@ int SparkFun_APDS9960::wireReadDataBlock(   uint8_t reg,
                                         uint8_t *val, 
                                         unsigned int len)
 {
-//	if (I2CWriteCommandReadBytes(uint8_t i2cAddr, uint8_t command, uint8_t *data, unsigned int count)
-
+    // not quite what is needed...
+	if (ch341a.I2CWriteCommandReadBytes(APDS9960_I2C_ADDR, reg, val, len))
+		return -1;
+	return len;
+#if 0
 	unsigned int i = 0;
     
     /* Indicate which register we want to read from */
@@ -2200,7 +2211,7 @@ int SparkFun_APDS9960::wireReadDataBlock(   uint8_t reg,
     }
     
     /* Read block data */
-    Wire.requestFrom(APDS9960_I2C_ADDR, len);
+	Wire.requestFrom(APDS9960_I2C_ADDR, len);
     while (Wire.available()) {
         if (i >= len) {
             return -1;
@@ -2210,4 +2221,5 @@ int SparkFun_APDS9960::wireReadDataBlock(   uint8_t reg,
     }
 
 	return i;
+#endif
 }
