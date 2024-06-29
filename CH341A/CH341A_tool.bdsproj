@@ -406,13 +406,14 @@
         <FILE FILENAME="CH341A\tools\FormCH341SpiMax7219Led8x8.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341SpiMax7219Led8x8" FORMNAME="frmCH341SpiMax7219Led8x8" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341SpiMax7219Led8x8.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CVl53l0x.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CVl53l0x" FORMNAME="frmCH341I2CVl53l0x" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CVl53l0x.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CApds9960.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CApds9960" FORMNAME="frmCH341I2CApds9960" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CApds9960.h"/>
+        <FILE FILENAME="CH341A\tools\FormCH341I2CL3G4200D.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CL3G4200D" FORMNAME="frmCH341I2CL3G4200D" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CL3G4200D.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
           <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
           <VersionInfo Name="AutoIncBuild">False</VersionInfo>
           <VersionInfo Name="MajorVer">1</VersionInfo>
-          <VersionInfo Name="MinorVer">1</VersionInfo>
+          <VersionInfo Name="MinorVer">2</VersionInfo>
           <VersionInfo Name="Release">0</VersionInfo>
           <VersionInfo Name="Build">0</VersionInfo>
           <VersionInfo Name="Debug">False</VersionInfo>
@@ -426,13 +427,13 @@
         <VersionInfoKeys>
           <VersionInfoKeys Name="CompanyName">Tomasz Ostrowski</VersionInfoKeys>
           <VersionInfoKeys Name="FileDescription">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="FileVersion">1.1.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.2.0.0</VersionInfoKeys>
           <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
           <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
           <VersionInfoKeys Name="ProductName">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="ProductVersion">1.1</VersionInfoKeys>
+          <VersionInfoKeys Name="ProductVersion">1.2</VersionInfoKeys>
           <VersionInfoKeys Name="Comments"></VersionInfoKeys>
         </VersionInfoKeys>
         <Debugging>

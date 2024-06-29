@@ -31,4 +31,5 @@ Version 1.2
 - added Si5351A clock generator module
 - added VL53L0X ToF distance sensor reading
 - added APDS-9960 light/proximity/gesture sensor reading
+- added L3G4200D gyro reading
 */
