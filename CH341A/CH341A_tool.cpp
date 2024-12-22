@@ -4,6 +4,7 @@
 #pragma hdrstop
 //---------------------------------------------------------------------------
 USEFORM("CH341A\FormCH341A.cpp", frmCH341A);
+USEFORM("CH341A\tools\TEA5767\FormCH341I2CTea5767.cpp", frmCH341I2CTea5767);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("CH341A\tools\FormCH341I2CSi7021.cpp", frmCH341I2CSi7021);
@@ -15,7 +16,6 @@ USEFORM("FormSettings.cpp", frmSettings);
 USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("LogUnit.cpp", frmLog);
 USEFORM("CH341A\tools\FormCH341I2CSsd1306.cpp", frmCH341I2CSsd1306);
-USEFORM("CH341A\tools\FormCH341I2CRda5807m.cpp", frmCH341I2CRda5807m);
 USEFORM("CH341A\tools\FormCH341I2CBme280.cpp", frmCH341I2CBme280);
 USEFORM("CH341A\tools\FormCH341I2CBmp180.cpp", frmCH341I2CBmp180);
 USEFORM("CH341A\tools\FormCH341I2CLm75.cpp", frmCH341I2CLm75);
@@ -28,6 +28,7 @@ USEFORM("CH341A\tools\FormCH341SpiMax7219Led8x8.cpp", frmCH341SpiMax7219Led8x8);
 USEFORM("CH341A\tools\FormCH341I2CVl53l0x.cpp", frmCH341I2CVl53l0x);
 USEFORM("CH341A\tools\FormCH341I2CApds9960.cpp", frmCH341I2CApds9960);
 USEFORM("CH341A\tools\FormCH341I2CL3G4200D.cpp", frmCH341I2CL3G4200D);
+USEFORM("CH341A\tools\RDA5807M\FormCH341I2CRda5807m.cpp", frmCH341I2CRda5807m);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
