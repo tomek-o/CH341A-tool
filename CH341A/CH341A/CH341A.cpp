@@ -505,6 +505,42 @@ int CH341A::I2CWriteCommandWriteBytes(uint8_t i2cAddr, uint8_t command, const ui
 	return I2CWriteRead(&writeBuffer[0], writeBuffer.size(), NULL, readCount);
 }
 
+int CH341A::I2CWriteBytes(uint8_t i2cAddr, const uint8_t *data, unsigned int count)
+{
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CWriteBytes: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+
+	std::vector<uint8_t> writeBuffer;
+	writeBuffer.resize(1 + count);
+#ifdef __BORLANDC__
+#pragma warn -8071	// already checked for address overflow above
+#endif
+	writeBuffer[0] = (i2cAddr << 1);
+#ifdef __BORLANDC__
+#pragma warn .8071
+#endif
+	memcpy(&writeBuffer[1], data, count);
+
+	unsigned int readCount = 0;
+	return I2CWriteRead(&writeBuffer[0], writeBuffer.size(), NULL, readCount);
+}
+
+int CH341A::I2CReadBytes(uint8_t i2cAddr, uint8_t *data, unsigned int count)
+{
+	if (i2cAddr >= 0x80)
+	{
+		LOG("I2CReadBytes: invalid I2C address (%u)\n", static_cast<unsigned int>(i2cAddr));
+		return -2;
+	}
+
+	i2cAddr <<= 1;
+
+	return I2CWriteRead(&i2cAddr, 1, data, count);
+}
+
 
 int CH341A::I2CWriteCommandWriteUintFromMsb(uint8_t i2cAddr, uint8_t command, uint32_t value)
 {
