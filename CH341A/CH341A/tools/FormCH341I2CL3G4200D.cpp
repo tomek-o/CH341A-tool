@@ -113,6 +113,7 @@ void __fastcall TfrmCH341I2CL3G4200D::btnInitClick(TObject *Sender)
 	}
 
 	enum L3G4200D_SCALE scale = L3G4200D_SCALE_2000DPS;
+	(void)scale;
 	switch (cbRange->ItemIndex)
 	{
 		case 0:
@@ -137,6 +138,11 @@ void __fastcall TfrmCH341I2CL3G4200D::btnInitClick(TObject *Sender)
 #ifdef __BORLANDC__
 #pragma warn .8071
 #endif
+	if (status != 0)
+	{
+		lblStatus->Caption = "Failed to write to REG4";
+		return;
+	}
 
 	// normal mode, disabled FIFO, HPF disabled
 	status = ch341a.I2CWriteCommandWriteByte(address, L3G4200D_CTRL_REG5, 0x00);
