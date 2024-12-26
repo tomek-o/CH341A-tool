@@ -14,7 +14,7 @@
 
 #define PROMPT "TEA5767: "
 
-#define LOCAL_DEBUG
+//#define LOCAL_DEBUG
 #ifdef LOCAL_DEBUG
 /** \note there are some compiler crashes / internal errors when using LOG directly,
 	thus redundant function was defined here
