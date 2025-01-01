@@ -707,7 +707,74 @@ object frmAbout: TfrmAbout
         
           'This code is public domain but you buy me a beer if you use this' +
           ' and we meet someday (Beerware '
-        'license).')
+        'license).'#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        'BMI160 IMU library license:'#10
+        
+          '================================================================' +
+          '============= '#10
+        'Copyright (c) 2021 Bosch Sensortec GmbH. All rights reserved.'#10
+        #10
+        'BSD-3-Clause'#10
+        #10
+        
+          'Redistribution and use in source and binary forms, with or witho' +
+          'ut modification, are permitted provided that '
+        'the following conditions are met:'#10
+        #10
+        
+          '1. Redistributions of source code must retain the above copyrigh' +
+          't notice, this list of conditions and the '
+        'following disclaimer.'#10
+        #10
+        
+          '2. Redistributions in binary form must reproduce the above copyr' +
+          'ight notice, this list of conditions and the '
+        
+          'following disclaimer in the documentation and/or other materials' +
+          ' provided with the distribution.'#10
+        #10
+        
+          '3. Neither the name of the copyright holder nor the names of its' +
+          ' contributors may be used to endorse or '
+        
+          'promote products derived from this software without specific pri' +
+          'or written permission.'#10
+        #10
+        
+          'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUT' +
+          'ORS "AS IS" '
+        
+          'AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITE' +
+          'D TO, THE '
+        
+          'IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICUL' +
+          'AR PURPOSE '
+        
+          'ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRI' +
+          'BUTORS BE '
+        
+          'LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,' +
+          ' OR CONSEQUENTIAL '
+        
+          'DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUT' +
+          'E GOODS OR '
+        
+          'SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTIO' +
+          'N) HOWEVER '
+        
+          'CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRI' +
+          'CT LIABILITY, OR '
+        
+          'TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT ' +
+          'OF THE USE OF '
+        
+          'THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE' +
+          '.')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
