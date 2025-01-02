@@ -109,26 +109,27 @@
           <property category="win32.*.win32b.bcc32" name="option.H=.arg.merge" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.H=.enabled" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.Hc.enabled" value="1"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.16" value="$(BDS)\include"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.17" value="$(BDS)\include\dinkumware"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.18" value="$(BDS)\include\vcl"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.19" value="..\jsoncpp\include"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.20" value="..\"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.bcc32" name="option.I.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.17" value="$(BDS)\include"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.18" value="$(BDS)\include\dinkumware"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.19" value="$(BDS)\include\vcl"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.20" value="..\jsoncpp\include"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.21" value="..\"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.merge" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.I.enabled" value="1"/>
           <property category="win32.*.win32b.bcc32" name="option.Jgi.enabled" value="0"/>
@@ -184,98 +185,103 @@
           <property category="win32.*.win32b.bcc32" name="option.wuse.enabled" value="1"/>
           <property category="win32.*.win32b.brcc32" name="option.16.enabled" value="0"/>
           <property category="win32.*.win32b.brcc32" name="option.31.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.16" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.dcc32" name="option.I.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.17" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.I.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.16" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.dcc32" name="option.O.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.17" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.O.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.16" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.dcc32" name="option.R.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.17" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.R.enabled" value="0"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.16" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.17" value="..\..\Borland Studio Projects"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.18" value="$(BDS)\lib"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.19" value="$(BDS)\lib\obj"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.dcc32" name="option.U.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.17" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.18" value="..\..\Borland Studio Projects"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.19" value="$(BDS)\lib"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.20" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.merge" value="1"/>
           <property category="win32.*.win32b.dcc32" name="option.U.enabled" value="1"/>
           <property category="win32.*.win32b.dcc32" name="param.filenames.merge" value="1"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.16" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.17" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.merge" value="1"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.enabled" value="1"/>
           <property category="win32.*.win32b.ilink32" name="container.SelectedWarnings.containerenabled" value="1"/>
@@ -283,25 +289,26 @@
           <property category="win32.*.win32b.ilink32" name="option.Gi.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.Gpd.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.Gpr.enabled" value="0"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.16" value="$(BDS)\lib"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.17" value="$(BDS)\lib\obj"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.18" value="$(BDS)\lib\psdk"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.19" value="..\ch341par\lib\c"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.ilink32" name="option.L.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.17" value="$(BDS)\lib"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.18" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.19" value="$(BDS)\lib\psdk"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.20" value="..\ch341par\lib\c"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.merge" value="1"/>
           <property category="win32.*.win32b.ilink32" name="option.L.enabled" value="1"/>
           <property category="win32.*.win32b.ilink32" name="option.Tpd.enabled" value="0"/>
@@ -310,22 +317,23 @@
           <property category="win32.*.win32b.ilink32" name="option.aa.enabled" value="1"/>
           <property category="win32.*.win32b.ilink32" name="option.ap.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.dynamicrtl.enabled" value="1"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.1" value="CH341A\tools\BMI160"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.10" value="CH341A\tools\SSD1306\textRenderer"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.11" value="CH341A\tools\SSD1306\shapeRenderer"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.12" value="CH341A\tools\SSD1306\frameBuffer"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.13" value="CH341A\tools\SSD1306"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.14" value="CH341A\tools"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.15" value="CH341A"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.16" value="..\_PROJEKTY\turbocpp_template"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.2" value="CH341A\tools\TEA5767"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.3" value="CH341A\tools\APDS9960"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.4" value="CH341A\tools\VL53L0X"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.5" value="CH341A\tools\SI5351"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.6" value="CH341A\tools\AS5600"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.7" value="CH341A\tools\MAX7219"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.8" value="CH341A\tools\HD44780"/>
-          <property category="win32.*.win32b.ilink32" name="option.j.arg.9" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.1" value="CH341A\tools\MPU6050"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.10" value="CH341A\tools\RDA5807M"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.11" value="CH341A\tools\SSD1306\textRenderer"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.12" value="CH341A\tools\SSD1306\shapeRenderer"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.13" value="CH341A\tools\SSD1306\frameBuffer"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.14" value="CH341A\tools\SSD1306"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.15" value="CH341A\tools"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.16" value="CH341A"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.17" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.2" value="CH341A\tools\BMI160"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.3" value="CH341A\tools\TEA5767"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.4" value="CH341A\tools\APDS9960"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.5" value="CH341A\tools\VL53L0X"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.6" value="CH341A\tools\SI5351"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.7" value="CH341A\tools\AS5600"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.8" value="CH341A\tools\MAX7219"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.9" value="CH341A\tools\HD44780"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.merge" value="1"/>
           <property category="win32.*.win32b.ilink32" name="option.j.enabled" value="0"/>
           <property category="win32.*.win32b.ilink32" name="option.m.enabled" value="0"/>
@@ -392,6 +400,9 @@
         <FILE FILENAME="CH341A\tools\VL53L0X\VL53L0X.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VL53L0X" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\VL53L0X\VL53L0X.h"/>
         <FILE FILENAME="CH341A\tools\APDS9960\SparkFun_APDS9960.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="SparkFun_APDS9960" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\APDS9960\SparkFun_APDS9960.h"/>
         <FILE FILENAME="CH341A\tools\BMI160\FormCH341I2CBMI160.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CBMI160" FORMNAME="frmCH341I2CBMI160" DESIGNCLASS="" ADDITIONAL="CH341A\tools\BMI160\FormCH341I2CBMI160.h"/>
+        <FILE FILENAME="CH341A\tools\MPU6050\MPU6050.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="CH341A\tools\MPU6050\MPU6050.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="MPU6050" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="CH341A\tools\MPU6050\FormCH341I2CMPU6050.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CMPU6050" FORMNAME="frmCH341I2CMPU6050" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MPU6050\FormCH341I2CMPU6050.h"/>
         <FILE FILENAME="CH341A\tools\GpioCfgPanel.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="GpioCfgPanel" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\GpioCfgPanel.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341Gpio.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341Gpio" FORMNAME="frmCH341Gpio" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341Gpio.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341I2CDetect.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341I2CDetect" FORMNAME="frmCH341I2CDetect" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341I2CDetect.h"/>
@@ -430,6 +441,8 @@
         <FILE FILENAME="CH341A\tools\BMI160\bmi160.c" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="bmi160" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\BMI160\bmi160.h" CONTAINERID="" LOCALCOMMAND=""/>
         <FILE FILENAME="CH341A\tools\BMI160\bmi160_defs.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="CH341A\tools\MPU6050\I2Cdev.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="I2Cdev" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="CH341A\tools\MPU6050\I2Cdev.h" CONTAINERID="" LOCALCOMMAND=""/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>

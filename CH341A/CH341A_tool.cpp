@@ -6,6 +6,7 @@
 USEFORM("CH341A\FormCH341A.cpp", frmCH341A);
 USEFORM("CH341A\tools\TEA5767\FormCH341I2CTea5767.cpp", frmCH341I2CTea5767);
 USEFORM("CH341A\tools\BMI160\FormCH341I2CBMI160.cpp", frmCH341I2CBMI160);
+USEFORM("CH341A\tools\MPU6050\FormCH341I2CMPU6050.cpp", frmCH341I2CMPU6050);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("CH341A\tools\FormCH341I2CSi7021.cpp", frmCH341I2CSi7021);
@@ -68,6 +69,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CMCP4725), &frmCH341I2CMCP4725);
 		Application->CreateForm(__classid(TfrmCH341I2CL3G4200D), &frmCH341I2CL3G4200D);
 		Application->CreateForm(__classid(TfrmCH341I2CBMI160), &frmCH341I2CBMI160);
+		Application->CreateForm(__classid(TfrmCH341I2CMPU6050), &frmCH341I2CMPU6050);
 		Application->Run();
 	}
 	catch (Exception &exception)

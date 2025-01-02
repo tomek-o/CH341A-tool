@@ -36,4 +36,5 @@ Version 1.2
 Version 1.3
 - added MCP4725 DAC
 - added BMI160 IMU
+- added MPU6050 IMU
 */
