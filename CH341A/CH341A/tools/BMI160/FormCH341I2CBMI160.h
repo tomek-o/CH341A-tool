@@ -32,6 +32,9 @@ __published:	// IDE-managed Components
 	TEdit *edGyroZ;
 	TLabel *lblAccelRange;
 	TComboBox *cbAccelerationRange;
+	TCheckBox *chbStepCounter;
+	TLabel *lblStepCount;
+	TEdit *edStepCount;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);

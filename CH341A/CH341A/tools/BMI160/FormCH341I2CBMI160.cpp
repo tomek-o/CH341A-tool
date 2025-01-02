@@ -178,6 +178,12 @@ void __fastcall TfrmCH341I2CBMI160::btnInitClick(TObject *Sender)
 		lblStatus->Caption = "BMI160 initialized and configured";
 		configured = true;
 	}
+
+	rslt = bmi160_set_step_counter(chbStepCounter->Checked ? BMI160_ENABLE : BMI160_DISABLE, &bmi160dev);
+	if (rslt != BMI160_OK)
+	{
+		lblStatus->Caption = "Failed to enable step counter!";
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -232,14 +238,35 @@ void TfrmCH341I2CBMI160::Read(void)
 		return;
 	}
 
-	bmi160_get_sensor_data((BMI160_ACCEL_SEL | BMI160_GYRO_SEL), &bmi160_accel, &bmi160_gyro, &bmi160dev);
+	int8_t ret = bmi160_get_sensor_data((BMI160_ACCEL_SEL | BMI160_GYRO_SEL), &bmi160_accel, &bmi160_gyro, &bmi160dev);
+	if (ret == BMI160_OK)
+	{
+		edAccelerationX->Text = bmi160_accel.x;
+		edAccelerationY->Text = bmi160_accel.y;
+		edAccelerationZ->Text = bmi160_accel.z;
+		edGyroX->Text = bmi160_gyro.x;
+		edGyroY->Text = bmi160_gyro.y;
+		edGyroZ->Text = bmi160_gyro.z;
+		lblStatus->Caption = "";
+	}
+	else
+	{
+		lblStatus->Caption = "Failed to read sensor data!";
+		Clear();
+		return;
+	}
 
-	edAccelerationX->Text = bmi160_accel.x;
-	edAccelerationY->Text = bmi160_accel.y;
-	edAccelerationZ->Text = bmi160_accel.z;
-	edGyroX->Text = bmi160_gyro.x;
-	edGyroY->Text = bmi160_gyro.y;
-	edGyroZ->Text = bmi160_gyro.z;
+	uint16_t steps = 0xFFFF;
+	ret = bmi160_read_step_counter(&steps, &bmi160dev);
+	if (ret == BMI160_OK)
+	{
+		edStepCount->Text = steps;
+	}
+	else
+	{
+		lblStatus->Caption = "Failed to read step counter!";
+		return;
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CBMI160::tmrAutoReadTimer(TObject *Sender)
