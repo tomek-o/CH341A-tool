@@ -1,0 +1,31 @@
+object frmPlot: TfrmPlot
+  Left = 0
+  Top = 0
+  Align = alClient
+  BorderStyle = bsNone
+  Caption = 'Plot'
+  ClientHeight = 240
+  ClientWidth = 463
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  ExplicitWidth = 320
+  PixelsPerInch = 96
+  TextHeight = 13
+  object paintBox: TPaintBox
+    Left = 0
+    Top = 0
+    Width = 463
+    Height = 240
+    Align = alClient
+    OnPaint = paintBoxPaint
+    ExplicitLeft = 176
+    ExplicitTop = 80
+    ExplicitWidth = 105
+    ExplicitHeight = 105
+  end
+end
