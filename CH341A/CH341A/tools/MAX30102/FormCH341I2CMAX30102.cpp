@@ -31,9 +31,11 @@ __fastcall TfrmCH341I2CMAX30102::TfrmCH341I2CMAX30102(TComponent* Owner)
 	frmPlot1 = new TfrmPlot(pnlPlot1);
 	frmPlot1->Parent = pnlPlot1;
 	frmPlot1->Visible = true;
+	frmPlot1->title = "RED";
 	frmPlot2 = new TfrmPlot(pnlPlot2);
 	frmPlot2->Parent = pnlPlot2;
 	frmPlot2->Visible = true;
+	frmPlot2->title = "INFRARED";
 }
 //---------------------------------------------------------------------------
 
@@ -52,7 +54,7 @@ void __fastcall TfrmCH341I2CMAX30102::btnInitClick(TObject *Sender)
 		return;
 	}
 
-	sensor.sensorConfiguration(/*ledBrightness=*/50, /*sampleAverage=*/SAMPLEAVG_4, \
+	sensor.sensorConfiguration(/*ledBrightness=*/150, /*sampleAverage=*/SAMPLEAVG_4, \
                         /*ledMode=*/MODE_MULTILED, /*sampleRate=*/SAMPLERATE_100, \
 						/*pulseWidth=*/PULSEWIDTH_411, /*adcRange=*/ADCRANGE_16384);
 
@@ -129,8 +131,8 @@ void __fastcall TfrmCH341I2CMAX30102::tmrAutoReadTimer(TObject *Sender)
 
 void __fastcall TfrmCH341I2CMAX30102::FormResize(TObject *Sender)
 {
-	pnlPlot1->Height = (Height - pnlPlot1->Top)/2 - 30;
-	pnlPlot2->Height = (Height - pnlPlot1->Top)/2 - 30;	
+	pnlPlot1->Height = (Height - pnlPlot1->Top)/2 - 15;
+	pnlPlot2->Height = (Height - pnlPlot1->Top)/2 - 15;	
 	pnlPlot2->Top = pnlPlot1->Top + pnlPlot1->Height + 15;
 }
 //---------------------------------------------------------------------------
