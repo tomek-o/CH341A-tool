@@ -198,6 +198,6 @@ void __fastcall TfrmPlot::paintBoxPaint(TObject *Sender)
 			}
 		}
 	}
-
+	canvas->TextOutA(80, 10, title);
 }
 //---------------------------------------------------------------------------

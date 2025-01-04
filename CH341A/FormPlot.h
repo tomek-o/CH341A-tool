@@ -31,6 +31,7 @@ public:		// User declarations
 		{}
 	};
 	std::vector<Trace> traces;
+	AnsiString title;
 };
 //---------------------------------------------------------------------------
 #endif
