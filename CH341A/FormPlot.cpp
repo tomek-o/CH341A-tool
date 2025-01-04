@@ -185,10 +185,10 @@ void __fastcall TfrmPlot::paintBoxPaint(TObject *Sender)
 			canvas->TextOutA(X1 + 12, Y1 - yOffset, asLabel);
 		}
 
-		if (delta / 10 > 0)
+		if (delta / 2 > 0)
 		{
 			// extra Y axis ticks
-			for (int Yval = scaleMin; Yval <= scaleMax; Yval += delta/10)
+			for (int Yval = scaleMin; Yval <= scaleMax; Yval += delta/2)
 			{
 				int X1 = 0;
 				float valueDelta = Yval - scaleMin;
