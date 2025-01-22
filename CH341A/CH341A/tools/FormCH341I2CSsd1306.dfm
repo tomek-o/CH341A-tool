@@ -2,8 +2,8 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   Left = 0
   Top = 0
   Caption = 'SSD1306 display'
-  ClientHeight = 299
-  ClientWidth = 635
+  ClientHeight = 329
+  ClientWidth = 631
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,10 +14,16 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   PixelsPerInch = 96
   TextHeight = 13
   object lblStatus: TLabel
-    Left = 16
-    Top = 72
+    Left = 8
+    Top = 70
     Width = 3
     Height = 13
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
   end
   object lblI2CAddress: TLabel
     Left = 8
@@ -42,17 +48,24 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   end
   object lblContrast: TLabel
     Left = 8
-    Top = 232
+    Top = 264
     Width = 42
     Height = 13
     Caption = 'Contrast'
   end
+  object lblAnimationInfo: TLabel
+    Left = 230
+    Top = 164
+    Width = 216
+    Height = 13
+    Caption = 'Shows simple patterns with lines and squares'
+  end
   object btnWrite: TButton
     Left = 8
-    Top = 131
+    Top = 129
     Width = 105
     Height = 25
-    Caption = 'Write'
+    Caption = 'Write text'
     TabOrder = 0
     OnClick = btnWriteClick
   end
@@ -67,13 +80,13 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 0
+    ItemHeight = 14
     ParentFont = False
     TabOrder = 1
   end
   object btnInvertDisplay: TButton
     Left = 8
-    Top = 162
+    Top = 189
     Width = 105
     Height = 25
     Caption = 'Invert display'
@@ -111,7 +124,7 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   end
   object edText: TEdit
     Left = 152
-    Top = 133
+    Top = 131
     Width = 121
     Height = 21
     TabOrder = 5
@@ -119,7 +132,7 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   end
   object btnTurnOn: TButton
     Left = 8
-    Top = 193
+    Top = 221
     Width = 105
     Height = 25
     Caption = 'Turn ON'
@@ -128,7 +141,7 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   end
   object btnTurnOff: TButton
     Left = 119
-    Top = 193
+    Top = 221
     Width = 105
     Height = 25
     Caption = 'Turn OFF'
@@ -137,7 +150,7 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
   end
   object trbarContrast: TTrackBar
     Left = 56
-    Top = 220
+    Top = 252
     Width = 353
     Height = 45
     Max = 255
@@ -146,5 +159,31 @@ object frmCH341I2CSsd1306: TfrmCH341I2CSsd1306
     TabOrder = 8
     TickMarks = tmBoth
     OnChange = trbarContrastChange
+  end
+  object btnAnimationStart: TButton
+    Left = 8
+    Top = 159
+    Width = 105
+    Height = 25
+    Caption = 'Start animation'
+    TabOrder = 9
+    OnClick = btnAnimationStartClick
+  end
+  object btnAnimationStop: TButton
+    Left = 119
+    Top = 159
+    Width = 105
+    Height = 25
+    Caption = 'Stop animation'
+    Enabled = False
+    TabOrder = 10
+    OnClick = btnAnimationStopClick
+  end
+  object tmrAnimate: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = tmrAnimateTimer
+    Left = 464
+    Top = 160
   end
 end

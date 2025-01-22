@@ -7,6 +7,7 @@
 #include "CH341A.h"
 #include "ssd1306/ssd1306.h"
 #include "ssd1306/textRenderer/TextRenderer.h"
+#include "ssd1306/shapeRenderer/ShapeRenderer.h"
 #include "TabManager.h"
 #include "common/BtnController.h"
 #include "Log.h"
@@ -18,7 +19,7 @@ TfrmCH341I2CSsd1306 *frmCH341I2CSsd1306;
 
 namespace
 {
-
+	unsigned int animationCycle = 0;
 }	// namespace
 
 
@@ -201,6 +202,179 @@ void __fastcall TfrmCH341I2CSsd1306::btnInitClick(TObject *Sender)
 
 	// Send buffer to the display
 	display->sendBuffer();
+
+	lblStatus->Caption = "";
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSsd1306::btnAnimationStartClick(TObject *Sender)
+{
+	if (!ch341a.IsOpened())
+	{
+		lblStatus->Caption = "CH341 is not opened!";
+		return;
+	}
+
+	if (display == NULL)
+	{
+		lblStatus->Caption = "Display is not initialized!";
+		return;
+	}
+
+	tmrAnimate->Enabled = true;
+	btnAnimationStart->Enabled = false;
+	btnAnimationStop->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSsd1306::btnAnimationStopClick(TObject *Sender)
+{
+	tmrAnimate->Enabled = false;
+	btnAnimationStart->Enabled = true;
+	btnAnimationStop->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSsd1306::tmrAnimateTimer(TObject *Sender)
+{
+	if (!ch341a.IsOpened() || display == NULL)
+	{
+		return;
+	}
+
+	pico_ssd1306::Size size = static_cast<pico_ssd1306::Size>(cbDisplayResolution->ItemIndex);
+	unsigned int w, h;
+	if (size == pico_ssd1306::W128xH64)
+	{
+		w = 128;
+		h = 64;
+	}
+	else
+	{
+		w = 128;
+		h = 32;
+	}
+
+	display->clear();
+
+	switch (animationCycle)
+	{
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+		{
+			for (unsigned int i=animationCycle; i<h; i+=4)
+			{
+            	pico_ssd1306::drawLine(display, 0, static_cast<uint8_t>(i), static_cast<uint8_t>(w-1), static_cast<uint8_t>(i));
+			}
+		}
+		break;
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+		{
+			for (unsigned int i=animationCycle-4; i<w; i+=4)
+			{
+            	pico_ssd1306::drawLine(display, static_cast<uint8_t>(i), 0, static_cast<uint8_t>(i), static_cast<uint8_t>(h-1));
+			}
+		}
+		break;
+	case 8:
+		{
+			for (unsigned int y=0; y<h; y++)
+			{
+				for (unsigned int x=0; x<w; x++)
+				{
+					if ((x % 2) == (y % 2))
+					{
+						display->setPixel(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+					}
+				}
+			}
+		}
+		break;
+	case 9:
+		{
+			for (unsigned int y=0; y<h; y++)
+			{
+				for (unsigned int x=0; x<w; x++)
+				{
+					if ((x % 2) != (y % 2))
+					{
+						display->setPixel(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+					}
+				}
+			}
+		}
+		break;
+
+	case 10:
+		{
+			for (unsigned int y=0; y<h; y++)
+			{
+				for (unsigned int x=0; x<w; x++)
+				{
+					if (((x/2) % 2) == ((y/2) % 2))
+					{
+						display->setPixel(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+					}
+				}
+			}
+		}
+		break;
+	case 11:
+		{
+			for (unsigned int y=0; y<h; y++)
+			{
+				for (unsigned int x=0; x<w; x++)
+				{
+					if (((x/2) % 2) != ((y/2) % 2))
+					{
+						display->setPixel(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+					}
+				}
+			}
+		}
+		break;
+
+	case 12:
+		{
+			for (unsigned int y=0; y<h; y++)
+			{
+				for (unsigned int x=0; x<w; x++)
+				{
+					if (((x/4) % 2) == ((y/4) % 2))
+					{
+						display->setPixel(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+					}
+				}
+			}
+		}
+		break;
+	case 13:
+		{
+			for (unsigned int y=0; y<h; y++)
+			{
+				for (unsigned int x=0; x<w; x++)
+				{
+					if (((x/4) % 2) != ((y/4) % 2))
+					{
+						display->setPixel(static_cast<uint8_t>(x), static_cast<uint8_t>(y));
+					}
+				}
+			}
+		}
+		break;
+
+	default:
+		animationCycle = 0;
+		return;
+	}
+
+	display->sendBuffer();	
+	animationCycle++;
 }
 //---------------------------------------------------------------------------
 

@@ -32,12 +32,19 @@ __published:	// IDE-managed Components
 	TButton *btnTurnOff;
 	TLabel *lblContrast;
 	TTrackBar *trbarContrast;
+	TButton *btnAnimationStart;
+	TButton *btnAnimationStop;
+	TTimer *tmrAnimate;
+	TLabel *lblAnimationInfo;
 	void __fastcall btnWriteClick(TObject *Sender);
 	void __fastcall btnInvertDisplayClick(TObject *Sender);
 	void __fastcall btnTurnOnClick(TObject *Sender);
 	void __fastcall btnTurnOffClick(TObject *Sender);
 	void __fastcall trbarContrastChange(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
+	void __fastcall btnAnimationStartClick(TObject *Sender);
+	void __fastcall btnAnimationStopClick(TObject *Sender);
+	void __fastcall tmrAnimateTimer(TObject *Sender);
 private:	// User declarations
 	pico_ssd1306::SSD1306 *display;
 	void Write(void);
