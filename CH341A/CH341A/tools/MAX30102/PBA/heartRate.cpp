@@ -57,6 +57,11 @@
 
 #include "heartRate.h"
 
+#ifdef __BORLANDC__
+#pragma warn -8071
+#pragma warn -8084
+#endif
+
 int16_t IR_AC_Max = 20;
 int16_t IR_AC_Min = -20;
 

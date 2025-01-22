@@ -425,7 +425,9 @@ int DFRobot_MAX30102::getNewData(void)
 	}
 	delay(1);
   }
+#if 0	// unreachable code
   return 0;
+#endif
 }
 
 void DFRobot_MAX30102::heartrateAndOxygenSaturation(
