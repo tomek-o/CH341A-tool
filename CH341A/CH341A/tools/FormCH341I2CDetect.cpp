@@ -61,3 +61,16 @@ void __fastcall TfrmCH341I2CDetect::tmrAutoDetectTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCH341I2CDetect::chbAutoDetectClick(TObject *Sender)
+{
+	tmrAutoDetect->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CDetect::chbAutoDetectMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+{
+	tmrAutoDetect->Enabled = true;
+}
+//---------------------------------------------------------------------------
+

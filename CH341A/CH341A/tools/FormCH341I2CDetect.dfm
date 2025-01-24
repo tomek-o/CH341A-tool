@@ -49,8 +49,11 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Height = 17
     Caption = 'auto detect (repeat detection every second)'
     TabOrder = 2
+    OnClick = chbAutoDetectClick
+    OnMouseDown = chbAutoDetectMouseDown
   end
   object tmrAutoDetect: TTimer
+    Enabled = False
     OnTimer = tmrAutoDetectTimer
     Left = 384
     Top = 8

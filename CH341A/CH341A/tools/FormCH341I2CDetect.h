@@ -18,6 +18,9 @@ __published:	// IDE-managed Components
 	TTimer *tmrAutoDetect;
 	void __fastcall btnDetectDevicesClick(TObject *Sender);
 	void __fastcall tmrAutoDetectTimer(TObject *Sender);
+	void __fastcall chbAutoDetectClick(TObject *Sender);
+	void __fastcall chbAutoDetectMouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y);
 private:	// User declarations
 	void Detect(void);
 public:		// User declarations
