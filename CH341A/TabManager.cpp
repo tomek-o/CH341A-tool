@@ -49,6 +49,7 @@ int TabManager::Register(TForm *frm)
 	frm->Align = alClient;
 	frm->Parent = pTabSheet;
 	frm->Visible = true;
+	frm->DoubleBuffered = true;
 
 	tabSheets.push_back(pTabSheet);
 	return 0;

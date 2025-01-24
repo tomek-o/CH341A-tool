@@ -18,6 +18,9 @@ __fastcall TfrmCH341A::TfrmCH341A(TComponent* Owner)
 	devIndex(0)
 {
 	TabManager::Instance().Configure(pages, tvTools);
+	this->DoubleBuffered = true;
+	pages->DoubleBuffered = true;
+	pnlTop->DoubleBuffered = true;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341A::btnOpenClick(TObject *Sender)
