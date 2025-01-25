@@ -44,4 +44,5 @@ Version 1.3
 	- Clause 22 for clause 45 (MMD) read/write window
 - added LAN8742A MDIO TDR (Time Domain Reflectometry) cable diagnostic over MDIO interface
 - added LAN8742A MDIO estimated cable length reading for matched cable with 100 Mbps active link
+- added option to start each log line with timestamp
 */
