@@ -37,4 +37,11 @@ Version 1.3
 - added MCP4725 DAC
 - added BMI160 IMU
 - added MPU6050 IMU
+- added simple line and square shapes generator (whole screen area test) to SSD1306 test
+- MDIO interface, using UART TX (as MDC) and RX (as MDIO) CH341A pins 
+	- device detection (PHY address + ID detection) window
+	- Clause 22 read/write window with bit descriptions for basic and extended PHY registers
+	- Clause 22 for clause 45 (MMD) read/write window
+- added LAN8742A MDIO TDR (Time Domain Reflectometry) cable diagnostic over MDIO interface
+- added LAN8742A MDIO estimated cable length reading for matched cable with 100 Mbps active link
 */
