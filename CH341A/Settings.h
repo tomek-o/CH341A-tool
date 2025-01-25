@@ -31,6 +31,7 @@ public:
 	struct _Logging
 	{
 		bool bLogToFile;
+		bool addTimestamps;
 		bool bFlush;
 		enum {
 			MIN_MAX_FILE_SIZE = 0,

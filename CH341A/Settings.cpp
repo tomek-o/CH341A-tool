@@ -29,6 +29,7 @@ void Settings::SetDefault(void)
 	frmMain.bAlwaysOnTop = false;
 
 	Logging.bLogToFile = false;
+	Logging.addTimestamps = false;
 	Logging.bFlush = false;
 	Logging.iMaxFileSize = Settings::_Logging::DEF_MAX_FILE_SIZE;
 	Logging.iMaxUiLogLines = 5000;
@@ -85,15 +86,18 @@ int Settings::Read(AnsiString asFileName)
 	frmMain.bWindowMaximized = frmMainJson.get("Maximized", false).asBool();
 	frmMain.bAlwaysOnTop = frmMainJson.get("AlwaysOnTop", false).asBool();
 
-	const Json::Value &LoggingJson = root["Logging"];
-	Logging.bLogToFile = LoggingJson.get("LogToFile", false).asBool();
-	Logging.bFlush = LoggingJson.get("Flush", Logging.bFlush).asBool();
-	Logging.iMaxFileSize = LoggingJson.get("MaxFileSize", Logging.iMaxFileSize).asInt();
-	if (Logging.iMaxFileSize < Settings::_Logging::MIN_MAX_FILE_SIZE || Logging.iMaxFileSize > Settings::_Logging::MIN_MAX_FILE_SIZE)
 	{
-		Logging.iMaxFileSize = Settings::_Logging::DEF_MAX_FILE_SIZE;
+		const Json::Value &LoggingJson = root["Logging"];
+		Logging.bLogToFile = LoggingJson.get("LogToFile", false).asBool();
+		LoggingJson.getBool("AddTimestamps", Logging.addTimestamps);
+		Logging.bFlush = LoggingJson.get("Flush", Logging.bFlush).asBool();
+		Logging.iMaxFileSize = LoggingJson.get("MaxFileSize", Logging.iMaxFileSize).asInt();
+		if (Logging.iMaxFileSize < Settings::_Logging::MIN_MAX_FILE_SIZE || Logging.iMaxFileSize > Settings::_Logging::MIN_MAX_FILE_SIZE)
+		{
+			Logging.iMaxFileSize = Settings::_Logging::DEF_MAX_FILE_SIZE;
+		}
+		Logging.iMaxUiLogLines = LoggingJson.get("MaxUiLogLines", 5000).asInt();
 	}
-	Logging.iMaxUiLogLines = LoggingJson.get("MaxUiLogLines", 5000).asInt();
 
 	ch341a.fromJson(root["ch341a"]);
 
@@ -112,10 +116,14 @@ int Settings::Write(AnsiString asFileName)
 	root["frmMain"]["Maximized"] = frmMain.bWindowMaximized;
 	root["frmMain"]["AlwaysOnTop"] = frmMain.bAlwaysOnTop;
 
-	root["Logging"]["LogToFile"] = Logging.bLogToFile;
-	root["Logging"]["Flush"] = Logging.bFlush;
-	root["Logging"]["MaxFileSize"] = Logging.iMaxFileSize;
-	root["Logging"]["MaxUiLogLines"] = Logging.iMaxUiLogLines;
+	{
+		Json::Value &jv = root["Logging"];
+		jv["LogToFile"] = Logging.bLogToFile;
+		jv["AddTimestamps"] = Logging.addTimestamps;
+		jv["Flush"] = Logging.bFlush;
+		jv["MaxFileSize"] = Logging.iMaxFileSize;
+		jv["MaxUiLogLines"] = Logging.iMaxUiLogLines;
+	}
 
 	ch341a.toJson(root["ch341a"]);
 

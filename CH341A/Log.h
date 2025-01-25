@@ -28,6 +28,7 @@ public:
 	 */
 	int SetFile(std::string);
 	void SetLogToFile(bool);
+	void SetTimestamps(bool state);
 	void SetFlush(bool state);
 	void SetMaxFileSize(unsigned int size);
 	/** \brief Set log detail level / disable logging */
@@ -51,6 +52,7 @@ private:
 	friend CSingleton<CLog>;
 	std::string sFile;
 	bool bLogToFile;
+	bool addTimestamps;
 	bool bFlush;
 	int iLogLevel;
 	unsigned int maxFileSize;

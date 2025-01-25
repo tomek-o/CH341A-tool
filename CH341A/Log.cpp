@@ -64,6 +64,11 @@ void CLog::SetLogToFile(bool state)
 	bLogToFile = state;
 }
 
+void CLog::SetTimestamps(bool state)
+{
+	addTimestamps = state;
+}
+
 void CLog::SetFlush(bool state)
 {
     bFlush = state;
@@ -90,16 +95,16 @@ void CLog::log(char *lpData, ...)
 	with MT version).
 	*/
 	//int size = strftime(buf, sizeof(buf), "%Y-%m-%d %T", localtime(&timebuffer.time));
-#if 0
-	struct timeb timebuffer;
-	ftime( &timebuffer );
-	int size = strftime(buf, sizeof(buf), "%T", localtime(&timebuffer.time));
-	int res = snprintf(buf+size, sizeof(buf)-size, ".%03hu ", timebuffer.millitm);
-	buf[sizeof(buf)-1] = '\0';
-	size += res;
-#else
 	int size = 0;
-#endif
+	if (addTimestamps)
+	{
+		struct timeb timebuffer;
+		ftime( &timebuffer );
+		size = strftime(buf, sizeof(buf), "%T", localtime(&timebuffer.time));
+		int res = snprintf(buf+size, sizeof(buf)-size, ".%03hu ", timebuffer.millitm);
+		buf[sizeof(buf)-1] = '\0';
+		size += res;
+	}
 
 	if ((int)sizeof(buf)-size-2 > 0)
 	{

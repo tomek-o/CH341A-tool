@@ -50,14 +50,12 @@ object frmSettings: TfrmSettings
     Top = 0
     Width = 357
     Height = 214
-    ActivePage = tsCH341A
+    ActivePage = tsLogging
     Align = alClient
     TabOrder = 0
     object tsCH341A: TTabSheet
       Caption = 'CH341A'
       ImageIndex = 2
-      ExplicitLeft = 8
-      ExplicitTop = 22
       object lblI2CSpeed: TLabel
         Left = 3
         Top = 30
@@ -139,6 +137,15 @@ object frmSettings: TfrmSettings
         Height = 17
         Caption = 'Log to file'
         TabOrder = 1
+        OnClick = chbAlwaysOnTopClick
+      end
+      object cbhLogAddTimestamps: TCheckBox
+        Left = 5
+        Top = 48
+        Width = 325
+        Height = 17
+        Caption = 'Add timestamps'
+        TabOrder = 2
         OnClick = chbAlwaysOnTopClick
       end
     end

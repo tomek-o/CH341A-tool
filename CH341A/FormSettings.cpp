@@ -30,6 +30,7 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
 	chbAlwaysOnTop->Checked = tmpSettings.frmMain.bAlwaysOnTop;
 
 	chbLogToFile->Checked = tmpSettings.Logging.bLogToFile;
+	cbhLogAddTimestamps->Checked = tmpSettings.Logging.addTimestamps;
 	cmbMaxUiLogLines->ItemIndex = -1;
 	for (int i=0; i<cmbMaxUiLogLines->Items->Count; i++)
 	{
@@ -64,6 +65,7 @@ void __fastcall TfrmSettings::btnCancelClick(TObject *Sender)
 void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
 {
 	tmpSettings.Logging.bLogToFile = chbLogToFile->Checked;
+	tmpSettings.Logging.addTimestamps = cbhLogAddTimestamps->Checked;
 
 	tmpSettings.ch341a.openAtStartup = chbCH341AOpenAtStartup->Checked;
 

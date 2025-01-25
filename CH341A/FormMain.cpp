@@ -49,6 +49,7 @@ void __fastcall TfrmMain::FormCreate(TObject *Sender)
 		CLog::Instance()->SetFile(ChangeFileExt(Application->ExeName, ".log").c_str());
 	else
 		CLog::Instance()->SetFile("");
+	CLog::Instance()->SetTimestamps(appSettings.Logging.addTimestamps);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmMain::FormCloseQuery(TObject *Sender, bool &CanClose)
@@ -87,6 +88,7 @@ void __fastcall TfrmMain::actShowSettingsExecute(TObject *Sender)
 	else
 		CLog::Instance()->SetFile("");
 	frmLog->SetLogLinesLimit(appSettings.Logging.iMaxUiLogLines);
+	CLog::Instance()->SetTimestamps(appSettings.Logging.addTimestamps);
 }
 //---------------------------------------------------------------------------
 
