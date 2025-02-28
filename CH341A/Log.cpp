@@ -2,6 +2,8 @@
  *  \brief Global logging unit
  */
 
+#include "Log.h"
+
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -9,7 +11,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <sys\timeb.h>
-#include "Log.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "common/Mutex.h"
@@ -23,7 +24,6 @@ namespace {
 CLog::CLog()
 {
 	sFile = "";
-	iLogLevel = 0;
 	bLogToFile = true;
 	bFlush = false;
 	callbackLog = NULL;
@@ -34,7 +34,6 @@ int CLog::SetFile(std::string file)
 {
 	ScopedLock<Mutex> lock(mutex);
 	sFile = file;
-	iLogLevel = E_LOG_NONE;
 	if (fout)
 	{
 		fclose(fout);
@@ -77,11 +76,6 @@ void CLog::SetFlush(bool state)
 void CLog::SetMaxFileSize(unsigned int size)
 {
     maxFileSize = size;
-}
-
-void CLog::SetLevel(int level)
-{
-	iLogLevel = level;
 }
 
 void CLog::log(char *lpData, ...)

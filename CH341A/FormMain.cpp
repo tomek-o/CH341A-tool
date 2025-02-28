@@ -99,7 +99,6 @@ void __fastcall TfrmMain::FormShow(TObject *Sender)
     {
 		once = true;
 		frmLog->SetLogLinesLimit(appSettings.Logging.iMaxUiLogLines);		
-		CLog::Instance()->SetLevel(E_LOG_TRACE);
 		CLog::Instance()->callbackLog = frmLog->OnLog;
 	}
 	LOG("Application started\n");

@@ -4,17 +4,9 @@
 
 #ifndef LogH
 #define LogH
+
 #include <string>
 #include "common/singleton.h"
-
-/** \brief Log detail level
-*/
-enum E_LOGLEVEL
-{
-	E_LOG_NONE = 0,
-	E_LOG_TRACE,
-	E_LOG_ALL
-};
 
 /** \brief Global logger
 */
@@ -26,13 +18,11 @@ public:
 	/** \brief Select output log file
 	 *  \return zero on no error
 	 */
-	int SetFile(std::string);
-	void SetLogToFile(bool);
+	int SetFile(std::string file);
+	void SetLogToFile(bool state);
 	void SetTimestamps(bool state);
 	void SetFlush(bool state);
 	void SetMaxFileSize(unsigned int size);
-	/** \brief Set log detail level / disable logging */
-	void SetLevel(int);
 	/** \brief Close log file */
 	void Close(void);
 	/** \brief OnLog callback declaration
@@ -54,7 +44,6 @@ private:
 	bool bLogToFile;
 	bool addTimestamps;
 	bool bFlush;
-	int iLogLevel;
 	unsigned int maxFileSize;
 };
 
