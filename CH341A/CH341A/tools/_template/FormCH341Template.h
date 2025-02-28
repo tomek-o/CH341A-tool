@@ -19,17 +19,12 @@ __published:	// IDE-managed Components
 	TLabel *lblAddress;
 	TComboBox *cbAddress;
 	TButton *btnInit;
-	TLabel *lblRange;
-	TComboBox *cbRange;
-	TLabel *lblDps;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
 private:	// User declarations
 	void Read(void);
 	uint8_t GetAddress(void);
-	double dpsPerBit;
-	AnsiString RawValToString(int val);
 public:		// User declarations
 	__fastcall TfrmCH341Template(TComponent* Owner);
 };

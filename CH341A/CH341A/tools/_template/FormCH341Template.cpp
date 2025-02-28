@@ -15,14 +15,9 @@
 TfrmCH341Template *frmCH341Template;
 //---------------------------------------------------------------------------
 
-#define L3G4200D_ADDRESS_A			0x68
-#define L3G4200D_ADDRESS_B			0x69
-
-
 
 __fastcall TfrmCH341Template::TfrmCH341Template(TComponent* Owner)
-	: TForm(Owner),
-	dpsPerBit(0)
+	: TForm(Owner)
 {
 	TabManager::Instance().Register(this);
 }
@@ -30,12 +25,13 @@ __fastcall TfrmCH341Template::TfrmCH341Template(TComponent* Owner)
 
 uint8_t TfrmCH341Template::GetAddress(void)
 {
+	int TODO__GET_ADDRESS;
 	switch (cbAddress->ItemIndex)
 	{
 	case 0:
-		return L3G4200D_ADDRESS_A;
+		return 0x23;
 	case 1:
-		return L3G4200D_ADDRESS_B;
+		return 0x24;
 	default:
 		assert(!"Unhandled address!");
 		return 0;
@@ -61,14 +57,6 @@ void __fastcall TfrmCH341Template::btnInitClick(TObject *Sender)
 void __fastcall TfrmCH341Template::btnReadClick(TObject *Sender)
 {
 	Read();
-}
-
-AnsiString TfrmCH341Template::RawValToString(int val)
-{
-	AnsiString text = FloatToStrF(dpsPerBit * val, ffFixed, 6, 1);
-	if (val >= 0)
-		text = (AnsiString)" " + text;
-	return text;
 }
 
 void TfrmCH341Template::Read(void)

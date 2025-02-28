@@ -1,7 +1,7 @@
 object frmCH341Template: TfrmCH341Template
   Left = 0
   Top = 0
-  Caption = 'L3G4200D gyro'
+  Caption = 'Template'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
@@ -25,20 +25,6 @@ object frmCH341Template: TfrmCH341Template
     Width = 199
     Height = 13
     Caption = 'I2C address, depending on SDO pin state'
-  end
-  object lblRange: TLabel
-    Left = 8
-    Top = 38
-    Width = 31
-    Height = 13
-    Caption = 'Range'
-  end
-  object lblDps: TLabel
-    Left = 136
-    Top = 38
-    Width = 123
-    Height = 13
-    Caption = 'dps (degrees per second)'
   end
   object btnRead: TButton
     Left = 8
@@ -85,27 +71,6 @@ object frmCH341Template: TfrmCH341Template
     Caption = 'Init'
     TabOrder = 3
     OnClick = btnInitClick
-  end
-  object cbRange: TComboBox
-    Left = 56
-    Top = 35
-    Width = 65
-    Height = 22
-    Style = csDropDownList
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Courier New'
-    Font.Style = []
-    ItemHeight = 14
-    ItemIndex = 0
-    ParentFont = False
-    TabOrder = 4
-    Text = '250'
-    Items.Strings = (
-      '250'
-      '500'
-      '2000')
   end
   object tmrAutoRead: TTimer
     Interval = 500
