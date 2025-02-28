@@ -276,7 +276,7 @@ object frmAbout: TfrmAbout
       Width = 395
       Height = 13
       Caption = 
-        'Copyright '#169'  2023-2024 Tomasz Ostrowski, distributed under BSD 3' +
+        'Copyright '#169'  2023-2025 Tomasz Ostrowski, distributed under BSD 3' +
         '-Clause License'
       IsControl = True
     end
@@ -823,7 +823,19 @@ object frmAbout: TfrmAbout
           'M, OUT OF OR IN '
         
           'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE' +
-          ' SOFTWARE.')
+          ' SOFTWARE.'#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        'DS1302 RTC'#10
+        
+          '================================================================' +
+          '============='#10
+        'Based on Open Source / Public Domain code'#10
+        #9'By arduino.cc user "Krodal"'#10
+        #9'March 2013')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0

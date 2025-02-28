@@ -38,6 +38,7 @@ USEFORM("CH341A\tools\FormCH341I2CL3G4200D.cpp", frmCH341I2CL3G4200D);
 USEFORM("FormPlot.cpp", frmPlot);
 USEFORM("CH341A\tools\MDIO\FormCH341MdioLan8742Tdr.cpp", frmCH341MdioLan8742Tdr);
 USEFORM("CH341A\tools\MDIO\FormCH341MdioLan8742Cbln.cpp", frmCH341MdioLan8742Cbln);
+USEFORM("CH341A\tools\FormCH341DS1302.cpp", frmCH341DS1302);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -81,6 +82,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341MdioMmdWriteRead), &frmCH341MdioMmdWriteRead);
 		Application->CreateForm(__classid(TfrmCH341MdioLan8742Tdr), &frmCH341MdioLan8742Tdr);
 		Application->CreateForm(__classid(TfrmCH341MdioLan8742Cbln), &frmCH341MdioLan8742Cbln);
+		Application->CreateForm(__classid(TfrmCH341DS1302), &frmCH341DS1302);
 		Application->Run();
 	}
 	catch (Exception &exception)
