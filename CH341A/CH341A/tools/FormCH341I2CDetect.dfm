@@ -27,9 +27,9 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
   end
   object memoDetect: TMemo
     Left = 16
-    Top = 40
+    Top = 56
     Width = 393
-    Height = 251
+    Height = 235
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -40,7 +40,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
-    TabOrder = 1
+    TabOrder = 3
   end
   object chbAutoDetect: TCheckBox
     Left = 97
@@ -48,9 +48,17 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Width = 264
     Height = 17
     Caption = 'auto detect (repeat detection every second)'
-    TabOrder = 2
+    TabOrder = 1
     OnClick = chbAutoDetectClick
     OnMouseDown = chbAutoDetectMouseDown
+  end
+  object chbBeep: TCheckBox
+    Left = 97
+    Top = 33
+    Width = 264
+    Height = 17
+    Caption = 'beep when something is detected'
+    TabOrder = 2
   end
   object tmrAutoDetect: TTimer
     Enabled = False

@@ -45,6 +45,10 @@ void TfrmCH341I2CDetect::Detect(void)
 	if (found)
 	{
 		memoDetect->Text = text;
+		if (chbBeep->Checked)
+		{
+			Beep(440, 100);
+		}
 	}
 	else
 	{
