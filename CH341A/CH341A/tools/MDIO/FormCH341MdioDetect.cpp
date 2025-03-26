@@ -67,6 +67,13 @@ void TfrmCH341MdioDetect::Detect(void)
 	{
     	memoDetect->Text = "No MDIO device found (no PHY ID != 0xFFFF on any address)!";
 	}
+	else
+	{
+		if (chbBeep->Checked)
+		{
+			Beep(440, 100);
+		}
+	}
 	lblStatus->Caption = "";	
 }
 //---------------------------------------------------------------------------

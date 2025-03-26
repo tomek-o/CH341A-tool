@@ -57,4 +57,12 @@ object frmCH341MdioDetect: TfrmCH341MdioDetect
     ScrollBars = ssVertical
     TabOrder = 1
   end
+  object chbBeep: TCheckBox
+    Left = 97
+    Top = 12
+    Width = 264
+    Height = 17
+    Caption = 'beep when MDIO device is detected'
+    TabOrder = 2
+  end
 end

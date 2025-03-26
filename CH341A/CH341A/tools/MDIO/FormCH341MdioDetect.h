@@ -16,6 +16,7 @@ __published:	// IDE-managed Components
 	TMemo *memoDetect;
 	TLabel *lblInfo;
 	TLabel *lblStatus;
+	TCheckBox *chbBeep;
 	void __fastcall btnDetectDevicesClick(TObject *Sender);
 private:	// User declarations
 	void Detect(void);
