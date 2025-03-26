@@ -41,10 +41,7 @@ void LOCAL_LOG(char *lpData, ...)
 #define LOCAL_LOG(...)
 #endif
 
-/** \note Do not mistake with 1100000 (7-bit adressing style) in TEA5767 datasheet
-*/
-#define SLA_W (0xC0)		///< I2C write address
-#define SLA_R 0xC0 //(SLA_W | 0x01)	///< I2C read address
+#define TEA5767_ADDRESS 0x60
 
 static unsigned char write_bytes[5] = { 0x00, 0x00, 0x00, 0x00, 0x00 };
 static unsigned char read_bytes[5] = { 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -120,24 +117,19 @@ static uint32_t tune = 99900UL;
 
 int TEA5767_write(void)
 {
-	uint8_t buf[6];
-	STATIC_CHECK(sizeof(buf) == 1 + sizeof(write_bytes), BufferSizeMismatch);
-	buf[0] = SLA_W;
-	memcpy(buf + 1, write_bytes, sizeof(write_bytes));
-	return ch341a.I2CWriteRead(buf, sizeof(buf), NULL, 0);
+	return ch341a.I2CWriteBytes(TEA5767_ADDRESS, write_bytes, sizeof(write_bytes));
 }
 
 int TEA5767_read(void)  // Odczyt danych z TEA5767
 {
-	uint8_t addr = SLA_R;
-	return ch341a.I2CWriteRead(&addr, 1, read_bytes, sizeof(read_bytes));
+	return ch341a.I2CReadBytes(TEA5767_ADDRESS, read_bytes, sizeof(read_bytes));
 }
 
 int TEA5767_init(void)
 {
 	write_bytes[0] = 0x2F;  // default: 99.9 MHz
 	write_bytes[1] = 0x87;
-#if 1
+#if 0
 	write_bytes[2] = TEA5767_SUD | TEA5767_SRCH_LOW_LVL | TEA5767_MONO;
 #else
 	write_bytes[2] = TEA5767_SUD | TEA5767_SRCH_MID_LVL;
@@ -170,13 +162,13 @@ void TEA5767_search(bool up)
 	{
 		LOCAL_LOG("Search up\n");
 		write_bytes[2] |= TEA5767_SUD;
-		TEA5767_tune(tune+150);
+		TEA5767_tune(tune+100);
 	}
 	else
 	{
 		LOCAL_LOG("Search down\n");
-		write_bytes[2] &= ~TEA5767_SUD;		
-		TEA5767_tune(tune-150);
+		write_bytes[2] &= ~TEA5767_SUD;
+		TEA5767_tune(tune-100);
 	}
 	write_bytes[0] |= TEA5767_SEARCH | TEA5767_MUTE;
 	TEA5767_write();
