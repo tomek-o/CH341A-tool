@@ -620,7 +620,7 @@ LONG	WINAPI	CH341QueryBufUpload(  // Query the number of existing data packets i
 	ULONG			iIndex );  // Specify CH341 device serial number, 0 corresponds to the first device
 
 
-BOOL	WINAPI	CH341SetBufDownload(  // 设定内部缓冲下传模式
+BOOL	WINAPI	CH341SetBufDownload(  // Set internal buffer download mode
 	ULONG			iIndex,  // Specify CH341 device serial number, 0 corresponds to the first device
 	ULONG			iEnableOrClear );  // If it is 0, the internal buffer download mode is disabled and direct download is used. If it is not 0, the internal buffer download mode is enabled and the existing data in the buffer is cleared.
 // If the internal buffer download mode is enabled, then when the application calls CH341WriteData, it will just put the USB download data into the internal buffer and return immediately, and the thread created by the CH341 driver will automatically send it until it is completed.
