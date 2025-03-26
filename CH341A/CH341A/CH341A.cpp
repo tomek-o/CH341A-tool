@@ -523,7 +523,16 @@ int CH341A::I2CWriteBytes(uint8_t i2cAddr, const uint8_t *data, unsigned int cou
 #pragma warn .8071
 #endif
 	memcpy(&writeBuffer[1], data, count);
-
+#if 0
+	{
+		AnsiString text = "I2CWriteBytes: ";
+		for (unsigned int i=0; i<writeBuffer.size(); i++)
+		{
+			text.cat_printf("0x%02X, ", static_cast<unsigned int>(writeBuffer[i]));
+		}
+		LOG("%s\n", text.c_str());
+	}
+#endif
 	unsigned int readCount = 0;
 	return I2CWriteRead(&writeBuffer[0], writeBuffer.size(), NULL, readCount);
 }
