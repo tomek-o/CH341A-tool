@@ -45,4 +45,10 @@ Version 1.3
 - added LAN8742A MDIO TDR (Time Domain Reflectometry) cable diagnostic over MDIO interface
 - added LAN8742A MDIO estimated cable length reading for matched cable with 100 Mbps active link
 - added option to start each log line with timestamp
+
+Version 1.4
+- added DS1302 RTC
+- added DS1307 RTC
+- added Sensirion SHT11 sensor
+- added audio beep options for I2C and MDIO detection windows
 */
