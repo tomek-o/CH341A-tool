@@ -91,7 +91,16 @@ void __fastcall TfrmCH341Template::tmrAutoReadTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCH341Template::chbAutoReadClick(TObject *Sender)
+{
+	tmrAutoRead->Enabled = true;
+}
+//---------------------------------------------------------------------------
 
-
-
+void __fastcall TfrmCH341Template::chbAutoReadMouseDown(TObject *Sender,
+	  TMouseButton Button, TShiftState Shift, int X, int Y)
+{
+	tmrAutoRead->Enabled = true;	
+}
+//---------------------------------------------------------------------------
 

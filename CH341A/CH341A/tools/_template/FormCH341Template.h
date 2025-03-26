@@ -22,6 +22,9 @@ __published:	// IDE-managed Components
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
+	void __fastcall chbAutoReadClick(TObject *Sender);
+	void __fastcall chbAutoReadMouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y);
 private:	// User declarations
 	void Read(void);
 	uint8_t GetAddress(void);

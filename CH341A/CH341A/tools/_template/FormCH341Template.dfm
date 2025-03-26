@@ -32,7 +32,7 @@ object frmCH341Template: TfrmCH341Template
     Width = 75
     Height = 25
     Caption = 'Read'
-    TabOrder = 0
+    TabOrder = 2
     OnClick = btnReadClick
   end
   object chbAutoRead: TCheckBox
@@ -41,7 +41,9 @@ object frmCH341Template: TfrmCH341Template
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every 500 ms)'
-    TabOrder = 1
+    TabOrder = 3
+    OnClick = chbAutoReadClick
+    OnMouseDown = chbAutoReadMouseDown
   end
   object cbAddress: TComboBox
     Left = 224
@@ -57,7 +59,7 @@ object frmCH341Template: TfrmCH341Template
     ItemHeight = 14
     ItemIndex = 1
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 0
     Text = '0x69'
     Items.Strings = (
       '0x68'
@@ -69,10 +71,11 @@ object frmCH341Template: TfrmCH341Template
     Width = 75
     Height = 25
     Caption = 'Init'
-    TabOrder = 3
+    TabOrder = 1
     OnClick = btnInitClick
   end
   object tmrAutoRead: TTimer
+    Enabled = False
     Interval = 500
     OnTimer = tmrAutoReadTimer
     Left = 376
