@@ -31,6 +31,10 @@ D7	= SPI MISO		= SPI MEM pin 2
 D8	= TXD
 D9	= RXD
 
+SDA line is quasi-bidirectional:
+- bit 23 = SDA as input (GetInput)
+- bit 19 = SDA as output (open drain, SetOutput)
+
 */
 
 namespace
@@ -66,6 +70,10 @@ AnsiString GetGpioDescription(unsigned int id)
 		return "WRITE#, out";
 	case 18:
 		return "SCL, out";
+	case 19:
+		return "SDA, out";	// SDA: quasi-bidirectional pin
+	case 23:
+		return "SDA, in";	// SDA: quasi-bidirectional pin
 	default:
 		return "";
 	}

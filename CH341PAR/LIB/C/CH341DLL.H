@@ -540,7 +540,13 @@ BOOL	WINAPI	CH341SetOutput(  // Set the I/O direction of CH341 and output data d
 // Bit 7-Bit 0 corresponds to the D7-D0 pin of CH341
 // Bit 8 corresponds to the ERR# pin of CH341, bit 9 corresponds to the PEMP pin of CH341, bit 10 corresponds to the INT# pin of CH341, and bit 11 corresponds to the SLCT pin of CH341
 // Bit 13 corresponds to the WAIT# pin of CH341, bit 14 corresponds to the DATAS#/READ# pin of CH341, and bit 15 corresponds to the ADDRS#/ADDR/ALE pin of CH341
-//The following pins can only be output, regardless of I/O direction: Bit 16 corresponds to the RESET# pin of CH341, bit 17 corresponds to the WRITE# pin of CH341, bit 18 corresponds to the SCL pin of CH341, and bit 29 corresponds to the CH341 SDA pin
+//The following pins can only be output, regardless of I/O direction: Bit 16 corresponds to the RESET# pin of CH341, bit 17 corresponds to the WRITE# pin of CH341, bit 18 corresponds to the SCL pin of CH341, and bit 29 (or rather 19???) corresponds to the CH341 SDA pin
+/*
+Real test, SDA line is quasi-bidirectional:
+- bit 23 = SDA as input (GetInput)
+- bit 19 = SDA as output (open drain, SetOutput)
+*/
+
 
 
 BOOL	WINAPI	CH341Set_D5_D0(  // Set the I/O direction of the D5-D0 pin of CH341, and directly output data through the D5-D0 pin of CH341, which is more efficient than CH341SetOutput
