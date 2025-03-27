@@ -10,6 +10,7 @@
 #include "common/BtnController.h"
 #include "Log.h"
 #include <assert.h>
+#include <math.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -84,6 +85,30 @@ void TfrmCH341SHT11::Read(void)
 		}
 		calc_sht11(&humid_val.f,&temp_val.f, d1);
 		temp_val.i=(int32_t)(temp_val.f*10);
+		humid_val.i = (int32_t)(humid_val.f);
+
+		float dewPoint;
+		{
+			// calculate dew point temperature
+			float Tn, m;
+			float temp = static_cast<float>(temp_val.i) / 10.0f;
+			float rh = static_cast<float>(humid_val.i);
+
+			if (temp >= 0.0f)
+			{
+				Tn = 243.12f;
+				m = 17.62f;
+			}
+			else
+			{
+				Tn = 272.62f;
+				m = 22.46f;
+			}
+
+			float a = static_cast<float>(log(rh / 100.0f));
+			float b = (m * temp) / (Tn + temp);
+			dewPoint = Tn * (a + b) / (m - a - b);
+		}
 
 		strcpy(szTelnetBuffer, "Temperature: ");
 		if (temp_val.i < 0)
@@ -96,12 +121,14 @@ void TfrmCH341SHT11::Read(void)
 		strcat(szTelnetBuffer,buf);
 		strcat(szTelnetBuffer,"C     ");
 
-		humid_val.i = (int32_t)(humid_val.f);
 		strcat(szTelnetBuffer,"RH: ");
 		itoa(humid_val.i, buf, 10);
 		strcat(szTelnetBuffer,buf);
 		strcat(szTelnetBuffer,"%");
-		lblStatus->Caption = szTelnetBuffer;
+
+		AnsiString text = szTelnetBuffer;
+		text.cat_printf("\r\nDew point: %.1fC", dewPoint);
+		lblStatus->Caption = text;
 	}
 }
 //---------------------------------------------------------------------------
