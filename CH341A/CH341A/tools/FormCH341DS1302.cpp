@@ -108,8 +108,9 @@ namespace
 enum
 {
 	CE_PIN_ID = 0,
-	SCLK_PIN_ID = 8,	// MDC = TXD, output only
-	IO_PIN_ID = 9		// MDIO = RXD, bidirectional with built-in pull-up
+	SCLK_PIN_ID = 18,		// SCLK = SCL, output only
+	DATA_OUT_PIN_ID = 19,	// IO = SDA, semi-bidirectional with open-drain output and pull-up
+	DATA_IN_PIN_ID = 23		// IO = SDA, separate bit required for reading input
 };
 
 bool sclkState = false;
@@ -121,12 +122,12 @@ void update(void)
 {
 	uint32_t direction = (1u << SCLK_PIN_ID) | (1u << CE_PIN_ID);
 	if (ioDirOut)
-		direction |= (1u << IO_PIN_ID);
+		direction |= (1u << DATA_OUT_PIN_ID);
 	uint32_t value = 0;
 	if (sclkState)
 		value |= (1u << SCLK_PIN_ID);
 	if (ioState)
-		value |= (1u << IO_PIN_ID);
+		value |= (1u << DATA_OUT_PIN_ID);
 	if (ceState)
 		value |= (1u << CE_PIN_ID);
 
@@ -355,7 +356,7 @@ bool ReadInput(void)
 		//LOG("Reading inputs failed!\n");
 		return false;
 	}
-	if (dataIn & (1u << IO_PIN_ID))
+	if (dataIn & (1u << DATA_IN_PIN_ID))
 		return true;
 	return false;
 }

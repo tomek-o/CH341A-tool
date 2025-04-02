@@ -93,14 +93,12 @@ object frmCH341DS1302: TfrmCH341DS1302
     Left = 89
     Top = 8
     Width = 538
-    Height = 50
+    Height = 41
     Anchors = [akLeft, akTop, akRight]
     Color = clBtnFace
     Lines.Strings = (
-      
-        'Connect CH341A TXD pin to DS1302 SCLK, RXD to I/O (with recommen' +
-        'ded resistor ~330Ohm in series). '
-      'Connect CH341A SPI CS pin to DS1302 CE pin.')
+      'Connect CH341A SCL to DS1302 SCLK, SDA to DS1302 I/O. '
+      'Connect CH341A SPI CS to DS1302 CE (= RST) pin.')
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 6
