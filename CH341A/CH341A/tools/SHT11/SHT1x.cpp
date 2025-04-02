@@ -26,8 +26,8 @@ uint8_t CRC = 0x00;		///< initial CRC value, bit-reversed value of status regist
 enum
 {
 	SCK_PIN_ID = 18,	// SCK = SCL, output only
-	DATA_OUT_PIN_ID = 19,	// MDIO = SDA, bidirectional with open-drain output and pull-up (or output only???)
-	DATA_IN_PIN_ID = 23		// MDIO = SDA for reading input
+	DATA_OUT_PIN_ID = 19,	// MDIO = SDA, semi-bidirectional with open-drain output and pull-up
+	DATA_IN_PIN_ID = 23		// MDIO = SDA, separate bit required for reading input
 };
 
 bool sckState = false;
