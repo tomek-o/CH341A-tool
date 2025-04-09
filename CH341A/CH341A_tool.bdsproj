@@ -527,7 +527,7 @@
           <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
           <VersionInfo Name="AutoIncBuild">False</VersionInfo>
           <VersionInfo Name="MajorVer">1</VersionInfo>
-          <VersionInfo Name="MinorVer">3</VersionInfo>
+          <VersionInfo Name="MinorVer">4</VersionInfo>
           <VersionInfo Name="Release">0</VersionInfo>
           <VersionInfo Name="Build">0</VersionInfo>
           <VersionInfo Name="Debug">False</VersionInfo>
@@ -541,13 +541,13 @@
         <VersionInfoKeys>
           <VersionInfoKeys Name="CompanyName">Tomasz Ostrowski</VersionInfoKeys>
           <VersionInfoKeys Name="FileDescription">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="FileVersion">1.3.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.4.0.0</VersionInfoKeys>
           <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
           <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
           <VersionInfoKeys Name="ProductName">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="ProductVersion">1.3</VersionInfoKeys>
+          <VersionInfoKeys Name="ProductVersion">1.4</VersionInfoKeys>
           <VersionInfoKeys Name="Comments"></VersionInfoKeys>
         </VersionInfoKeys>
         <Debugging>
