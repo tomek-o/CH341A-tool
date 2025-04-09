@@ -51,5 +51,6 @@ Version 1.4
 - added DS1307 RTC
 - added Sensirion SHT11 sensor
 - added CH455 LED and keypad I2C controller
+- added ADS1115 ADC
 - added audio beep options for I2C and MDIO detection windows
 */
