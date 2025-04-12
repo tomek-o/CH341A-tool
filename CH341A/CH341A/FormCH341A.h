@@ -28,8 +28,11 @@ __published:	// IDE-managed Components
 	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 	const int devIndex;
+	int DeviceOpen(void);
+	void DeviceClose(void);
 public:		// User declarations
 	__fastcall TfrmCH341A(TComponent* Owner);
+	void DeviceReopen(void);
 };
 //---------------------------------------------------------------------------
 #endif

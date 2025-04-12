@@ -25,24 +25,13 @@ __fastcall TfrmCH341A::TfrmCH341A(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341A::btnOpenClick(TObject *Sender)
 {
-	int status = ch341a.Open(devIndex, appSettings.ch341a);
-	if (status != 0)
-	{
-		MessageBox(this->Handle, "Could not open CH341A device", this->Caption.c_str(), MB_ICONEXCLAMATION);
-	}
-	else
-	{
-		btnOpen->Enabled = false;
-		btnClose->Enabled = true;
-	}
+	DeviceOpen();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmCH341A::btnCloseClick(TObject *Sender)
 {
-	ch341a.Close();
-	btnOpen->Enabled = true;
-	btnClose->Enabled = false;
+	DeviceClose();
 }
 //---------------------------------------------------------------------------
 
@@ -95,4 +84,32 @@ void __fastcall TfrmCH341A::FormShow(TObject *Sender)
 	}
 }
 //---------------------------------------------------------------------------
+
+int TfrmCH341A::DeviceOpen(void)
+{
+	int status = ch341a.Open(devIndex, appSettings.ch341a);
+	if (status != 0)
+	{
+		MessageBox(this->Handle, "Could not open CH341A device", this->Caption.c_str(), MB_ICONEXCLAMATION);
+	}
+	else
+	{
+		btnOpen->Enabled = false;
+		btnClose->Enabled = true;
+	}
+	return status;
+}
+
+void TfrmCH341A::DeviceClose(void)
+{
+	ch341a.Close();
+	btnOpen->Enabled = true;
+	btnClose->Enabled = false;
+}
+
+void TfrmCH341A::DeviceReopen(void)
+{
+	DeviceClose();
+	DeviceOpen();
+}
 

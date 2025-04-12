@@ -7,6 +7,7 @@
 #include "FormAbout.h"
 #include "FormSettings.h"
 #include "FormCH341A.h"
+#include "CH341A.h"
 #include "Settings.h"
 #include "LogUnit.h"
 #include "Log.h"
@@ -77,6 +78,7 @@ void __fastcall TfrmMain::actShowAboutExecute(TObject *Sender)
 
 void __fastcall TfrmMain::actShowSettingsExecute(TObject *Sender)
 {
+	Settings prev = appSettings;
 	frmSettings->appSettings = &appSettings;
 	frmSettings->ShowModal();
 	if (appSettings.frmMain.bAlwaysOnTop)
@@ -89,6 +91,14 @@ void __fastcall TfrmMain::actShowSettingsExecute(TObject *Sender)
 		CLog::Instance()->SetFile("");
 	frmLog->SetLogLinesLimit(appSettings.Logging.iMaxUiLogLines);
 	CLog::Instance()->SetTimestamps(appSettings.Logging.addTimestamps);
+
+	if (ch341a.IsOpened())
+	{
+		if (prev.ch341a.i2cSpeed != appSettings.ch341a.i2cSpeed)
+		{
+        	frmCH341A->DeviceReopen();
+		}
+	}
 }
 //---------------------------------------------------------------------------
 

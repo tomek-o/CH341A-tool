@@ -50,7 +50,7 @@ object frmSettings: TfrmSettings
     Top = 0
     Width = 357
     Height = 214
-    ActivePage = tsLogging
+    ActivePage = tsCH341A
     Align = alClient
     TabOrder = 0
     object tsCH341A: TTabSheet
@@ -62,15 +62,6 @@ object frmSettings: TfrmSettings
         Width = 49
         Height = 13
         Caption = 'I2C speed'
-      end
-      object lblCH341ANote: TLabel
-        Left = 3
-        Top = 170
-        Width = 332
-        Height = 13
-        Caption = 
-          'Note: CH341A settings are updated after device is opened/reopene' +
-          'd'
       end
       object cbI2CSpeed: TComboBox
         Left = 72
