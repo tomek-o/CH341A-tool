@@ -13,7 +13,8 @@ public:
 	enum { INVALID_INDEX = -1 };
 
 	CH341A(void):
-		index(INVALID_INDEX)
+		index(INVALID_INDEX),
+		i2cSpeed(CH341AConf::I2C_SPEED_20K)		
 	{
 	}
 	~CH341A(void);
@@ -21,6 +22,10 @@ public:
 	void Close(void);
 	bool IsOpened(void) const {
 		return (index != INVALID_INDEX);
+	}
+
+	enum CH341AConf::I2CSpeed GetI2CSpeed(void) const {
+    	return i2cSpeed;
 	}
 
 	static unsigned int GetMaxDataLengthInRequest(void);
@@ -79,6 +84,7 @@ public:
 
 private:
 	int index;
+	enum CH341AConf::I2CSpeed i2cSpeed;
 };
 
 extern CH341A ch341a;

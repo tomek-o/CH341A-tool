@@ -84,6 +84,8 @@ int CH341A::Open(int index, const CH341AConf &cfg)
 		return -2;
 	}
 
+	i2cSpeed = cfg.i2cSpeed;
+
 	return 0;
 }
 
