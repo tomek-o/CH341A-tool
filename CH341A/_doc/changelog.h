@@ -53,4 +53,9 @@ Version 1.4
 - added CH455 LED and keypad I2C controller
 - added ADS1115 ADC
 - added audio beep options for I2C and MDIO detection windows
+
+Version 1.5
+- CH341 is reopened automatically if I2C clock speed was changed in settings
+- modules can check CH341 I2C clock speed (new discovery: CH341 probably does not support clock stretching, it seems to be added in CH347)
+- added MAX11601 ADC
 */
