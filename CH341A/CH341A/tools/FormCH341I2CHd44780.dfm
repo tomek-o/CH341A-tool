@@ -16,7 +16,7 @@ object frmCH341I2CHd44780: TfrmCH341I2CHd44780
   object lblStatus: TLabel
     Left = 8
     Top = 36
-    Width = 29
+    Width = 3
     Height = 13
   end
   object lblI2CAddress: TLabel
@@ -46,6 +46,24 @@ object frmCH341I2CHd44780: TfrmCH341I2CHd44780
     Width = 39
     Height = 13
     Caption = 'LINE #2'
+  end
+  object lblNote: TLabel
+    Left = 8
+    Top = 208
+    Width = 407
+    Height = 13
+    Caption = 
+      'Note: some displays might operate poorly (almost no contrast) if' +
+      ' powered from 3.3V.'
+  end
+  object lblNote2: TLabel
+    Left = 8
+    Top = 227
+    Width = 400
+    Height = 13
+    Caption = 
+      'Use 5V for display power in this case. CH341 GPIO voltage levels' +
+      ' would not matter.'
   end
   object btnWrite: TButton
     Left = 8

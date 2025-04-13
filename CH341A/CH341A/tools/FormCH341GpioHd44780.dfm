@@ -17,7 +17,7 @@ object frmCH341GpioHd44780: TfrmCH341GpioHd44780
     Left = 0
     Top = 0
     Width = 635
-    Height = 240
+    Height = 256
     Align = alClient
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -41,21 +41,24 @@ object frmCH341GpioHd44780: TfrmCH341GpioHd44780
       'SPI MISO    DATA7 (pin 14)'
       ''
       'Display contrast input might need external potentiometer.'
-      'Display R/W (pin 5) should be connected to GND.')
+      'Display R/W (pin 5) should be connected to GND.'
+      
+        'Note: cheap, popular LCDs might operate at both 5V VCC and 3.3V ' +
+        'VCC, but with very, '
+      
+        'very low contrast in the second case. CH341 GPIO voltage levels ' +
+        'would not matter.')
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 8
-    ExplicitWidth = 619
-    ExplicitHeight = 114
+    ExplicitHeight = 240
   end
   object pnlBottom: TPanel
     Left = 0
-    Top = 240
+    Top = 256
     Width = 635
-    Height = 59
+    Height = 43
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
@@ -67,7 +70,7 @@ object frmCH341GpioHd44780: TfrmCH341GpioHd44780
     end
     object btnWrite: TButton
       Left = 7
-      Top = 6
+      Top = 9
       Width = 75
       Height = 25
       Caption = 'Write'
