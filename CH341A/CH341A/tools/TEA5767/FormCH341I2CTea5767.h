@@ -26,12 +26,14 @@ __published:	// IDE-managed Components
 	TButton *btnTuneP50;
 	TButton *btnStopHandling;
 	TLabel *lblManualTuning;
+	TTrackBar *trbar;
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
 	void __fastcall btnSearchUpClick(TObject *Sender);
 	void __fastcall btnSearchDownClick(TObject *Sender);
 	void __fastcall btnTuneByClick(TObject *Sender);
 	void __fastcall btnStopHandlingClick(TObject *Sender);
+	void __fastcall trbarChange(TObject *Sender);
 private:	// User declarations
 	bool searching;
 	bool searchingUp;

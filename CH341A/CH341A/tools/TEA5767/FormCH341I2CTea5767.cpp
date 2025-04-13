@@ -113,6 +113,7 @@ void __fastcall TfrmCH341I2CTea5767::btnInitClick(TObject *Sender)
 
 void __fastcall TfrmCH341I2CTea5767::btnSearchUpClick(TObject *Sender)
 {
+	/** \note Not working, don't know why - disabled */
 	if (!ch341a.IsOpened())
 	{
 		lblStatus->Caption = "CH341 is not opened!";
@@ -129,6 +130,7 @@ void __fastcall TfrmCH341I2CTea5767::btnSearchUpClick(TObject *Sender)
 
 void __fastcall TfrmCH341I2CTea5767::btnSearchDownClick(TObject *Sender)
 {
+	/** \note Not working, don't know why - disabled */
 	if (!ch341a.IsOpened())
 	{
 		lblStatus->Caption = "CH341 is not opened!";
@@ -149,8 +151,12 @@ void __fastcall TfrmCH341I2CTea5767::btnTuneByClick(TObject *Sender)
 	assert(button);
 	uint32_t tune = TEA5767_get_tune();
 	tune += button->Tag;
+#if 0
 	TEA5767_tune(tune);
 	TEA5767_write();
+#else
+	trbar->Position = tune / 10;
+#endif
 }
 //---------------------------------------------------------------------------
 
@@ -159,6 +165,13 @@ void __fastcall TfrmCH341I2CTea5767::btnStopHandlingClick(TObject *Sender)
 	tmrAutoRead->Enabled = false;
 	btnInit->Enabled = true;
 	btnStopHandling->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CTea5767::trbarChange(TObject *Sender)
+{
+	TEA5767_tune(trbar->Position * 10);
+	TEA5767_write();
 }
 //---------------------------------------------------------------------------
 

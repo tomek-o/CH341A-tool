@@ -58,4 +58,5 @@ Version 1.5
 - CH341 is reopened automatically if I2C clock speed was changed in settings
 - modules can check CH341 I2C clock speed (new discovery: CH341 probably does not support clock stretching, it seems to be added in CH347)
 - added MAX11601 ADC
+- added TEA5767 FM tuner
 */

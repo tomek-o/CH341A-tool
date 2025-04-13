@@ -46,10 +46,10 @@ object frmCH341I2CTea5767: TfrmCH341I2CTea5767
   end
   object lblManualTuning: TLabel
     Left = 8
-    Top = 178
-    Width = 67
+    Top = 131
+    Width = 24
     Height = 13
-    Caption = 'Manual tuning'
+    Caption = 'Tune'
   end
   object btnInit: TButton
     Left = 8
@@ -62,20 +62,22 @@ object frmCH341I2CTea5767: TfrmCH341I2CTea5767
   end
   object btnSearchDown: TButton
     Left = 8
-    Top = 126
+    Top = 227
     Width = 113
     Height = 25
     Caption = 'Search down'
     TabOrder = 1
+    Visible = False
     OnClick = btnSearchDownClick
   end
   object btnSearchUp: TButton
     Left = 138
-    Top = 126
+    Top = 227
     Width = 113
     Height = 25
     Caption = 'Search up'
     TabOrder = 2
+    Visible = False
     OnClick = btnSearchUpClick
   end
   object btnTuneM50: TButton
@@ -126,6 +128,21 @@ object frmCH341I2CTea5767: TfrmCH341I2CTea5767
     Caption = 'Stop handling'
     TabOrder = 7
     OnClick = btnStopHandlingClick
+  end
+  object trbar: TTrackBar
+    Left = 2
+    Top = 150
+    Width = 256
+    Height = 45
+    Max = 10800
+    Min = 8750
+    ParentShowHint = False
+    Frequency = 100
+    Position = 9990
+    ShowHint = True
+    TabOrder = 8
+    TickMarks = tmBoth
+    OnChange = trbarChange
   end
   object tmrAutoRead: TTimer
     Enabled = False

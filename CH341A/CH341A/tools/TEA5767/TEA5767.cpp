@@ -14,6 +14,8 @@
 
 #define PROMPT "TEA5767: "
 
+#define ARRAY_SIZE(a) ((sizeof(a))/(sizeof((a)[0])))
+
 //#define LOCAL_DEBUG
 #ifdef LOCAL_DEBUG
 /** \note there are some compiler crashes / internal errors when using LOG directly,
@@ -117,6 +119,8 @@ static uint32_t tune = 99900UL;
 
 int TEA5767_write(void)
 {
+	STATIC_CHECK(ARRAY_SIZE(write_bytes) == 5, RewriteLogBelow);
+	LOCAL_LOG("Write %02X %02X %02X %02X %02X\n", write_bytes[0], write_bytes[1], write_bytes[2], write_bytes[3], write_bytes[4]);
 	return ch341a.I2CWriteBytes(TEA5767_ADDRESS, write_bytes, sizeof(write_bytes));
 }
 
@@ -195,7 +199,10 @@ int TEA5767_get_status(struct TEA5767_status *status)
 
 	if (read_bytes[0] & TEA5767_READY_FLAG) /* ready */
 	{
-		//LOCAL_LOG("Ready\n");
+		if (status->ready == 0)
+		{
+			LOCAL_LOG("Ready\n");
+		}
 		status->ready = 1;
 		uint8_t val = static_cast<uint8_t>(read_bytes[2] & 0x7F); /* IF counter */
 		if (abs(val - 0x36) < 2) 			 /* close match */

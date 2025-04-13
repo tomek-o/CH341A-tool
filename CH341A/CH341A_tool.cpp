@@ -75,6 +75,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341GpioHd44780), &frmCH341GpioHd44780);
 		Application->CreateForm(__classid(TfrmCH341I2CHd44780), &frmCH341I2CHd44780);
 		Application->CreateForm(__classid(TfrmCH341I2CRda5807m), &frmCH341I2CRda5807m);
+		Application->CreateForm(__classid(TfrmCH341I2CTea5767), &frmCH341I2CTea5767);
 		Application->CreateForm(__classid(TfrmCH341SpiMax7219Led8x8), &frmCH341SpiMax7219Led8x8);
 		Application->CreateForm(__classid(TfrmCH341I2CSi5351), &frmCH341I2CSi5351);
 		Application->CreateForm(__classid(TfrmCH341I2CVl53l0x), &frmCH341I2CVl53l0x);
