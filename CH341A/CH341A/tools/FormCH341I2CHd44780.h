@@ -25,6 +25,7 @@ __published:	// IDE-managed Components
 	TEdit *edLine2;
 	TLabel *lblNote;
 	TLabel *lblNote2;
+	TLabel *lblNote3;
 	void __fastcall btnWriteClick(TObject *Sender);
 	void __fastcall btnBacklightOnClick(TObject *Sender);
 	void __fastcall btnBacklightOffClick(TObject *Sender);

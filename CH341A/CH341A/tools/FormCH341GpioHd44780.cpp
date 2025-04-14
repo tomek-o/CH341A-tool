@@ -151,6 +151,8 @@ __fastcall TfrmCH341GpioHd44780::TfrmCH341GpioHd44780(TComponent* Owner)
 	: TForm(Owner)
 {
 	TabManager::Instance().Register(this);
+	// delayed wrapping to prevent wrapping at design time to fixed size
+	memoInstruction->WordWrap = true;
 }
 //---------------------------------------------------------------------------
 

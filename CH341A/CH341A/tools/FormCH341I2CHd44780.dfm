@@ -65,6 +65,15 @@ object frmCH341I2CHd44780: TfrmCH341I2CHd44780
       'Use 5V for display power in this case. CH341 GPIO voltage levels' +
       ' would not matter.'
   end
+  object lblNote3: TLabel
+    Left = 8
+    Top = 246
+    Width = 376
+    Height = 13
+    Caption = 
+      'Displays for 3.3V would likely have ICL7660/MAX660 charge pump o' +
+      'n the PCB.'
+  end
   object btnWrite: TButton
     Left = 8
     Top = 115

@@ -44,15 +44,16 @@ object frmCH341GpioHd44780: TfrmCH341GpioHd44780
       'Display R/W (pin 5) should be connected to GND.'
       
         'Note: cheap, popular LCDs might operate at both 5V VCC and 3.3V ' +
-        'VCC, but with very, '
+        'VCC, but with very, very low contrast in the second case. CH341 ' +
+        'GPIO voltage levels would not matter.'
       
-        'very low contrast in the second case. CH341 GPIO voltage levels ' +
-        'would not matter.')
+        'Displays for 3.3V would likely have ICL7660/MAX660 charge pump o' +
+        'n the PCB.')
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 0
-    ExplicitHeight = 240
+    WordWrap = False
   end
   object pnlBottom: TPanel
     Left = 0
