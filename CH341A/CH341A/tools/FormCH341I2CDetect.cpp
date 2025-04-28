@@ -34,26 +34,50 @@ void TfrmCH341I2CDetect::Detect(void)
 	memoDetect->Clear();
 	AnsiString text;
 	bool found = false;
-	for (uint8_t i=0; i<=127; i++)
+	if (cbOutputFormatting->ItemIndex == 0)
 	{
-		if (ch341a.I2CCheckDev(i) == 0)
+		for (uint8_t i=0; i<=127; i++)
 		{
-			text.cat_printf("Found device at address %3u (0x%02X)\r\n", static_cast<unsigned int>(i), static_cast<unsigned int>(i));
-			found = true;
+			if (ch341a.I2CCheckDev(i) == 0)
+			{
+				text.cat_printf("Found device at address %3u (0x%02X)\r\n", static_cast<unsigned int>(i), static_cast<unsigned int>(i));
+				found = true;
+			}
 		}
-	}
-	if (found)
-	{
-		memoDetect->Text = text;
-		if (chbBeep->Checked)
+		if (!found)
 		{
-			Beep(440, 100);
+			memoDetect->Text = "No I2C device found (no I2C ACK on any address)!";
+		}
+		else
+		{
+			memoDetect->Text = text;
 		}
 	}
 	else
 	{
-    	memoDetect->Text = "No I2C device found (no I2C ACK on any address)!";
-	}	
+		text.cat_printf("     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f");
+		for (uint8_t i=0; i<=127; i++)
+		{
+			if ((i % 16) == 0)
+			{
+				text.cat_printf("\r\n%02x:", i);
+			}
+			if (ch341a.I2CCheckDev(i) == 0)
+			{
+				text.cat_printf(" %02x", i);
+				found = true;
+			}
+			else
+			{
+				text.cat_printf(" --");
+			}
+		}
+		memoDetect->Text = text;		
+	}
+	if (found && chbBeep->Checked)
+	{
+			Beep(440, 100);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CDetect::tmrAutoDetectTimer(TObject *Sender)

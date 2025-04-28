@@ -16,6 +16,13 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     299)
   PixelsPerInch = 96
   TextHeight = 13
+  object lblOutputFormatting: TLabel
+    Left = 97
+    Top = 54
+    Width = 87
+    Height = 13
+    Caption = 'Output formatting'
+  end
   object btnDetectDevices: TButton
     Left = 16
     Top = 8
@@ -27,9 +34,9 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
   end
   object memoDetect: TMemo
     Left = 16
-    Top = 56
+    Top = 78
     Width = 393
-    Height = 235
+    Height = 213
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -59,6 +66,20 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Height = 17
     Caption = 'beep when something is detected'
     TabOrder = 2
+  end
+  object cbOutputFormatting: TComboBox
+    Left = 190
+    Top = 51
+    Width = 145
+    Height = 21
+    Style = csDropDownList
+    ItemHeight = 13
+    ItemIndex = 0
+    TabOrder = 4
+    Text = 'list'
+    Items.Strings = (
+      'list'
+      'Linux i2cdetect style')
   end
   object tmrAutoDetect: TTimer
     Enabled = False

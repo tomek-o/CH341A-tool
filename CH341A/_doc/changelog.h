@@ -59,4 +59,6 @@ Version 1.5
 - modules can check CH341 I2C clock speed (new discovery: CH341 probably does not support clock stretching, it seems to be added in CH347)
 - added MAX11601 ADC
 - added TEA5767 FM tuner
+- added S35390A RTC from ABLIC Inc.
+- I2C device detection window: added option to use i2cdetect-like formatting for output instead of list
 */
