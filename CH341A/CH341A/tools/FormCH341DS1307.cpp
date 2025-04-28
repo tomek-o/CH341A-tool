@@ -190,7 +190,7 @@ void __fastcall TfrmCH341DS1307::btnSetCurrentTimeClick(TObject *Sender)
 	uint8_t buffer[REG_YEAR - REG_SECONDS + 1];
 
 	SYSTEMTIME SystemTime;
-	::GetSystemTime(&SystemTime);
+	::GetLocalTime(&SystemTime);
 
 	// Set a time and date
 	// This also clears the CH (Clock Halt) bit,

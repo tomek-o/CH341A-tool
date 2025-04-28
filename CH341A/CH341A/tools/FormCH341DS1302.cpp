@@ -662,7 +662,7 @@ void __fastcall TfrmCH341DS1302::btnSetCurrentTimeClick(TObject *Sender)
 	int seconds, minutes, hours, dayofweek, dayofmonth, month, year;
 
 	SYSTEMTIME SystemTime;
-	::GetSystemTime(&SystemTime);
+	::GetLocalTime(&SystemTime);
 
 	seconds    = SystemTime.wSecond;
 	minutes    = SystemTime.wMinute;
