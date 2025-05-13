@@ -70,7 +70,7 @@ public:
 	int GetGpioInputs(uint32_t &dataIn);
 
 	/** Regular SPI with 4 lines */
-	int SpiTransfer(uint8_t *buffer, unsigned int count);
+	int SpiTransfer(void *buffer, unsigned int count);
 
 	/** SPI transfer with 3-line interface (bidirectional data line)
 		- like used by DS1626 and maybe DS1302.

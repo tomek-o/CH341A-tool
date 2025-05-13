@@ -673,7 +673,7 @@ int CH341A::GetGpioInputs(uint32_t &dataIn)
 	return -2;
 }
 
-int CH341A::SpiTransfer(uint8_t *buffer, unsigned int count)
+int CH341A::SpiTransfer(void *buffer, unsigned int count)
 {
 	if (index == INVALID_INDEX)
 	{
