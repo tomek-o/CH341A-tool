@@ -666,7 +666,7 @@ void __fastcall TfrmCH341DS1302::btnSetCurrentTimeClick(TObject *Sender)
 
 	seconds    = SystemTime.wSecond;
 	minutes    = SystemTime.wMinute;
-	hours      = SystemTime.wHour + 1;
+	hours      = SystemTime.wHour;
 	dayofweek  = SystemTime.wDayOfWeek + 1;  // Day of week, any day can be first, counts 1...7
 	dayofmonth = SystemTime.wDay; // Day of month, 1...31
 	month      = SystemTime.wMonth;  // month 1...12

@@ -198,7 +198,7 @@ void __fastcall TfrmCH341DS1307::btnSetCurrentTimeClick(TObject *Sender)
 
 	buffer[REG_SECONDS] = bin2bcd(SystemTime.wSecond);
 	buffer[REG_MINUTES] = bin2bcd(SystemTime.wMinute);
-	buffer[REG_HOURS] = bin2bcd(SystemTime.wHour + 1);
+	buffer[REG_HOURS] = bin2bcd(SystemTime.wHour);				// 00...23
 	buffer[REG_WEEKDAY] = bin2bcd(SystemTime.wDayOfWeek + 1);  // Day of week, any day can be first, counts 1...7
 	buffer[REG_DAY] = bin2bcd(SystemTime.wDay); // Day of month, 1...31
 	buffer[REG_MONTH] = bin2bcd(SystemTime.wMonth);  // month 1...12
