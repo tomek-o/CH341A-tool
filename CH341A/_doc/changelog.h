@@ -60,5 +60,6 @@ Version 1.5
 - added MAX11601 ADC
 - added TEA5767 FM tuner
 - added S35390A RTC from ABLIC Inc.
+- added DS3231 RTC
 - I2C device detection window: added option to use i2cdetect-like formatting for output instead of list
 */
