@@ -18,13 +18,13 @@ object frmCH341DS1302: TfrmCH341DS1302
   TextHeight = 13
   object lblStatus: TLabel
     Left = 89
-    Top = 91
+    Top = 115
     Width = 3
     Height = 13
   end
   object lblDateTime: TLabel
     Left = 8
-    Top = 115
+    Top = 139
     Width = 11
     Height = 22
     Font.Charset = DEFAULT_CHARSET
@@ -36,20 +36,20 @@ object frmCH341DS1302: TfrmCH341DS1302
   end
   object btnRead: TButton
     Left = 8
-    Top = 64
+    Top = 88
     Width = 75
     Height = 25
     Caption = 'Read'
-    TabOrder = 0
+    TabOrder = 3
     OnClick = btnReadClick
   end
   object chbAutoRead: TCheckBox
     Left = 89
-    Top = 68
+    Top = 92
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every 500 ms)'
-    TabOrder = 1
+    TabOrder = 4
     OnClick = chbAutoReadClick
     OnMouseDown = chbAutoReadMouseDown
   end
@@ -59,34 +59,34 @@ object frmCH341DS1302: TfrmCH341DS1302
     Width = 75
     Height = 25
     Caption = 'Init'
-    TabOrder = 2
+    TabOrder = 0
     OnClick = btnInitClick
   end
   object btnSetTrickleCharge: TButton
     Left = 8
-    Top = 147
+    Top = 171
     Width = 146
     Height = 25
     Caption = 'Set trickle charging mode'
-    TabOrder = 3
+    TabOrder = 5
     OnClick = btnSetTrickleChargeClick
   end
   object cbTrickleChargeMode: TComboBox
     Left = 160
-    Top = 149
+    Top = 173
     Width = 217
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 4
+    TabOrder = 6
   end
   object btnSetCurrentTime: TButton
     Left = 8
-    Top = 178
+    Top = 57
     Width = 146
     Height = 25
     Caption = 'Set current time'
-    TabOrder = 5
+    TabOrder = 2
     OnClick = btnSetCurrentTimeClick
   end
   object memo: TMemo
@@ -94,6 +94,7 @@ object frmCH341DS1302: TfrmCH341DS1302
     Top = 8
     Width = 538
     Height = 41
+    TabStop = False
     Anchors = [akLeft, akTop, akRight]
     Color = clBtnFace
     Lines.Strings = (
@@ -101,13 +102,13 @@ object frmCH341DS1302: TfrmCH341DS1302
       'Connect CH341A SPI CS to DS1302 CE (= RST) pin.')
     ReadOnly = True
     ScrollBars = ssVertical
-    TabOrder = 6
+    TabOrder = 1
   end
   object tmrAutoRead: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrAutoReadTimer
     Left = 376
-    Top = 64
+    Top = 88
   end
 end
