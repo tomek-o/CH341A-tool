@@ -61,5 +61,6 @@ Version 1.5
 - added TEA5767 FM tuner
 - added S35390A RTC from ABLIC Inc.
 - added DS3231 RTC
+- added ST7567 SPI LCD display
 - I2C device detection window: added option to use i2cdetect-like formatting for output instead of list
 */
