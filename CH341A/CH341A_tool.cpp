@@ -31,7 +31,8 @@ USEFORM("CH341A\tools\FormCH341GpioHd44780.cpp", frmCH341GpioHd44780);
 USEFORM("CH341A\tools\FormCH341I2CHd44780.cpp", frmCH341I2CHd44780);
 USEFORM("CH341A\tools\FormCH341I2CSi5351.cpp", frmCH341I2CSi5351);
 USEFORM("CH341A\tools\FormCH341I2CWriteRead.cpp", frmCH341I2CWriteRead);
-USEFORM("CH341A\tools\FormCH341SpiMax7219Led8x8.cpp", frmCH341SpiMax7219Led8x8);
+USEFORM("CH341A\tools\MAX7219\FormCH341SpiMax7219Led8x8.cpp", frmCH341SpiMax7219Led8x8);
+USEFORM("CH341A\tools\MAX7219\FormCH341SpiMax7219Led8x8Cascade.cpp", frmCH341SpiMax7219Led8x8Cascade);
 USEFORM("CH341A\tools\FormCH341I2CVl53l0x.cpp", frmCH341I2CVl53l0x);
 USEFORM("CH341A\tools\FormCH341I2CApds9960.cpp", frmCH341I2CApds9960);
 USEFORM("CH341A\tools\FormCH341I2CMCP4725.cpp", frmCH341I2CMCP4725);
@@ -80,6 +81,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CRda5807m), &frmCH341I2CRda5807m);
 		Application->CreateForm(__classid(TfrmCH341I2CTea5767), &frmCH341I2CTea5767);
 		Application->CreateForm(__classid(TfrmCH341SpiMax7219Led8x8), &frmCH341SpiMax7219Led8x8);
+		Application->CreateForm(__classid(TfrmCH341SpiMax7219Led8x8Cascade), &frmCH341SpiMax7219Led8x8Cascade);
 		Application->CreateForm(__classid(TfrmCH341SpiST7567), &frmCH341SpiST7567);
 		Application->CreateForm(__classid(TfrmCH341I2CSi5351), &frmCH341I2CSi5351);
 		Application->CreateForm(__classid(TfrmCH341I2CVl53l0x), &frmCH341I2CVl53l0x);

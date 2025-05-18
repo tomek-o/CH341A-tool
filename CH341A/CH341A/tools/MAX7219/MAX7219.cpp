@@ -6,6 +6,7 @@
 #include "MAX7219.h"
 #include "Log.h"
 #include "CH341A.h"
+#include <vector>
 
 //---------------------------------------------------------------------------
 
@@ -38,6 +39,18 @@ int writeReg(enum MAX7219_REG reg, uint8_t val)
 	buf[0] = reg;
 	buf[1] = val;
 	return ch341a.SpiTransfer(buf, sizeof(buf));
+}
+
+int writeRegCascade(enum MAX7219_REG reg, uint8_t val, unsigned int cascadeCount)
+{
+	std::vector<uint8_t> buf;
+	buf.resize(cascadeCount * 2);
+	for (unsigned int i=0; i<cascadeCount; i++)
+	{
+		buf[i*2] = reg;
+		buf[(i*2)+1] = val;
+	}
+	return ch341a.SpiTransfer(&buf[0], buf.size());
 }
 
 }
@@ -85,10 +98,58 @@ int MAX7219::setIntensity(uint8_t intensity)
 
 int MAX7219::setDigits(const uint8_t *digits)
 {
+#if 1
 	int err = 0;
 	for (unsigned int i=0; i<DIGITS; i++)
 	{
 		err |= writeReg(static_cast<enum MAX7219_REG>(MAX7219_DIGIT0 + i), digits[i]);
 	}
 	return err;
+#else
+	uint8_t buffer[DIGITS*2];
+	for (unsigned int i=0; i<DIGITS; i++)
+	{
+		buffer[i*2] = static_cast<uint8_t>(MAX7219_DIGIT0 + i);
+		buffer[(i*2)+1] = digits[i];
+	}
+	return ch341a.SpiTransfer(buffer, sizeof(buffer));
+#endif
 }
+
+int MAX7219::initCascade(uint8_t intensity, uint8_t digitCount, unsigned int cascadeCount)
+{
+	int err = 0;
+
+	for (int reg = MAX7219_DIGIT0; reg <= MAX7219_DIGIT7; reg++)
+	{
+		err |= writeRegCascade(static_cast<MAX7219_REG>(reg), 0x00, cascadeCount);
+	}
+
+	err |= writeRegCascade(MAX7219_INTENSITY, intensity, cascadeCount);
+
+	err |= writeRegCascade(MAX7219_SCAN_LIMIT, static_cast<uint8_t>(digitCount-1), cascadeCount);
+	err |= writeRegCascade(MAX7219_DECODE_MODE, 0x00, cascadeCount);	// no code-B decoding for digits
+	err |= writeRegCascade(MAX7219_DISPLAY_TEST, 0x00, cascadeCount);
+	err |= writeRegCascade(MAX7219_SHUTDOWN, 0x01, cascadeCount);
+	return err;
+}
+
+int MAX7219::setIntensityCascade(uint8_t intensity, unsigned int cascadeCount)
+{
+	int err = 0;
+	err |= writeRegCascade(MAX7219_INTENSITY, intensity, cascadeCount);
+	return err;
+}
+
+int MAX7219::setDigitCascade(unsigned int digitId, const uint8_t *digits, unsigned int cascadeCount)
+{
+	std::vector<uint8_t> buf;
+	buf.resize(cascadeCount * 2);
+	for (unsigned int i=0; i<cascadeCount; i++)
+	{
+		buf[i*2] = static_cast<uint8_t>(MAX7219_DIGIT0 + digitId);
+		buf[(i*2)+1] = digits[i];
+	}
+	return ch341a.SpiTransfer(&buf[0], buf.size());
+}
+

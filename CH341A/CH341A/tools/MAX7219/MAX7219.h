@@ -25,6 +25,10 @@ namespace MAX7219
 		- LBS of each digit byte = first column
 	*/
 	int setDigits(const uint8_t *digits);
+
+	int initCascade(uint8_t intensity, uint8_t digitCount, unsigned int cascadeCount);
+	int setIntensityCascade(uint8_t intensity, unsigned int cascadeCount);
+	int setDigitCascade(unsigned int digitId, const uint8_t *digits, unsigned int cascadeCount);	
 };
 
 #endif
