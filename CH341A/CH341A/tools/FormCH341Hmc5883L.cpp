@@ -11,6 +11,7 @@
 #include "common/ArraySize.h"
 #include "ValueDescription.h"
 #include <assert.h>
+#include <math.h>
 #include <ClipBrd.hpp>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -221,11 +222,12 @@ void TfrmCH341Hmc5883L::Read(void)
 	int offsetX = StrToIntDef(edOffsetX->Text, 0);
 	int offsetY = StrToIntDef(edOffsetY->Text, 0);
 	int offsetZ = StrToIntDef(edOffsetZ->Text, 0);
+	int x, y, z;
 
 	double lsb = GetGaussPerLsb();
 	if (data[0] != OVERFLOW_VALUE)
 	{
-		int x = data[0] - offsetX;
+		x = data[0] - offsetX;
 		AnsiString text;
 		text.sprintf("%.3f", lsb * x);
 		edMagneticInductionX->Text = text;
@@ -237,7 +239,7 @@ void TfrmCH341Hmc5883L::Read(void)
 
 	if (data[2] != OVERFLOW_VALUE)
 	{
-		int y = data[2] - offsetY;
+		y = data[2] - offsetY;
 		AnsiString text;
 		text.sprintf("%.3f", lsb * y);
 		edMagneticInductionY->Text = text;
@@ -247,9 +249,24 @@ void TfrmCH341Hmc5883L::Read(void)
 		edMagneticInductionY->Text = "";
 	}
 
+	if (data[0] != OVERFLOW_VALUE && data[2] != OVERFLOW_VALUE)
+	{
+		double heading = atan2(y, x);
+		if (heading < 0)
+			heading += (M_PI * 2.0);
+		if (heading > (M_PI * 2.0))
+			heading -= (M_PI * 2.0);
+		double degrees = heading * 180 / M_PI;
+		edHeadingDegrees->Text = static_cast<int>(degrees);
+	}
+	else
+	{
+		edHeadingDegrees->Text = "";
+	}
+
 	if (data[1] != OVERFLOW_VALUE)
 	{
-		int z = data[1] - offsetZ;
+		z = data[1] - offsetZ;
 		AnsiString text;
 		text.sprintf("%.3f", lsb * z);
 		edMagneticInductionZ->Text = text;

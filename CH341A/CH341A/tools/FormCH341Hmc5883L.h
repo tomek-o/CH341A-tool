@@ -52,6 +52,8 @@ __published:	// IDE-managed Components
 	TEdit *edOffsetX;
 	TEdit *edOffsetY;
 	TEdit *edOffsetZ;
+	TLabel *Label1;
+	TEdit *edHeadingDegrees;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);

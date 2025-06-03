@@ -2,7 +2,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   Left = 0
   Top = 0
   Caption = 'HMC5883L magnetometer'
-  ClientHeight = 299
+  ClientHeight = 317
   ClientWidth = 635
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -88,31 +88,38 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object lblCalibration: TLabel
     Left = 8
-    Top = 235
+    Top = 251
     Width = 51
     Height = 13
     Caption = 'Calibration'
   end
   object lblPointsCount: TLabel
     Left = 64
-    Top = 260
+    Top = 276
     Width = 68
     Height = 13
     Caption = 'Data points: 0'
   end
   object lblMiddleX: TLabel
     Left = 160
-    Top = 260
+    Top = 276
     Width = 39
     Height = 13
     Caption = 'Middle X'
   end
   object lblMiddleY: TLabel
     Left = 288
-    Top = 260
+    Top = 276
     Width = 39
     Height = 13
     Caption = 'Middle Y'
+  end
+  object Label1: TLabel
+    Left = 8
+    Top = 223
+    Width = 146
+    Height = 13
+    Caption = 'Heading degrees for X-Y plane'
   end
   object btnRead: TButton
     Left = 8
@@ -234,7 +241,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object chbCalibrationCollect: TCheckBox
     Left = 88
-    Top = 234
+    Top = 250
     Width = 97
     Height = 17
     Caption = 'collect data'
@@ -242,7 +249,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object btnCopyData: TButton
     Left = 191
-    Top = 230
+    Top = 246
     Width = 171
     Height = 25
     Caption = 'Copy data to clipboard as CSV'
@@ -251,7 +258,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object btnResetData: TButton
     Left = 368
-    Top = 230
+    Top = 246
     Width = 75
     Height = 25
     Caption = 'Reset data'
@@ -260,7 +267,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMiddleX: TEdit
     Left = 205
-    Top = 257
+    Top = 273
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -269,7 +276,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMiddleY: TEdit
     Left = 333
-    Top = 257
+    Top = 273
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -299,6 +306,15 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
     Height = 21
     TabOrder = 20
     Text = '0'
+  end
+  object edHeadingDegrees: TEdit
+    Left = 177
+    Top = 220
+    Width = 65
+    Height = 21
+    Color = clBtnFace
+    ReadOnly = True
+    TabOrder = 21
   end
   object tmrAutoRead: TTimer
     Enabled = False
