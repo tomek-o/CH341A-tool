@@ -63,6 +63,7 @@ Version 1.5
 - added DS3231 RTC
 - added ST7567 SPI LCD display
 - added cascaded MAX7219 4x8x8 LED display
-- added HMC5883L magnetometer
+- added HMC5883L magnetometer/compass
+- added INA226 power monitor
 - I2C device detection window: added option to use i2cdetect-like formatting for output instead of list
 */
