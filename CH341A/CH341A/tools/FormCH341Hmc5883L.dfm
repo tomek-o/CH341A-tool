@@ -114,7 +114,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
     Height = 13
     Caption = 'Middle Y'
   end
-  object Label1: TLabel
+  object lblHeading: TLabel
     Left = 8
     Top = 223
     Width = 146
