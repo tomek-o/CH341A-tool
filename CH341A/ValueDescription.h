@@ -13,6 +13,12 @@ struct ValueDescriptionU8
 	const char* description;
 };
 
+struct ValueDescriptionU16
+{
+	uint16_t value;
+	const char* description;
+};
+
 namespace Stdctrls
 {
 	class TComboBox;
