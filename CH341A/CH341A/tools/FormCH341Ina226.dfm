@@ -16,15 +16,15 @@ object frmCH341Ina226: TfrmCH341Ina226
   object lblStatus: TLabel
     Left = 8
     Top = 167
-    Width = 81
+    Width = 3
     Height = 13
   end
   object lblAddress: TLabel
     Left = 10
     Top = 8
-    Width = 260
+    Width = 58
     Height = 13
-    Caption = 'I2C address, depending on A0 and A1 pins connection'
+    Caption = 'I2C address'
   end
   object lblAveraging: TLabel
     Left = 89
@@ -103,9 +103,9 @@ object frmCH341Ina226: TfrmCH341Ina226
     OnMouseDown = chbAutoReadMouseDown
   end
   object cbAddress: TComboBox
-    Left = 276
+    Left = 89
     Top = 5
-    Width = 65
+    Width = 232
     Height = 22
     Style = csDropDownList
     Font.Charset = DEFAULT_CHARSET
@@ -145,8 +145,8 @@ object frmCH341Ina226: TfrmCH341Ina226
     TabOrder = 5
   end
   object cbShuntConversionSel: TComboBox
-    Left = 276
-    Top = 5
+    Left = 206
+    Top = 81
     Width = 89
     Height = 21
     Style = csDropDownList

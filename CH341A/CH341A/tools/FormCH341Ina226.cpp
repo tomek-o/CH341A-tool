@@ -9,6 +9,7 @@
 #include "common/BtnController.h"
 #include "Log.h"
 #include "common/ArraySize.h"
+#include "common/StaticCheck.h"
 #include "ValueDescription.h"
 #include <assert.h>
 #include <stdio.h>
@@ -23,6 +24,25 @@ namespace
 
 enum { I2C_START_ADDRESS = 0x40 };
 enum { I2C_ADDRESS_COUNT = 16 };
+
+const AnsiString i2cAddressDescriptions[] = {
+	"A0 to GND, A1 to GND",
+	"A0 to GND, A1 to VDD",
+	"A0 to GND, A1 to SDA",
+	"A0 to GND, A1 to SCL",
+	"A0 to VDD, A1 to GND",
+	"A0 to VDD, A1 to VDD",
+	"A0 to VDD, A1 to SDA",
+	"A0 to VDD, A1 to SCL",
+	"A0 to SDA, A1 to GND",
+	"A0 to SDA, A1 to VDD",
+	"A0 to SDA, A1 to SDA",
+	"A0 to SDA, A1 to SCL",
+	"A0 to SCL, A1 to GND",
+	"A0 to SCL, A1 to VDD",
+	"A0 to SCL, A1 to SDA",
+	"A0 to SCL, A1 to SCL",
+};
 
 /* Register bytes are sent most-significant byte first, followed by the least significant byte. */
 
@@ -102,11 +122,13 @@ __fastcall TfrmCH341Ina226::TfrmCH341Ina226(TComponent* Owner)
 	currentLsb(0)
 {
 	TabManager::Instance().Register(this);
+
+	STATIC_CHECK(I2C_ADDRESS_COUNT == C_ARRAY_SIZE(i2cAddressDescriptions), AddressCountMismatch);
 	cbAddress->Clear();
 	for (unsigned int i=0; i<I2C_ADDRESS_COUNT; i++)
 	{
 		AnsiString text;
-		text.sprintf("0x%02X", I2C_START_ADDRESS + i);
+		text.sprintf("0x%02X (%s)", I2C_START_ADDRESS + i, i2cAddressDescriptions[i].c_str());
 		cbAddress->Items->Add(text);
 	}
 	cbAddress->ItemIndex = 0;

@@ -3,10 +3,12 @@
 
 #ifdef __cplusplus
 
-template<typename T, unsigned int size> unsigned int ARRAY_SIZE(T(&)[size])
+template<typename T, const unsigned int size> unsigned int ARRAY_SIZE(const T(&)[size])
 {
 	return size;
 }
+
+#define C_ARRAY_SIZE(a) ((sizeof(a))/(sizeof((a)[0])))
 
 #else
 
