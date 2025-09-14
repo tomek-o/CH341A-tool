@@ -1,6 +1,8 @@
 # CH341A tool
 Windows application adding extra functionality to popular EEPROM/FLASH programmer based on CH341A.
 
+It should work with other variants of CH341, but functionality might be limited (e.g. I2C and MDIO only for CH341T).
+
 ![CH341A tool](https://tomeko.net/software/CH341A_tool/CH341A_tool_SMB_Dell_VV0NF.png)
 
 ![CH341A tool](https://tomeko.net/software/CH341A_tool/CH341_SSD1306_GUI.png)
