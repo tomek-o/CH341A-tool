@@ -26,6 +26,7 @@ __fastcall TfrmCH341I2CDetect::TfrmCH341I2CDetect(TComponent* Owner)
 	}
 	cbI2CAddressStart->ItemIndex = 0;
 	cbI2CAddressEnd->ItemIndex = cbI2CAddressEnd->Items->Count - 1;
+	tmrAutoDetect->Interval = StrToInt(cbAutoDetectPeriod->Text);	
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CDetect::btnDetectDevicesClick(TObject *Sender)
@@ -117,6 +118,12 @@ void __fastcall TfrmCH341I2CDetect::chbAutoDetectMouseDown(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
 	tmrAutoDetect->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CDetect::cbAutoDetectPeriodChange(TObject *Sender)
+{
+	tmrAutoDetect->Interval = StrToInt(cbAutoDetectPeriod->Text);	
 }
 //---------------------------------------------------------------------------
 

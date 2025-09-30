@@ -23,14 +23,21 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Height = 13
     Caption = 'Output formatting'
   end
-  object lblI2CAddressStart: TLabel
+  object lblI2CAddressRange: TLabel
     Left = 16
     Top = 86
-    Width = 289
+    Width = 293
     Height = 13
     Caption = 
-      'Address range to check (7-bit) from                             ' +
-      '       to'
+      'Address range to check (7-bit): from                            ' +
+      '        to'
+  end
+  object lblMs: TLabel
+    Left = 283
+    Top = 13
+    Width = 13
+    Height = 13
+    Caption = 'ms'
   end
   object btnDetectDevices: TButton
     Left = 16
@@ -59,11 +66,11 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     TabOrder = 3
   end
   object chbAutoDetect: TCheckBox
-    Left = 97
+    Left = 109
     Top = 12
-    Width = 264
+    Width = 108
     Height = 17
-    Caption = 'auto detect (repeat detection every second)'
+    Caption = 'auto detect every'
     TabOrder = 1
     OnClick = chbAutoDetectClick
     OnMouseDown = chbAutoDetectMouseDown
@@ -120,9 +127,26 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     ParentFont = False
     TabOrder = 6
   end
+  object cbAutoDetectPeriod: TComboBox
+    Left = 218
+    Top = 10
+    Width = 59
+    Height = 21
+    Style = csDropDownList
+    ItemHeight = 13
+    ItemIndex = 3
+    TabOrder = 7
+    Text = '1000'
+    OnChange = cbAutoDetectPeriodChange
+    Items.Strings = (
+      '100'
+      '250'
+      '500'
+      '1000'
+      '2000')
+  end
   object tmrAutoDetect: TTimer
     Enabled = False
-    Interval = 250
     OnTimer = tmrAutoDetectTimer
     Left = 384
     Top = 8

@@ -19,14 +19,17 @@ __published:	// IDE-managed Components
 	TCheckBox *chbBeep;
 	TLabel *lblOutputFormatting;
 	TComboBox *cbOutputFormatting;
-	TLabel *lblI2CAddressStart;
+	TLabel *lblI2CAddressRange;
 	TComboBox *cbI2CAddressStart;
 	TComboBox *cbI2CAddressEnd;
+	TComboBox *cbAutoDetectPeriod;
+	TLabel *lblMs;
 	void __fastcall btnDetectDevicesClick(TObject *Sender);
 	void __fastcall tmrAutoDetectTimer(TObject *Sender);
 	void __fastcall chbAutoDetectClick(TObject *Sender);
 	void __fastcall chbAutoDetectMouseDown(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y);
+	void __fastcall cbAutoDetectPeriodChange(TObject *Sender);
 private:	// User declarations
 	void Detect(void);
 public:		// User declarations
