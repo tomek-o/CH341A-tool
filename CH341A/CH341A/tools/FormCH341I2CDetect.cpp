@@ -16,6 +16,16 @@ __fastcall TfrmCH341I2CDetect::TfrmCH341I2CDetect(TComponent* Owner)
 	: TForm(Owner)
 {
 	TabManager::Instance().Register(this);
+
+	for (unsigned int i=0; i<128; i++)
+	{
+		AnsiString text;
+		text.sprintf("0x%02X (%3u)", i, i);
+		cbI2CAddressStart->Items->Add(text);
+		cbI2CAddressEnd->Items->Add(text);
+	}
+	cbI2CAddressStart->ItemIndex = 0;
+	cbI2CAddressEnd->ItemIndex = cbI2CAddressEnd->Items->Count - 1;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CDetect::btnDetectDevicesClick(TObject *Sender)
@@ -34,9 +44,13 @@ void TfrmCH341I2CDetect::Detect(void)
 	memoDetect->Clear();
 	AnsiString text;
 	bool found = false;
+
+	const uint8_t START = static_cast<uint8_t>(cbI2CAddressStart->ItemIndex);
+	const uint8_t END = static_cast<uint8_t>(cbI2CAddressEnd->ItemIndex);
+
 	if (cbOutputFormatting->ItemIndex == 0)
 	{
-		for (uint8_t i=0; i<=127; i++)
+		for (uint8_t i=START; i<=END; i++)
 		{
 			if (ch341a.I2CCheckDev(i) == 0)
 			{
@@ -62,7 +76,11 @@ void TfrmCH341I2CDetect::Detect(void)
 			{
 				text.cat_printf("\r\n%02x:", i);
 			}
-			if (ch341a.I2CCheckDev(i) == 0)
+			if (i < START || i > END)
+			{
+				text.cat_printf(" ??");
+			}
+			else if (ch341a.I2CCheckDev(i) == 0)
 			{
 				text.cat_printf(" %02x", i);
 				found = true;

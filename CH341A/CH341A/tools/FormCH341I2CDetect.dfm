@@ -3,7 +3,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
   Top = 0
   Caption = 'I2C detect'
   ClientHeight = 299
-  ClientWidth = 635
+  ClientWidth = 452
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,16 +12,25 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
   Font.Style = []
   OldCreateOrder = False
   DesignSize = (
-    635
+    452
     299)
   PixelsPerInch = 96
   TextHeight = 13
   object lblOutputFormatting: TLabel
-    Left = 97
-    Top = 54
+    Left = 16
+    Top = 62
     Width = 87
     Height = 13
     Caption = 'Output formatting'
+  end
+  object lblI2CAddressStart: TLabel
+    Left = 16
+    Top = 86
+    Width = 289
+    Height = 13
+    Caption = 
+      'Address range to check (7-bit) from                             ' +
+      '       to'
   end
   object btnDetectDevices: TButton
     Left = 16
@@ -34,9 +43,9 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
   end
   object memoDetect: TMemo
     Left = 16
-    Top = 78
+    Top = 111
     Width = 393
-    Height = 213
+    Height = 180
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -60,16 +69,16 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     OnMouseDown = chbAutoDetectMouseDown
   end
   object chbBeep: TCheckBox
-    Left = 97
-    Top = 33
+    Left = 16
+    Top = 40
     Width = 264
     Height = 17
     Caption = 'beep when something is detected'
     TabOrder = 2
   end
   object cbOutputFormatting: TComboBox
-    Left = 190
-    Top = 51
+    Left = 109
+    Top = 59
     Width = 145
     Height = 21
     Style = csDropDownList
@@ -81,8 +90,39 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
       'list'
       'Linux i2cdetect style')
   end
+  object cbI2CAddressStart: TComboBox
+    Left = 193
+    Top = 83
+    Width = 96
+    Height = 22
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ItemHeight = 14
+    ParentFont = False
+    TabOrder = 5
+  end
+  object cbI2CAddressEnd: TComboBox
+    Left = 313
+    Top = 83
+    Width = 96
+    Height = 22
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ItemHeight = 14
+    ParentFont = False
+    TabOrder = 6
+  end
   object tmrAutoDetect: TTimer
     Enabled = False
+    Interval = 250
     OnTimer = tmrAutoDetectTimer
     Left = 384
     Top = 8

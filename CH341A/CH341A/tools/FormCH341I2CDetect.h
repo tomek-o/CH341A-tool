@@ -19,6 +19,9 @@ __published:	// IDE-managed Components
 	TCheckBox *chbBeep;
 	TLabel *lblOutputFormatting;
 	TComboBox *cbOutputFormatting;
+	TLabel *lblI2CAddressStart;
+	TComboBox *cbI2CAddressStart;
+	TComboBox *cbI2CAddressEnd;
 	void __fastcall btnDetectDevicesClick(TObject *Sender);
 	void __fastcall tmrAutoDetectTimer(TObject *Sender);
 	void __fastcall chbAutoDetectClick(TObject *Sender);
