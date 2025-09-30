@@ -66,4 +66,7 @@ Version 1.5
 - added HMC5883L magnetometer/compass
 - added INA226 power monitor
 - I2C device detection window: added option to use i2cdetect-like formatting for output instead of list
+
+Version 1.6
+- BREAKING: changed pins used for MDIO from TXD + RXD to (safer) SCL + SDA
 */

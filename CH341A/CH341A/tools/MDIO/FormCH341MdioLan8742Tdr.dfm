@@ -28,10 +28,10 @@ object frmCH341MdioLan8742Tdr: TfrmCH341MdioLan8742Tdr
   object lblInfo: TLabel
     Left = 104
     Top = 37
-    Width = 327
+    Width = 326
     Height = 13
     Caption = 
-      'Sets CH341A TXD pin as MDC (clock), RXD pin as MDIO (data in/out' +
+      'Sets CH341A SCL pin as MDC (clock), SDA pin as MDIO (data in/out' +
       ')'
   end
   object lblDesc: TLabel

@@ -35,15 +35,15 @@ void delay()
 #endif
 }
 
-
 enum
 {
-	MDC_PIN_ID = 8,	// MDC = TXD, output only
-	MDIO_PIN_ID = 9	// MDIO = RXD, bidirectional with built-in pull-up
+	MDC_PIN_ID = 18,	// MDC = SCL, output only
+	MDIO_OUT_PIN_ID = 19,	// MDIO = SDA, semi-bidirectional with open-drain output and pull-up
+	MDIO_IN_PIN_ID = 23		// MDIO = SDA, separate bit required for reading input
 };
 
 /* 	For testing with STM Nucleo H755ZI board:
-	MDIO = JP7 (jumper on the top side)
+	MDIO = JP7 (jumper on the top side), left side (closer to U15/PHY)
 	MDC = SB84 (0 Ohm resistor on the bottom side)
     STM erased, to be extra safe 220 Ohm resistors were used in series with MDIO and MDC lines.
 */
@@ -56,12 +56,12 @@ void update(void)
 {
 	uint32_t direction = (1u << MDC_PIN_ID);
 	if (mdioDirOut)
-		direction |= (1u << MDIO_PIN_ID);
+		direction |= (1u << MDIO_OUT_PIN_ID);
 	uint32_t value = 0;
 	if (mdcState)
 		value |= (1u << MDC_PIN_ID);
-	if (mdioState)
-		value |= (1u << MDIO_PIN_ID);
+	if (mdioState || !mdioDirOut)	/* open drain */
+		value |= (1u << MDIO_OUT_PIN_ID);
 
 	ch341a.SetGpioOutputs(direction, value);
 }
@@ -84,14 +84,25 @@ uint16_t BSP_GetPinMDInput(void)
 		//LOG("Reading inputs failed!\n");
 		return 0;
 	}
-	if (dataIn & (1u << MDIO_PIN_ID))
+	if (dataIn & (1u << MDIO_IN_PIN_ID))
 		return 1;
 	return 0;
 }
 
 void BSP_ChangeMDIPinDir(bool output)
 {
+#if 0
 	mdioDirOut = output;
+#else
+	// 3-state SDA
+	mdioDirOut = true;
+	if (output) {
+
+	} else {
+		mdioState = true;
+	}
+#endif
+
 	update();
 }
 
@@ -194,12 +205,13 @@ void MDIO_WriteRegister(uint32_t PHY_Address, uint32_t PHY_Register, uint32_t va
     uint8_t tempBuffer[8] = {0};
 
     uint32_t temp;
-    tempBuffer[i++] = 0xff;
-    tempBuffer[i++] = 0xff;
-    tempBuffer[i++] = 0xff;
-    tempBuffer[i++] = 0xff;
 
-    /*Preamble*/
+	/*Preamble*/
+	tempBuffer[i++] = 0xff;
+	tempBuffer[i++] = 0xff;
+	tempBuffer[i++] = 0xff;
+	tempBuffer[i++] = 0xff;
+
     /* ST('01) + OP('01) + PHYAD(4 MSB) */
     tempBuffer[i] = 0x50 ;
     tempBuffer[i++] |= (PHY_Address & 0x1F) >> 1;
@@ -233,6 +245,7 @@ static uint32_t mdioRead45Clause(uint8_t phyAddr, uint8_t devType)
 
 	uint32_t temp;
 
+	/*Preamble*/
     tempBuffer[i++] = 0xff;
     tempBuffer[i++] = 0xff;
     tempBuffer[i++] = 0xff;
