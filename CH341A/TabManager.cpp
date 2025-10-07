@@ -62,8 +62,11 @@ void TabManager::SwitchToPage(unsigned int id)
 		prevTabSheet->Visible = false;
 
 	TTabSheet *pTabSheet = tabSheets[id];
-	LOG("Switching to [%s] tab\n", pTabSheet->Caption.c_str());
 	pTabSheet->Visible = true;
-	prevTabSheet = pTabSheet;
+	if (prevTabSheet != pTabSheet)
+	{
+		LOG("Switched to [%s] tab\n", pTabSheet->Caption.c_str());
+		prevTabSheet = pTabSheet;
+    }
 }
 
