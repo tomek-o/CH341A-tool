@@ -69,4 +69,7 @@ Version 1.5
 
 Version 1.6
 - BREAKING: changed pins used for MDIO from TXD + RXD to (safer) SCL + SDA
+- I2C detect: added option to limit address range to make oscilloscope triggering easier
+- I2C detect: added setting for auto repeat interval time
+- added Si4713 FM radio transmitter
 */
