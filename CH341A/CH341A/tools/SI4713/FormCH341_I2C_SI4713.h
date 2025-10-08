@@ -36,16 +36,27 @@ __published:	// IDE-managed Components
 	TLabel *lblRdsProgramId;
 	TLabel *lblPreemphasis;
 	TComboBox *cbPreemphasis;
+	TButton *btnUpdateRdsBufferText;
+	TButton *btnGetWinampRds;
+	TCheckBox *chbRdsUpdateFromWinamp;
+	TTimer *tmrUpdateRds;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
 	void __fastcall chbAutoReadClick(TObject *Sender);
 	void __fastcall chbAutoReadMouseDown(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y);
+	void __fastcall btnUpdateRdsBufferTextClick(TObject *Sender);
+	void __fastcall btnGetWinampRdsClick(TObject *Sender);
+	void __fastcall chbRdsUpdateFromWinampClick(TObject *Sender);
+	void __fastcall chbRdsUpdateFromWinampMouseDown(TObject *Sender,
+          TMouseButton Button, TShiftState Shift, int X, int Y);
+	void __fastcall tmrUpdateRdsTimer(TObject *Sender);
 private:	// User declarations
 	Si4713 si4713;
 	void Read(void);
 	uint8_t GetAddress(void);
+	void UpdateRdsFromWinamp(void);
 public:		// User declarations
 	__fastcall TfrmCH341I2CSi4713(TComponent* Owner);
 };

@@ -168,3 +168,65 @@ void __fastcall TfrmCH341I2CSi4713::chbAutoReadMouseDown(TObject *Sender,
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCH341I2CSi4713::btnUpdateRdsBufferTextClick(TObject *Sender)
+{
+	si4713.setRDSbuffer(edRdsBuffer->Text.c_str());
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSi4713::btnGetWinampRdsClick(TObject *Sender)
+{
+	UpdateRdsFromWinamp();
+}
+
+void TfrmCH341I2CSi4713::UpdateRdsFromWinamp(void)
+{
+	HANDLE hwnd = FindWindow("Winamp v1.x", NULL);
+	if (hwnd == NULL)
+	{
+		LOG("Winamp window not found");
+		lblStatus->Caption = "Winamp window not found";
+		return;
+	}
+	char caption[256];
+	memset(caption, 0, sizeof(caption));
+	GetWindowText(hwnd, caption, sizeof(caption));
+	AnsiString text = caption;
+	int prefixPos = text.Pos(". ");
+	if (prefixPos != 0)
+	{
+		text = text.SubString(prefixPos + 2, text.Length() - prefixPos - 1);
+	}
+	int winampPos = text.Pos(" - Winamp");
+	if (winampPos != 0)
+	{
+		text = text.SubString(1, winampPos - 1);
+	}
+
+	if (edRdsBuffer->Text != text)
+	{
+		edRdsBuffer->Text = text;
+		si4713.setRDSbuffer(edRdsBuffer->Text.c_str());		
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSi4713::chbRdsUpdateFromWinampClick(TObject *Sender)
+{
+	tmrUpdateRds->Enabled = chbRdsUpdateFromWinamp->Checked;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSi4713::chbRdsUpdateFromWinampMouseDown(
+      TObject *Sender, TMouseButton Button, TShiftState Shift, int X, int Y)
+{
+	tmrUpdateRds->Enabled = chbRdsUpdateFromWinamp->Checked;	
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmCH341I2CSi4713::tmrUpdateRdsTimer(TObject *Sender)
+{
+	UpdateRdsFromWinamp();	
+}
+//---------------------------------------------------------------------------
+

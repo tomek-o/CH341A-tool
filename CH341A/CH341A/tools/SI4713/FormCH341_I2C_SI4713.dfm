@@ -14,9 +14,9 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   PixelsPerInch = 96
   TextHeight = 13
   object lblStatus: TLabel
-    Left = 8
-    Top = 240
-    Width = 3
+    Left = 110
+    Top = 214
+    Width = 21
     Height = 13
   end
   object lblAddress: TLabel
@@ -28,7 +28,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object lblRadioStatus: TLabel
     Left = 8
-    Top = 283
+    Top = 277
     Width = 8
     Height = 16
     Font.Charset = DEFAULT_CHARSET
@@ -46,7 +46,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Caption = 'Frequency'
   end
   object lblMhz: TLabel
-    Left = 172
+    Left = 165
     Top = 56
     Width = 20
     Height = 13
@@ -93,7 +93,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object btnRead: TButton
     Left = 8
-    Top = 216
+    Top = 240
     Width = 75
     Height = 25
     Caption = 'Read status'
@@ -101,8 +101,8 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     OnClick = btnReadClick
   end
   object chbAutoRead: TCheckBox
-    Left = 89
-    Top = 220
+    Left = 99
+    Top = 244
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every 500 ms)'
@@ -132,7 +132,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object btnInit: TButton
     Left = 8
-    Top = 185
+    Top = 209
     Width = 75
     Height = 25
     Caption = 'Init + tune'
@@ -140,7 +140,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     OnClick = btnInitClick
   end
   object edFrequency: TEdit
-    Left = 110
+    Left = 99
     Top = 53
     Width = 56
     Height = 22
@@ -154,7 +154,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Text = '100.50'
   end
   object edRdsStation: TEdit
-    Left = 110
+    Left = 99
     Top = 124
     Width = 82
     Height = 22
@@ -168,7 +168,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Text = 'Si4713'
   end
   object edRdsBuffer: TEdit
-    Left = 110
+    Left = 99
     Top = 148
     Width = 274
     Height = 22
@@ -182,7 +182,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Text = 'CH341 + Si4713 test'
   end
   object edRdsProgramId: TEdit
-    Left = 110
+    Left = 99
     Top = 100
     Width = 82
     Height = 22
@@ -196,7 +196,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Text = '0xC341'
   end
   object cbPreemphasis: TComboBox
-    Left = 110
+    Left = 99
     Top = 77
     Width = 181
     Height = 21
@@ -210,11 +210,45 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
       '50 us (Europe, Australia, Japan)'
       'disabled')
   end
+  object btnUpdateRdsBufferText: TButton
+    Left = 380
+    Top = 146
+    Width = 50
+    Height = 25
+    Caption = 'Update'
+    TabOrder = 9
+    OnClick = btnUpdateRdsBufferTextClick
+  end
+  object btnGetWinampRds: TButton
+    Left = 99
+    Top = 173
+    Width = 168
+    Height = 25
+    Caption = 'Update RDS from Winamp 2.x'
+    TabOrder = 10
+    OnClick = btnGetWinampRdsClick
+  end
+  object chbRdsUpdateFromWinamp: TCheckBox
+    Left = 273
+    Top = 177
+    Width = 157
+    Height = 17
+    Caption = 'Update automatically'
+    TabOrder = 11
+    OnClick = chbRdsUpdateFromWinampClick
+    OnMouseDown = chbRdsUpdateFromWinampMouseDown
+  end
   object tmrAutoRead: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrAutoReadTimer
     Left = 376
-    Top = 216
+    Top = 240
+  end
+  object tmrUpdateRds: TTimer
+    Enabled = False
+    OnTimer = tmrUpdateRdsTimer
+    Left = 448
+    Top = 168
   end
 end
