@@ -108,9 +108,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CCH455), &frmCH341I2CCH455);
 		Application->CreateForm(__classid(TfrmCH341Hmc5883L), &frmCH341Hmc5883L);
 		Application->CreateForm(__classid(TfrmCH341Ina226), &frmCH341Ina226);
-		Application->CreateForm(__classid(TfrmCH341I2CSi4713), &frmCH341I2CSi4713);
-		Application->CreateForm(__classid(TfrmCH341I2CSi4713), &frmCH341I2CSi4713);
-		Application->CreateForm(__classid(TfrmCH341I2CSi4713), &frmCH341I2CSi4713);
 		Application->Run();
 	}
 	catch (Exception &exception)
