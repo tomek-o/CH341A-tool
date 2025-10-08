@@ -312,7 +312,10 @@ void Si4713::setRDSbuffer(const char *s) {
   for (uint8_t i = 0; i < slots; i++) {
     memset(_i2ccommand, ' ', 8); // clear it with ' '
     memcpy(_i2ccommand + 4, s, std::min(4, (int)strlen(s)));
-    s += 4;
+	if (i < slots - 1) {
+		// make CG happy
+		s += 4;
+	}
     _i2ccommand[8] = 0;
 #ifdef SI4713_CMD_DEBUG
     Serial.print("Set buff #");
