@@ -152,7 +152,7 @@ int Si4713::sendCommand(uint8_t len) {
 
   // Wait for status CTS bit
   uint8_t statusReg = 0;
-  for (int i=0; i<20; i++) {
+  for (int i=0; i<30; i++) {
 	status = ch341a.I2CReadByte(addr, statusReg);
 	if (status)
 		return status;
