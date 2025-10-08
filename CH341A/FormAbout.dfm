@@ -558,10 +558,11 @@ object frmAbout: TfrmAbout
           'IABILITY, '
         
           'WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FRO' +
-          'M, OUT OF OR IN '
+          'M, OUT OF OR '
         
-          'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE' +
-          ' SOFTWARE.'#10
+          'IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN ' +
+          'THE '
+        'SOFTWARE.'#10
         #10
         #10
         
@@ -612,10 +613,10 @@ object frmAbout: TfrmAbout
           'IABILITY, '
         
           'WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FRO' +
-          'M, OUT OF OR IN '
+          'M, OUT OF OR '
         
-          'CONNECTION WITH THE SOFTWARE OR THE USE OR THER DEALINGS IN THE ' +
-          'SOFTWARE.'#10
+          'IN CONNECTION WITH THE SOFTWARE OR THE USE OR THER DEALINGS IN T' +
+          'HE SOFTWARE.'#10
         #10
         
           '================================================================' +
@@ -626,8 +627,8 @@ object frmAbout: TfrmAbout
           'X API provided by ST (STSW-IMG005), and '
         
           'some of the explanatory comments are quoted or paraphrased from ' +
-          'the API source code, API user manual '
-        '(UM2039), and the VL53L0X datasheet.'#10
+          'the API source code, API user '
+        'manual (UM2039), and the VL53L0X datasheet.'#10
         #10
         
           'The following applies to source code reproduced or derived from ' +
@@ -820,10 +821,11 @@ object frmAbout: TfrmAbout
           'IABILITY, '
         
           'WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FRO' +
-          'M, OUT OF OR IN '
+          'M, OUT OF OR '
         
-          'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE' +
-          ' SOFTWARE.'#10
+          'IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN ' +
+          'THE '
+        'SOFTWARE.'#10
         #10
         #10
         
@@ -882,10 +884,74 @@ object frmAbout: TfrmAbout
           'IABILITY, '
         
           'WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FRO' +
-          'M, OUT OF OR IN '
+          'M, OUT OF OR '
         
-          'CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE' +
-          ' SOFTWARE.')
+          'IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN ' +
+          'THE '
+        'SOFTWARE.'#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        
+          'Si4713 FM transmitter - based on https://github.com/adafruit/Ada' +
+          'fruit-Si4713-Library'#10
+        
+          '================================================================' +
+          '============='#10
+        'Copyright (c) 2012, Adafruit Industries'#10
+        'All rights reserved.'#10
+        #10
+        
+          'Redistribution and use in source and binary forms, with or witho' +
+          'ut modification, are permitted provided that '
+        'the following conditions are met:'#10
+        
+          '1. Redistributions of source code must retain the above copyrigh' +
+          't notice, this list of conditions and the '
+        'following disclaimer.'#10
+        
+          '2. Redistributions in binary form must reproduce the above copyr' +
+          'ight notice, this list of conditions and the '
+        
+          'following disclaimer in the documentation and/or other materials' +
+          ' provided with the distribution.'#10
+        
+          '3. Neither the name of the copyright holders nor the names of it' +
+          's contributors may be used to endorse or '
+        
+          'promote products derived from this software without specific pri' +
+          'or written permission.'#10
+        #10
+        
+          'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS '#39#39'AS IS'#39#39' AND' +
+          ' ANY EXPRESS OR '
+        
+          'IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED W' +
+          'ARRANTIES OF '
+        
+          'MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAI' +
+          'MED. IN NO '
+        
+          'EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY DIRECT, INDIR' +
+          'ECT, INCIDENTAL, '
+        
+          'SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT' +
+          ' LIMITED TO, '
+        
+          'PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, ' +
+          'OR PROFITS; OR '
+        
+          'BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABI' +
+          'LITY, '
+        
+          'WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIG' +
+          'ENCE OR '
+        
+          'OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, E' +
+          'VEN IF ADVISED '
+        'OF THE POSSIBILITY OF SUCH DAMAGE.')
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0
