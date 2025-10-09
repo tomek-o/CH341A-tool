@@ -174,7 +174,7 @@ void Si4713::tuneFM(uint16_t freqKHz) {
   _i2ccommand[2] = static_cast<uint8_t>(freqKHz >> 8);
   _i2ccommand[3] = static_cast<uint8_t>(freqKHz & 0xFF);
   sendCommand(4);
-  for (int i=0; i<20; i++) {
+  for (int i=0; i<30; i++) {
 	if ((getStatus() & 0x81) == 0x81)
 		return;
 	Sleep(10);
@@ -213,10 +213,10 @@ void Si4713::readASQ() {
  *    @brief  Queries the status of a previously sent TX Tune Freq, TX Tune
  * Power, or TX Tune Measure using SI4710_CMD_TX_TUNE_STATUS command.
  */
-void Si4713::readTuneStatus() {
+int Si4713::readTuneStatus() {
   _i2ccommand[0] = SI4710_CMD_TX_TUNE_STATUS;
   _i2ccommand[1] = 0x1; // INTACK
-  sendCommand(2);
+  int status = sendCommand(2);
 
   uint8_t resp[8];
   ch341a.I2CReadBytes(addr, resp, sizeof(resp));
@@ -224,13 +224,15 @@ void Si4713::readTuneStatus() {
   currdBuV = resp[5];
   currAntCap = resp[6];
   currNoiseLevel = resp[7];
+  return status;
 }
 
 /*!
  *    @brief  Measure the received noise level at the specified frequency using SI4710_CMD_TX_TUNE_MEASURE command.
  *    @param  freq frequency
  */
-void Si4713::readTuneMeasure(uint16_t freq) {
+int Si4713::readTuneMeasure(uint16_t freq) {
+  int status;
   // check freq is multiple of 50khz
   if (freq % 5 != 0) {
     freq -= static_cast<uint16_t>(freq % 5);
@@ -242,13 +244,16 @@ void Si4713::readTuneMeasure(uint16_t freq) {
   _i2ccommand[3] = static_cast<uint8_t>(freq & 0xFF);
   _i2ccommand[4] = 0;
 
-  sendCommand(5);
+  status = sendCommand(5);
+  if (status)
+	return status;
   for (int i=0; i<20; i++) {
 	  if (getStatus() == 0x81)
-		break;
+		return 0;
 	  Sleep(10);
   }
   LOG("Si4713: SI4710_CMD_TX_TUNE_MEASURE timeout!\n");
+  return -1;
 }
 
 /*!   @brief  Begin RDS
@@ -273,7 +278,7 @@ void Si4713::beginRDS(uint16_t programID) {
  */
 void Si4713::setRDSstation(const char *s) {
   unsigned int len = strlen(s);
-  if (len > 256) {
+  if (len > 96) {
 	LOG("RDS station name too long!");
 	return;
   }
@@ -303,7 +308,7 @@ void Si4713::setRDSstation(const char *s) {
  */
 void Si4713::setRDSbuffer(const char *s) {
   unsigned int len = strlen(s);
-  if (len > 256) {
+  if (len > 106) {	// not sure about this number...
 	LOG("RDS buffer to send too long!");
 	return;
   }
@@ -312,8 +317,7 @@ void Si4713::setRDSbuffer(const char *s) {
   for (uint8_t i = 0; i < slots; i++) {
     memset(_i2ccommand, ' ', 8); // clear it with ' '
     memcpy(_i2ccommand + 4, s, std::min(4, (int)strlen(s)));
-	if (i < slots - 1) {
-		// make CG happy
+	if (i < slots - 1) {				// limit pointer to make CG happy
 		s += 4;
 	}
     _i2ccommand[8] = 0;

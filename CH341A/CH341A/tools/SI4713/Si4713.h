@@ -46,8 +46,8 @@ public:
 
   void tuneFM(uint16_t freqKHz);
   uint8_t getStatus(void);
-  void readTuneStatus(void);
-  void readTuneMeasure(uint16_t freq);
+  int readTuneStatus(void);
+  int readTuneMeasure(uint16_t freq);
   void setTXpower(uint8_t pwr, uint8_t antcap = 0);
   void readASQ(void);
   void setProperty(uint16_t p, uint16_t v);
@@ -58,7 +58,7 @@ public:
   void setRDSbuffer(const char *s);
 
   uint16_t currFreq;  ///< current frequency
-  uint8_t currdBuV,   ///< current BuV
+  uint8_t currdBuV,   ///< received noise level (RNL) in units of dBuV on the selected frequency
       currAntCap,     ///< current antenna capacitor
       currNoiseLevel, ///< current noise level
       currASQ;        ///< current ASQ (Audio Signal Quality)
