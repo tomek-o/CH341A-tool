@@ -97,7 +97,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Width = 75
     Height = 25
     Caption = 'Read status'
-    TabOrder = 2
+    TabOrder = 10
     OnClick = btnReadClick
   end
   object chbAutoRead: TCheckBox
@@ -106,7 +106,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every 500 ms)'
-    TabOrder = 3
+    TabOrder = 11
     OnClick = chbAutoReadClick
     OnMouseDown = chbAutoReadMouseDown
   end
@@ -136,7 +136,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Width = 75
     Height = 25
     Caption = 'Init + tune'
-    TabOrder = 1
+    TabOrder = 9
     OnClick = btnInitClick
   end
   object edFrequency: TEdit
@@ -150,7 +150,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 1
     Text = '100.50'
   end
   object edRdsStation: TEdit
@@ -164,7 +164,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
-    TabOrder = 5
+    TabOrder = 4
     Text = 'Si4713'
   end
   object edRdsBuffer: TEdit
@@ -178,7 +178,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
-    TabOrder = 6
+    TabOrder = 5
     Text = 'CH341 + Si4713 test'
   end
   object edRdsProgramId: TEdit
@@ -192,7 +192,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
-    TabOrder = 7
+    TabOrder = 3
     Text = '0xC341'
   end
   object cbPreemphasis: TComboBox
@@ -203,7 +203,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Style = csDropDownList
     ItemHeight = 13
     ItemIndex = 1
-    TabOrder = 8
+    TabOrder = 2
     Text = '50 us (Europe, Australia, Japan)'
     Items.Strings = (
       '75 us (USA)'
@@ -216,7 +216,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Width = 50
     Height = 22
     Caption = 'Update'
-    TabOrder = 9
+    TabOrder = 6
     OnClick = btnUpdateRdsBufferTextClick
   end
   object btnGetWinampRds: TButton
@@ -225,7 +225,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Width = 168
     Height = 21
     Caption = 'Update RDS from Winamp 2.x'
-    TabOrder = 10
+    TabOrder = 7
     OnClick = btnGetWinampRdsClick
   end
   object chbRdsUpdateFromWinamp: TCheckBox
@@ -234,7 +234,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Width = 157
     Height = 17
     Caption = 'Update automatically'
-    TabOrder = 11
+    TabOrder = 8
     OnClick = chbRdsUpdateFromWinampClick
     OnMouseDown = chbRdsUpdateFromWinampMouseDown
   end
