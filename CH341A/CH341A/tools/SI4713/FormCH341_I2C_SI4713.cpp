@@ -230,3 +230,18 @@ void __fastcall TfrmCH341I2CSi4713::tmrUpdateRdsTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCH341I2CSi4713::btnScanRnlClick(TObject *Sender)
+{
+	for (unsigned int f  = 7600; f<=10800; f+=10) {
+		int status;
+		status = si4713.readTuneMeasure(static_cast<uint16_t>(f));
+		if (status)
+			break;
+		status = si4713.readTuneStatus();
+		if (status)
+			break;
+		LOG("Noise level at %6.2f MHz: %d dBuV\n", static_cast<float>(f)/100.0f, si4713.currNoiseLevel);
+	}
+}
+//---------------------------------------------------------------------------
+

@@ -15,7 +15,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   TextHeight = 13
   object lblStatus: TLabel
     Left = 110
-    Top = 214
+    Top = 203
     Width = 21
     Height = 13
   end
@@ -28,7 +28,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object lblRadioStatus: TLabel
     Left = 8
-    Top = 277
+    Top = 259
     Width = 8
     Height = 16
     Font.Charset = DEFAULT_CHARSET
@@ -93,7 +93,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object btnRead: TButton
     Left = 8
-    Top = 240
+    Top = 227
     Width = 75
     Height = 25
     Caption = 'Read status'
@@ -102,7 +102,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object chbAutoRead: TCheckBox
     Left = 99
-    Top = 244
+    Top = 231
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every 500 ms)'
@@ -132,7 +132,7 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object btnInit: TButton
     Left = 8
-    Top = 209
+    Top = 198
     Width = 75
     Height = 25
     Caption = 'Init + tune'
@@ -212,9 +212,9 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
   end
   object btnUpdateRdsBufferText: TButton
     Left = 380
-    Top = 146
+    Top = 148
     Width = 50
-    Height = 25
+    Height = 22
     Caption = 'Update'
     TabOrder = 9
     OnClick = btnUpdateRdsBufferTextClick
@@ -223,14 +223,14 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     Left = 99
     Top = 173
     Width = 168
-    Height = 25
+    Height = 21
     Caption = 'Update RDS from Winamp 2.x'
     TabOrder = 10
     OnClick = btnGetWinampRdsClick
   end
   object chbRdsUpdateFromWinamp: TCheckBox
     Left = 273
-    Top = 177
+    Top = 175
     Width = 157
     Height = 17
     Caption = 'Update automatically'
@@ -238,12 +238,23 @@ object frmCH341I2CSi4713: TfrmCH341I2CSi4713
     OnClick = chbRdsUpdateFromWinampClick
     OnMouseDown = chbRdsUpdateFromWinampMouseDown
   end
+  object btnScanRnl: TButton
+    Left = 8
+    Top = 281
+    Width = 365
+    Height = 25
+    Caption = 
+      'Scan received noise levels (shown in log, would take ~20 seconds' +
+      ')'
+    TabOrder = 12
+    OnClick = btnScanRnlClick
+  end
   object tmrAutoRead: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrAutoReadTimer
     Left = 376
-    Top = 240
+    Top = 229
   end
   object tmrUpdateRds: TTimer
     Enabled = False

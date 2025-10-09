@@ -40,6 +40,7 @@ __published:	// IDE-managed Components
 	TButton *btnGetWinampRds;
 	TCheckBox *chbRdsUpdateFromWinamp;
 	TTimer *tmrUpdateRds;
+	TButton *btnScanRnl;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
@@ -52,6 +53,7 @@ __published:	// IDE-managed Components
 	void __fastcall chbRdsUpdateFromWinampMouseDown(TObject *Sender,
           TMouseButton Button, TShiftState Shift, int X, int Y);
 	void __fastcall tmrUpdateRdsTimer(TObject *Sender);
+	void __fastcall btnScanRnlClick(TObject *Sender);
 private:	// User declarations
 	Si4713 si4713;
 	void Read(void);
