@@ -13,6 +13,7 @@ USEFORM("CH341A\tools\MDIO\FormCH341MdioDetect.cpp", frmCH341MdioDetect);
 USEFORM("CH341A\tools\MDIO\FormCH341MdioWriteRead.cpp", frmCH341MdioWriteRead);
 USEFORM("CH341A\tools\MDIO\FormCH341MdioMmdWriteRead.cpp", frmCH341MdioMmdWriteRead);
 USEFORM("CH341A\tools\ST7567\FormCH341SpiST7567.cpp", frmCH341SpiST7567);
+USEFORM("CH341A\tools\VEML7700\FormCH341_I2C_VEML7700.cpp", frmCH341I2CVeml7700);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("CH341A\tools\FormCH341I2CSi7021.cpp", frmCH341I2CSi7021);
@@ -108,6 +109,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CCH455), &frmCH341I2CCH455);
 		Application->CreateForm(__classid(TfrmCH341Hmc5883L), &frmCH341Hmc5883L);
 		Application->CreateForm(__classid(TfrmCH341Ina226), &frmCH341Ina226);
+		Application->CreateForm(__classid(TfrmCH341I2CVeml7700), &frmCH341I2CVeml7700);
 		Application->Run();
 	}
 	catch (Exception &exception)

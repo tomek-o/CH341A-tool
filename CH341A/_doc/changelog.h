@@ -72,4 +72,5 @@ Version 1.6
 - I2C detect: added option to limit address range to make oscilloscope triggering easier
 - I2C detect: added setting for auto repeat interval time
 - added Si4713 FM radio transmitter
+- added VEML7700 ambient light sensor
 */
