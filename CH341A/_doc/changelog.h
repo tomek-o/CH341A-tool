@@ -73,4 +73,5 @@ Version 1.6
 - I2C detect: added setting for auto repeat interval time
 - added Si4713 FM radio transmitter
 - added VEML7700 ambient light sensor
+- added CH1115 48x88px 0.5" OLED display
 */

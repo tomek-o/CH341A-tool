@@ -4,6 +4,7 @@
 #pragma hdrstop
 //---------------------------------------------------------------------------
 USEFORM("CH341A\FormCH341A.cpp", frmCH341A);
+USEFORM("CH341A\tools\CH1115\FormCH341I2CCH1115.cpp", frmCH341I2CCH1115);
 USEFORM("CH341A\tools\TEA5767\FormCH341I2CTea5767.cpp", frmCH341I2CTea5767);
 USEFORM("CH341A\tools\SI4713\FormCH341_I2C_SI4713.cpp", frmCH341I2CSi4713);
 USEFORM("CH341A\tools\BMI160\FormCH341I2CBMI160.cpp", frmCH341I2CBMI160);
@@ -80,6 +81,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CAHT20), &frmCH341I2CAHT20);
 		Application->CreateForm(__classid(TfrmCH341I2CAs5600), &frmCH341I2CAs5600);
 		Application->CreateForm(__classid(TfrmCH341I2CSsd1306), &frmCH341I2CSsd1306);
+		Application->CreateForm(__classid(TfrmCH341I2CCH1115), &frmCH341I2CCH1115);
 		Application->CreateForm(__classid(TfrmCH341GpioHd44780), &frmCH341GpioHd44780);
 		Application->CreateForm(__classid(TfrmCH341I2CHd44780), &frmCH341I2CHd44780);
 		Application->CreateForm(__classid(TfrmCH341I2CRda5807m), &frmCH341I2CRda5807m);
