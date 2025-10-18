@@ -217,17 +217,32 @@ std::string HexStringToBuf(std::string in)
 
 std::string BufToHexString(std::string in)
 {
-    char *buf = new char[in.size()*2 + 1];
-    if (!buf)
-        return "";
-    buf[0] = 0;
-    for (unsigned int i=0; i<in.size(); i++)
-    {
-        sprintf(buf+(i*2), "%02X", (unsigned char)(in[i]));
-    }
-    std::string tst = buf;
-    delete [] buf;
-    return tst;
+	char *buf = new char[in.size()*2 + 1];
+	if (!buf)
+		return "";
+	buf[0] = 0;
+	for (unsigned int i=0; i<in.size(); i++)
+	{
+		sprintf(buf+(i*2), "%02X", (unsigned char)(in[i]));
+	}
+	std::string tst = buf;
+	delete [] buf;
+	return tst;
+}
+
+std::string BufToSpaceSeparatedHexString(const uint8_t *data, unsigned int count)
+{
+	if (!data || count == 0)
+		return "";
+	char *buf = new char[count*3+1];
+	for (unsigned int i=0; i<count; i++)
+	{
+		sprintf(buf+(i*3), "%02X ", (unsigned char)(data[i]));
+	}
+	buf[count*3 - 1] = '\0';
+	std::string tst = buf;
+	delete [] buf;
+	return tst;
 }
 
 int HexStringCleanToBuf(AnsiString text, AnsiString &msg, std::vector<uint8_t> &data)

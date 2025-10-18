@@ -12,6 +12,7 @@ int binStringToInt (std::string);
 std::string intToBinString (int);
 std::string HexStringToBuf(std::string);
 std::string BufToHexString(std::string);
+std::string BufToSpaceSeparatedHexString(const uint8_t *data, unsigned int count);
 
 /** \brief Clean string (removing "0x" and non-hex characters) and convert to binary buffer
 */
