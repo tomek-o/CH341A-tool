@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef UtilsH
-#define UtilsH
+#ifndef TelecomUtilsH
+#define TelecomUtilsH
 //---------------------------------------------------------------------------
 #include <System.hpp>
 

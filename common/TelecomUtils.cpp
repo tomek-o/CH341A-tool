@@ -3,7 +3,7 @@
 
 #pragma hdrstop
 
-#include "Utils.h"
+#include "TelecomUtils.h"
 
 //---------------------------------------------------------------------------
 
