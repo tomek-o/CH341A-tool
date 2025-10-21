@@ -53,6 +53,7 @@ USEFORM("CH341A\tools\FormCH341I2CAds1115.cpp", frmCH341I2CAds1115);
 USEFORM("CH341A\tools\FormCH341I2CMax11601.cpp", frmCH341I2CMax11601);
 USEFORM("CH341A\tools\FormCH341Hmc5883L.cpp", frmCH341Hmc5883L);
 USEFORM("CH341A\tools\FormCH341Ina226.cpp", frmCH341Ina226);
+USEFORM("CH341A\tools\PN532\FormCH341_I2C_PN532.cpp", frmCH341_I2C_PN532);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
