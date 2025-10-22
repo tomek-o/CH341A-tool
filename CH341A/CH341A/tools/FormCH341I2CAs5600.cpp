@@ -128,7 +128,7 @@ void __fastcall TfrmCH341I2CAs5600::paintBoxPaint(TObject *Sender)
 	c->MoveTo(static_cast<int>(centerX - deltaX), static_cast<int>(centerY - deltaY));
 	c->LineTo(static_cast<int>(centerX + deltaX), static_cast<int>(centerY + deltaY));
 
-	LOG("deltaX = %.1f, deltaY = %.1f\n", deltaX, deltaY);
+	//LOG("deltaX = %.1f, deltaY = %.1f\n", deltaX, deltaY);
 
 	double dx = 0.66 * radius * cos(angleRad + (M_PI/2));
 	double dy = 0.66 * radius * sin(angleRad + (M_PI/2));
