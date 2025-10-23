@@ -56,7 +56,8 @@
 
 #include "PN532.h"
 #include "common/bin2str.h"
-#include "CH341A.h"
+//#include "CH341A.h"
+#include "CH341SoftwareI2C.h"
 #include "Log.h"
 #include <windows.h>
 #include <vector>
@@ -95,11 +96,12 @@ PN532::PN532(void) {
     @returns  true if successful, otherwise false
 */
 /**************************************************************************/
-bool PN532::begin() {
+int PN532::begin() {
   reset(); // HW reset - put in known state
+  ch341SoftwareI2C.begin();
+  ch341SoftwareI2C.setDeviceID(PN532_I2C_ADDRESS);
   Sleep(10);
-  wakeup(); // hey! wakeup!
-  return true;
+  return wakeup(); // hey! wakeup!
 }
 
 /**************************************************************************/
@@ -126,7 +128,7 @@ void PN532::reset(void) {
     @brief  Wakeup from LowVbat mode into Normal Mode.
 */
 /**************************************************************************/
-void PN532::wakeup(void) {
+int PN532::wakeup(void) {
 #if 0
   // interface specific wakeups - each one is unique!
   if (spi_dev) {
@@ -143,7 +145,12 @@ void PN532::wakeup(void) {
   // PN532 will clock stretch I2C during SAMConfig as a "wakeup"
 
   // need to config SAM to stay in Normal Mode
-  SAMConfig();
+  if (SAMConfig() == false)
+  {
+	LOG("PN532: failed to configure SAM (Secure Access Module)\n");
+	return -1;
+  }
+  return 0;
 }
 
 /**************************************************************************/
@@ -369,7 +376,7 @@ uint8_t PN532::readGPIO(void) {
 
 /**************************************************************************/
 /*!
-    @brief   Configures the SAM (Secure Access Module)
+	@brief   Configures the SAM (Secure Access Module)
     @return  true on success, false otherwise.
 */
 /**************************************************************************/
@@ -1416,8 +1423,9 @@ bool PN532::readack() {
 bool PN532::isready() {
 	// I2C ready check via reading RDY byte
 	uint8_t rdy;
-	ch341a.I2CReadByte(PN532_I2C_ADDRESS, rdy);
-    return rdy == PN532_I2C_READY;
+	//ch341a.I2CReadByte(PN532_I2C_ADDRESS, rdy);
+	ch341SoftwareI2C.read1bFromDevice(&rdy);
+	return rdy == PN532_I2C_READY;
 }
 
 /**************************************************************************/
@@ -1427,16 +1435,13 @@ bool PN532::isready() {
     @param  timeout   Timeout before giving up
 */
 /**************************************************************************/
-bool PN532::waitready(uint16_t timeout) {
-  uint16_t timer = 0;
+bool PN532::waitready(unsigned int timeout) {
+  unsigned int startTimer = timeGetTime();
   while (!isready()) {
-    if (timeout != 0) {
-      timer += 10;
-      if (timer > timeout) {
+	if (timeGetTime() - startTimer > timeout) {
 		LOG("PN532: timeout waiting for ready\n");
-        return false;
-      }
-    }
+		return false;
+	}
     Sleep(10);
   }
   return true;
@@ -1454,7 +1459,8 @@ void PN532::readdata(uint8_t *buff, uint8_t n) {
 	// I2C read
 	std::vector<uint8_t> rbuff;
 	rbuff.resize(n + 1);	// +1 for leading RDY byte
-    ch341a.I2CReadBytes(PN532_I2C_ADDRESS, &rbuff[0], rbuff.size());
+	//ch341a.I2CReadBytes(PN532_I2C_ADDRESS, &rbuff[0], rbuff.size());
+    ch341SoftwareI2C.readBytesFromDevice(&rbuff[0], rbuff.size());
     for (uint8_t i = 0; i < n; i++) {
       buff[i] = rbuff[i + 1];
     }
@@ -1600,5 +1606,6 @@ void PN532::writecommand(uint8_t *cmd, uint8_t cmdlen) {
     Serial.println();
 #endif
 
-    ch341a.I2CWriteBytes(PN532_I2C_ADDRESS, &packet[0], packet.size());
+	//ch341a.I2CWriteBytes(PN532_I2C_ADDRESS, &packet[0], packet.size());
+	ch341SoftwareI2C.writeBytesToDevice(&packet[0], packet.size());
 }

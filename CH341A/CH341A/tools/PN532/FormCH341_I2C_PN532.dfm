@@ -16,7 +16,7 @@ object frmCH341_I2C_PN532: TfrmCH341_I2C_PN532
   object lblStatus: TLabel
     Left = 8
     Top = 88
-    Width = 121
+    Width = 3
     Height = 13
   end
   object btnRead: TButton

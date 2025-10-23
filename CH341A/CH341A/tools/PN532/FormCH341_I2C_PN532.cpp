@@ -36,15 +36,22 @@ void __fastcall TfrmCH341_I2C_PN532::btnInitClick(TObject *Sender)
 		lblStatus->Caption = "CH341 is not opened!";
 		return;
 	}
-
-	int status = ch341a.I2CCheckDev(PN532_I2C_ADDRESS);
+	int status;
+#if 0
+	status = ch341a.I2CCheckDev(PN532_I2C_ADDRESS);
 	if (status != 0)
 	{
 		lblStatus->Caption = "No ACK after sending expected address!";
 		return;
 	}
-
-	pn532.begin();
+#endif
+	LOG("PN532: begin\n");
+	status = pn532.begin();
+	if (status != 0)
+	{
+		lblStatus->Caption = "Failed to init / wake up PN532";
+		return;
+	}
 
 	uint32_t versiondata = pn532.getFirmwareVersion();
 	if (! versiondata) {
@@ -58,6 +65,7 @@ void __fastcall TfrmCH341_I2C_PN532::btnInitClick(TObject *Sender)
 		(versiondata>>16) & 0xFF,
 		(versiondata>>8) & 0xFF
 	);
+	lblStatus->Caption = version;
 
 	// Set the max number of retry attempts to read from a card
 	// This prevents us from waiting forever for a card, which is
@@ -95,7 +103,7 @@ void TfrmCH341_I2C_PN532::Read(void)
 	// Wait for an ISO14443A type cards (Mifare, etc.).  When one is found
 	// 'uid' will be populated with the UID, and uidLength will indicate
 	// if the uid is 4 bytes (Mifare Classic) or 7 bytes (Mifare Ultralight)
-	success = pn532.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength);
+	success = pn532.readPassiveTargetID(PN532_MIFARE_ISO14443A, &uid[0], &uidLength, 1000);
 
 	if (success)
 	{

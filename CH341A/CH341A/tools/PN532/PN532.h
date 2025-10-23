@@ -134,16 +134,16 @@
 class PN532 {
 public:
   PN532(void);
-  bool begin(void);
+  int begin(void);
 
   void reset(void);
-  void wakeup(void);
+  int wakeup(void);
 
   // Generic PN532 functions
   bool SAMConfig(void);
   uint32_t getFirmwareVersion(void);
   bool sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen,
-                           uint16_t timeout = 100);
+                           uint16_t timeout = 500);
   bool writeGPIO(uint8_t pinstate);
   uint8_t readGPIO(void);
   bool setPassiveActivationRetries(uint8_t maxRetries);
@@ -193,7 +193,7 @@ private:
   void readdata(uint8_t *buff, uint8_t n);
   void writecommand(uint8_t *cmd, uint8_t cmdlen);
   bool isready();
-  bool waitready(uint16_t timeout);
+  bool waitready(unsigned int timeout);
   bool readack();
 };
 
