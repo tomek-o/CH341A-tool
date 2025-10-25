@@ -580,6 +580,14 @@ BOOL	WINAPI	CH341StreamSPI3(
 // SPI timing: The DCK/D3 pin is the clock output, which defaults to low level.
 // The DOUT/D5 pin outputs during the low level before the rising edge of the clock.
 // The DIN/D7 pin outputs the high level before the falling edge of the clock.
+// DOUT is high when idle and goes high ~1ms after the end of transmission.
+// It looks like it is accepting buffer length up to 3937 bytes, returning error for larger transfers.
+//
+// Absolutely crazy: when sending zeros, MOSI goes high (not even high impedance - I've tested with 1k pull-down)
+// between clock pulses (when SCK is low).
+// These look like quite regular ~170ns "1" pulses, going to "0" ~85 ns before each SCK rising edge.
+// It is still correctly decoded on logic analyzer, but WTF.
+// When sending "1"/0xFF, everything looks fine.
 BOOL	WINAPI	CH341StreamSPI4(
 	ULONG			iIndex,  // Specify CH341 device serial number
 	ULONG			iChipSelect,  // Chip select control, if bit 7 is 0, the chip select control is ignored, if bit 7 is 1, the parameters are valid: Bit 1 and bit 0 are 00/01/10, respectively, select the D0/D1/D2 pin as low level. valid chip select
