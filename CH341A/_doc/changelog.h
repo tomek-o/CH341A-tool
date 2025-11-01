@@ -74,4 +74,5 @@ Version 1.6
 - added Si4713 FM radio transmitter
 - added VEML7700 ambient light sensor
 - added CH1115 48x88px 0.5" OLED display
+- added simple timer-based GPIO pattern generator
 */

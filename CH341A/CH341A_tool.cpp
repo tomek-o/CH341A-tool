@@ -16,6 +16,7 @@ USEFORM("CH341A\tools\MDIO\FormCH341MdioMmdWriteRead.cpp", frmCH341MdioMmdWriteR
 USEFORM("CH341A\tools\ST7567\FormCH341SpiST7567.cpp", frmCH341SpiST7567);
 USEFORM("CH341A\tools\VEML7700\FormCH341_I2C_VEML7700.cpp", frmCH341I2CVeml7700);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
+USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("CH341A\tools\FormCH341I2CSi7021.cpp", frmCH341I2CSi7021);
 USEFORM("CH341A\tools\FormCH341I2CAHT20.cpp", frmCH341I2CAHT20);
@@ -72,6 +73,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
 		Application->CreateForm(__classid(TfrmCH341SpiWriteRead), &frmCH341SpiWriteRead);
 		Application->CreateForm(__classid(TfrmCH341Gpio), &frmCH341Gpio);
+		Application->CreateForm(__classid(TfrmCH341GpioPatternGenerator), &frmCH341GpioPatternGenerator);
 		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);
 		Application->CreateForm(__classid(TfrmCH341I2CSi7021), &frmCH341I2CSi7021);
 		Application->CreateForm(__classid(TfrmCH341I2CBme280), &frmCH341I2CBme280);
