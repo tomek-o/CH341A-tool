@@ -483,6 +483,7 @@
         <FILE FILENAME="CH341A\CH341A.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH341A" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\CH341A.h"/>
         <FILE FILENAME="CH341A\CH341AConf.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH341AConf" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\CH341AConf.h"/>
         <FILE FILENAME="CH341A\FormCH341A.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341A" FORMNAME="frmCH341A" DESIGNCLASS="" ADDITIONAL="CH341A\FormCH341A.h"/>
+        <FILE FILENAME="CH341A\CH341SoftwareI2C.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH341SoftwareI2C" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\CH341SoftwareI2C.h"/>
         <FILE FILENAME="CH341A\tools\SSD1306\textRenderer\TextRenderer.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\SSD1306\textRenderer\TextRenderer.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TextRenderer" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\SSD1306\textRenderer\16x32_font.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
@@ -583,7 +584,7 @@
           <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
           <VersionInfo Name="AutoIncBuild">False</VersionInfo>
           <VersionInfo Name="MajorVer">1</VersionInfo>
-          <VersionInfo Name="MinorVer">5</VersionInfo>
+          <VersionInfo Name="MinorVer">6</VersionInfo>
           <VersionInfo Name="Release">0</VersionInfo>
           <VersionInfo Name="Build">0</VersionInfo>
           <VersionInfo Name="Debug">False</VersionInfo>
@@ -597,13 +598,13 @@
         <VersionInfoKeys>
           <VersionInfoKeys Name="CompanyName">Tomasz Ostrowski</VersionInfoKeys>
           <VersionInfoKeys Name="FileDescription">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="FileVersion">1.5.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.6.0.0</VersionInfoKeys>
           <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
           <VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
           <VersionInfoKeys Name="ProductName">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="ProductVersion">1.5</VersionInfoKeys>
+          <VersionInfoKeys Name="ProductVersion">1.6</VersionInfoKeys>
           <VersionInfoKeys Name="Comments"></VersionInfoKeys>
         </VersionInfoKeys>
         <Debugging>
