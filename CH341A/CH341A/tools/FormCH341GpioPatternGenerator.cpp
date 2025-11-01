@@ -175,7 +175,8 @@ void __fastcall TfrmCH341GpioPatternGenerator::GridDrawCell(TObject *Sender,
 	bool selected = State.Contains(gdSelected);
     if (!StringGrid->Options.Contains(goDrawFocusSelected))
     {
-        selected = selected && !focused;
+		selected = selected && !focused;
+		(void)selected;
     }
     // if the cell is fixed (headers)
     if (fixed)

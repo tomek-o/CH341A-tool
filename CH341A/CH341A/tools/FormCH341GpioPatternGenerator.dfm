@@ -60,7 +60,7 @@ object frmCH341GpioPatternGenerator: TfrmCH341GpioPatternGenerator
     object lblStatus: TLabel
       Left = 8
       Top = 105
-      Width = 49
+      Width = 3
       Height = 13
     end
     object edStepPeriod: TEdit
