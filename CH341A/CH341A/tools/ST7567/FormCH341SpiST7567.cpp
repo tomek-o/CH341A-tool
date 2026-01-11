@@ -21,7 +21,7 @@ TfrmCH341SpiST7567 *frmCH341SpiST7567;
 __fastcall TfrmCH341SpiST7567::TfrmCH341SpiST7567(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 

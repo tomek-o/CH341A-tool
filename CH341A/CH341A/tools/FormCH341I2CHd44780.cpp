@@ -176,7 +176,7 @@ __fastcall TfrmCH341I2CHd44780::TfrmCH341I2CHd44780(TComponent* Owner)
 	}
 	cbI2CAddress->ItemIndex = 0x27;
 
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CHd44780::btnWriteClick(TObject *Sender)

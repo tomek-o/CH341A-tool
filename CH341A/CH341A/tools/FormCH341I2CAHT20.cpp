@@ -106,7 +106,7 @@ public:
 __fastcall TfrmCH341I2CAHT20::TfrmCH341I2CAHT20(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CAHT20::btnReadClick(TObject *Sender)

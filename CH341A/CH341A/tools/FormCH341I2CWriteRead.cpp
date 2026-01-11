@@ -32,7 +32,7 @@ __fastcall TfrmCH341I2CWriteRead::TfrmCH341I2CWriteRead(TComponent* Owner)
 	}
 	cbReadBytesCount->ItemIndex = 0;
 
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CWriteRead::btnWriteReadClick(TObject *Sender)

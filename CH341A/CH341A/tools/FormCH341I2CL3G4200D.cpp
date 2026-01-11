@@ -56,7 +56,7 @@ __fastcall TfrmCH341I2CL3G4200D::TfrmCH341I2CL3G4200D(TComponent* Owner)
 	: TForm(Owner),
 	dpsPerBit(0)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 

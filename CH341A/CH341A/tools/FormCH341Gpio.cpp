@@ -85,7 +85,7 @@ AnsiString GetGpioDescription(unsigned int id)
 __fastcall TfrmCH341Gpio::TfrmCH341Gpio(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 
 	STATIC_CHECK(ARRAY_SIZE(panels) == sizeof(uint32_t)*8, UnexpectedNumberOfPanels);
 

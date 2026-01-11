@@ -100,7 +100,7 @@ object frmCH341MdioMmdWriteRead: TfrmCH341MdioMmdWriteRead
     Width = 61
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 2
   end
   object edValueHex: TEdit

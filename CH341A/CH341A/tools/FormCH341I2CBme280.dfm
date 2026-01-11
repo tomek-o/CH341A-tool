@@ -109,7 +109,7 @@ object frmCH341I2CBme280: TfrmCH341I2CBme280
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 5
   end

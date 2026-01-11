@@ -26,7 +26,7 @@ __fastcall TfrmCH341GpioPatternGenerator::TfrmCH341GpioPatternGenerator(TCompone
 	currentPos(-1),
 	started(false)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 

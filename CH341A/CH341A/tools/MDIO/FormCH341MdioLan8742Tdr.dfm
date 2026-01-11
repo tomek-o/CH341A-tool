@@ -81,7 +81,7 @@ object frmCH341MdioLan8742Tdr: TfrmCH341MdioLan8742Tdr
     Width = 46
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 2
   end
   object cbPair: TComboBox

@@ -107,7 +107,7 @@ object frmCH341MdioLan8742Cbln: TfrmCH341MdioLan8742Cbln
     Width = 46
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 4
   end
 end

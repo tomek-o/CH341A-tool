@@ -77,7 +77,7 @@ object frmCH341DS1302: TfrmCH341DS1302
     Width = 217
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 6
   end
   object btnSetCurrentTime: TButton

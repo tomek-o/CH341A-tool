@@ -141,7 +141,7 @@ object frmCH341_I2C_S35390A: TfrmCH341_I2C_S35390A
     Width = 208
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 7
     OnChange = cbInt2SelChange
   end

@@ -19,7 +19,7 @@ object frmCH341I2CMCP4725: TfrmCH341I2CMCP4725
   object lblStatus: TLabel
     Left = 8
     Top = 248
-    Width = 62
+    Width = 3
     Height = 13
   end
   object lblAddress: TLabel
@@ -39,13 +39,13 @@ object frmCH341I2CMCP4725: TfrmCH341I2CMCP4725
   object lblVal: TLabel
     Left = 177
     Top = 104
-    Width = 85
+    Width = 3
     Height = 13
   end
   object lblRead: TLabel
     Left = 200
     Top = 192
-    Width = 61
+    Width = 3
     Height = 13
   end
   object btnRead: TButton

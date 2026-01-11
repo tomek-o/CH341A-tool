@@ -29,7 +29,7 @@ enum { MCP4725_GENERAL_CALL_CMD_WAKEUP = 0x09 };
 __fastcall TfrmCH341I2CMCP4725::TfrmCH341I2CMCP4725(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupDac);
 	edValueChange(NULL);
 }
 //---------------------------------------------------------------------------

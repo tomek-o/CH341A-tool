@@ -27,7 +27,7 @@ __fastcall TfrmCH341I2CSsd1306::TfrmCH341I2CSsd1306(TComponent* Owner)
 	: TForm(Owner),
 	display(NULL)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 	for (unsigned int i=0; i<128; i++)
 	{
 		AnsiString text;

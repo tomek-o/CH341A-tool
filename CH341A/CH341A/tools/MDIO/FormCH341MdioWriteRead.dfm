@@ -93,7 +93,7 @@ object frmCH341MdioWriteRead: TfrmCH341MdioWriteRead
     Width = 61
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 2
   end
   object cbRegId: TComboBox
@@ -108,7 +108,7 @@ object frmCH341MdioWriteRead: TfrmCH341MdioWriteRead
     Font.Height = -13
     Font.Name = 'Courier New'
     Font.Style = [fsBold]
-    ItemHeight = 16
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 3
     OnChange = cbRegIdChange

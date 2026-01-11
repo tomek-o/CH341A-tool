@@ -30,6 +30,7 @@ __published:	// IDE-managed Components
 	TComboBox *cbI2CSpeed;
 	TCheckBox *chbCH341AOpenAtStartup;
 	TCheckBox *cbhLogAddTimestamps;
+	TCheckBox *chbSortToolsAlphabetically;
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall btnCancelClick(TObject *Sender);
 	void __fastcall btnApplyClick(TObject *Sender);

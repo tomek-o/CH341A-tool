@@ -31,7 +31,7 @@ double round( double fValue )
 __fastcall TfrmCH341I2CSi4713::TfrmCH341I2CSi4713(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupFmRadio);
 }
 //---------------------------------------------------------------------------
 

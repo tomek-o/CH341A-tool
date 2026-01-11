@@ -21,7 +21,7 @@ TfrmCH341SHT11 *frmCH341SHT11;
 __fastcall TfrmCH341SHT11::TfrmCH341SHT11(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 

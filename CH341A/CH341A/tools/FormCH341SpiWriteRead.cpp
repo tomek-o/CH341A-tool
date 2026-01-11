@@ -18,7 +18,7 @@ TfrmCH341SpiWriteRead *frmCH341SpiWriteRead;
 __fastcall TfrmCH341SpiWriteRead::TfrmCH341SpiWriteRead(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341SpiWriteRead::btnWriteReadClick(TObject *Sender)

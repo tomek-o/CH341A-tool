@@ -121,7 +121,7 @@ __fastcall TfrmCH341Ina226::TfrmCH341Ina226(TComponent* Owner)
 	: TForm(Owner),
 	currentLsb(0)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 
 	STATIC_CHECK(I2C_ADDRESS_COUNT == C_ARRAY_SIZE(i2cAddressDescriptions), AddressCountMismatch);
 	cbAddress->Clear();

@@ -50,7 +50,7 @@ object frmSettings: TfrmSettings
     Top = 0
     Width = 357
     Height = 214
-    ActivePage = tsCH341A
+    ActivePage = tsGeneral
     Align = alClient
     TabOrder = 0
     object tsCH341A: TTabSheet
@@ -90,6 +90,15 @@ object frmSettings: TfrmSettings
         Height = 17
         Caption = 'Window always on top'
         TabOrder = 0
+        OnClick = chbAlwaysOnTopClick
+      end
+      object chbSortToolsAlphabetically: TCheckBox
+        Left = 3
+        Top = 26
+        Width = 325
+        Height = 17
+        Caption = 'Sort tool alphabetically on the tree (applied after restart)'
+        TabOrder = 1
         OnClick = chbAlwaysOnTopClick
       end
     end

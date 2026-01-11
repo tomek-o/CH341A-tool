@@ -16,7 +16,7 @@ object frmCH341I2CBMI160: TfrmCH341I2CBMI160
   object lblStatus: TLabel
     Left = 8
     Top = 165
-    Width = 61
+    Width = 3
     Height = 13
   end
   object lblAddress: TLabel

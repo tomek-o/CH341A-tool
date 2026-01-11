@@ -202,7 +202,7 @@ enum {
 __fastcall TfrmCH341I2CAds1115::TfrmCH341I2CAds1115(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupAdc);
 
 	for (int i=ADS1115_I2C_ADDRESS__START; i<ADS1115_I2C_ADDRESS__LIMIT; i++)
 	{

@@ -16,7 +16,7 @@ object frmCH341DS1307: TfrmCH341DS1307
   object lblStatus: TLabel
     Left = 8
     Top = 104
-    Width = 52
+    Width = 3
     Height = 13
   end
   object lblDateTime: TLabel
@@ -83,7 +83,7 @@ object frmCH341DS1307: TfrmCH341DS1307
     Width = 217
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 4
   end
   object tmrAutoRead: TTimer

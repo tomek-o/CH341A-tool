@@ -18,7 +18,7 @@ TfrmCH341I2CRda5807m *frmCH341I2CRda5807m;
 __fastcall TfrmCH341I2CRda5807m::TfrmCH341I2CRda5807m(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupFmRadio);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CRda5807m::btnReadClick(TObject *Sender)

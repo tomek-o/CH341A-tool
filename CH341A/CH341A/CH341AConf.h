@@ -25,11 +25,14 @@ struct CH341AConf
 
 	static const char* getI2CSpeedDescription(enum I2CSpeed val);
 
+	bool sortToolsAlphabetically;
+	AnsiString lastToolGroup;
 	AnsiString lastPage;
 
 	CH341AConf(void):
 		openAtStartup(true),
-		i2cSpeed(I2C_SPEED_20K)
+		i2cSpeed(I2C_SPEED_20K),
+		sortToolsAlphabetically(false)
 	{}
 
 	void fromJson(const Json::Value &jv);

@@ -92,7 +92,7 @@ object frmCH341I2CAds1115: TfrmCH341I2CAds1115
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 0
   end
@@ -107,7 +107,7 @@ object frmCH341I2CAds1115: TfrmCH341I2CAds1115
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 3
   end
@@ -122,7 +122,7 @@ object frmCH341I2CAds1115: TfrmCH341I2CAds1115
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 4
   end
@@ -137,7 +137,7 @@ object frmCH341I2CAds1115: TfrmCH341I2CAds1115
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 5
   end

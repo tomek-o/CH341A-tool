@@ -106,7 +106,7 @@ __fastcall TfrmCH341SpiMax7219Led8x8Cascade::TfrmCH341SpiMax7219Led8x8Cascade(TC
 		}
 	}
 
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341SpiMax7219Led8x8Cascade::btnInitClick(TObject *Sender)

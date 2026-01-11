@@ -16,7 +16,7 @@ object frmCH341I2CCH1115: TfrmCH341I2CCH1115
   object lblStatus: TLabel
     Left = 8
     Top = 64
-    Width = 126
+    Width = 3
     Height = 13
   end
   object lblAddress: TLabel

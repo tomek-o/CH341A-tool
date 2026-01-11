@@ -19,7 +19,7 @@ object frmCH341SpiST7567: TfrmCH341SpiST7567
   object lblStatus: TLabel
     Left = 8
     Top = 232
-    Width = 38
+    Width = 3
     Height = 13
   end
   object btnWrite: TButton

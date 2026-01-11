@@ -37,8 +37,12 @@ void __fastcall TfrmCH341A::btnCloseClick(TObject *Sender)
 
 void __fastcall TfrmCH341A::tvToolsChange(TObject *Sender, TTreeNode *Node)
 {
-	TabManager::Instance().SwitchToPage(Node->Index);
-	appSettings.ch341a.lastPage = Node->Text;
+	if (Node->Selected && Node->Parent)
+	{
+		TabManager::Instance().SwitchToPage(reinterpret_cast<TTabSheet*>(Node->Data));
+		appSettings.ch341a.lastToolGroup = Node->Parent->Text;
+		appSettings.ch341a.lastPage = Node->Text;
+	}
 }
 //---------------------------------------------------------------------------
 
@@ -47,22 +51,45 @@ void __fastcall TfrmCH341A::tmrStartupTimer(TObject *Sender)
 {
 	tmrStartup->Enabled = false;
 
+	if (appSettings.ch341a.sortToolsAlphabetically)
+	{
+		TTreeNode *parentNode = tvTools->Items->Item[0];
+		while (parentNode)
+		{
+			parentNode->AlphaSort(false);
+			parentNode = parentNode->getNextSibling();
+		}
+	}
+
 	if (tvTools->Items->Count)
 	{
-		int itemId = 0;
+		TTreeNode *node = NULL;
+
+		TTreeNode *parentNode = tvTools->Items->Item[0];
+		while (parentNode) {
+			if (parentNode->Text == appSettings.ch341a.lastToolGroup)
+				break;
+			parentNode = parentNode->getNextSibling();
+		}
+		if (!parentNode)
+			parentNode = tvTools->Items->Item[0];
+			
 		if (appSettings.ch341a.lastPage != "")
 		{
-			for (int i=0; i<tvTools->Items->Count; i++)
+			node = parentNode->getFirstChild();
+			while (node)
 			{
-				if (tvTools->Items->Item[i]->Text == appSettings.ch341a.lastPage)
-				{
-					itemId = i;
+				if (node->Text == appSettings.ch341a.lastPage)
 					break;
-				}
+				node = node->getNextSibling();
 			}
 		}
-		tvTools->Items->Item[itemId]->Selected = true;
-		tvToolsChange(NULL, tvTools->Items->Item[itemId]);
+
+		if (node)
+		{
+			node->Selected = true;
+			tvToolsChange(NULL, node);
+		}
 	}
 }
 //---------------------------------------------------------------------------

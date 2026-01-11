@@ -484,6 +484,7 @@
         <FILE FILENAME="CH341A\CH341AConf.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH341AConf" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\CH341AConf.h"/>
         <FILE FILENAME="CH341A\FormCH341A.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341A" FORMNAME="frmCH341A" DESIGNCLASS="" ADDITIONAL="CH341A\FormCH341A.h"/>
         <FILE FILENAME="CH341A\CH341SoftwareI2C.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH341SoftwareI2C" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\CH341SoftwareI2C.h"/>
+        <FILE FILENAME="CH341A\ToolGroups.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ToolGroups" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\ToolGroups.h"/>
         <FILE FILENAME="CH341A\tools\SSD1306\textRenderer\TextRenderer.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\SSD1306\textRenderer\TextRenderer.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TextRenderer" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\SSD1306\textRenderer\16x32_font.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
@@ -642,10 +643,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-      <buildevent file="turbocpp_template.bdsproj">
-        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+			<buildevent file="turbocpp_template.bdsproj">
+				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-      </buildevent>
-    </buildevents>
+			</buildevent>
+		</buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>

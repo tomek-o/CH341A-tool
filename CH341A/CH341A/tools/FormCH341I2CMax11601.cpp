@@ -56,7 +56,7 @@ ValueDescription refSel[] = {
 __fastcall TfrmCH341I2CMax11601::TfrmCH341I2CMax11601(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupAdc);
 	cbReferenceVoltage->Clear();
 	for (unsigned int i=0; i<ARRAY_SIZE(refSel); i++)
 	{

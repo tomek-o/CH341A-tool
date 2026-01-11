@@ -21,7 +21,7 @@ TfrmCH341I2CSi5351 *frmCH341I2CSi5351;
 __fastcall TfrmCH341I2CSi5351::TfrmCH341I2CSi5351(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupMisc);
 }
 //---------------------------------------------------------------------------
 

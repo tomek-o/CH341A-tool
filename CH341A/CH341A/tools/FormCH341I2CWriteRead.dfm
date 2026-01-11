@@ -67,7 +67,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     Width = 65
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 1
   end
   object memoRead: TMemo
@@ -113,7 +113,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 4
   end

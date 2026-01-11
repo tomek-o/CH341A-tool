@@ -81,7 +81,7 @@ object frmCH341DS3231: TfrmCH341DS3231
     Width = 138
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 4
   end
   object chbSqwOutput: TCheckBox

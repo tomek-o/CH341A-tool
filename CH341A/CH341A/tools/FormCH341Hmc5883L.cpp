@@ -124,7 +124,7 @@ int16_t swap_int16( int16_t val )
 __fastcall TfrmCH341Hmc5883L::TfrmCH341Hmc5883L(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 	FillComboboxWithValues(samplesAvgSel, cbAvgSel, CONFIG_A_SAMPLES_AVG_8);
 	FillComboboxWithValues(outputRateSel, cbOutputRateSel, CONFIG_A_OUTPUT_RATE_15_HZ);
 	FillComboboxWithValues(gainSel, cbGainSel, CONFIG_B_GAIN_1_3_GA);

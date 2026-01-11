@@ -9,10 +9,13 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 
+#include "ToolGroups.h"
+
 namespace Comctrls
 {
 	class DELPHICLASS TTreeView;
 	class DELPHICLASS TPageControl;
+	class DELPHICLASS TTabSheet;
 }
 
 class TabManager
@@ -29,12 +32,9 @@ public:
 	static TabManager& Instance() {
 		return instance;
 	}
-	void Configure(Comctrls::TPageControl *pages, Comctrls::TTreeView *tree) {
-		this->pages = pages;
-		this->tree = tree;
-	}
-	int Register(TForm *frm);
-	void SwitchToPage(unsigned int id);
+	void Configure(Comctrls::TPageControl *pages, Comctrls::TTreeView *tree);
+	int Register(TForm *frm, unsigned int groups);
+	void SwitchToPage(Comctrls::TTabSheet *tab);
 };
 
 #endif

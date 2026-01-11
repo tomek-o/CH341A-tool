@@ -135,7 +135,7 @@ ValueDescriptionU8 int2Sel[] = {
 __fastcall TfrmCH341_I2C_S35390A::TfrmCH341_I2C_S35390A(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupRtc);
 	FillComboboxWithValues(int1Sel, cbInt1Sel, INT1_FREQ_OUTPUT);
 	FillComboboxWithValues(int2Sel, cbInt2Sel, INT2_FREQ_OUTPUT);
 }

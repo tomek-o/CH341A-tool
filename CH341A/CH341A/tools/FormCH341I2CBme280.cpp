@@ -255,7 +255,7 @@ public:
 __fastcall TfrmCH341I2CBme280::TfrmCH341I2CBme280(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 
 	for (unsigned int i=Bme280::FIRST_ADDR; i<=Bme280::LAST_ADDR; i++)
 	{

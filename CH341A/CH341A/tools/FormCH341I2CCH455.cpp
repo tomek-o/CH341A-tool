@@ -46,7 +46,7 @@ int WriteReg(uint8_t reg, uint8_t val)
 __fastcall TfrmCH341I2CCH455::TfrmCH341I2CCH455(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, (1u << ToolGroupDisplays)|(1u << ToolGroupMisc));
 	cbIntensity->ItemIndex = cbIntensity->Items->Count - 1;
 
 	for (unsigned int i=0; i<ARRAY_SIZE(chbBit); i++)

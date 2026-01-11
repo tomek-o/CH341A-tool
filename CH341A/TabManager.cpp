@@ -29,8 +29,17 @@ TabManager::TabManager(void):
 
 }
 
+void TabManager::Configure(Comctrls::TPageControl *pages, Comctrls::TTreeView *tree) {
+	this->pages = pages;
+	this->tree = tree;
+	for (int i=0; i<ToolGroup_Limiter; i++)
+	{
+		TTreeNode *node = tree->Items->Add(NULL, GetToolGroupName(static_cast<ToolGroup>(i)));
+		(void)node;
+	}
+}
 
-int TabManager::Register(TForm *frm)
+int TabManager::Register(TForm *frm, unsigned int groups)
 {
 	assert(pages);
 	assert(tree);
@@ -39,8 +48,20 @@ int TabManager::Register(TForm *frm)
 	pTabSheet->Caption = frm->Caption;
 	//pTabSheet->Align = alClient;
 
-	TTreeNode *node = tree->Items->Add(NULL, pTabSheet->Caption);
-	(void)node;
+	groups += (1<<ToolGroupAll);
+
+	TTreeNode *parentNode = tree->Items->Item[0];
+	for (unsigned int i=0; i<32; i++)
+	{
+		if (i >= ToolGroup_Limiter)
+			break;
+		if (groups & (1u<<i))
+		{
+			TTreeNode *node = tree->Items->AddChild(parentNode, pTabSheet->Caption);
+			node->Data = pTabSheet;
+		}
+		parentNode = parentNode->getNextSibling();
+	}
 
 	pTabSheet->TabVisible = false;
 	pTabSheet->Visible = false;
@@ -55,18 +76,16 @@ int TabManager::Register(TForm *frm)
 	return 0;
 }
 
-void TabManager::SwitchToPage(unsigned int id)
+void TabManager::SwitchToPage(Comctrls::TTabSheet *tab)
 {
-    assert(id < tabSheets.size());
 	if (prevTabSheet)
 		prevTabSheet->Visible = false;
 
-	TTabSheet *pTabSheet = tabSheets[id];
-	pTabSheet->Visible = true;
-	if (prevTabSheet != pTabSheet)
+	tab->Visible = true;
+	if (prevTabSheet != tab)
 	{
-		LOG("Switched to [%s] tab\n", pTabSheet->Caption.c_str());
-		prevTabSheet = pTabSheet;
+		LOG("Switched to [%s] tab\n", tab->Caption.c_str());
+		prevTabSheet = tab;
     }
 }
 

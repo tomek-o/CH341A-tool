@@ -209,7 +209,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
     Width = 78
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 9
   end
   object cbOutputRateSel: TComboBox
@@ -218,7 +218,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
     Width = 78
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 10
   end
   object cbGainSel: TComboBox
@@ -227,7 +227,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
     Width = 78
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 11
   end
   object cbMeasModeSel: TComboBox
@@ -236,7 +236,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
     Width = 104
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 12
   end
   object chbCalibrationCollect: TCheckBox

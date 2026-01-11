@@ -561,7 +561,7 @@ void DS1302_write( int address, uint8_t data)
 __fastcall TfrmCH341DS1302::TfrmCH341DS1302(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupRtc);
 	cbTrickleChargeMode->Clear();
 	for (unsigned int i=0; i<ARRAY_SIZE(trickleChargingModes); i++)
 	{

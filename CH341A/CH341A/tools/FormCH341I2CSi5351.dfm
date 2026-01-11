@@ -19,7 +19,7 @@ object frmCH341I2CSi5351: TfrmCH341I2CSi5351
   object lblStatus: TLabel
     Left = 8
     Top = 232
-    Width = 57
+    Width = 3
     Height = 13
   end
   object lblFrequencyCorrection: TLabel

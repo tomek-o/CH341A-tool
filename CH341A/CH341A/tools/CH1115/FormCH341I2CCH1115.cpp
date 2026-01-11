@@ -109,7 +109,7 @@ uint8_t image2[]={
 __fastcall TfrmCH341I2CCH1115::TfrmCH341I2CCH1115(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 

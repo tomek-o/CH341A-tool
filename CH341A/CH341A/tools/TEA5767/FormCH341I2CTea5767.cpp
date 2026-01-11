@@ -20,7 +20,7 @@ __fastcall TfrmCH341I2CTea5767::TfrmCH341I2CTea5767(TComponent* Owner)
 	searching(false),
 	searchingUp(true)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupFmRadio);
 	btnInit->Enabled = true;
 	btnStopHandling->Enabled = false;
 }

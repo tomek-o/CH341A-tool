@@ -55,11 +55,13 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
 	{
 		cbI2CSpeed->ItemIndex = tmpSettings.ch341a.i2cSpeed;
 	}
+
+	chbSortToolsAlphabetically->Checked = tmpSettings.ch341a.sortToolsAlphabetically;
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmSettings::btnCancelClick(TObject *Sender)
 {
-	this->Close();	
+	this->Close();
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
@@ -70,9 +72,10 @@ void __fastcall TfrmSettings::btnApplyClick(TObject *Sender)
 	tmpSettings.ch341a.openAtStartup = chbCH341AOpenAtStartup->Checked;
 
 	tmpSettings.ch341a.i2cSpeed = static_cast<CH341AConf::I2CSpeed>(cbI2CSpeed->ItemIndex);
+	tmpSettings.ch341a.sortToolsAlphabetically = chbSortToolsAlphabetically->Checked;
 
 	*appSettings = tmpSettings;
-	this->Close();	
+	this->Close();
 }
 //---------------------------------------------------------------------------
 

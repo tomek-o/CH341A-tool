@@ -113,7 +113,7 @@ object frmCH341Ina226: TfrmCH341Ina226
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 0
   end
@@ -132,7 +132,7 @@ object frmCH341Ina226: TfrmCH341Ina226
     Width = 89
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 4
   end
   object cbVbusConversionSel: TComboBox
@@ -141,7 +141,7 @@ object frmCH341Ina226: TfrmCH341Ina226
     Width = 89
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 5
   end
   object cbShuntConversionSel: TComboBox
@@ -150,7 +150,7 @@ object frmCH341Ina226: TfrmCH341Ina226
     Width = 89
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 6
   end
   object edVbusVoltage: TEdit

@@ -26,7 +26,7 @@ namespace
 __fastcall TfrmCH341I2CAs5600::TfrmCH341I2CAs5600(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 
 	for (unsigned int i=0; i<128; i++)
 	{

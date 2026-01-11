@@ -108,7 +108,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 5
   end
@@ -123,7 +123,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 6
   end

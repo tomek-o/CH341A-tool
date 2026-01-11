@@ -16,7 +16,7 @@ object frmCH341I2CLm75: TfrmCH341I2CLm75
   object lblStatus: TLabel
     Left = 8
     Top = 95
-    Width = 25
+    Width = 3
     Height = 13
   end
   object lblTemperature: TLabel
@@ -79,7 +79,7 @@ object frmCH341I2CLm75: TfrmCH341I2CLm75
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 14
+    ItemHeight = 0
     ParentFont = False
     TabOrder = 3
   end

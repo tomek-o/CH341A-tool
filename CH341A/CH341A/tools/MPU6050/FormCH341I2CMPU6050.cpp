@@ -33,7 +33,7 @@ __fastcall TfrmCH341I2CMPU6050::TfrmCH341I2CMPU6050(TComponent* Owner)
 	: TForm(Owner),
 	dpsPerBit(0)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 

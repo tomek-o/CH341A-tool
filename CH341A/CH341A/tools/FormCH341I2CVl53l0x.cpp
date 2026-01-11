@@ -24,7 +24,7 @@ namespace
 __fastcall TfrmCH341I2CVl53l0x::TfrmCH341I2CVl53l0x(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CVl53l0x::btnReadClick(TObject *Sender)

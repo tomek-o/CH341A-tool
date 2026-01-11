@@ -15,7 +15,7 @@ TfrmCH341I2CDetect *frmCH341I2CDetect;
 __fastcall TfrmCH341I2CDetect::TfrmCH341I2CDetect(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 
 	for (unsigned int i=0; i<128; i++)
 	{
