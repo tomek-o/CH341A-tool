@@ -579,6 +579,7 @@
         <FILE FILENAME="CH341A\tools\SI4713\Si4713.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Si4713" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\SI4713\Si4713.h"/>
         <FILE FILENAME="CH341A\tools\VEML7700\VEML7700.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="VEML7700" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\VEML7700\VEML7700.h"/>
         <FILE FILENAME="CH341A\tools\CH1115\CH1115.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH1115" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\CH1115\CH1115.h"/>
+        <FILE FILENAME="CH341A\tools\MDIO\FormCH341USB2MDIO.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341USB2MDIO" FORMNAME="frmCH341USB2MDIO" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MDIO\FormCH341USB2MDIO.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
@@ -643,10 +644,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-			<buildevent file="turbocpp_template.bdsproj">
-				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+      <buildevent file="turbocpp_template.bdsproj">
+        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-			</buildevent>
-		</buildevents>
+      </buildevent>
+    </buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>

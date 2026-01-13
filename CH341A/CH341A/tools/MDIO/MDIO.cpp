@@ -388,3 +388,58 @@ uint16_t MDIO_ReadRegisterClause22for45(uint32_t PHY_Address, uint16_t devad, ui
     return MDIO_ReadRegister(PHY_Address, ADDAR);
 }
 
+
+uint16_t MDIO_TI_ExtendedRead(uint32_t phyAddress, uint32_t phyRegister) {
+	if(phyRegister < 32)
+	{
+		return MDIO_ReadRegister(phyAddress, phyRegister);
+	}
+	else if(phyRegister <= 0xEFD)
+	{
+		// MMD1F
+		MDIO_WriteRegister(phyAddress, 0xD, 0x1F);
+		MDIO_WriteRegister(phyAddress, 0xE, phyRegister);
+		MDIO_WriteRegister(phyAddress, 0xD, 0x401F);
+		return MDIO_ReadRegister(phyAddress, 0xE);
+    }
+	else if(phyRegister >= 0x1000)
+	{
+		// MMD1
+		MDIO_WriteRegister(phyAddress, 0xD, phyRegister >> 12);
+		MDIO_WriteRegister(phyAddress, 0xE, phyRegister & 0x0FFF);
+		MDIO_WriteRegister(phyAddress, 0xD, 0x4001);
+		return MDIO_ReadRegister(phyAddress, 0xE);
+    }
+	else
+	{
+        return 0;
+    }
+}
+
+void MDIO_TI_ExtendedWrite(uint32_t phyAddress, uint32_t phyRegister, uint16_t value) {
+	if(phyRegister < 32)
+	{
+		MDIO_WriteRegister(phyAddress, phyRegister, value);
+	}
+	else if(phyRegister <= 0xEFD)
+	{
+		// MMD1F
+		MDIO_WriteRegister(phyAddress, 0xD, 0x1F);
+		MDIO_WriteRegister(phyAddress, 0xE, phyRegister);
+		MDIO_WriteRegister(phyAddress, 0xD, 0x401F);
+		MDIO_WriteRegister(phyAddress, 0xE, value);
+	}
+	else if(phyRegister >= 0x1000)
+	{
+		// MMD1
+		MDIO_WriteRegister(phyAddress, 0xD, phyRegister >> 12);
+		MDIO_WriteRegister(phyAddress, 0xE, phyRegister & 0x0FFF);
+		MDIO_WriteRegister(phyAddress, 0xD, 0x4001);
+		MDIO_WriteRegister(phyAddress, 0xE, value);
+	}
+	else
+	{
+		return;
+	}
+}
+
