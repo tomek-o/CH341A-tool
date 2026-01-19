@@ -147,8 +147,14 @@ int TfrmCH341USB2MDIO::RunLine(ScriptLine &scriptLine)
 		break;
 	case 9:
 		script = StringReplace(script, " ", "", TReplaceFlags() << rfReplaceAll);
+		if (script.Length() != 8)	// expecting "ABCD EF01": register + value to write
+		{
+			scriptLine.result = "Unexpected line format!";
+			return -1;
+		}
 		// no break
 	case 8:
+		// "write" script line might also have no space between register and value
 		for (unsigned int i=1; i<=8; i++)
 		{
 			if (!isxdigit(script[i]))
