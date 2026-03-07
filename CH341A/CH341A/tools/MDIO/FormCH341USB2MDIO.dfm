@@ -40,7 +40,7 @@ object frmCH341USB2MDIO: TfrmCH341USB2MDIO
     object lblStatus: TLabel
       Left = 8
       Top = 58
-      Width = 69
+      Width = 3
       Height = 13
     end
     object btnLoadScript: TButton
@@ -58,7 +58,7 @@ object frmCH341USB2MDIO: TfrmCH341USB2MDIO
       Width = 61
       Height = 21
       Style = csDropDownList
-      ItemHeight = 13
+      ItemHeight = 0
       TabOrder = 1
     end
     object btnRunScript: TButton

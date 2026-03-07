@@ -12,6 +12,7 @@ enum ToolGroup
 	ToolGroupSensors,
 	ToolGroupDisplays,
 	ToolGroupFmRadio,
+	ToolGroupRadio,
 	ToolGroupEthernetMdio,
 	ToolGroupRtc,
 	ToolGroupAdc,

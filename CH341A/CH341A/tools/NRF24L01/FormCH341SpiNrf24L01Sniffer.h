@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef FormCH341SpiNrf24L01H
-#define FormCH341SpiNrf24L01H
+#ifndef FormCH341SpiNrf24L01SnifferH
+#define FormCH341SpiNrf24L01SnifferH
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
@@ -9,7 +9,7 @@
 #include <Forms.hpp>
 #include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
-class TfrmCH341SpiNrf24L01 : public TForm
+class TfrmCH341SpiNrf24L01Sniffer : public TForm
 {
 __published:	// IDE-managed Components
 	TButton *btnRead;
@@ -22,6 +22,12 @@ __published:	// IDE-managed Components
 	TLabel *lblRfChannel;
 	TComboBox *cbRfChannel;
 	TLabel *lblNote;
+	TLabel *lblAddressBytes;
+	TComboBox *cbAddressBytes;
+	TLabel *lblAddress;
+	TEdit *edAddress;
+	TLabel *lblInfo;
+	TLabel *Label1;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
@@ -31,9 +37,9 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	void Read(void);
 public:		// User declarations
-	__fastcall TfrmCH341SpiNrf24L01(TComponent* Owner);
+	__fastcall TfrmCH341SpiNrf24L01Sniffer(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TfrmCH341SpiNrf24L01 *frmCH341SpiNrf24L01;
+extern PACKAGE TfrmCH341SpiNrf24L01Sniffer *frmCH341SpiNrf24L01Sniffer;
 //---------------------------------------------------------------------------
 #endif
