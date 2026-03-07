@@ -54,9 +54,8 @@ void __fastcall TfrmCH341SpiNrf24L01::btnInitClick(TObject *Sender)
 	uint8_t addr[5];
 	memset(addr, 0, sizeof(addr));
 	enum { ADDR_LEN = 2 };
-	rf_addr_width      = ADDR_LEN;
-	rf_speed_power     = rfSpeedSel[cbRfSpeed->ItemIndex].value | static_cast<uint8_t>(RF24_POWER_MAX);
-	msprf24_init(static_cast<uint8_t>(cbRfChannel->ItemIndex));
+	msprf24_init(static_cast<uint8_t>(cbRfChannel->ItemIndex), ADDR_LEN,
+		rfSpeedSel[cbRfSpeed->ItemIndex].value | static_cast<uint8_t>(RF24_POWER_MAX));
 	msprf24_set_pipe_packetsize(0, 32);		// set fixed packet size for monitor
 	msprf24_open_pipe(0, 0 /* autoack */);  // Open pipe#0 with Enhanced ShockBurst (autoack disabled)
 

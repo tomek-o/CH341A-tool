@@ -23,19 +23,6 @@
 #include <stdint.h>
 #include "nRF24L01.h"
 
-/* Configuration variables used to tune RF settings during initialization and for
- * runtime reconfiguration.  You should define all 4 of these before running msprf24_init();
- */
-extern uint8_t rf_addr_width;
-extern uint8_t rf_speed_power;
-
-/* Status variable updated every time SPI I/O is performed */
-extern uint8_t rf_status;
-/* Test this against RF24_IRQ_FLAGGED to see if the nRF24's IRQ was raised; it also
- * holds the last recorded IRQ status from msprf24_irq_get_reason();
- */
-extern volatile uint8_t rf_irq;
-
 /* RF speed settings -- nRF24L01+ compliant, older nRF24L01 does not have 2Mbps. */
 #define RF24_SPEED_250KBPS  0x20
 #define RF24_SPEED_1MBPS    0x00
@@ -101,7 +88,7 @@ void w_ack_payload(uint8_t pipe, uint8_t len, uint8_t *data);  // Used when RF24
 
 
 // Initialization and configuration
-void msprf24_init(uint8_t rf_channel);  /* Set the various configuration variables before running this.
+void msprf24_init(uint8_t rf_channel, uint8_t rf_addr_width_, uint8_t rf_speed_power_);  /* Set the various configuration variables before running this.
 		       * It will populate the channel/speed/power/default features/etc. values
 		       */
 void msprf24_close_pipe(uint8_t pipeid);       // Disable specified RX pipe

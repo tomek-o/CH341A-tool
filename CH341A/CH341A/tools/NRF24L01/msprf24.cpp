@@ -45,9 +45,18 @@ static int SpiTransfer16(uint16_t &val)
 }
 
 
-/* Private library variables */
-uint8_t rf_feature;  // Used to track which features have been enabled
+static uint8_t rf_feature;  // Used to track which features have been enabled
+/* Configuration parameters used to set-up the RF configuration */
+static uint8_t rf_addr_width;
+static uint8_t rf_speed_power;
 
+/* Status variable updated every time SPI I/O is performed */
+static uint8_t rf_status;
+/* IRQ state is stored in here after msprf24_get_irq_reason(), RF24_IRQ_FLAGGED raised during
+ * the IRQ port ISR--user application issuing LPMx sleep or polling should watch for this to
+ * determine if the wakeup reason was due to nRF24 IRQ.
+ */
+static volatile uint8_t rf_irq;
 
 /* Basic I/O to the device. */
 uint8_t r_reg(uint8_t addr)
@@ -177,6 +186,7 @@ uint8_t r_rx_payload(uint8_t len, uint8_t *data)
 	buf.resize(len + 1);
 	if (len % 2)
 	{
+        /// \todo check of endianess
 		uint16_t val = static_cast<uint16_t>((RF24_R_RX_PAYLOAD << 8) | RF24_NOP);
 		memcpy(&buf[0], &val, sizeof(val));
 		for (unsigned int i=sizeof(val); i<buf.size(); i++)
@@ -194,7 +204,6 @@ uint8_t r_rx_payload(uint8_t len, uint8_t *data)
 	}
 	int ret = ch341a.SpiTransfer(&buf[0], buf.size());
 	(void)ret;
-	int TODO__CHECK_ENDIANESS_FOR_STATUS_AND_DATA;
 	rf_status = buf[0];
 	memcpy(data, &buf[1], len);
 #endif
@@ -274,33 +283,17 @@ void w_ack_payload(uint8_t pipe, uint8_t len, uint8_t *data)
 #endif
 
 
-
-
-
-/* Configuration parameters used to set-up the RF configuration */
-uint8_t rf_addr_width;
-uint8_t rf_speed_power;
-
-/* Status variable updated every time SPI I/O is performed */
-uint8_t rf_status;
-/* IRQ state is stored in here after msprf24_get_irq_reason(), RF24_IRQ_FLAGGED raised during
- * the IRQ port ISR--user application issuing LPMx sleep or polling should watch for this to
- * determine if the wakeup reason was due to nRF24 IRQ.
- */
-volatile uint8_t rf_irq;
-
-
-
-
-
 /* Library functions */
-void msprf24_init(uint8_t rf_channel)
+void msprf24_init(uint8_t rf_channel, uint8_t rf_addr_width_, uint8_t rf_speed_power_)
 {
 	int status = ch341a.SetGpioOutputs(1u << CE_PIN_ID, 0x00000000);
 	if (status != 0)
 	{
 		LOG("nrf24: failed to clear CE pin\n");
 	}
+
+	rf_addr_width = rf_addr_width_;
+	rf_speed_power = rf_speed_power_;
 
 	// Configure RF transceiver with current value of rf_* configuration variables
 	msprf24_irq_clear(RF24_IRQ_MASK);  // Forget any outstanding IRQs
