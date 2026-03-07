@@ -31,7 +31,7 @@ ValueDescriptionU8 rfSpeedSel[] = {
 __fastcall TfrmCH341SpiNrf24L01::TfrmCH341SpiNrf24L01(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupRadio);
 	FillComboboxWithValues(rfSpeedSel, cbRfSpeed, RF24_SPEED_2MBPS);
 	for (int i=0; i<=125; i++)
 	{
@@ -51,28 +51,49 @@ void __fastcall TfrmCH341SpiNrf24L01::btnInitClick(TObject *Sender)
 		return;
 	}
 
-	rf_crc = 0; //RF24_EN_CRC; // CRC enabled, 8-bit
 	uint8_t addr[5];
+	memset(addr, 0, sizeof(addr));
 	enum { ADDR_LEN = 2 };
 	rf_addr_width      = ADDR_LEN;
 	rf_speed_power     = rfSpeedSel[cbRfSpeed->ItemIndex].value | static_cast<uint8_t>(RF24_POWER_MAX);
-	rf_channel         = static_cast<uint8_t>(cbRfChannel->ItemIndex);
-	msprf24_init();
-	int TODO__SET_FIXED_PACKET_SIZE_FOR_MONITOR;
-	msprf24_set_pipe_packetsize(0, 32);
-	int TODO__DISABLE_AUTOACK_FOR_MONITOR;
-	msprf24_open_pipe(0, 0 /* autoack */);  // Open pipe#0 with Enhanced ShockBurst (autoack)
+	msprf24_init(static_cast<uint8_t>(cbRfChannel->ItemIndex));
+	msprf24_set_pipe_packetsize(0, 32);		// set fixed packet size for monitor
+	msprf24_open_pipe(0, 0 /* autoack */);  // Open pipe#0 with Enhanced ShockBurst (autoack disabled)
 
 	// Set our RX address
-	memcpy(addr, "\xDE\xAD", ADDR_LEN);
-	w_rx_addr(0, addr);
+	//memcpy(addr, "\xDE\xAD", ADDR_LEN);
 #if 0
+	addr[0] = 0x7A;	// logitech
+	addr[1] = 0x77;	// logitech
+	addr[2] = 0x94;
+#endif
+
+#if 0
+	// matches many
+	addr[0] = 0xAA;
+	addr[1] = 0xAA;
+	addr[2] = 0xAA;
+#endif
+
+#if 1
+	// sliding address technique - less matches, better suited to find addresses
+	addr[0] = 0x00;
+	addr[1] = 0xAA;
+	addr[2] = 0xAA;
+#endif
+
+	w_rx_addr(0, addr);
+
 	// Receive mode
 	if (!(RF24_QUEUE_RXEMPTY & msprf24_queue_state())) {
 		flush_rx();
 	}
+
+#if 1
+	msprf24_activate_rx(0 /* RF24_EN_CRC */);
+#else
+	msprf24_activate_rx(RF24_EN_CRC /*  | RF24_CRCO */);
 #endif
-	msprf24_activate_rx();
 }
 //---------------------------------------------------------------------------
 
@@ -91,12 +112,22 @@ void TfrmCH341SpiNrf24L01::Read(void)
 		return;
 	}
 
-	uint8_t buf[32];
+	uint8_t buf[256];	// max uint8_t + 1
 
-	if (msprf24_rx_pending()) {
-		r_rx_payload(r_rx_peek_payload_size(), buf);
-		msprf24_irq_clear(RF24_IRQ_RX);
-		LOG("nrf24: Got RX data packet\n");
+	for (unsigned int repeat = 0; repeat < 5; repeat++) {
+		if (msprf24_rx_pending()) {
+			uint8_t length = r_rx_peek_payload_size();
+			r_rx_payload(length, buf);
+			msprf24_irq_clear(RF24_IRQ_RX);
+			AnsiString text = "nrf24: Got RX data packet: ";
+			for (int i=0; i<length; i++)
+			{
+				text.cat_printf("%02X ", buf[i]);
+			}
+			LOG("%s\n", text.c_str());
+		} else {
+			break;
+		}
 	}
 }
 //---------------------------------------------------------------------------

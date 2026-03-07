@@ -31,6 +31,19 @@ enum
 	CE_PIN_ID = 8,	// CE = TXD, output only
 };
 
+static uint16_t swap16(uint16_t x)
+{
+	return (x >> 8) | (x << 8);
+}
+
+static int SpiTransfer16(uint16_t &val)
+{
+	val = swap16(val);
+	int ret = ch341a.SpiTransfer(&val, sizeof(val));
+	val = swap16(val);
+	return ret;
+}
+
 
 /* Private library variables */
 uint8_t rf_feature;  // Used to track which features have been enabled
@@ -40,7 +53,7 @@ uint8_t rf_feature;  // Used to track which features have been enabled
 uint8_t r_reg(uint8_t addr)
 {
 	uint16_t i = static_cast<uint16_t>(RF24_NOP | (static_cast<uint16_t>(addr & RF24_REGISTER_MASK) << 8));
-	int ret = ch341a.SpiTransfer(&i, sizeof(i));
+	int ret = SpiTransfer16(i);
 	(void)ret;
 	rf_status = (uint8_t) ((i & 0xFF00) >> 8);
 	return (uint8_t) (i & 0x00FF);
@@ -49,7 +62,7 @@ uint8_t r_reg(uint8_t addr)
 void w_reg(uint8_t addr, uint8_t data)
 {
 	uint16_t i = static_cast<uint16_t>((data & 0x00FF) | (((addr & RF24_REGISTER_MASK) | RF24_W_REGISTER) << 8));
-	int ret = ch341a.SpiTransfer(&i, sizeof(i));
+	int ret = SpiTransfer16(i);
 	(void)ret;
 	rf_status = (uint8_t) ((i & 0xFF00) >> 8);
 }
@@ -132,7 +145,7 @@ void w_tx_payload_noack(uint8_t len, uint8_t *data)
 uint8_t r_rx_peek_payload_size()
 {
 	uint16_t i = static_cast<uint16_t>(RF24_NOP | (RF24_R_RX_PL_WID << 8));
-	int ret = ch341a.SpiTransfer(&i, sizeof(i));
+	int ret = SpiTransfer16(i);
 	(void)ret;
 	rf_status = (uint8_t) ((i & 0xFF00) >> 8);
 	return (uint8_t) (i & 0x00FF);
@@ -265,10 +278,9 @@ void w_ack_payload(uint8_t pipe, uint8_t len, uint8_t *data)
 
 
 /* Configuration parameters used to set-up the RF configuration */
-uint8_t rf_crc;
 uint8_t rf_addr_width;
 uint8_t rf_speed_power;
-uint8_t rf_channel;
+
 /* Status variable updated every time SPI I/O is performed */
 uint8_t rf_status;
 /* IRQ state is stored in here after msprf24_get_irq_reason(), RF24_IRQ_FLAGGED raised during
@@ -282,7 +294,7 @@ volatile uint8_t rf_irq;
 
 
 /* Library functions */
-void msprf24_init()
+void msprf24_init(uint8_t rf_channel)
 {
 	int status = ch341a.SetGpioOutputs(1u << CE_PIN_ID, 0x00000000);
 	if (status != 0)
@@ -298,7 +310,7 @@ void msprf24_init()
 	msprf24_set_retransmit_delay(2000);  // A default I chose
 	msprf24_set_retransmit_count(15);    // A default I chose
 	msprf24_set_speed_power();
-	msprf24_set_channel();
+	msprf24_set_channel(rf_channel);
 	msprf24_set_address_width();
 	rf_feature = 0x00;  // Initialize this so we're starting from a clean slate
 #if 0
@@ -445,11 +457,6 @@ uint8_t msprf24_get_lostpackets()
 	return (r_reg(RF24_OBSERVE_TX) >> 4) & 0x0F;
 }
 
-inline uint8_t _msprf24_crc_mask()
-{
-	return (rf_crc & 0x0C);
-}
-
 inline uint8_t _msprf24_irq_mask()
 {
 	return ~(RF24_MASK_RX_DR | RF24_MASK_TX_DS | RF24_MASK_MAX_RT);
@@ -463,12 +470,12 @@ uint8_t msprf24_is_alive()
 	return((aw & 0xFC) == 0x00 && (aw & 0x03) != 0x00);
 }
 
-uint8_t msprf24_set_config(uint8_t cfgval)
+uint8_t msprf24_set_config(uint8_t cfgval, uint8_t crc_mode)
 {
 	uint8_t previous_config;
 
 	previous_config = r_reg(RF24_CONFIG);
-	w_reg(RF24_CONFIG, (_msprf24_crc_mask() | cfgval) & _msprf24_irq_mask());
+	w_reg(RF24_CONFIG, ((crc_mode & 0x0C) | cfgval) & _msprf24_irq_mask());
 	return previous_config;
 }
 
@@ -479,7 +486,7 @@ void msprf24_set_speed_power()
 	w_reg(RF24_RF_SETUP, (rf_speed_power & 0x2F));
 }
 
-void msprf24_set_channel()
+void msprf24_set_channel(uint8_t rf_channel)
 {
 	if (rf_channel > 125)
 		rf_channel = 0;
@@ -497,8 +504,10 @@ uint8_t msprf24_current_state()
 {
 	uint8_t config;
 
-	if (!msprf24_is_alive())               // Can't read/detect a valid value from SETUP_AW? (typically SPI or device fault)
+	if (!msprf24_is_alive()) {              // Can't read/detect a valid value from SETUP_AW? (typically SPI or device fault)
+		LOG("nRF24 not present?\n");
 		return RF24_STATE_NOTPRESENT;
+	}
 	config = r_reg(RF24_CONFIG);
 	if ( (config & RF24_PWR_UP) == 0x00 )  // PWR_UP=0?
 		return RF24_STATE_POWERDOWN;
@@ -523,11 +532,11 @@ void msprf24_powerdown()
 		LOG("nrf24: failed to clear CE pin\n");
 	}
 	w_reg(RF24_STATUS, RF24_IRQ_MASK); // Clear all IRQs so the IRQ line isn't draining power during powerdown mode
-	msprf24_set_config(0);  // PWR_UP=0
+	msprf24_set_config(0, 0);  // PWR_UP=0
 }
 
 // Enable Standby-I, 26uA power draw
-void msprf24_standby()
+void msprf24_standby(uint8_t crc_mode)
 {
 	uint8_t state = msprf24_current_state();
 	if (state == RF24_STATE_NOTPRESENT || state == RF24_STATE_STANDBY_I)
@@ -537,7 +546,7 @@ void msprf24_standby()
 	{
 		LOG("nrf24: failed to clear CE pin\n");
 	}
-	msprf24_set_config(RF24_PWR_UP);  // PWR_UP=1, PRIM_RX=0
+	msprf24_set_config(RF24_PWR_UP, crc_mode);  // PWR_UP=1, PRIM_RX=0
 	if (state == RF24_STATE_POWERDOWN) {  // If we're powering up from deep powerdown...
 		//CE_EN;  // This is a workaround for SI24R1 chips, though it seems to screw things up so disabled for now til I can obtain an SI24R1 for testing.
 		Sleep(5);  // Then wait 5ms for the crystal oscillator to spin up.
@@ -546,15 +555,15 @@ void msprf24_standby()
 }
 
 // Enable PRX mode
-void msprf24_activate_rx()
+void msprf24_activate_rx(uint8_t crc_mode)
 {
-	msprf24_standby();
+	msprf24_standby(crc_mode);
 	// Purge any existing RX FIFO or RX interrupts
 	flush_rx();
 	w_reg(RF24_STATUS, RF24_RX_DR);
 
 	// Enable PRIM_RX
-	msprf24_set_config(RF24_PWR_UP | RF24_PRIM_RX);
+	msprf24_set_config(RF24_PWR_UP | RF24_PRIM_RX, crc_mode);
 	int status = ch341a.SetGpioOutputs(1u << CE_PIN_ID, 1u << CE_PIN_ID);
 	if (status != 0)
 	{
@@ -592,7 +601,7 @@ uint8_t msprf24_queue_state()
 /* Scan current channel for activity, produce an 8-bit integer indicating % of time
  * spent with RPD=1 (valid RF activity present) for a 133ms period.
  */
-uint8_t msprf24_scan()
+uint8_t msprf24_scan(uint8_t crc_mode)
 {
 	int testcount = 1023;
 	uint16_t rpdcount = 0;
@@ -600,7 +609,7 @@ uint8_t msprf24_scan()
 
 	last_state = msprf24_current_state();
 	if (last_state != RF24_STATE_PRX)
-		msprf24_activate_rx();
+		msprf24_activate_rx(crc_mode);
 	for (; testcount > 0; testcount--) {
 		if (r_reg(RF24_RPD))
 			rpdcount++;
@@ -611,7 +620,7 @@ uint8_t msprf24_scan()
 						  */
 	}
 	if (last_state != RF24_STATE_PRX)
-		msprf24_standby();  // If we weren't in RX mode before, leave it in Standby-I.
+		msprf24_standby(crc_mode);  // If we weren't in RX mode before, leave it in Standby-I.
 	return( (uint8_t) (rpdcount/4) );
 }
 

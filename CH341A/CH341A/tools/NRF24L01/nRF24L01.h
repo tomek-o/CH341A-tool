@@ -33,7 +33,7 @@
 #define RF24_CONFIG      0x00
 #define RF24_EN_AA       0x01
 #define RF24_EN_RXADDR   0x02
-#define RF24_SETUP_AW    0x03
+#define RF24_SETUP_AW    0x03	// Setup of Address Widths (common for all data pipes)
 #define RF24_SETUP_RETR  0x04
 #define RF24_RF_CH       0x05
 #define RF24_RF_SETUP    0x06

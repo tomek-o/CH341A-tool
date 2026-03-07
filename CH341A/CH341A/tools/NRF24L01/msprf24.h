@@ -26,10 +26,8 @@
 /* Configuration variables used to tune RF settings during initialization and for
  * runtime reconfiguration.  You should define all 4 of these before running msprf24_init();
  */
-extern uint8_t rf_crc;
 extern uint8_t rf_addr_width;
 extern uint8_t rf_speed_power;
-extern uint8_t rf_channel;
 
 /* Status variable updated every time SPI I/O is performed */
 extern uint8_t rf_status;
@@ -81,13 +79,6 @@ extern volatile uint8_t rf_irq;
 #define RF24_QUEUE_RXFULL      RF24_RX_FULL
 #define RF24_QUEUE_RXEMPTY     RF24_RX_EMPTY
 
-
-/* FUNCTIONS! */
-
-// SPI driver needs to provide these
-uint8_t spi_transfer(uint8_t);  // SPI xfer 1 byte
-uint16_t spi_transfer16(uint16_t);  // SPI xfer 2 bytes
-
 // Register & FIFO I/O
 uint8_t r_reg(uint8_t addr);
 void w_reg(uint8_t addr, uint8_t data);
@@ -110,7 +101,7 @@ void w_ack_payload(uint8_t pipe, uint8_t len, uint8_t *data);  // Used when RF24
 
 
 // Initialization and configuration
-void msprf24_init();  /* Set the various configuration variables before running this.
+void msprf24_init(uint8_t rf_channel);  /* Set the various configuration variables before running this.
 		       * It will populate the channel/speed/power/default features/etc. values
 		       */
 void msprf24_close_pipe(uint8_t pipeid);       // Disable specified RX pipe
@@ -125,9 +116,9 @@ uint8_t msprf24_get_lostpackets();      /* # of packets lost since last time the
 	                                       * Running msprf24_set_channel() without modifying rf_channel will reset this counter.
                                                */
 uint8_t msprf24_is_alive();                    // Hello World, test if chip is present and/or SPI is working.
-uint8_t msprf24_set_config(uint8_t cfgval);
+uint8_t msprf24_set_config(uint8_t cfgval, uint8_t crc_mode);
 void msprf24_set_speed_power();                      // Commit RF speed & TX power from rf_speed_power variable.
-void msprf24_set_channel();                          // Commit RF channel setting from rf_channel variable.
+void msprf24_set_channel(uint8_t rf_channel);                          // Commit RF channel setting from rf_channel variable.
 void msprf24_set_address_width();                    // Commit Enhanced ShockBurst Address Width from rf_addr_width variable.
 void msprf24_enable_feature(uint8_t feature);    /* Enable specified feature (RF24_EN_* from nRF24L01.h, except RF24_EN_CRC) */
 void msprf24_disable_feature(uint8_t feature);   /* Disable specified feature                                                */
@@ -135,11 +126,11 @@ void msprf24_disable_feature(uint8_t feature);   /* Disable specified feature   
 // Change chip state and activate I/O
 uint8_t msprf24_current_state();    // Get current state of the nRF24L01+ chip, test with RF24_STATE_* #define's
 void msprf24_powerdown();                 // Enter Power-Down mode (0.9uA power draw)
-void msprf24_standby();                   // Enter Standby-I mode (26uA power draw)
-void msprf24_activate_rx();               // Enable PRX mode (~12-14mA power draw)
+void msprf24_standby(uint8_t crc_mode);                   // Enter Standby-I mode (26uA power draw)
+void msprf24_activate_rx(uint8_t crc_mode);               // Enable PRX mode (~12-14mA power draw)
 void msprf24_activate_tx();               // Enable Standby-II or PTX mode; TX FIFO contents will be sent over the air (~320uA STBY2, 7-11mA PTX)
 uint8_t msprf24_queue_state();      // Read FIFO_STATUS register; user should compare return value with RF24_QUEUE_* #define's
-uint8_t msprf24_scan();             // Scan current channel for RPD (looks for any signals > -64dBm)
+uint8_t msprf24_scan(uint8_t crc_mode);             // Scan current channel for RPD (looks for any signals > -64dBm)
 
 // IRQ handling
 uint8_t msprf24_rx_pending();		   /* Query STATUS register to determine if RX FIFO data is available for reading. */

@@ -56,7 +56,7 @@ object frmCH341SpiNrf24L01: TfrmCH341SpiNrf24L01
     Top = 60
     Width = 264
     Height = 17
-    Caption = 'auto refresh (repeat reading every 500 ms)'
+    Caption = 'auto refresh (repeat reading)'
     TabOrder = 2
     OnClick = chbAutoReadClick
     OnMouseDown = chbAutoReadMouseDown
@@ -90,7 +90,7 @@ object frmCH341SpiNrf24L01: TfrmCH341SpiNrf24L01
   end
   object tmrAutoRead: TTimer
     Enabled = False
-    Interval = 500
+    Interval = 50
     OnTimer = tmrAutoReadTimer
     Left = 376
     Top = 56
