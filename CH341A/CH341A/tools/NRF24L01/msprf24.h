@@ -17,8 +17,8 @@
  * ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _MSPRF24_H_
-#define _MSPRF24_H_
+#ifndef Msprf24H
+#define Msprf24H
 
 #include <stdint.h>
 #include "nRF24L01.h"

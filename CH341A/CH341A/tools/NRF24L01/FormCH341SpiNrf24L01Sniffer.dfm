@@ -58,12 +58,12 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
   end
   object lblInfo: TLabel
     Left = 8
-    Top = 160
+    Top = 176
     Width = 184
     Height = 13
     Caption = 'Received data is shown in log window.'
   end
-  object Label1: TLabel
+  object lblInfo1: TLabel
     Left = 8
     Top = 8
     Width = 452
@@ -80,7 +80,7 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
   end
   object btnRead: TButton
     Left = 89
-    Top = 108
+    Top = 124
     Width = 75
     Height = 25
     Caption = 'Read'
@@ -89,7 +89,7 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
   end
   object chbAutoRead: TCheckBox
     Left = 170
-    Top = 112
+    Top = 128
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading)'
@@ -99,7 +99,7 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
   end
   object btnInit: TButton
     Left = 8
-    Top = 108
+    Top = 124
     Width = 75
     Height = 25
     Caption = 'Init'
@@ -131,9 +131,9 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    ItemIndex = 0
+    ItemIndex = 1
     TabOrder = 5
-    Text = '2'
+    Text = '3'
     Items.Strings = (
       '2'
       '3'
@@ -159,6 +159,6 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
     Interval = 50
     OnTimer = tmrAutoReadTimer
     Left = 457
-    Top = 108
+    Top = 124
   end
 end

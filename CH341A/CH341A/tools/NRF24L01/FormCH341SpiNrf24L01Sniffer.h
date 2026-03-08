@@ -27,7 +27,7 @@ __published:	// IDE-managed Components
 	TLabel *lblAddress;
 	TEdit *edAddress;
 	TLabel *lblInfo;
-	TLabel *Label1;
+	TLabel *lblInfo1;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);

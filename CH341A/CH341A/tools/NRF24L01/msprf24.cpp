@@ -292,6 +292,8 @@ void msprf24_init(uint8_t rf_channel, uint8_t rf_addr_width_, uint8_t rf_speed_p
 		LOG("nrf24: failed to clear CE pin\n");
 	}
 
+	Sleep(100);	// wait for transceiver to initialize
+
 	rf_addr_width = rf_addr_width_;
 	rf_speed_power = rf_speed_power_;
 
@@ -306,7 +308,7 @@ void msprf24_init(uint8_t rf_channel, uint8_t rf_addr_width_, uint8_t rf_speed_p
 	msprf24_set_channel(rf_channel);
 	msprf24_set_address_width();
 	rf_feature = 0x00;  // Initialize this so we're starting from a clean slate
-#if 0
+#if 0	// not for sniffer
 	msprf24_enable_feature(RF24_EN_DPL);      // Dynamic payload size capability (set with msprf24_set_pipe_packetsize(x, 0))
 #endif
 	msprf24_enable_feature(RF24_EN_DYN_ACK);  // Ability to use w_tx_payload_noack()

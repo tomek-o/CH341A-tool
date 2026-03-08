@@ -53,6 +53,8 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnInitClick(TObject *Sender)
 		return;
 	}
 
+	lblStatus->Caption = "";
+
 	uint8_t addr[5];
 	memset(addr, 0, sizeof(addr));
 	uint8_t addressBytes = static_cast<uint8_t>(cbAddressBytes->ItemIndex + 2);
