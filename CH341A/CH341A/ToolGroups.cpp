@@ -25,8 +25,8 @@ const char* GetToolGroupName(enum ToolGroup group)
 		return "Displays";
 	case ToolGroupFmRadio:
 		return "FM radio";
-	case ToolGroupRadio:
-		return "Radio";
+	//case ToolGroupRadio:
+	//	return "Radio";
 	case ToolGroupEthernetMdio:
 		return "Ethernet MDIO";
 	case ToolGroupRtc:

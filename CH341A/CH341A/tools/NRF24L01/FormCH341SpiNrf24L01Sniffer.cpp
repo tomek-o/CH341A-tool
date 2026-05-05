@@ -5,7 +5,7 @@
 
 #include "FormCH341SpiNrf24L01Sniffer.h"
 #include "CH341A.h"
-#include "msprf24.h"
+#include "nRF24L01.h"
 #include "TabManager.h"
 #include "common/BtnController.h"
 #include "common/bin2str.h"
@@ -27,6 +27,8 @@ ValueDescriptionU8 rfSpeedSel[] = {
 	{ RF24_SPEED_1MBPS, "1 Mbps" },
 	{ RF24_SPEED_2MBPS, "2 Mbps (NRF24L01+ only)" },
 };
+
+#define RX_PROMISCUOUS_LENGTH 32       // fixed payload length 
 
 }	// namespace
 
@@ -58,31 +60,6 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnInitClick(TObject *Sender)
 	uint8_t addr[5];
 	memset(addr, 0, sizeof(addr));
 	uint8_t addressBytes = static_cast<uint8_t>(cbAddressBytes->ItemIndex + 2);
-	msprf24_init(static_cast<uint8_t>(cbRfChannel->ItemIndex), addressBytes,
-		rfSpeedSel[cbRfSpeed->ItemIndex].value | static_cast<uint8_t>(RF24_POWER_MAX));
-	msprf24_set_pipe_packetsize(0, 32);		// set fixed packet size for monitor
-	msprf24_open_pipe(0, 0 /* autoack */);  // Open pipe#0 with Enhanced ShockBurst (autoack disabled)
-
-	// Set our RX address
-#if 0
-	addr[0] = 0x7A;	// logitech
-	addr[1] = 0x77;	// logitech
-	addr[2] = 0x94;
-#endif
-
-#if 0
-	// matches many
-	addr[0] = 0xAA;
-	addr[1] = 0xAA;
-	addr[2] = 0xAA;
-#endif
-
-#if 0
-	// sliding address technique - less matches, better suited to find addresses
-	addr[0] = 0x00;
-	addr[1] = 0xAA;
-	addr[2] = 0xAA;
-#endif
 
 	{
 		int status;
@@ -92,13 +69,13 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnInitClick(TObject *Sender)
 		status = HexStringCleanToBuf(edAddress->Text, msg, data);
 		if (status != 0)
 		{
-			MessageBox(this->Handle, msg.c_str(), "Failed to convert text to data to write", MB_ICONEXCLAMATION);
+			MessageBox(this->Handle, "Failed to convert text to data to write", Caption.c_str(), MB_ICONEXCLAMATION);
 			return;
 		}
 
 		if (static_cast<int>(data.size()) < addressBytes)
 		{
-			MessageBox(this->Handle, msg.c_str(), "Number of hex address bytes is smaller than selected", MB_ICONEXCLAMATION);
+			MessageBox(this->Handle, "Number of hex address bytes is smaller than selected", Caption.c_str(), MB_ICONEXCLAMATION);
 			return;
 		}
 
@@ -108,18 +85,13 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnInitClick(TObject *Sender)
 		}
 	}
 
-	w_rx_addr(0, addr);
+	int TODO__FIX_SPEED;
+	nRfInitProm( addressBytes, static_cast<uint8_t>(cbRfChannel->ItemIndex), cbRfSpeed->ItemIndex == 2 );
+	nRfWrite_registers( RX_ADDR_P0,addr, addressBytes );//write the address to nRF register
+    nRfFlush_tx();
+    nRfFlush_rx();
+	nRfWrite_register( STATUS, (1<<RX_DR) );		        //Clear Data ready flag
 
-	// Receive mode
-	if (!(RF24_QUEUE_RXEMPTY & msprf24_queue_state())) {
-		flush_rx();
-	}
-
-#if 1
-	msprf24_activate_rx(0 /* RF24_EN_CRC */);
-#else
-	msprf24_activate_rx(RF24_EN_CRC /*  | RF24_CRCO */);
-#endif
 	LOG("nRF24 initialized\n");
 }
 //---------------------------------------------------------------------------
@@ -139,20 +111,20 @@ void TfrmCH341SpiNrf24L01Sniffer::Read(void)
 		return;
 	}
 
-	uint8_t buf[256];	// max uint8_t + 1
-
 	for (unsigned int repeat = 0; repeat < 5; repeat++) {
-		if (msprf24_rx_pending()) {
-			uint8_t length = r_rx_peek_payload_size();
-			r_rx_payload(length, buf);
-			msprf24_irq_clear(RF24_IRQ_RX);
-			AnsiString text = "nrf24 RX: ";
-			for (int i=0; i<length; i++)
-			{
-				text.cat_printf("%02X ", buf[i]);
-			}
-			LOG("%s\n", text.c_str());
-		} else {
+        if( nRfIsDataReceived() ){
+			while( !nRfIsRXempty() ){        //Readout and empty the RX FIFO
+                uint8_t recBuffer[255];
+				nRfRead_payload( recBuffer, RX_PROMISCUOUS_LENGTH );
+				AnsiString text = "nrf24 RX: ";
+				for (int i=0; i<RX_PROMISCUOUS_LENGTH; i++)
+				{
+					text.cat_printf("%02X ", recBuffer[i]);
+				}
+				LOG("%s\n", text.c_str());
+            }
+            nRfWrite_register( STATUS, (1<<RX_DR) );		//Clear Data ready flag
+        } else {
 			break;
 		}
 	}

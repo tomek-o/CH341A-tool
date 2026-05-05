@@ -63,8 +63,6 @@ object frmCH341A: TfrmCH341A
     Height = 297
     Align = alClient
     TabOrder = 2
-    ExplicitLeft = 175
-    ExplicitWidth = 476
   end
   object tmrStartup: TTimer
     Interval = 200

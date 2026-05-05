@@ -112,7 +112,7 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
     Width = 150
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 3
   end
   object cbRfChannel: TComboBox
@@ -121,7 +121,7 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
     Width = 54
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 4
   end
   object cbAddressBytes: TComboBox
