@@ -256,3 +256,56 @@ void __fastcall TfrmCH341I2CSHT4x::btnReadWithHeaterClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmCH341I2CSHT4x::btnReadSerialClick(TObject *Sender)
+{
+	BtnController btnCtrl(btnRead);
+	edSerial->Text = "";
+
+	if (!ch341a.IsOpened())
+	{
+		lblStatus->Caption = "CH341 is not opened!";
+		return;
+	}
+
+	uint8_t i2cAddress = static_cast<uint8_t>(0x44 + cbAddress->ItemIndex);
+
+	int status = ch341a.I2CCheckDev(i2cAddress);
+	if (status != 0)
+	{
+		lblStatus->Caption = "No ACK after sending I2C address!";
+		return;
+	}
+
+	status = ch341a.I2CWriteByte(i2cAddress, SHT4X_CMD_READ_SERIAL);
+	if (status)
+	{
+		lblStatus->Caption = "I2C write failed!";
+		return;
+	}
+
+	Sleep(10);
+
+	uint8_t rx_bytes[6];
+	status = ch341a.I2CReadBytes(i2cAddress, rx_bytes, sizeof(rx_bytes));
+	if (status)
+	{
+		lblStatus->Caption = "I2C read failed!";
+		return;
+	}
+
+	if (CheckCrc(rx_bytes[2], rx_bytes + 0, 2) || CheckCrc(rx_bytes[5], rx_bytes + 3, 2))
+	{
+		lblStatus->Caption = "CRC mismatch in read data!";
+		return;
+	}
+
+	AnsiString text;
+	text.sprintf("0x%02X 0x%02X 0x%02X 0x%02X",
+		static_cast<unsigned int>(rx_bytes[0]),
+		static_cast<unsigned int>(rx_bytes[1]),
+		static_cast<unsigned int>(rx_bytes[3]),
+		static_cast<unsigned int>(rx_bytes[4]));
+	edSerial->Text = text;
+}
+//---------------------------------------------------------------------------
+

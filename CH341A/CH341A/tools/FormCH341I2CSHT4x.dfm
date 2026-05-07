@@ -15,20 +15,20 @@ object frmCH341I2CSHT4x: TfrmCH341I2CSHT4x
   TextHeight = 13
   object lblStatus: TLabel
     Left = 8
-    Top = 168
+    Top = 184
     Width = 3
     Height = 13
   end
   object lblTemperature: TLabel
     Left = 8
-    Top = 200
+    Top = 216
     Width = 62
     Height = 13
     Caption = 'Temperature'
   end
   object lblHumidity: TLabel
     Left = 8
-    Top = 232
+    Top = 248
     Width = 41
     Height = 13
     Caption = 'Humidity'
@@ -77,21 +77,21 @@ object frmCH341I2CSHT4x: TfrmCH341I2CSHT4x
   end
   object edTemperature: TEdit
     Left = 89
-    Top = 197
+    Top = 213
     Width = 96
     Height = 21
     Color = clBtnFace
     ReadOnly = True
-    TabOrder = 6
+    TabOrder = 8
   end
   object edHumidity: TEdit
     Left = 89
-    Top = 229
+    Top = 245
     Width = 96
     Height = 21
     Color = clBtnFace
     ReadOnly = True
-    TabOrder = 7
+    TabOrder = 9
   end
   object cbAddress: TComboBox
     Left = 188
@@ -167,6 +167,24 @@ object frmCH341I2CSHT4x: TfrmCH341I2CSHT4x
       'medium power heater, 0.1s'
       'low power heater, 1 s'
       'low power heater, 0.1 s')
+  end
+  object btnReadSerial: TButton
+    Left = 6
+    Top = 142
+    Width = 123
+    Height = 25
+    Caption = 'Read serial number'
+    TabOrder = 6
+    OnClick = btnReadSerialClick
+  end
+  object edSerial: TEdit
+    Left = 188
+    Top = 144
+    Width = 200
+    Height = 21
+    Color = clBtnFace
+    ReadOnly = True
+    TabOrder = 7
   end
   object tmrAutoRead: TTimer
     Enabled = False

@@ -27,12 +27,15 @@ __published:	// IDE-managed Components
 	TComboBox *cbPrecision;
 	TButton *btnReadWithHeater;
 	TComboBox *cbHeater;
+	TButton *btnReadSerial;
+	TEdit *edSerial;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall chbAutoReadClick(TObject *Sender);
 	void __fastcall chbAutoReadMouseDown(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y);
 	void __fastcall btnReadWithHeaterClick(TObject *Sender);
+	void __fastcall btnReadSerialClick(TObject *Sender);
 private:	// User declarations
 	void Read(bool heaterOn);
 	void Clear(void);
