@@ -75,4 +75,9 @@ Version 1.6
 - added VEML7700 ambient light sensor
 - added CH1115 48x88px 0.5" OLED display
 - added simple timer-based GPIO pattern generator
+
+Version 1.7
+- replaced tool list with tree, splitting into multiple categories
+- added equivalent of TI USB-2-MDIO tool
+- added SHT4x sensors
 */

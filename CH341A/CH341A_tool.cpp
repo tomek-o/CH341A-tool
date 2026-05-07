@@ -19,6 +19,7 @@ USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
 USEFORM("CH341A\tools\FormCH341I2CSi7021.cpp", frmCH341I2CSi7021);
+USEFORM("CH341A\tools\FormCH341I2CSHT4x.cpp", frmCH341I2CSHT4x);
 USEFORM("CH341A\tools\FormCH341I2CAHT20.cpp", frmCH341I2CAHT20);
 USEFORM("CH341A\tools\FormCH341SpiWriteRead.cpp", frmCH341SpiWriteRead);
 USEFORM("CH341A\tools\FormCH341I2CSmartBatteryInfo.cpp", frmCH341I2CSmartBatteryInfo);
@@ -80,6 +81,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CBme280), &frmCH341I2CBme280);
 		Application->CreateForm(__classid(TfrmCH341I2CBmp180), &frmCH341I2CBmp180);
 		Application->CreateForm(__classid(TfrmCH341SHT11), &frmCH341SHT11);
+		Application->CreateForm(__classid(TfrmCH341I2CSHT4x), &frmCH341I2CSHT4x);
 		Application->CreateForm(__classid(TfrmCH341I2CLm75), &frmCH341I2CLm75);
 		Application->CreateForm(__classid(TfrmCH341I2CAHT20), &frmCH341I2CAHT20);
 		Application->CreateForm(__classid(TfrmCH341I2CAs5600), &frmCH341I2CAs5600);
