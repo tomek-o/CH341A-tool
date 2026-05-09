@@ -86,8 +86,10 @@ void __fastcall TfrmCH341Template::tmrAutoReadTimer(TObject *Sender)
 {
 	tmrAutoRead->Enabled = false;
 	if (chbAutoRead->Checked)
+	{
 		Read();
-	tmrAutoRead->Enabled = true;
+		tmrAutoRead->Enabled = true;
+	}
 }
 //---------------------------------------------------------------------------
 
