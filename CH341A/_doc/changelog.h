@@ -80,4 +80,5 @@ Version 1.7
 - replaced tool list with tree, splitting into multiple categories
 - added equivalent of TI USB-2-MDIO tool
 - added SHT4x sensors
+- added TSL2591 light sensor
 */
