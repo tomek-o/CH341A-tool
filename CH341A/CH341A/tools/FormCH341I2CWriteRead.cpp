@@ -57,7 +57,10 @@ void __fastcall TfrmCH341I2CWriteRead::btnWriteReadClick(TObject *Sender)
 		return;
 	}
 
-	writeData.insert(writeData.begin(), static_cast<uint8_t>(address << 1));
+	if (!chbSkipAddress->Checked)
+	{
+		writeData.insert(writeData.begin(), static_cast<uint8_t>(address << 1));
+	}
 
 	unsigned int bytesToRead = cbReadBytesCount->ItemIndex;
 	std::vector<uint8_t> readData;

@@ -21,6 +21,7 @@ __published:	// IDE-managed Components
 	TLabel *lblI2CAddress;
 	TComboBox *cbI2CAddress;
 	TLabel *lblWriteBytesCount;
+	TCheckBox *chbSkipAddress;
 	void __fastcall btnWriteReadClick(TObject *Sender);
 	void __fastcall memoWriteChange(TObject *Sender);
 private:	// User declarations

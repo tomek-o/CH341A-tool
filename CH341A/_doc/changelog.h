@@ -81,4 +81,5 @@ Version 1.7
 - added equivalent of TI USB-2-MDIO tool
 - added SHT4x sensors
 - added TSL2591 light sensor
+- I2C read/write: add option to skip address (for devices like CH455, TM1637)
 */

@@ -18,21 +18,21 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
   TextHeight = 13
   object lblBytes: TLabel
     Left = 127
-    Top = 178
+    Top = 194
     Width = 97
     Height = 13
     Caption = 'byte(s) after writing'
   end
   object lblRead: TLabel
     Left = 17
-    Top = 178
+    Top = 194
     Width = 25
     Height = 13
     Caption = 'Read'
   end
   object lblWrite: TLabel
     Left = 17
-    Top = 77
+    Top = 93
     Width = 236
     Height = 13
     Caption = 'Optional hex data to write (after device address)'
@@ -46,7 +46,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
   end
   object lblWriteBytesCount: TLabel
     Left = 288
-    Top = 77
+    Top = 93
     Width = 57
     Height = 13
     AutoSize = False
@@ -63,18 +63,18 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
   end
   object cbReadBytesCount: TComboBox
     Left = 56
-    Top = 175
+    Top = 191
     Width = 65
     Height = 21
     Style = csDropDownList
-    ItemHeight = 0
+    ItemHeight = 13
     TabOrder = 1
   end
   object memoRead: TMemo
     Left = 16
-    Top = 197
+    Top = 216
     Width = 329
-    Height = 230
+    Height = 211
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
     Font.Charset = DEFAULT_CHARSET
@@ -89,7 +89,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
   end
   object memoWrite: TMemo
     Left = 17
-    Top = 96
+    Top = 112
     Width = 328
     Height = 57
     Font.Charset = DEFAULT_CHARSET
@@ -113,8 +113,16 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 0
+    ItemHeight = 14
     ParentFont = False
     TabOrder = 4
+  end
+  object chbSkipAddress: TCheckBox
+    Left = 17
+    Top = 64
+    Width = 328
+    Height = 17
+    Caption = 'Skip writing address (for devices like CH455, TM1637)'
+    TabOrder = 5
   end
 end
