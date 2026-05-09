@@ -63,7 +63,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
-    TabOrder = 3
+    TabOrder = 7
   end
   object chbAutoDetect: TCheckBox
     Left = 109
@@ -81,7 +81,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Width = 264
     Height = 17
     Caption = 'beep when something is detected'
-    TabOrder = 2
+    TabOrder = 3
   end
   object cbOutputFormatting: TComboBox
     Left = 109
@@ -108,7 +108,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 0
+    ItemHeight = 14
     ParentFont = False
     TabOrder = 5
   end
@@ -123,7 +123,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Font.Height = -11
     Font.Name = 'Courier New'
     Font.Style = []
-    ItemHeight = 0
+    ItemHeight = 14
     ParentFont = False
     TabOrder = 6
   end
@@ -135,7 +135,7 @@ object frmCH341I2CDetect: TfrmCH341I2CDetect
     Style = csDropDownList
     ItemHeight = 13
     ItemIndex = 3
-    TabOrder = 7
+    TabOrder = 2
     Text = '1000'
     OnChange = cbAutoDetectPeriodChange
     Items.Strings = (

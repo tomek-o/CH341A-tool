@@ -68,7 +68,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 1
+    TabOrder = 4
   end
   object memoRead: TMemo
     Left = 16
@@ -85,7 +85,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
-    TabOrder = 2
+    TabOrder = 5
   end
   object memoWrite: TMemo
     Left = 17
@@ -115,7 +115,7 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     Font.Style = []
     ItemHeight = 14
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 1
   end
   object chbSkipAddress: TCheckBox
     Left = 17
@@ -123,6 +123,6 @@ object frmCH341I2CWriteRead: TfrmCH341I2CWriteRead
     Width = 328
     Height = 17
     Caption = 'Skip writing address (for devices like CH455, TM1637)'
-    TabOrder = 5
+    TabOrder = 2
   end
 end

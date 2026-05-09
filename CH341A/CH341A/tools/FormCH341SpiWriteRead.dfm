@@ -58,7 +58,7 @@ object frmCH341SpiWriteRead: TfrmCH341SpiWriteRead
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssVertical
-    TabOrder = 1
+    TabOrder = 2
   end
   object memoWrite: TMemo
     Left = 17
@@ -72,7 +72,7 @@ object frmCH341SpiWriteRead: TfrmCH341SpiWriteRead
     Font.Style = []
     ParentFont = False
     ScrollBars = ssVertical
-    TabOrder = 2
+    TabOrder = 1
     OnChange = memoWriteChange
   end
 end
