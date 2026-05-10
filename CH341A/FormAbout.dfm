@@ -1058,7 +1058,74 @@ object frmAbout: TfrmAbout
         
           'ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVI' +
           'SED OF THE '
-        'POSSIBILITY OF SUCH DAMAGE.')
+        'POSSIBILITY OF SUCH DAMAGE.'#10
+        #10
+        #10
+        
+          '================================================================' +
+          '============='#10
+        'KT0803L FM transmitter'#10
+        
+          '================================================================' +
+          '============='#10
+        #10
+        'Copyright (c) 2017, ccbruce0812 (ccbruce@gmail.com)'#10
+        'All rights reserved.'#10
+        ' '#10
+        
+          'Redistribution and use in source and binary forms, with or witho' +
+          'ut modification, are permitted provided that '
+        'the following conditions are met:'#10
+        #10
+        
+          'Redistributions of source code must retain the above copyright n' +
+          'otice, this list of conditions and the '
+        'following disclaimer.'#10
+        #10
+        
+          'Redistributions in binary form must reproduce the above copyrigh' +
+          't notice, this list of conditions and the '
+        
+          'following disclaimer in the documentation and/or other materials' +
+          ' provided with the distribution.'#10
+        #10
+        
+          'Neither the name of the copyright holder nor the names of its co' +
+          'ntributors may be used to endorse or '
+        
+          'promote products derived from this software without specific pri' +
+          'or written permission.'#10
+        #10
+        
+          'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUT' +
+          'ORS "AS IS" '
+        
+          'AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITE' +
+          'D TO, THE '
+        
+          'IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICUL' +
+          'AR PURPOSE '
+        
+          'ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRI' +
+          'BUTORS BE '
+        
+          'LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,' +
+          ' OR CONSEQUENTIAL '
+        
+          'DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUT' +
+          'E GOODS OR '
+        
+          'SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTIO' +
+          'N) HOWEVER '
+        
+          'CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRI' +
+          'CT LIABILITY, OR '
+        
+          'TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT ' +
+          'OF THE USE OF '
+        
+          'THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE' +
+          '.'#10)
       ReadOnly = True
       ScrollBars = ssVertical
       TabOrder = 0

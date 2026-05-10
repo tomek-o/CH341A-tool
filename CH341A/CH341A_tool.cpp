@@ -16,6 +16,7 @@ USEFORM("CH341A\tools\MDIO\FormCH341MdioMmdWriteRead.cpp", frmCH341MdioMmdWriteR
 USEFORM("CH341A\tools\ST7567\FormCH341SpiST7567.cpp", frmCH341SpiST7567);
 USEFORM("CH341A\tools\VEML7700\FormCH341_I2C_VEML7700.cpp", frmCH341I2CVeml7700);
 USEFORM("CH341A\tools\TSL2591\FormCH341I2CTSL2591.cpp", frmCH341I2CTSL2591);
+USEFORM("CH341A\tools\KT0803L\FormKT0803L.cpp", frmKT0803L);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
@@ -93,6 +94,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CRda5807m), &frmCH341I2CRda5807m);
 		Application->CreateForm(__classid(TfrmCH341I2CTea5767), &frmCH341I2CTea5767);
 		Application->CreateForm(__classid(TfrmCH341I2CSi4713), &frmCH341I2CSi4713);
+		Application->CreateForm(__classid(TfrmKT0803L), &frmKT0803L);
 		Application->CreateForm(__classid(TfrmCH341SpiMax7219Led8x8), &frmCH341SpiMax7219Led8x8);
 		Application->CreateForm(__classid(TfrmCH341SpiMax7219Led8x8Cascade), &frmCH341SpiMax7219Led8x8Cascade);
 		Application->CreateForm(__classid(TfrmCH341SpiST7567), &frmCH341SpiST7567);
@@ -108,6 +110,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341MdioDetect), &frmCH341MdioDetect);
 		Application->CreateForm(__classid(TfrmCH341MdioWriteRead), &frmCH341MdioWriteRead);
 		Application->CreateForm(__classid(TfrmCH341MdioMmdWriteRead), &frmCH341MdioMmdWriteRead);
+		Application->CreateForm(__classid(TfrmCH341USB2MDIO), &frmCH341USB2MDIO);
 		Application->CreateForm(__classid(TfrmCH341MdioLan8742Tdr), &frmCH341MdioLan8742Tdr);
 		Application->CreateForm(__classid(TfrmCH341MdioLan8742Cbln), &frmCH341MdioLan8742Cbln);
 		Application->CreateForm(__classid(TfrmCH341DS1302), &frmCH341DS1302);
@@ -118,7 +121,6 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341Hmc5883L), &frmCH341Hmc5883L);
 		Application->CreateForm(__classid(TfrmCH341Ina226), &frmCH341Ina226);
 		Application->CreateForm(__classid(TfrmCH341I2CVeml7700), &frmCH341I2CVeml7700);
-		Application->CreateForm(__classid(TfrmCH341USB2MDIO), &frmCH341USB2MDIO);
 		Application->CreateForm(__classid(TfrmCH341I2CTSL2591), &frmCH341I2CTSL2591);
 		Application->Run();
 	}
