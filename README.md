@@ -21,6 +21,8 @@ It should work with other variants of CH341, but functionality might be limited 
 
 ![CH341A LAN8742A TDR](http://tomeko.net/software/CH341A_tool/CH341A_LAN8742A_TDR.png)
 
+![CH341A KT0803L](http://tomeko.net/software/CH341A_tool/CH341A_KT0803L_with_categories.png)
+
 https://tomeko.net/software/CH341A_tool/
 
 ## Compiling
