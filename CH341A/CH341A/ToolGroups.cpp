@@ -35,6 +35,8 @@ const char* GetToolGroupName(enum ToolGroup group)
 		return "ADC";
 	case ToolGroupDac:
 		return "DAC";
+	case ToolGroupKeypad:
+		return "Keypad";
 	case ToolGroupMisc:
 		return "Miscellaneous";
 	default:

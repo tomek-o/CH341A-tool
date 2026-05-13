@@ -79,8 +79,9 @@ Version 1.6
 Version 1.7
 - replaced tool list with tree, splitting into multiple categories
 - added equivalent of TI USB-2-MDIO tool
-- added SHT4x sensors
+- added SHT4x temperature/humidity sensors
 - added TSL2591 light sensor
-- I2C read/write: add option to skip address (for devices like CH455, TM1637)
 - added KT0803L FM transmitter
+- added MPR121 capacitive touch sensor controller
+- I2C read/write: add option to skip address (for devices like CH455, TM1637)
 */

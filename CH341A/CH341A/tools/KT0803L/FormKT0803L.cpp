@@ -58,7 +58,7 @@ void __fastcall TfrmKT0803L::btnInitClick(TObject *Sender)
 	txSetting.clkSetting.isXTAL=KT0803L_TRUE;
 	txSetting.clkSetting.freq=KT0803L_CLK_FREQ_32_768KHZ;
 
-	txSetting.isPLTAmpHigh = chbHighPilotAmplitude->Checked ? KT0803L_TRUE : KT0803L_FALSE;
+	txSetting.isPLTAmpHigh = static_cast<KT0803L_BOOL>(chbHighPilotAmplitude->Checked ? KT0803L_TRUE : KT0803L_FALSE);
 	txSetting.isPHTCNST50us = static_cast<KT0803L_BOOL>((cbPreemphasis->ItemIndex == 1) ? KT0803L_TRUE : KT0803L_FALSE);
 	txSetting.isFDEV112_5KHZ=KT0803L_FALSE;
 	txSetting.isCHSELPAOff=KT0803L_FALSE;
