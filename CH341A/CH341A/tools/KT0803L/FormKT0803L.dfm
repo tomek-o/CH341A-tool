@@ -1,7 +1,7 @@
 object frmKT0803L: TfrmKT0803L
   Left = 0
   Top = 0
-  Caption = 'KT0803L transmitter'
+  Caption = 'KT0803L FM transmitter'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
