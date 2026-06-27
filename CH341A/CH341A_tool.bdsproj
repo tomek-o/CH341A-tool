@@ -609,12 +609,13 @@
         <FILE FILENAME="CH341A\tools\CH1115\CH1115.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CH1115" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\CH1115\CH1115.h"/>
         <FILE FILENAME="CH341A\tools\MDIO\FormCH341USB2MDIO.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341USB2MDIO" FORMNAME="frmCH341USB2MDIO" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MDIO\FormCH341USB2MDIO.h"/>
         <FILE FILENAME="CH341A\tools\TSL2591\TSL2591.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="TSL2591" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\TSL2591\TSL2591.h"/>
-        <FILE FILENAME="CH341A\tools\KT0803L\kt0803l.h" CONTAINERID="" LOCALCOMMAND=""/>
-        <FILE FILENAME="CH341A\tools\KT0803L\kt0803l_data.h" CONTAINERID="" LOCALCOMMAND=""/>
-        <FILE FILENAME="CH341A\tools\KT0803L\kt0803l_reg.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="CH341A\tools\KT0803L\kt0803l.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="CH341A\tools\KT0803L\kt0803l_data.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="CH341A\tools\KT0803L\kt0803l_reg.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\KT0803L\kt0803l.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="kt0803l" FORMNAME="" DESIGNCLASS=""/>
-        <FILE FILENAME="CH341A\tools\MPR121\QuickMpr121Enums.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="CH341A\tools\MPR121\QuickMpr121Enums.h" CONTAINERID="" LOCALCOMMAND="" UNITNAME="" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\MPR121\QuickMpr121.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="QuickMpr121" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MPR121\QuickMpr121.h"/>
+        <FILE FILENAME="CH341A\tools\FormCH341Max6675.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341Max6675" FORMNAME="frmCH341Max6675" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341Max6675.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
@@ -623,7 +624,7 @@
           <VersionInfo Name="MajorVer">1</VersionInfo>
           <VersionInfo Name="MinorVer">7</VersionInfo>
           <VersionInfo Name="Release">0</VersionInfo>
-          <VersionInfo Name="Build">0</VersionInfo>
+          <VersionInfo Name="Build">1</VersionInfo>
           <VersionInfo Name="Debug">False</VersionInfo>
           <VersionInfo Name="PreRelease">False</VersionInfo>
           <VersionInfo Name="Special">False</VersionInfo>
@@ -635,7 +636,7 @@
         <VersionInfoKeys>
           <VersionInfoKeys Name="CompanyName">Tomasz Ostrowski</VersionInfoKeys>
           <VersionInfoKeys Name="FileDescription">CH341 tool</VersionInfoKeys>
-          <VersionInfoKeys Name="FileVersion">1.7.0.0</VersionInfoKeys>
+          <VersionInfoKeys Name="FileVersion">1.7.0.1</VersionInfoKeys>
           <VersionInfoKeys Name="InternalName"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
           <VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
