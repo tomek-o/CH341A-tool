@@ -1,7 +1,7 @@
-object frmCH341I2CBH1750FVI: TfrmCH341I2CBH1750FVI
+object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   Left = 0
   Top = 0
-  Caption = 'BH1750FVI light sensor'
+  Caption = 'BH1750 light sensor'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
