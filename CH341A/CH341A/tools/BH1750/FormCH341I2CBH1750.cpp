@@ -99,8 +99,8 @@ void TfrmCH341I2CBH1750::Read(bool single)
 		return;
 	}
 
-	uint8_t mode = 0;
-	int16_t ms = 0;
+	uint8_t mode;
+	int ms;
 
 	switch(cbMode->ItemIndex)
 	{

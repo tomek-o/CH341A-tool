@@ -71,13 +71,11 @@ bool BH1750::start(uint8_t mode, bool single)
 	if(!isInitialized())
 		return false;
 
-	bool res = false;
-
 	uint8_t opcode = mode |
 					((single) ? BH1750_SINGLE_MODE :
 								BH1750_CONTINUE_MODE);
 
-	res = write(opcode);
+	bool res = write(opcode);
 
 	if(single)
 		open(false);
