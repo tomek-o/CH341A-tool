@@ -84,4 +84,8 @@ Version 1.7
 - added KT0803L FM transmitter
 - added MPR121 capacitive touch sensor controller
 - I2C read/write: add option to skip address (for devices like CH455, TM1637)
+
+Version 1.8
+- added MAX6675 thermocoupple
+- added BH1750 light sensor (by SimoSbara)
 */

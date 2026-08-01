@@ -16,6 +16,7 @@ USEFORM("CH341A\tools\MDIO\FormCH341MdioMmdWriteRead.cpp", frmCH341MdioMmdWriteR
 USEFORM("CH341A\tools\ST7567\FormCH341SpiST7567.cpp", frmCH341SpiST7567);
 USEFORM("CH341A\tools\VEML7700\FormCH341_I2C_VEML7700.cpp", frmCH341I2CVeml7700);
 USEFORM("CH341A\tools\TSL2591\FormCH341I2CTSL2591.cpp", frmCH341I2CTSL2591);
+USEFORM("CH341A\tools\BH1750\FormCH341I2CBH1750.cpp", frmCH341I2CBH1750);
 USEFORM("CH341A\tools\KT0803L\FormKT0803L.cpp", frmKT0803L);
 USEFORM("CH341A\tools\MPR121\FormMPR121.cpp", frmMPR121);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
@@ -60,7 +61,6 @@ USEFORM("CH341A\tools\FormCH341Hmc5883L.cpp", frmCH341Hmc5883L);
 USEFORM("CH341A\tools\FormCH341Ina226.cpp", frmCH341Ina226);
 USEFORM("CH341A\tools\MDIO\FormCH341USB2MDIO.cpp", frmCH341USB2MDIO);
 USEFORM("CH341A\tools\FormCH341Max6675.cpp", frmCH341Max6675);
-USEFORM("CH341A\tools\BH1750\FormCH341I2CBH1750.cpp", frmCH341I2CBH1750);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"

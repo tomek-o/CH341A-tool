@@ -15,7 +15,7 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   TextHeight = 13
   object lblStatus: TLabel
     Left = 8
-    Top = 91
+    Top = 116
     Width = 3
     Height = 13
   end
@@ -35,14 +35,21 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   end
   object lblMode: TLabel
     Left = 8
-    Top = 50
+    Top = 75
     Width = 94
     Height = 13
     Caption = 'Measurement Mode'
   end
+  object lblI2CAddress: TLabel
+    Left = 8
+    Top = 8
+    Width = 58
+    Height = 13
+    Caption = 'I2C address'
+  end
   object btnRead: TButton
     Left = 170
-    Top = 8
+    Top = 33
     Width = 75
     Height = 25
     Caption = 'Read'
@@ -52,7 +59,7 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   end
   object chbAutoRead: TCheckBox
     Left = 257
-    Top = 12
+    Top = 37
     Width = 128
     Height = 17
     Caption = 'auto refresh (500ms)'
@@ -62,7 +69,7 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   end
   object btnOpen: TButton
     Left = 8
-    Top = 8
+    Top = 33
     Width = 75
     Height = 25
     Caption = 'Open'
@@ -101,7 +108,7 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   end
   object cbMode: TComboBox
     Left = 119
-    Top = 47
+    Top = 72
     Width = 202
     Height = 22
     Style = csDropDownList
@@ -123,7 +130,7 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
   end
   object btnClose: TButton
     Left = 89
-    Top = 8
+    Top = 33
     Width = 75
     Height = 25
     Caption = 'Close'
@@ -131,11 +138,31 @@ object frmCH341I2CBH1750: TfrmCH341I2CBH1750
     TabOrder = 6
     OnClick = btnCloseClick
   end
+  object cbAddress: TComboBox
+    Left = 89
+    Top = 5
+    Width = 232
+    Height = 22
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    ItemHeight = 14
+    ItemIndex = 0
+    ParentFont = False
+    TabOrder = 7
+    Text = '0x23 (ADDR pin low), default'
+    Items.Strings = (
+      '0x23 (ADDR pin low), default'
+      '0x5C (ADDR pin high)')
+  end
   object tmrAutoRead: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrAutoReadTimer
     Left = 344
-    Top = 43
+    Top = 68
   end
 end

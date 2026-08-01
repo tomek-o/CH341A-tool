@@ -50,6 +50,8 @@ __published:	// IDE-managed Components
 	TLabel *lblMode;
 	TComboBox *cbMode;
 	TButton *btnClose;
+	TLabel *lblI2CAddress;
+	TComboBox *cbAddress;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnOpenClick(TObject *Sender);

@@ -55,9 +55,18 @@ void __fastcall TfrmCH341I2CBH1750::btnOpenClick(TObject *Sender)
 		return;
 	}
 
-	if (!bh1750.open())
+	uint8_t address = (cbAddress->ItemIndex == 0) ? BH1750::ADDR_A : BH1750::ADDR_B;
+
+	int status = ch341a.I2CCheckDev(address);
+	if (status != 0)
 	{
-		lblStatus->Caption = "BH1750 not found!";
+		lblStatus->Caption = "No ACK after sending expected address!";
+		return;
+	}
+
+	if (!bh1750.open(address))
+	{
+		lblStatus->Caption = "BH1750 opening failed!";
 		Clear();
 		return;
 	}
@@ -105,15 +114,15 @@ void TfrmCH341I2CBH1750::Read(bool single)
 	switch(cbMode->ItemIndex)
 	{
 		case 0:
-			mode = BH1750_HRES1;
+			mode = BH1750::MODE_HRES1;
 			ms = 140;
 			break;
 		case 1:
-			mode = BH1750_HRES2;
+			mode = BH1750::MODE_HRES2;
 			ms = 140;
 			break;
 		case 2:
-			mode = BH1750_LRES;
+			mode = BH1750::MODE_LRES;
             ms = 16;	
 			break;
 		default:

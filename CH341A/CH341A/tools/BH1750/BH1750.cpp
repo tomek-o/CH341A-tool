@@ -33,37 +33,48 @@ SOFTWARE.
 #pragma warn -8071
 #endif
 
-BH1750::BH1750(void)
+#define BH1750_CMD_ON  			(0x01) //Power ON
+#define BH1750_CMD_OFF 			(0x00) //Power OFF
+#define BH1750_CMD_RESET  		(0x07) //Reset registry after Power ON
+
+#define BH1750_CONTINUE_MODE	(0x10)
+#define BH1750_SINGLE_MODE		(0x20)
+
+
+BH1750::BH1750(void):
+	address(ADDR_A),
+	_initialized(false)
 {
-  _initialized = false;
 }
 
 BH1750::~BH1750()
 {
 }
 
-bool BH1750::open(bool init)
+bool BH1750::open(uint8_t address, bool init)
 {
-  if(!write(BH1750_CMD_ON))
-	return false;
-
-  if(init)
-	if(!write(BH1750_CMD_RESET))
+	this->address = address;
+	if(!write(BH1750_CMD_ON))
 		return false;
 
-  _initialized = true;
-  
-  return true;
+	if(init) {
+		if(!write(BH1750_CMD_RESET))
+			return false;
+	}
+
+	_initialized = true;
+
+	return true;
 }
 
 bool BH1750::close()
 {
-  if(!write(BH1750_CMD_OFF))
-	return false;
+	if(!write(BH1750_CMD_OFF))
+		return false;
 
-  _initialized = false;
-  
-  return true;
+	_initialized = false;
+
+	return true;
 }
 
 bool BH1750::start(uint8_t mode, bool single)
@@ -80,12 +91,12 @@ bool BH1750::start(uint8_t mode, bool single)
 	if(single)
 		open(false);
 
-    return res;
+	return res;
 }
 
 float BH1750::calculateLux(uint16_t value)
 {
-  return static_cast<float>(value) / 1.2F;
+	return static_cast<float>(value) / 1.2F;
 }
 
 uint16_t BH1750::getLuminosity()
@@ -98,13 +109,14 @@ uint16_t BH1750::getLuminosity()
 
 uint16_t BH1750::read()
 {
-  uint8_t buffer[2];
-  ch341a.I2CReadBytes(BH1750_REG, buffer, sizeof(buffer));
-  //response from datasheet: High Byte | ACK | Low Byte | !ACK 
-  return uint16_t((buffer[0]) << 8) | uint16_t(buffer[1]);
+	uint8_t buffer[2];
+	ch341a.I2CReadBytes(address, buffer, sizeof(buffer));
+	//response from datasheet: High Byte | ACK | Low Byte | !ACK
+	return uint16_t((buffer[0]) << 8) | uint16_t(buffer[1]);
 }
 
 bool BH1750::write(uint8_t value)
 {
-  return !ch341a.I2CWriteByte(BH1750_REG, value);
+	return !ch341a.I2CWriteByte(address, value);
 }
+
