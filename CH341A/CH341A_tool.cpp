@@ -19,6 +19,7 @@ USEFORM("CH341A\tools\TSL2591\FormCH341I2CTSL2591.cpp", frmCH341I2CTSL2591);
 USEFORM("CH341A\tools\BH1750\FormCH341I2CBH1750.cpp", frmCH341I2CBH1750);
 USEFORM("CH341A\tools\KT0803L\FormKT0803L.cpp", frmKT0803L);
 USEFORM("CH341A\tools\MPR121\FormMPR121.cpp", frmMPR121);
+USEFORM("CH341A\tools\TM1637\FormCH341_TM1637.cpp", frmCH341Tm1637);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
@@ -128,6 +129,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CBH1750), &frmCH341I2CBH1750);
 		Application->CreateForm(__classid(TfrmMPR121), &frmMPR121);
 		Application->CreateForm(__classid(TfrmCH341Max6675), &frmCH341Max6675);
+		Application->CreateForm(__classid(TfrmCH341Tm1637), &frmCH341Tm1637);
 		Application->Run();
 	}
 	catch (Exception &exception)

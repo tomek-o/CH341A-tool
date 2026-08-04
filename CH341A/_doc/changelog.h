@@ -88,4 +88,5 @@ Version 1.7
 Version 1.8
 - added MAX6675 thermocoupple
 - added BH1750 light sensor (by SimoSbara)
+- added TM1637 LED display
 */
