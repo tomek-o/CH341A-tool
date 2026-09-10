@@ -23,14 +23,26 @@ __published:	// IDE-managed Components
 	TLabel *lblVolume;
 	TTrackBar *trbarVolume;
 	TLabel *lblRdaStatus;
+	TCheckBox *chbRdsEnabled;
+	TEdit *edRdsPi;
+	TEdit *edRdsPs;
+	TEdit *edRdsFlags;
+	TEdit *edRdsRt;
+	TLabel *lblRdsPi;
+	TLabel *lblRdsPs;
+	TLabel *lblRdsRt;
+	TLabel *lblRdsFlags;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
 	void __fastcall btnSearchUpClick(TObject *Sender);
 	void __fastcall btnSearchDownClick(TObject *Sender);
 	void __fastcall trbarVolumeChange(TObject *Sender);
+	void __fastcall chbRdsEnabledClick(TObject *Sender);
 private:	// User declarations
 	void Read(void);
+	void UpdateRdsUiState(void);
+	void ClearRdsDisplay(void);
 public:		// User declarations
 	__fastcall TfrmCH341I2CRda5807m(TComponent* Owner);
 };

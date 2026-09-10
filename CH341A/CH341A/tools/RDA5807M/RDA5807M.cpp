@@ -5,6 +5,7 @@
 #include "RDA5807M.h"
 #include "Log.h"
 #include "CH341A.h"
+#include "common/ArraySize.h"
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
@@ -85,6 +86,101 @@ struct REG
 	unsigned short value;
 } regs[REGS_CNT];
 
+namespace
+{
+	// RDS group B layout
+	const uint16_t RDS_B_GROUP_TYPE_MASK = 0xF000;
+	const unsigned int RDS_B_GROUP_TYPE_OFFSET = 12;
+	const uint16_t RDS_B_GROUP_VERSION_B = 0x0800;
+	const uint16_t RDS_B_TP = 0x0400;
+	const uint16_t RDS_B_PTY_MASK = 0x03E0;
+	const unsigned int RDS_B_PTY_OFFSET = 5;
+	const uint16_t RDS_B_GROUP0_TA = 0x0010;
+	const uint16_t RDS_B_GROUP0_SEGMENT_MASK = 0x0003;
+	const uint16_t RDS_B_GROUP2_AB_FLAG = 0x0010;
+	const uint16_t RDS_B_GROUP2_SEGMENT_MASK = 0x000F;
+
+	enum { RDS_GROUP_0 = 0, RDS_GROUP_2 = 2 };
+
+	struct RDS_state
+	{
+		bool groupReceived;	// at least one group decoded since the last reset (tune/search/init)
+
+		uint16_t piCode;
+		uint8_t groupType;
+		bool groupVersionB;
+		bool tp;
+		uint8_t pty;
+		bool ta;
+
+		char ps[9];
+		bool psSegmentReceived[4];
+
+		char rt[65];
+		bool rtSegmentReceived[16];
+		bool rtAbFlagValid;
+		bool rtAbFlag;
+	} rdsState;
+
+	void RDS_reset(void)
+	{
+		LLOG(("RDS reset\n"));
+		memset(&rdsState, 0, sizeof(rdsState));
+		memset(rdsState.ps, ' ', sizeof(rdsState.ps) - 1);
+		memset(rdsState.rt, ' ', sizeof(rdsState.rt) - 1);
+	}
+
+	void RDS_parse_group(uint16_t blockA, uint16_t blockB, uint16_t blockC, uint16_t blockD)
+	{
+		rdsState.groupReceived = true;
+		rdsState.piCode = blockA;
+		rdsState.groupType = static_cast<uint8_t>((blockB & RDS_B_GROUP_TYPE_MASK) >> RDS_B_GROUP_TYPE_OFFSET);
+		rdsState.groupVersionB = (blockB & RDS_B_GROUP_VERSION_B) != 0;
+		rdsState.tp = (blockB & RDS_B_TP) != 0;
+		rdsState.pty = static_cast<uint8_t>((blockB & RDS_B_PTY_MASK) >> RDS_B_PTY_OFFSET);
+
+		if (rdsState.groupType == RDS_GROUP_0)
+		{
+			rdsState.ta = (blockB & RDS_B_GROUP0_TA) != 0;
+			unsigned int segment = blockB & RDS_B_GROUP0_SEGMENT_MASK;
+			rdsState.ps[segment*2] = static_cast<char>(blockD >> 8);
+			rdsState.ps[segment*2 + 1] = static_cast<char>(blockD & 0xFF);
+			rdsState.psSegmentReceived[segment] = true;
+		}
+		else if (rdsState.groupType == RDS_GROUP_2)
+		{
+			bool abFlag = (blockB & RDS_B_GROUP2_AB_FLAG) != 0;
+			if (!rdsState.rtAbFlagValid || (abFlag != rdsState.rtAbFlag))
+			{
+				// text A/B flag toggled (or first group seen) - radiotext message changed, clear buffer
+				memset(rdsState.rt, ' ', sizeof(rdsState.rt) - 1);
+				memset(rdsState.rtSegmentReceived, 0, sizeof(rdsState.rtSegmentReceived));
+				rdsState.rtAbFlag = abFlag;
+				rdsState.rtAbFlagValid = true;
+			}
+
+			unsigned int segment = blockB & RDS_B_GROUP2_SEGMENT_MASK;
+			if (!rdsState.groupVersionB)
+			{
+				// version 2A: 4 characters per group (block C + block D), 16 segments => 64 chars
+				unsigned int offset = segment * 4;
+				rdsState.rt[offset]     = static_cast<char>(blockC >> 8);
+				rdsState.rt[offset + 1] = static_cast<char>(blockC & 0xFF);
+				rdsState.rt[offset + 2] = static_cast<char>(blockD >> 8);
+				rdsState.rt[offset + 3] = static_cast<char>(blockD & 0xFF);
+			}
+			else
+			{
+				// version 2B: 2 characters per group (block D only), 16 segments => 32 chars
+				unsigned int offset = segment * 2;
+				rdsState.rt[offset]     = static_cast<char>(blockD >> 8);
+				rdsState.rt[offset + 1] = static_cast<char>(blockD & 0xFF);
+			}
+			rdsState.rtSegmentReceived[segment] = true;
+		}
+	}
+}	// namespace
+
 
 static void RDA5807M_write_reg(uint8_t regidx)
 {
@@ -119,8 +215,10 @@ uint8_t RDA5807M_init(void)
 {
 	LLOG(("init\n"));
 	
+	RDS_reset();
+
 	regs[R2].reg_addr = 0x02;
-	regs[R2].value = R2_DHIZ | R2_DMUTE | R2_MONO | R2_CTRL_NEW | R2_ENABLE /* | R2_RDS_EN */;
+	regs[R2].value = R2_DHIZ | R2_DMUTE | R2_MONO | R2_CTRL_NEW | R2_ENABLE | R2_RDS_EN;
 
 	regs[R3].reg_addr = 0x03;
 	regs[R3].value = R3_BAND_SEL_87_108 | R3_CH_SPACE_100K;
@@ -163,7 +261,7 @@ void RDA5807M_tune(uint16_t value)
 
 	regs[R3].value = r3;
     RDA5807M_write_reg(R3);
-    //RDS_reset();	
+    RDS_reset();
 }
 
 void RDA5807M_search(uint8_t up)
@@ -180,7 +278,7 @@ void RDA5807M_search(uint8_t up)
 	}
 	RDA5807M_write_reg(R2);
 	regs[R2].value &= ~R2_SEEK;
-    //RDS_reset();
+    RDS_reset();
 }
 
 uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
@@ -260,22 +358,50 @@ uint8_t RDA5807M_get_status(struct RDA5807M_status *status)
 	//LOG(("%04X, %04X, %02X, %u\r\n", buffer[1], buffer[1] >> 9, info->rssi, info->rssi));    	
 	//LOG(("RDSS %d, BLK_E %d ABCD_E %d BLERA %d BLERB %d\r\n", rds_sync, blke, ABCD_E, BLERA, BLERB));
 
-    if(BLERA > 0 || BLERB > 0) 
+    if (rdsready && BLERA < 2 && BLERB < 2)
     {
-		//LOG(("BLERA %d BLERB %d\r\n", BLERA, BLERB));
-    }
-	else
-	{    
-		//if(rdsready)
-		//	RDS_parse(&buffer[2]);
+		// buffer[2..5] = RDS_DATA_0..3 = blocks A, B, C, D of the group just received
+		RDS_parse_group(buffer[2], buffer[3], buffer[4], buffer[5]);
 	}
 	status->valid = 1;
 
 	(void)ABCD_E;
 	(void)blke;
 	(void)rds_sync;
-	(void)rdsready;
 
+	return 0;
+}
+
+uint8_t RDA5807M_get_rds(struct RDA5807M_rds_status *rds)
+{
+	memset(rds, 0, sizeof(*rds));
+
+	rds->piCode = rdsState.piCode;
+	rds->groupType = rdsState.groupType;
+	rds->groupVersionB = rdsState.groupVersionB;
+	rds->trafficProgram = rdsState.tp;
+	rds->programType = rdsState.pty;
+	rds->trafficAnnouncement = rdsState.ta;
+
+	memcpy(rds->programService, rdsState.ps, sizeof(rds->programService) - 1);
+	rds->programService[sizeof(rds->programService) - 1] = '\0';
+	rds->psReady = true;
+	for (unsigned int i=0; i<C_ARRAY_SIZE(rdsState.psSegmentReceived); i++)
+	{
+		if (!rdsState.psSegmentReceived[i])
+			rds->psReady = false;
+	}
+
+	memcpy(rds->radioText, rdsState.rt, sizeof(rds->radioText) - 1);
+	rds->radioText[sizeof(rds->radioText) - 1] = '\0';
+	rds->rtReady = false;
+	for (unsigned int i=0; i<C_ARRAY_SIZE(rdsState.rtSegmentReceived); i++)
+	{
+		if (rdsState.rtSegmentReceived[i])
+			rds->rtReady = true;
+	}
+
+	rds->valid = rdsState.groupReceived;
 	return 0;
 }
 
@@ -285,6 +411,21 @@ void RDA5807M_set_volume(uint8_t volume)
 	regs[R5].value &= ~R5_VOLUME_MASK;
 	regs[R5].value |= static_cast<uint16_t>(volume & R5_VOLUME_MASK);
 	RDA5807M_write_reg(R5);
+}
+
+void RDA5807M_set_rds_enabled(bool on)
+{
+	LOG(PROMPT "RDS %s\n", on ? "enabled" : "disabled");
+	if (on)
+	{
+		regs[R2].value |= R2_RDS_EN;
+	}
+	else
+	{
+		regs[R2].value &= ~R2_RDS_EN;
+	}
+	RDA5807M_write_reg(R2);
+	RDS_reset();
 }
 
 void RDA5807M_set_stereo(uint8_t on)
