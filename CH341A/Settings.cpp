@@ -92,7 +92,7 @@ int Settings::Read(AnsiString asFileName)
 		LoggingJson.getBool("AddTimestamps", Logging.addTimestamps);
 		Logging.bFlush = LoggingJson.get("Flush", Logging.bFlush).asBool();
 		Logging.iMaxFileSize = LoggingJson.get("MaxFileSize", Logging.iMaxFileSize).asInt();
-		if (Logging.iMaxFileSize < Settings::_Logging::MIN_MAX_FILE_SIZE || Logging.iMaxFileSize > Settings::_Logging::MIN_MAX_FILE_SIZE)
+		if (Logging.iMaxFileSize < Settings::_Logging::MIN_MAX_FILE_SIZE || Logging.iMaxFileSize > Settings::_Logging::MAX_MAX_FILE_SIZE)
 		{
 			Logging.iMaxFileSize = Settings::_Logging::DEF_MAX_FILE_SIZE;
 		}

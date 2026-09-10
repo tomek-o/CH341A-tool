@@ -156,7 +156,7 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 	if (status != 0)
 		text += "Error on CMD_SERIAL_NUM\r\n";
 	else
-		text.cat_printf("Serial number: %u\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Serial number: %u\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_VOLTAGE, data);
 	if (status != 0)
@@ -190,61 +190,61 @@ void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)
 	if (status != 0)
 		text += "Error on CMD_CYCLE_COUNT\r\n";
 	else
-		text.cat_printf("Cycle count: %u\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Cycle count: %u\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_REMAINING_CAPACITY, data);
 	if (status != 0)
 		text += "Error on CMD_REMAINING_CAPACITY\r\n";
 	else
-		text.cat_printf("Remaining capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(data), capacityUnit);
+		text.cat_printf("Remaining capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(static_cast<uint16_t>(data)), capacityUnit);
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_RELATIVE_STATE_OF_CHARGE, data);
 	if (status != 0)
 		text += "Error on CMD_RELATIVE_STATE_OF_CHARGE\r\n";
 	else
-		text.cat_printf("Relative state of charge: %u%%\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Relative state of charge: %u%%\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_DESIGN_CAPACITY, data);
 	if (status != 0)
 		text += "Error on CMD_DESIGN_CAPACITY\r\n";
 	else
-		text.cat_printf("Design capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(data), capacityUnit);
+		text.cat_printf("Design capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(static_cast<uint16_t>(data)), capacityUnit);
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_DESIGN_VOLTAGE, data);
 	if (status != 0)
 		text += "Error on CMD_DESIGN_VOLTAGE\r\n";
 	else
-		text.cat_printf("Design voltage: %u mV\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Design voltage: %u mV\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_FULL_CHARGE_CAPACITY, data);
 	if (status != 0)
 		text += "Error on CMD_FULL_CHARGE_CAPACITY\r\n";
 	else
-		text.cat_printf("Full charge capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(data), capacityUnit);
+		text.cat_printf("Full charge capacity: %u %s\r\n", capacityMultiplier * static_cast<unsigned int>(static_cast<uint16_t>(data)), capacityUnit);
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL1_VOLTAGE, data);
 	if (status != 0)
 		text += "Error on CMD_CELL1_VOLTAGE\r\n";
 	else
-		text.cat_printf("Cell 1 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Cell 1 voltage: %u mV\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL2_VOLTAGE, data);
 	if (status != 0)
 		text += "Error on CMD_CELL2_VOLTAGE\r\n";
 	else
-		text.cat_printf("Cell 2 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Cell 2 voltage: %u mV\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL3_VOLTAGE, data);
 	if (status != 0)
 		text += "Error on CMD_CELL3_VOLTAGE\r\n";
 	else
-		text.cat_printf("Cell 3 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Cell 3 voltage: %u mV\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 	status = ch341a.I2CWriteCommandReadWord(address, SmartBattery::CMD_CELL4_VOLTAGE, data);
 	if (status != 0)
 		text += "Error on CMD_CELL4_VOLTAGE\r\n";
 	else
-		text.cat_printf("Cell 4 voltage: %u mV\r\n", static_cast<unsigned int>(data));
+		text.cat_printf("Cell 4 voltage: %u mV\r\n", static_cast<unsigned int>(static_cast<uint16_t>(data)));
 
 
 	memoInfo->Text = text;

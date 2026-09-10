@@ -168,7 +168,7 @@ public:
 __fastcall TfrmCH341I2CHd44780::TfrmCH341I2CHd44780(TComponent* Owner)
 	: TForm(Owner)
 {
-	for (unsigned int i=0; i<=128; i++)
+	for (unsigned int i=0; i<128; i++)
 	{
 		AnsiString text;
 		text.sprintf("0x%02X (%3u)", i, i);

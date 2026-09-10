@@ -109,7 +109,7 @@ std::string intToHexString (int integer)
     }
     */
     //Changed Conversion from intToHex from above to below...
-    char buf[3];
+    char buf[2 * sizeof(int) + 1];
     sprintf(buf,"%X",integer);
     hexString = (std::string)buf;
     //Prepend a 0 when not even

@@ -96,7 +96,7 @@ void __fastcall TfrmCH341I2CWriteRead::btnWriteReadClick(TObject *Sender)
 	for (unsigned int i=0; i<readData.size(); i++)
 	{
 		text.cat_printf("0x%02X", readData[i]);
-		if ((i % 7) == 7)
+		if ((i % 8) == 7)
 			text.cat_printf("\n");
 		else
 			text.cat_printf(" ");

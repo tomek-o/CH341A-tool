@@ -106,7 +106,7 @@ uint8_t SymbolToSegments(unsigned int symbol)
 	case '7':
 		ret = 0x07;
 		break;
-	case 8:
+	case '8':
 		ret = 0x7F;
 		break;
 	case '9':

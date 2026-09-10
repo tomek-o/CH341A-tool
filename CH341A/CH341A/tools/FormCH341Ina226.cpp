@@ -163,14 +163,14 @@ void __fastcall TfrmCH341Ina226::btnInitClick(TObject *Sender)
 	}
 
 	double shuntResistance, maxExpectedCurrent;
-	if (sscanf(edShuntResistance->Text.c_str(), "%lf", &shuntResistance) != 1)
+	if (sscanf(edShuntResistance->Text.c_str(), "%lf", &shuntResistance) != 1 || shuntResistance <= 0)
 	{
-		lblStatus->Caption = "Invalid value entered as shunt resistance!";
+		lblStatus->Caption = "Invalid value entered as shunt resistance! (must be > 0)";
 		return;
 	}
-	if (sscanf(edShuntMaxExpectedCurrent->Text.c_str(), "%lf", &maxExpectedCurrent) != 1)
+	if (sscanf(edShuntMaxExpectedCurrent->Text.c_str(), "%lf", &maxExpectedCurrent) != 1 || maxExpectedCurrent <= 0)
 	{
-		lblStatus->Caption = "Invalid value entered as max expected current!";
+		lblStatus->Caption = "Invalid value entered as max expected current! (must be > 0)";
 		return;
 	}
 
@@ -226,11 +226,12 @@ void TfrmCH341Ina226::Read(void)
 	text.sprintf("%.3f", shuntVoltage * 1000.0);
 	edShuntVoltage->Text = text;
 
-	double current = currentLsb * shuntReg;
+	int16_t currentReg = ReadReg(REG_CURRENT);
+	double current = currentLsb * currentReg;
 	text.sprintf("%.3f", current);
 	edShuntCurrent->Text = text;
 
-	int16_t powerReg = ReadReg(REG_POWER);
+	uint16_t powerReg = static_cast<uint16_t>(ReadReg(REG_POWER));
 	edPowerReg->Text = powerReg;
 	text.sprintf("%.3f", currentLsb * 25 * powerReg);
 	edPower->Text = text;

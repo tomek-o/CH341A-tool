@@ -133,7 +133,7 @@ void TfrmCH341I2CBH1750::Read(bool single)
         }
 	}
 
-	if(!bh1750.start(mode, false))
+	if(!bh1750.start(mode, single))
 	{
 		lblStatus->Caption = "Failed to start read!";
 		Clear();

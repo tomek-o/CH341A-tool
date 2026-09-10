@@ -76,7 +76,11 @@ void __fastcall TfrmCH341Tm1637::btnWriteClick(TObject *Sender)
 		}
 		else
 		{
-			symbols[++symbolPos] = c;
+			if (symbolPos + 1 < static_cast<int>(TM1637::SYMBOL_COUNT))
+			{
+				symbols[++symbolPos] = c;
+			}
+			// else: display is full, ignore any further characters
 		}
 	}
 

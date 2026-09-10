@@ -42,7 +42,7 @@ void __fastcall TfrmSettings::FormShow(TObject *Sender)
 	}
 	if (cmbMaxUiLogLines->ItemIndex == -1)
 	{
-		cmbMaxUiLogLines->ItemHeight = cmbMaxUiLogLines->Items->Count - 1;
+		cmbMaxUiLogLines->ItemIndex = cmbMaxUiLogLines->Items->Count - 1;
 	}
 
 	chbCH341AOpenAtStartup->Checked = tmpSettings.ch341a.openAtStartup;

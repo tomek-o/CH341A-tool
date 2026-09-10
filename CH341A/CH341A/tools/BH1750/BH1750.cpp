@@ -89,7 +89,7 @@ bool BH1750::start(uint8_t mode, bool single)
 	bool res = write(opcode);
 
 	if(single)
-		open(false);
+		open(address, false);
 
 	return res;
 }

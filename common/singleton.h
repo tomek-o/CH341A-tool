@@ -29,7 +29,7 @@ public:
 		if (instance == NULL) instance = new T;
 		return instance;
 	};
-	static Destroy()
+	static void Destroy()
 	{
 		delete instance;
 		instance = NULL;

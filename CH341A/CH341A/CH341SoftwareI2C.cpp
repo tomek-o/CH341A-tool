@@ -104,6 +104,7 @@ CH341SoftwareI2C ch341SoftwareI2C;
 
 CH341SoftwareI2C::CH341SoftwareI2C(void)
 {
+    _deviceID = 0;
     _stretch_timeout_delay = DEFAULT_STRETCH_TIMEOUT;
     _stretch_timeout_error = 0;
 }

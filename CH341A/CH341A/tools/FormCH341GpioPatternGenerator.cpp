@@ -117,7 +117,7 @@ void TfrmCH341GpioPatternGenerator::SetBit(int pos, int bit, bool state)
 	}
 	else
 	{
-		pattern[pos] &= (~1U << bit);
+		pattern[pos] &= ~(1U << bit);
 	}
 }
 
