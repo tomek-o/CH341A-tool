@@ -21,7 +21,7 @@ TfrmCH341_I2C_PN532 *frmCH341_I2C_PN532;
 __fastcall TfrmCH341_I2C_PN532::TfrmCH341_I2C_PN532(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
+	TabManager::Instance().Register(this, 1u << ToolGroupMisc);
 }
 //---------------------------------------------------------------------------
 
@@ -111,6 +111,7 @@ void TfrmCH341_I2C_PN532::Read(void)
 		text.cat_printf("Found card:\n");
 		text.cat_printf("UID Length: %d B\n", uidLength);
 		text.cat_printf("UID Value: %s", BufToSpaceSeparatedHexString(uid, uidLength).c_str());
+		memo->Text = text;
 	}
 	else
 	{

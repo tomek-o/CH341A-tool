@@ -120,7 +120,11 @@ void CH341SoftwareI2C::begin()
 int CH341SoftwareI2C::writeToRegister(uint8_t regAddress, uint8_t data, bool sendStopBit)
 {
     startBit();
-    writeAddress(0);
+    if (writeAddress(0))
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -148,7 +152,11 @@ int CH341SoftwareI2C::writeToRegister(uint8_t regAddress, uint8_t* buffer, uint8
     // Least significant byte is written first, ie. buffer[0] sent first
 
     startBit();
-    writeAddress(0);
+    if (writeAddress(0))
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -178,7 +186,11 @@ int CH341SoftwareI2C::writeToDevice(uint8_t data, bool sendStopBit)
     // Use with devices that do not use register addresses.
 
     startBit();
-    writeAddress(0);
+    if (writeAddress(0))
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -201,7 +213,11 @@ int CH341SoftwareI2C::writeToDevice(uint8_t* buffer, uint8_t count, bool sendSto
     // Least significant byte is written first, ie. buffer[0] sent first
 
     startBit();
-    writeAddress(0);
+    if (writeAddress(0))
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -225,7 +241,11 @@ int CH341SoftwareI2C::readFromRegister(uint8_t regAddress, uint8_t &data, bool s
 {
     // This method uses pass-by-reference for the data byte
     startBit();
-    writeAddress(0); // 0 == Write bit
+    if (writeAddress(0)) // 0 == Write bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -238,7 +258,11 @@ int CH341SoftwareI2C::readFromRegister(uint8_t regAddress, uint8_t &data, bool s
         return 0;
     }
     startBit();
-    writeAddress(1); // 1 == Read bit
+    if (writeAddress(1)) // 1 == Read bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -256,7 +280,11 @@ int CH341SoftwareI2C::readFromRegister(uint8_t regAddress, uint8_t* buffer, uint
     // Bytes are returned in <buffer>, which is assumed to be at least <count> bytes in size.
 
     startBit();
-    writeAddress(0); // 0 == Write bit
+    if (writeAddress(0)) // 0 == Write bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -269,7 +297,11 @@ int CH341SoftwareI2C::readFromRegister(uint8_t regAddress, uint8_t* buffer, uint
         return 0;
     }
     startBit();
-    writeAddress(1); // 1 == Read bit
+    if (writeAddress(1)) // 1 == Read bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -297,7 +329,11 @@ int CH341SoftwareI2C::readFromDevice(uint8_t &data, bool sendStopBit)
     // Use this with devices that do not use register addresses.
 
     startBit();
-    writeAddress(1); // 1 == Read bit
+    if (writeAddress(1)) // 1 == Read bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -316,7 +352,11 @@ int CH341SoftwareI2C::readFromDevice(uint8_t* buffer, uint8_t count, bool sendSt
     // Bytes are returned in <buffer>, which is assumed to be at least <count> bytes in size.
 
     startBit();
-    writeAddress(1); // 1 == Read bit
+    if (writeAddress(1)) // 1 == Read bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -376,7 +416,11 @@ int CH341SoftwareI2C::writeBytesToDevice(uint8_t* buffer, uint8_t count, bool se
 int CH341SoftwareI2C::read1bFromRegister(uint8_t regAddress, uint8_t* data, bool sendStopBit)
 {
     startBit();
-    writeAddress(0); // 0 == Write bit
+    if (writeAddress(0)) // 0 == Write bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -389,7 +433,11 @@ int CH341SoftwareI2C::read1bFromRegister(uint8_t regAddress, uint8_t* data, bool
         return 0;
     }
     startBit();
-    writeAddress(1); // 1 == Read bit
+    if (writeAddress(1)) // 1 == Read bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected
@@ -414,7 +462,11 @@ int CH341SoftwareI2C::read1bFromDevice(uint8_t* data, bool sendStopBit)
     // Use this with devices that do not use register addresses.
 
     startBit();
-    writeAddress(1); // 1 == Read bit
+    if (writeAddress(1)) // 1 == Read bit
+    {
+        stopBit();    // Immediately end transmission and return 0 on clock-stretch timeout
+        return 0;
+    }
     if (checkAckBit())
     {
         stopBit();    // Immediately end transmission and return 0 if NACK detected

@@ -1421,10 +1421,12 @@ bool PN532::readack() {
 /*! @brief  Return true if the PN532 is ready with a response.
 */
 bool PN532::isready() {
-	// I2C ready check via reading RDY byte
-	uint8_t rdy;
-	//ch341a.I2CReadByte(PN532_I2C_ADDRESS, rdy);
-	ch341SoftwareI2C.read1bFromDevice(&rdy);
+	// I2C ready check via reading RDY byte. While busy, the PN532 simply does
+	// not ACK its own I2C address at all, so read1bFromDevice() fails and never
+	// writes to rdy - treat that as "not ready" rather than reading garbage.
+	uint8_t rdy = 0;
+	if (!ch341SoftwareI2C.read1bFromDevice(&rdy))
+		return false;
 	return rdy == PN532_I2C_READY;
 }
 
@@ -1438,7 +1440,7 @@ bool PN532::isready() {
 bool PN532::waitready(unsigned int timeout) {
   unsigned int startTimer = timeGetTime();
   while (!isready()) {
-	if (timeGetTime() - startTimer > timeout) {
+	if (timeout != 0 && timeGetTime() - startTimer > timeout) {
 		LOG("PN532: timeout waiting for ready\n");
 		return false;
 	}
