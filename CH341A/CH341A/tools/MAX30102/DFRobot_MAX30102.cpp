@@ -45,7 +45,8 @@ void delay(uint32_t ms)
 
 }
 
-DFRobot_MAX30102::DFRobot_MAX30102(void)
+DFRobot_MAX30102::DFRobot_MAX30102(void):
+  _fifoOverflowTotal(0)
 {
 
 }
@@ -229,6 +230,7 @@ void DFRobot_MAX30102::resetFIFO(void)
   writeReg(MAX30102_FIFOWRITEPTR, &byteTemp, 1);
   writeReg(MAX30102_FIFOOVERFLOW, &byteTemp, 1);
   writeReg(MAX30102_FIFOREADPTR, &byteTemp, 1);
+  _fifoOverflowTotal = 0;
 }
 
 uint8_t DFRobot_MAX30102::getWritePointer(void)
@@ -365,69 +367,121 @@ uint32_t DFRobot_MAX30102::getIR(void)
 
 int DFRobot_MAX30102::getNewData(void)
 {
-  int32_t numberOfSamples = 0;
-  uint8_t readPointer = 0;
-  uint8_t writePointer = 0;
   uint32_t start = millis();
   while (1) {
-	readPointer = getReadPointer();
-	writePointer = getWritePointer();
+	// FIFO_WR_PTR (0x04), OVF_COUNTER (0x05) and FIFO_RD_PTR (0x06) are
+	// contiguous and the MAX30102 auto-increments the register address within a
+	// sequential read, so one I2C transaction returns all three. Reading them
+	// one at a time cost three USB round-trips per poll, and with the CH341 it
+	// is the fixed per-transaction latency - not the bus clock - that limits
+	// how fast the FIFO can be drained.
+	uint8_t fifoPtrRegs[3];
+	if (readReg(MAX30102_FIFOWRITEPTR, fifoPtrRegs, sizeof(fifoPtrRegs)) < 0) {
+	  // Transient bus error: retry rather than act on undefined pointers.
+	  if (millis() - start > 10000)
+		return -1;
+	  delay(1);
+	  continue;
+	}
+	uint8_t writePointer = fifoPtrRegs[0];
+	uint8_t overflowCount = fifoPtrRegs[1];
+	uint8_t readPointer = fifoPtrRegs[2];
 
-    if (readPointer == writePointer) {
+	int32_t numberOfSamples = writePointer - readPointer;
+	if (numberOfSamples < 0) numberOfSamples += 32;
+
+	if (numberOfSamples == 0 && overflowCount > 0) {
+	  // The FIFO pointers are 5-bit, so an exactly-full FIFO (32 unread
+	  // samples) is indistinguishable from an empty one. OVF_COUNTER settles
+	  // it: it is only ever nonzero once the FIFO has run full, and popping any
+	  // sample clears it - so equal pointers plus a nonzero counter means full.
+	  // Without this the code waits for "new" data while the FIFO is already
+	  // full; from then on each poll can only ever see the one or two samples
+	  // produced since the previous poll, while the chip overwrites one unread
+	  // sample for each of them. That is a stable state the code never escapes,
+	  // and it reports almost exactly one lost sample per sample read.
+	  numberOfSamples = 32;
+	}
+
+	if (numberOfSamples == 0) {
 	  //DBG("no data\n");
 	  if (millis() - start > 10000)
 		return -1;
-    } else {
-	  numberOfSamples = writePointer - readPointer;
-	  if (numberOfSamples < 0) numberOfSamples += 32;
-      DBG("MAX30102 has %d samples\n", numberOfSamples);	  
-	  int32_t bytesNeedToRead = numberOfSamples * _activeLEDs * 3;
-   
-        while (bytesNeedToRead > 0) {
-          senseBuf.head++;
-          senseBuf.head %= MAX30102_SENSE_BUF_SIZE;
-          uint32_t tempBuf = 0;
-          if (_activeLEDs > 1) { 
-            uint8_t temp[6];
-            uint8_t tempex;
+	} else {
+	  // Accounted for here rather than on every poll: OVF_COUNTER is a running
+	  // count that reading does not clear - only popping a sample resets it -
+	  // so accumulating it on the empty-FIFO path re-added the same value on
+	  // every spin of this loop.
+	  if (overflowCount > 0)
+	  {
+	    _fifoOverflowTotal += overflowCount;
+	    DBG("MAX30102: FIFO overflow, lost %u sample(s) (total lost since init: %u)\n",
+	        static_cast<unsigned int>(overflowCount), static_cast<unsigned int>(_fifoOverflowTotal));
+	  }
+	  uint8_t bytesPerSample = static_cast<uint8_t>(_activeLEDs * 3);
+	  unsigned int maxRequest = ch341a.GetMaxDataLengthInRequest();
+	  if (maxRequest > 32) maxRequest = 32;	// matches chunkBuf's size below
+	  uint8_t samplesPerChunk = static_cast<uint8_t>(maxRequest / bytesPerSample);
+	  if (samplesPerChunk < 1) samplesPerChunk = 1;
 
-            readReg(MAX30102_FIFODATA, temp, 6);
+	  int32_t samplesRemaining = numberOfSamples;
+	  while (samplesRemaining > 0) {
+	    uint8_t samplesThisChunk = static_cast<uint8_t>(
+	        (samplesRemaining < static_cast<int32_t>(samplesPerChunk)) ? samplesRemaining : samplesPerChunk);
+	    uint8_t chunkBuf[32];
+	    uint8_t chunkBytes = static_cast<uint8_t>(samplesThisChunk * bytesPerSample);
 
-            for(uint8_t i = 0; i < 3; i++){
-              tempex = temp[i];
-              temp[i] = temp[5-i];
-              temp[5-i] = tempex;
-            }
+	    // One I2C transaction reads every sample in this chunk at once (the
+	    // FIFO_DATA register auto-increments through the FIFO on sequential
+	    // reads), instead of one transaction per individual sample.
+	    readReg(MAX30102_FIFODATA, chunkBuf, chunkBytes);
 
-            memcpy(&tempBuf, temp, 3*sizeof(temp[0]));
-            tempBuf &= 0x3FFFF;
-            senseBuf.IR[senseBuf.head] = tempBuf;
-            memcpy(&tempBuf, temp+3, 3*sizeof(temp[0]));
-            tempBuf &= 0x3FFFF;
-            senseBuf.red[senseBuf.head] = tempBuf;
-          } else { 
-            uint8_t temp[3];
-            uint8_t tempex;
+	    for (uint8_t s = 0; s < samplesThisChunk; s++) {
+	      senseBuf.head++;
+	      senseBuf.head %= MAX30102_SENSE_BUF_SIZE;
+	      uint8_t *sample = chunkBuf + (s * bytesPerSample);
+	      uint32_t tempBuf = 0;
 
+	      if (_activeLEDs > 1) {
+	        uint8_t temp[6];
+	        uint8_t tempex;
 
-            readReg(MAX30102_FIFODATA, temp, 3);
-            tempex = temp[0];
-            temp[0] = temp[2];
-            temp[2] = tempex;
+	        memcpy(temp, sample, sizeof(temp));
 
-            memcpy(&tempBuf, temp, 3*sizeof(temp[0]));
-            tempBuf &= 0x3FFFF;
-            senseBuf.red[senseBuf.head] = tempBuf;
-          }
-          bytesNeedToRead -= _activeLEDs * 3;
-        }
+	        for(uint8_t i = 0; i < 3; i++){
+	          tempex = temp[i];
+	          temp[i] = temp[5-i];
+	          temp[5-i] = tempex;
+	        }
+
+	        memcpy(&tempBuf, temp, 3*sizeof(temp[0]));
+	        tempBuf &= 0x3FFFF;
+	        senseBuf.IR[senseBuf.head] = tempBuf;
+	        memcpy(&tempBuf, temp+3, 3*sizeof(temp[0]));
+	        tempBuf &= 0x3FFFF;
+	        senseBuf.red[senseBuf.head] = tempBuf;
+	      } else {
+	        uint8_t temp[3];
+	        uint8_t tempex;
+
+	        memcpy(temp, sample, sizeof(temp));
+
+	        tempex = temp[0];
+	        temp[0] = temp[2];
+	        temp[2] = tempex;
+
+	        memcpy(&tempBuf, temp, 3*sizeof(temp[0]));
+	        tempBuf &= 0x3FFFF;
+	        senseBuf.red[senseBuf.head] = tempBuf;
+	      }
+	    }
+
+	    samplesRemaining -= samplesThisChunk;
+	  }
       return 0;
 	}
-	delay(1);
+	delay(10);
   }
-#if 0	// unreachable code
-  return 0;
-#endif
 }
 
 void DFRobot_MAX30102::heartrateAndOxygenSaturation(
@@ -443,10 +497,11 @@ void DFRobot_MAX30102::heartrateAndOxygenSaturation(
 		return;
 	}
  
-    int8_t numberOfSamples = senseBuf.head - senseBuf.tail;
-    if (numberOfSamples < 0) {
-      numberOfSamples += MAX30102_SENSE_BUF_SIZE;
-    }
+	int8_t numberOfSamples = senseBuf.head - senseBuf.tail;
+	if (numberOfSamples < 0) {
+	  numberOfSamples += MAX30102_SENSE_BUF_SIZE;
+	}
+	//DBG("Got %d new sample(s)\n", (int)numberOfSamples);	
 
     while(numberOfSamples--) {
       redBuffer[i] = senseBuf.red[senseBuf.tail];

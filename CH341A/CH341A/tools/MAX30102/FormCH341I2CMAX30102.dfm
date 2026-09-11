@@ -19,35 +19,41 @@ object frmCH341I2CMAX30102: TfrmCH341I2CMAX30102
   TextHeight = 13
   object lblStatus: TLabel
     Left = 8
-    Top = 82
-    Width = 3
+    Top = 50
+    Width = 121
     Height = 13
   end
-  object btnRead: TButton
-    Left = 8
-    Top = 40
-    Width = 75
-    Height = 25
-    Caption = 'Read'
-    TabOrder = 0
-    OnClick = btnReadClick
+  object lblI2CSpeed: TLabel
+    Left = 176
+    Top = 27
+    Width = 33
+    Height = 13
   end
-  object chbAutoRead: TCheckBox
-    Left = 89
-    Top = 44
-    Width = 264
-    Height = 17
-    Caption = 'auto refresh (repeat reading every 1 s)'
-    TabOrder = 1
+  object lblReadingState: TLabel
+    Left = 176
+    Top = 8
+    Width = 40
+    Height = 13
+    Caption = 'Stopped'
   end
-  object btnInit: TButton
+  object btnStart: TButton
     Left = 8
     Top = 9
-    Width = 75
+    Width = 105
     Height = 25
-    Caption = 'Init'
-    TabOrder = 2
-    OnClick = btnInitClick
+    Caption = 'Init + start reading'
+    TabOrder = 0
+    OnClick = btnStartClick
+  end
+  object btnStop: TButton
+    Left = 119
+    Top = 9
+    Width = 50
+    Height = 25
+    Caption = 'Stop'
+    Enabled = False
+    TabOrder = 1
+    OnClick = btnStopClick
   end
   object pnlPlot1: TPanel
     Left = 8
@@ -55,7 +61,7 @@ object frmCH341I2CMAX30102: TfrmCH341I2CMAX30102
     Width = 619
     Height = 86
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 3
+    TabOrder = 2
   end
   object pnlPlot2: TPanel
     Left = 8
@@ -63,11 +69,12 @@ object frmCH341I2CMAX30102: TfrmCH341I2CMAX30102
     Width = 619
     Height = 86
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 4
+    TabOrder = 3
   end
   object tmrAutoRead: TTimer
+    Interval = 500
     OnTimer = tmrAutoReadTimer
-    Left = 376
-    Top = 40
+    Left = 336
+    Top = 8
   end
 end

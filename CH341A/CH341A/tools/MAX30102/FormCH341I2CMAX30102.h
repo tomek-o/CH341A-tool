@@ -15,20 +15,23 @@ class TfrmPlot;
 class TfrmCH341I2CMAX30102 : public TForm
 {
 __published:	// IDE-managed Components
-	TButton *btnRead;
-	TCheckBox *chbAutoRead;
 	TTimer *tmrAutoRead;
 	TLabel *lblStatus;
-	TButton *btnInit;
+	TLabel *lblI2CSpeed;
+	TLabel *lblReadingState;
+	TButton *btnStart;
+	TButton *btnStop;
 	TPanel *pnlPlot1;
 	TPanel *pnlPlot2;
-	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
-	void __fastcall btnInitClick(TObject *Sender);
+	void __fastcall btnStartClick(TObject *Sender);
+	void __fastcall btnStopClick(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 private:	// User declarations
 	TfrmPlot *frmPlot1;
 	TfrmPlot *frmPlot2;
+	bool reading;
+	bool busy;
 	void Read(void);
 public:		// User declarations
 	__fastcall TfrmCH341I2CMAX30102(TComponent* Owner);

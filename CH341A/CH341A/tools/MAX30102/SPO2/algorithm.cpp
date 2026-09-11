@@ -144,9 +144,19 @@ void maxim_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_i
   maxim_find_peaks( an_ir_valley_locs, &n_npks, an_x, BUFFER_SIZE, n_th1, 4, 15 );//peak_height, peak_distance, max_num_peaks 
   n_peak_interval_sum =0;
   if (n_npks>=2){
-    for (k=1; k<n_npks; k++) n_peak_interval_sum += (an_ir_valley_locs[k] -an_ir_valley_locs[k -1] ) ;
-    n_peak_interval_sum =n_peak_interval_sum/(n_npks-1);
-    *pn_heart_rate =(int32_t)( (FreqS*60)/ n_peak_interval_sum );
+    // Total span from the first to the last valley - summing the individual
+    // intervals telescopes to exactly this, the valley locations being sorted
+    // ascending. Deviation from the Maxim reference code: that averaged the
+    // interval here, with integer division, before deriving the rate. Rounding
+    // to whole samples at that point limited the result to the reachable values
+    // of (FreqS*60)/N - about 2.4 BPM apart at 60 BPM, and worsening as the
+    // square of the rate - discarding the sub-sample precision that averaging
+    // over several beats otherwise buys. Dividing once, inside the rate
+    // calculation, makes the resolution (n_npks-1) times finer.
+    // The span cannot be zero: maxim_find_peaks() keeps valleys at least
+    // n_min_distance apart, so n_npks >= 2 implies a span of at least that.
+    n_peak_interval_sum = an_ir_valley_locs[n_npks-1] - an_ir_valley_locs[0];
+    *pn_heart_rate =(int32_t)( (FreqS*60*(n_npks-1))/ n_peak_interval_sum );
     *pch_hr_valid  = 1;
   }
   else  { 

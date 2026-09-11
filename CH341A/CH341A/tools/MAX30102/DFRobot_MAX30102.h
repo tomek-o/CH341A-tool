@@ -48,11 +48,16 @@
 #define MAX30102_PARTID          0xFF//Part ID:0x15
 #define MAX30102_EXPECTED_PARTID  0x15
 
-//Circular buffer for storing sensor readings, cannot be smaller than 2 
+//Circular buffer for storing sensor readings, cannot be smaller than 2
+//Must also be strictly greater than the MAX30102's 32-sample hardware FIFO
+//depth: getNewData() can pull an entire FIFO's worth of new samples (up to
+//32) in one call, and if that ever meets or exceeds this buffer's size,
+//the head pointer wraps into (or exactly onto) not-yet-consumed samples,
+//corrupting/misaligning the RED/IR pairing for the rest of the session.
 #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__)
 #define MAX30102_SENSE_BUF_SIZE  2
 #else
-#define MAX30102_SENSE_BUF_SIZE  30
+#define MAX30102_SENSE_BUF_SIZE  64
 #endif
 
 
@@ -242,7 +247,20 @@ public:
                            uint8_t ledMode = MODE_MULTILED, uint8_t sampleRate = SAMPLERATE_400, \
                            uint8_t pulseWidth = PULSEWIDTH_411, uint8_t adcRange = ADCRANGE_4096);
 
-  
+  /*!
+   *@brief Number of samples known to have been permanently lost to hardware FIFO
+   *       overflow (FIFO_ROLLOVER_EN overwriting unread samples) since the last
+   *       resetFIFO() (i.e. since the last sensorConfiguration()/Init). This is
+   *       real data loss at the sensor that no amount of software buffering can
+   *       recover - it means polling isn't keeping up with the configured sample
+   *       rate.
+   *@return Cumulative lost-sample count
+   */
+  uint32_t getFIFOOverflowCount(void) const {
+    return _fifoOverflowTotal;
+  }
+
+
   /*!
    *@brief get red value
    *@return Red light reading
@@ -440,6 +458,7 @@ private:
   uint8_t _i2cAddr;
   uint8_t _activeLEDs;
   sSenseBuf_t senseBuf;//Buffer for storing multiple groups of array
+  uint32_t _fifoOverflowTotal;
 };
 
 #endif
