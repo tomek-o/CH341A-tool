@@ -356,13 +356,14 @@ void DFRobot_MAX30102::sensorConfiguration(uint8_t ledBrightness, uint8_t sample
 uint32_t DFRobot_MAX30102::getRed(void)
 {
   getNewData();
-  return (senseBuf.red[senseBuf.head]);
+  // head is the next free slot; the newest sample is the one before it
+  return (senseBuf.red[(senseBuf.head + MAX30102_SENSE_BUF_SIZE - 1) % MAX30102_SENSE_BUF_SIZE]);
 }
 
 uint32_t DFRobot_MAX30102::getIR(void)
 {
   getNewData();
-  return (senseBuf.IR[senseBuf.head]);
+  return (senseBuf.IR[(senseBuf.head + MAX30102_SENSE_BUF_SIZE - 1) % MAX30102_SENSE_BUF_SIZE]);
 }
 
 int DFRobot_MAX30102::getNewData(void)
@@ -437,8 +438,9 @@ int DFRobot_MAX30102::getNewData(void)
 	    readReg(MAX30102_FIFODATA, chunkBuf, chunkBytes);
 
 	    for (uint8_t s = 0; s < samplesThisChunk; s++) {
-	      senseBuf.head++;
-	      senseBuf.head %= MAX30102_SENSE_BUF_SIZE;
+	      // head is the next free slot: store first, advance after (below).
+	      // heartrateAndOxygenSaturation() drains [tail, head), so advancing
+	      // first made it read one never-written slot and lag one sample behind.
 	      uint8_t *sample = chunkBuf + (s * bytesPerSample);
 	      uint32_t tempBuf = 0;
 
@@ -474,6 +476,8 @@ int DFRobot_MAX30102::getNewData(void)
 	        tempBuf &= 0x3FFFF;
 	        senseBuf.red[senseBuf.head] = tempBuf;
 	      }
+	      senseBuf.head++;
+	      senseBuf.head %= MAX30102_SENSE_BUF_SIZE;
 	    }
 
 	    samplesRemaining -= samplesThisChunk;

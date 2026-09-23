@@ -8,6 +8,8 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <ExtCtrls.hpp>
+#include <deque>
+#include <stdint.h>
 //---------------------------------------------------------------------------
 
 class TfrmPlot;
@@ -32,6 +34,12 @@ private:	// User declarations
 	TfrmPlot *frmPlot2;
 	bool reading;
 	bool busy;
+	/** Recently accepted heart rate readings, oldest first */
+	std::deque<int> hrHistory;
+	/** Consecutive readings rejected as outliers */
+	int hrRejectedCount;
+	/** Filters raw algorithm output; returns smoothed BPM or -1 if none yet */
+	int FilterHeartRate(int32_t heartRate, bool valid, AnsiString &note);
 	void Read(void);
 public:		// User declarations
 	__fastcall TfrmCH341I2CMAX30102(TComponent* Owner);

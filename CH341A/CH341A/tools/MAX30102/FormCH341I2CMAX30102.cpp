@@ -11,6 +11,9 @@
 #include "Log.h"
 #include "FormPlot.h"
 #include <assert.h>
+#include <algorithm>
+#include <vector>
+#include <stdlib.h>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -25,7 +28,7 @@ DFRobot_MAX30102 sensor;
 }
 
 __fastcall TfrmCH341I2CMAX30102::TfrmCH341I2CMAX30102(TComponent* Owner)
-	: TForm(Owner), reading(false), busy(false)
+	: TForm(Owner), reading(false), busy(false), hrRejectedCount(0)
 {
 	TabManager::Instance().Register(this, (1u << ToolGroupSensors));
 	frmPlot1 = new TfrmPlot(pnlPlot1);
@@ -88,6 +91,8 @@ void __fastcall TfrmCH341I2CMAX30102::btnStartClick(TObject *Sender)
 						/*pulseWidth=*/PULSEWIDTH_411, /*adcRange=*/ADCRANGE_16384);
 
 	lblStatus->Caption = "MAX30102 configured";
+	hrHistory.clear();
+	hrRejectedCount = 0;
 	reading = true;
 	lblReadingState->Caption = "Reading...";
 	btnStart->Enabled = false;
@@ -105,6 +110,61 @@ void __fastcall TfrmCH341I2CMAX30102::btnStopClick(TObject *Sender)
 	btnStart->Enabled = true;
 }
 //---------------------------------------------------------------------------
+
+int TfrmCH341I2CMAX30102::FilterHeartRate(int32_t heartRate, bool valid, AnsiString &note)
+{
+	enum {
+		HR_MIN = 40,
+		HR_MAX = 180,
+		HISTORY_SIZE = 5,
+		MAX_DEVIATION_PERCENT = 20,
+		// After this many consecutive rejections the rate has most likely
+		// really changed (e.g. after exercise) - restart instead of clinging
+		// to the old median forever.
+		MAX_CONSECUTIVE_REJECTS = 3
+	};
+
+	int median = -1;
+	if (!hrHistory.empty())
+	{
+		std::vector<int> sorted(hrHistory.begin(), hrHistory.end());
+		std::sort(sorted.begin(), sorted.end());
+		median = sorted[sorted.size() / 2];
+	}
+
+	if (!valid)
+	{
+		note = ", rejected: invalid";
+		return median;
+	}
+	if (heartRate < HR_MIN || heartRate > HR_MAX)
+	{
+		note = ", rejected: out of range";
+		return median;
+	}
+	// Deviation check only once there is a meaningful median to compare with
+	if (hrHistory.size() >= 3 &&
+		abs(heartRate - median) * 100 > median * MAX_DEVIATION_PERCENT)
+	{
+		hrRejectedCount++;
+		if (hrRejectedCount < MAX_CONSECUTIVE_REJECTS)
+		{
+			note = ", rejected: outlier";
+			return median;
+		}
+		hrHistory.clear();
+		note = ", history reset";
+	}
+	hrRejectedCount = 0;
+
+	hrHistory.push_back(heartRate);
+	while (hrHistory.size() > HISTORY_SIZE)
+		hrHistory.pop_front();
+
+	std::vector<int> sorted(hrHistory.begin(), hrHistory.end());
+	std::sort(sorted.begin(), sorted.end());
+	return sorted[sorted.size() / 2];
+}
 
 void TfrmCH341I2CMAX30102::Read(void)
 {
@@ -129,9 +189,20 @@ void TfrmCH341I2CMAX30102::Read(void)
 	// reset it (e.g. Init) concurrently; avoid an unsigned-underflow wrap.
 	uint32_t lostSamplesThisRead = (lostSamplesTotal >= lostSamplesBefore) ? (lostSamplesTotal - lostSamplesBefore) : 0;
 
+	AnsiString hrNote;
+	int hrFiltered = FilterHeartRate(heartRate, heartRateValid != 0, hrNote);
+
 	AnsiString text;
-	text.sprintf("SPO2 valid = %d, SPO2 = %d, heart rate valid = %d, heart rate = %d",
-		(int)SPO2Valid, SPO2, (int)heartRateValid, heartRate);
+	if (hrFiltered > 0)
+		text.sprintf("Heart rate = %d BPM", hrFiltered);
+	else
+		text = "Heart rate = ---";
+	if (SPO2Valid)
+		text.cat_printf(", SPO2 = %d%%", SPO2);
+	else
+		text += ", SPO2 = ---";
+	text.cat_printf("\n(raw: HR valid = %d, HR = %d, SPO2 valid = %d, SPO2 = %d%s)",
+		(int)heartRateValid, heartRate, (int)SPO2Valid, SPO2, hrNote.c_str());
 	if (lostSamplesTotal > 0)
 	{
 		text.cat_printf("\nWARNING: %u total total samples lost since Init",
