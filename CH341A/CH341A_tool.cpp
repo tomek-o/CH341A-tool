@@ -20,6 +20,8 @@ USEFORM("CH341A\tools\BH1750\FormCH341I2CBH1750.cpp", frmCH341I2CBH1750);
 USEFORM("CH341A\tools\KT0803L\FormKT0803L.cpp", frmKT0803L);
 USEFORM("CH341A\tools\MPR121\FormMPR121.cpp", frmMPR121);
 USEFORM("CH341A\tools\TM1637\FormCH341_TM1637.cpp", frmCH341Tm1637);
+USEFORM("CH341A\tools\MAX30102\FormCH341I2CMAX30102.cpp", frmCH341I2CMAX30102);
+USEFORM("CH341A\tools\PN532\FormCH341_SPI_PN532.cpp", frmCH341_SPI_PN532);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
@@ -62,7 +64,6 @@ USEFORM("CH341A\tools\FormCH341Hmc5883L.cpp", frmCH341Hmc5883L);
 USEFORM("CH341A\tools\FormCH341Ina226.cpp", frmCH341Ina226);
 USEFORM("CH341A\tools\MDIO\FormCH341USB2MDIO.cpp", frmCH341USB2MDIO);
 USEFORM("CH341A\tools\FormCH341Max6675.cpp", frmCH341Max6675);
-USEFORM("CH341A\tools\MAX30102\FormCH341I2CMAX30102.cpp", frmCH341I2CMAX30102);
 //---------------------------------------------------------------------------
 #pragma link "common.lib"
 #pragma link "jsoncpp.lib"
@@ -132,6 +133,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341Max6675), &frmCH341Max6675);
 		Application->CreateForm(__classid(TfrmCH341Tm1637), &frmCH341Tm1637);
 		Application->CreateForm(__classid(TfrmCH341I2CMAX30102), &frmCH341I2CMAX30102);
+		Application->CreateForm(__classid(TfrmCH341_SPI_PN532), &frmCH341_SPI_PN532);
 		Application->Run();
 	}
 	catch (Exception &exception)

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef FormCH341_I2C_PN532H
-#define FormCH341_I2C_PN532H
+#ifndef FormCH341_SPI_PN532H
+#define FormCH341_SPI_PN532H
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 #include <Controls.hpp>
@@ -12,13 +12,12 @@
 #include "PN532.h"
 
 //---------------------------------------------------------------------------
-class TfrmCH341_I2C_PN532 : public TForm
+class TfrmCH341_SPI_PN532 : public TForm
 {
 __published:	// IDE-managed Components
 	TTimer *tmrAutoRead;
 	TLabel *lblStatus;
 	TLabel *lblReadingState;
-	TLabel *lblWiring;
 	TButton *btnStart;
 	TButton *btnStop;
 	TMemo *memo;
@@ -32,9 +31,9 @@ private:	// User declarations
 	bool busy;
 	void Read(void);
 public:		// User declarations
-	__fastcall TfrmCH341_I2C_PN532(TComponent* Owner);
+	__fastcall TfrmCH341_SPI_PN532(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TfrmCH341_I2C_PN532 *frmCH341_I2C_PN532;
+extern PACKAGE TfrmCH341_SPI_PN532 *frmCH341_SPI_PN532;
 //---------------------------------------------------------------------------
 #endif

@@ -73,6 +73,7 @@
 #define PN532_I2C_READYTIMEOUT (20)   ///< Ready timeout
 
 #define PN532_MIFARE_ISO14443A (0x00) ///< MiFare
+#define PN532_UID_MAX_LEN (10)        ///< ISO14443A triple size UID; uid buffers must hold this
 
 // Mifare Commands
 #define MIFARE_CMD_AUTH_A (0x60)           ///< Auth A
@@ -133,7 +134,12 @@
 
 class PN532 {
 public:
-  PN532(void);
+  enum Interface {
+    INTERFACE_I2C = 0,
+    /** SPI mode 0, LSB first, CS on CH341 CS0; PN532 SEL0 = L, SEL1 = H */
+    INTERFACE_SPI
+  };
+  PN532(enum Interface iface = INTERFACE_I2C);
   int begin(void);
 
   void reset(void);
@@ -184,17 +190,23 @@ public:
                                uint8_t dataLen);
 
 private:
+  enum Interface _iface;
   int8_t _uid[7];      // ISO14443A uid
   int8_t _uidLen;      // uid len
   int8_t _key[6];      // Mifare Classic key
   int8_t _inListedTag; // Tg number of inlisted tag.
 
   // Low level communication functions that handle both SPI and I2C.
-  void readdata(uint8_t *buff, uint8_t n);
-  void writecommand(uint8_t *cmd, uint8_t cmdlen);
+  // false on bus error (buffer then zeroed); callers that only parse the
+  // response rely on the zeroed frame failing its header check
+  bool readdata(uint8_t *buff, uint8_t n);
+  bool writecommand(uint8_t *cmd, uint8_t cmdlen);
   bool isready();
   bool waitready(unsigned int timeout);
   bool readack();
+  void abortCommand(void);
+  bool checkResponseFrame(const uint8_t *buff, uint8_t n, uint8_t command);
+  bool spiTransfer(uint8_t *buff, unsigned int n);
 };
 
 #endif

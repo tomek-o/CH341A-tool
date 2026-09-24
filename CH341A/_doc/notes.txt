@@ -3,3 +3,23 @@ CS0 is not working as input by default
 inputs seems to have pull-ups
 
 on the popular CH341A-based programmer "RUN" LED is connected to SDA and CS0, active low
+
+Software (bit-banged) I2C (CH341SoftwareI2C, used e.g. by PN532 over I2C)
+requires RXD connected to SCL:
+- CH341 SCL is output-only (CH341SetOutput bit 18) and cannot be read back;
+  CH341GetInput has no SCL bit (SDA is readable as bit 23).
+- Clock stretching (slave holding SCL low while busy, e.g. PN532) needs the
+  real SCL state, so SCL is wired to a readable pin: input bit 9 = PEMP pin,
+  which should be the pin labeled RXD on the programmer header (ERR# = TXD,
+  PEMP = RXD in UART mode - not verified against the datasheet).
+- Both CH341 SCL and RXD go to the same slave SCL line - it is one net:
+
+    CH341 SCL --+-- slave SCL
+    CH341 RXD --+     (RXD only reads, never drives)
+    CH341 SDA ------- slave SDA
+
+- SCL/SDA need pull-ups (typ. 4.7k to 3.3 V; most breakout boards have them).
+  CH341 SCL/SDA are open-drain, so with pull-ups to 3.3 V a 5 V CH341A board
+  does not push 5 V onto the bus.
+- Without the RXD-SCL jumper CH341SoftwareI2C::begin() fails with
+  "SCL input (RXD) reads low ... is RXD connected to SCL?" in the log.

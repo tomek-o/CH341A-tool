@@ -1,7 +1,7 @@
-object frmCH341_I2C_PN532: TfrmCH341_I2C_PN532
+object frmCH341_SPI_PN532: TfrmCH341_SPI_PN532
   Left = 0
   Top = 0
-  Caption = 'PN532 RFID reader (I2C)'
+  Caption = 'PN532 RFID reader (SPI)'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
@@ -22,18 +22,9 @@ object frmCH341_I2C_PN532: TfrmCH341_I2C_PN532
   object lblReadingState: TLabel
     Left = 170
     Top = 15
-    Width = 46
+    Width = 40
     Height = 13
     Caption = 'Stopped'
-  end
-  object lblWiring: TLabel
-    Left = 100
-    Top = 46
-    Width = 420
-    Height = 13
-    Caption =
-      'Software (bit-banged) I2C with clock stretching: requires RXD co' +
-      'nnected to SCL'
   end
   object btnStart: TButton
     Left = 8

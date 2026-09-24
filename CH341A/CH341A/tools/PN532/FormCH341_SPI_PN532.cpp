@@ -1,15 +1,9 @@
 //---------------------------------------------------------------------------
-/* 	NOT WORKING SO FAR
-*/
-
-/** \note Don't forget that software I2C requires RXD line as feedback (input) for SCL (output only), so they have to be connected together.
-*/
-
 
 #include <vcl.h>
 #pragma hdrstop
 
-#include "FormCH341_I2C_PN532.h"
+#include "FormCH341_SPI_PN532.h"
 #include "PN532.h"
 #include "CH341A.h"
 #include "TabManager.h"
@@ -20,13 +14,13 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TfrmCH341_I2C_PN532 *frmCH341_I2C_PN532;
+TfrmCH341_SPI_PN532 *frmCH341_SPI_PN532;
 //---------------------------------------------------------------------------
 
 
-__fastcall TfrmCH341_I2C_PN532::TfrmCH341_I2C_PN532(TComponent* Owner)
+__fastcall TfrmCH341_SPI_PN532::TfrmCH341_SPI_PN532(TComponent* Owner)
 	: TForm(Owner),
-	pn532(PN532::INTERFACE_I2C),
+	pn532(PN532::INTERFACE_SPI),
 	reading(false),
 	busy(false)
 {
@@ -34,7 +28,7 @@ __fastcall TfrmCH341_I2C_PN532::TfrmCH341_I2C_PN532(TComponent* Owner)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmCH341_I2C_PN532::btnStartClick(TObject *Sender)
+void __fastcall TfrmCH341_SPI_PN532::btnStartClick(TObject *Sender)
 {
 	if (busy)
 		return;
@@ -47,11 +41,11 @@ void __fastcall TfrmCH341_I2C_PN532::btnStartClick(TObject *Sender)
 		lblStatus->Caption = "CH341 is not opened!";
 		return;
 	}
-	LOG("PN532 (I2C): begin\n");
+	LOG("PN532 (SPI): begin\n");
 	int status = pn532.begin();
 	if (status != 0)
 	{
-		lblStatus->Caption = "Failed to init / wake up PN532 - see log (RXD-SCL jumper, bus state)";
+		lblStatus->Caption = "Failed to init / wake up PN532";
 		return;
 	}
 
@@ -82,7 +76,7 @@ void __fastcall TfrmCH341_I2C_PN532::btnStartClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmCH341_I2C_PN532::btnStopClick(TObject *Sender)
+void __fastcall TfrmCH341_SPI_PN532::btnStopClick(TObject *Sender)
 {
 	reading = false;
 	tmrAutoRead->Enabled = false;
@@ -92,7 +86,7 @@ void __fastcall TfrmCH341_I2C_PN532::btnStopClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void TfrmCH341_I2C_PN532::Read(void)
+void TfrmCH341_SPI_PN532::Read(void)
 {
 	if (busy)
 		return;
@@ -119,16 +113,16 @@ void TfrmCH341_I2C_PN532::Read(void)
 		text.cat_printf("Found card:\n");
 		text.cat_printf("UID Length: %d B\n", uidLength);
 		text.cat_printf("UID Value: %s", BufToSpaceSeparatedHexString(uid, uidLength).c_str());
-		memo->Text = text;
+		memo->Lines->Text = text;	///< \note if assigning to memo->Text \n newlines would not be properly interpreted
 	}
 	else
 	{
-		memo->Text = "No card found";
+		memo->Lines->Text = "No card found";
 	}
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TfrmCH341_I2C_PN532::tmrAutoReadTimer(TObject *Sender)
+void __fastcall TfrmCH341_SPI_PN532::tmrAutoReadTimer(TObject *Sender)
 {
 	tmrAutoRead->Enabled = false;
 	if (reading)

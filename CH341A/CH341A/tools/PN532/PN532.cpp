@@ -56,11 +56,12 @@
 
 #include "PN532.h"
 #include "common/bin2str.h"
-//#include "CH341A.h"
+#include "CH341A.h"
 #include "CH341SoftwareI2C.h"
 #include "Log.h"
 #include <windows.h>
 #include <vector>
+#include <algorithm>
 
 #ifdef __BORLANDC__
 #pragma warn -8071
@@ -86,7 +87,30 @@ uint8_t pn532response_firmwarevers[] = {
 uint8_t pn532_packetbuffer[PN532_PACKBUFFSIZ]; ///< Packet buffer used in various
                                             ///< transactions
 
-PN532::PN532(void) {
+PN532::PN532(enum Interface iface):
+  _iface(iface) {
+}
+
+namespace {
+uint8_t reverseBits(uint8_t b) {
+  b = (uint8_t)(((b & 0xF0) >> 4) | ((b & 0x0F) << 4));
+  b = (uint8_t)(((b & 0xCC) >> 2) | ((b & 0x33) << 2));
+  b = (uint8_t)(((b & 0xAA) >> 1) | ((b & 0x55) << 1));
+  return b;
+}
+}
+
+/*! @brief  Full-duplex SPI transfer, whole buffer within one CS assertion.
+    PN532 uses LSB-first SPI while CH341 streams are configured MSB-first
+    globally (at open), so bytes are bit-reversed on the way in and out.
+*/
+bool PN532::spiTransfer(uint8_t *buff, unsigned int n) {
+  for (unsigned int i = 0; i < n; i++)
+    buff[i] = reverseBits(buff[i]);
+  int status = ch341a.SpiTransfer(buff, n);
+  for (unsigned int i = 0; i < n; i++)
+    buff[i] = reverseBits(buff[i]);
+  return status == 0;
 }
 
 /**************************************************************************/
@@ -98,8 +122,14 @@ PN532::PN532(void) {
 /**************************************************************************/
 int PN532::begin() {
   reset(); // HW reset - put in known state
-  ch341SoftwareI2C.begin();
-  ch341SoftwareI2C.setDeviceID(PN532_I2C_ADDRESS);
+  if (_iface == INTERFACE_I2C) {
+    // begin() logs the specific cause (RXD-SCL loopback missing, stuck bus...)
+    if (ch341SoftwareI2C.begin() != 0) {
+      LOG("PN532: software I2C init failed\n");
+      return -1;
+    }
+    ch341SoftwareI2C.setDeviceID(PN532_I2C_ADDRESS);
+  }
   Sleep(10);
   return wakeup(); // hey! wakeup!
 }
@@ -142,6 +172,18 @@ int PN532::wakeup(void) {
   }
 #endif
 
+  if (_iface == INTERFACE_SPI) {
+	// Falling CS edge wakes the PN532; it needs ~2 ms before it listens, so
+	// this first (status read) frame is only a wakeup and its result ignored.
+	uint8_t w[2] = {PN532_SPI_STATREAD, 0x00};
+	if (!spiTransfer(w, sizeof(w)))
+	{
+	  LOG("PN532: SPI transfer failed\n");
+	  return -1;
+	}
+	Sleep(5);
+  }
+
   // PN532 will clock stretch I2C during SAMConfig as a "wakeup"
 
   // need to config SAM to stay in Normal Mode
@@ -170,7 +212,9 @@ uint32_t PN532::getFirmwareVersion(void) {
   }
 
   // read data packet
-  readdata(pn532_packetbuffer, 13);
+  if (!readdata(pn532_packetbuffer, 13) ||
+      !checkResponseFrame(pn532_packetbuffer, 13, PN532_COMMAND_GETFIRMWAREVERSION))
+    return 0;
 
   // check some basic stuff
   if (0 != memcmp((char *)pn532_packetbuffer,
@@ -218,13 +262,17 @@ bool PN532::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen,
     SLOWDOWN = 1;
 
   // write the command
-  writecommand(cmd, cmdlen);
+  if (!writecommand(cmd, cmdlen)) {
+    LOG("PN532: failed to write command 0x%02X\n", cmdlen ? cmd[0] : 0);
+    return false;
+  }
 
   // I2C TUNING
   Sleep(SLOWDOWN);
 
   // Wait for chip to say its ready!
   if (!waitready(timeout)) {
+    abortCommand();
     return false;
   }
 
@@ -247,6 +295,10 @@ bool PN532::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen,
 
   // Wait for chip to say its ready!
   if (!waitready(timeout)) {
+    // Typical case: InListPassiveTarget with no card in the field. The chip is
+    // still executing the command; without an abort it stays busy and every
+    // following command fails (on I2C it does not even ACK its address).
+    abortCommand();
     return false;
   }
 
@@ -390,7 +442,9 @@ bool PN532::SAMConfig(void) {
     return false;
 
   // read data packet
-  readdata(pn532_packetbuffer, 9);
+  if (!readdata(pn532_packetbuffer, 9) ||
+      !checkResponseFrame(pn532_packetbuffer, 9, PN532_COMMAND_SAMCONFIGURATION))
+    return false;
 
   int offset = 6;
   return (pn532_packetbuffer[offset] == 0x15);
@@ -488,8 +542,12 @@ bool PN532::startPassiveTargetIDDetection(uint8_t cardbaudrate) {
 /**************************************************************************/
 bool PN532::readDetectedPassiveTargetID(uint8_t *uid,
                                                  uint8_t *uidLength) {
-  // read data packet
-  readdata(pn532_packetbuffer, 20);
+  // read data packet: 7 header/preamble bytes + NbTg, Tg, SENS_RES(2),
+  // SEL_RES, NFCIDLength + up to 10 NFCID bytes (triple size UID) + DCS, postamble
+  enum { RESPONSE_LEN = 7 + 6 + 10 + 2 };
+  if (!readdata(pn532_packetbuffer, RESPONSE_LEN) ||
+      !checkResponseFrame(pn532_packetbuffer, RESPONSE_LEN, PN532_COMMAND_INLISTPASSIVETARGET))
+    return 0;
   // check some basic stuff
 
   /* ISO14443A card response should be in the following format:
@@ -522,6 +580,11 @@ bool PN532::readDetectedPassiveTargetID(uint8_t *uid,
   PN532DEBUGPRINT.print(F("SAK: 0x"));
   PN532DEBUGPRINT.println(pn532_packetbuffer[11], HEX);
 #endif
+
+  if (pn532_packetbuffer[12] > PN532_UID_MAX_LEN) {
+    LOG("PN532: unexpected UID length %u\n", static_cast<unsigned int>(pn532_packetbuffer[12]));
+    return 0;
+  }
 
   /* Card appears to be Mifare Classic */
   *uidLength = pn532_packetbuffer[12];
@@ -1411,16 +1474,77 @@ uint8_t PN532::ntag2xx_WriteNDEFURI(uint8_t uriIdentifier, char *url,
     @brief  Tries to read the SPI or I2C ACK signal
 */
 /**************************************************************************/
+/*! @brief  Abort the command the PN532 is currently executing.
+    Per the PN532 user manual an ACK frame sent by the host aborts the
+    current process; the chip then accepts new commands again.
+*/
+void PN532::abortCommand(void) {
+  LOG("PN532: aborting current command\n");
+  if (_iface == INTERFACE_SPI) {
+    uint8_t buf[1 + sizeof(pn532ack)];
+    buf[0] = PN532_SPI_DATAWRITE;
+    memcpy(buf + 1, pn532ack, sizeof(pn532ack));
+    spiTransfer(buf, sizeof(buf));
+  } else {
+    uint8_t buf[sizeof(pn532ack)];
+    memcpy(buf, pn532ack, sizeof(pn532ack));
+    ch341SoftwareI2C.writeBytesToDevice(buf, sizeof(buf));
+  }
+  Sleep(2);
+}
+
+/*! @brief  Validate a normal information frame read into buff (n bytes):
+    preamble/start code, LEN + LCS, TFI, response code (command + 1) and DCS.
+    The whole frame (5 header bytes + LEN + DCS) must fit into the n bytes read.
+*/
+bool PN532::checkResponseFrame(const uint8_t *buff, uint8_t n, uint8_t command) {
+  if (n < 8 || buff[0] != PN532_PREAMBLE || buff[1] != PN532_STARTCODE1 ||
+      buff[2] != PN532_STARTCODE2) {
+    LOG("PN532: response: bad start code\n");
+    return false;
+  }
+  uint8_t len = buff[3];
+  if (static_cast<uint8_t>(len + buff[4]) != 0) {
+    LOG("PN532: response: bad length checksum\n");
+    return false;
+  }
+  if (len < 2 || 5u + len + 1u > n) {
+    LOG("PN532: response: length %u does not fit %u bytes read\n",
+      static_cast<unsigned int>(len), static_cast<unsigned int>(n));
+    return false;
+  }
+  if (buff[5] != PN532_PN532TOHOST || buff[6] != static_cast<uint8_t>(command + 1)) {
+    LOG("PN532: response: unexpected TFI/code %02X %02X for command %02X\n",
+      buff[5], buff[6], command);
+    return false;
+  }
+  uint8_t sum = 0;
+  for (unsigned int i = 5; i < 5u + len + 1u; i++)	// TFI..data + DCS
+    sum = static_cast<uint8_t>(sum + buff[i]);
+  if (sum != 0) {
+    LOG("PN532: response: bad data checksum\n");
+    return false;
+  }
+  return true;
+}
+
 bool PN532::readack() {
   uint8_t ackbuff[6];
 
-  readdata(ackbuff, 6);
+  if (!readdata(ackbuff, 6))
+    return false;
   return (0 == memcmp((char *)ackbuff, (char *)pn532ack, 6));
 }
 
 /*! @brief  Return true if the PN532 is ready with a response.
 */
 bool PN532::isready() {
+	if (_iface == INTERFACE_SPI) {
+		uint8_t buf[2] = {PN532_SPI_STATREAD, 0x00};
+		if (!spiTransfer(buf, sizeof(buf)))
+			return false;
+		return (buf[1] & PN532_SPI_READY) != 0;
+	}
 	// I2C ready check via reading RDY byte. While busy, the PN532 simply does
 	// not ACK its own I2C address at all, so read1bFromDevice() fails and never
 	// writes to rdy - treat that as "not ready" rather than reading garbage.
@@ -1457,12 +1581,23 @@ bool PN532::waitready(unsigned int timeout) {
     @param  n         Number of bytes to be read
 */
 /**************************************************************************/
-void PN532::readdata(uint8_t *buff, uint8_t n) {
-	// I2C read
-	std::vector<uint8_t> rbuff;
-	rbuff.resize(n + 1);	// +1 for leading RDY byte
-	//ch341a.I2CReadBytes(PN532_I2C_ADDRESS, &rbuff[0], rbuff.size());
-    ch341SoftwareI2C.readBytesFromDevice(&rbuff[0], rbuff.size());
+bool PN532::readdata(uint8_t *buff, uint8_t n) {
+	// +1: leading RDY byte (I2C) / DATAREAD opcode slot (SPI)
+	std::vector<uint8_t> rbuff(n + 1, 0);
+	bool ok;
+	if (_iface == INTERFACE_SPI) {
+		rbuff[0] = PN532_SPI_DATAREAD;
+		ok = spiTransfer(&rbuff[0], rbuff.size());
+	} else {
+		//ch341a.I2CReadBytes(PN532_I2C_ADDRESS, &rbuff[0], rbuff.size());
+		ok = ch341SoftwareI2C.readBytesFromDevice(&rbuff[0], static_cast<uint8_t>(rbuff.size())) == 1;
+	}
+	if (!ok) {
+		// Zeroed rather than partial data: every caller's frame header check
+		// then fails cleanly instead of parsing a half-read response
+		std::fill(rbuff.begin(), rbuff.end(), 0);
+		LOG("PN532: failed to read %u bytes\n", static_cast<unsigned int>(n));
+	}
     for (uint8_t i = 0; i < n; i++) {
       buff[i] = rbuff[i + 1];
     }
@@ -1474,6 +1609,7 @@ void PN532::readdata(uint8_t *buff, uint8_t n) {
   }
   PN532DEBUGPRINT.println();
 #endif
+  return ok;
 }
 
 /**************************************************************************/
@@ -1579,7 +1715,7 @@ uint8_t PN532::setDataTarget(uint8_t *cmd, uint8_t cmdlen) {
     @param  cmd       Pointer to the command buffer
 	@param  cmdlen    Command length in bytes
 */
-void PN532::writecommand(uint8_t *cmd, uint8_t cmdlen) {
+bool PN532::writecommand(uint8_t *cmd, uint8_t cmdlen) {
 	std::vector<uint8_t> packet;
 	packet.resize(8 + cmdlen);
     uint8_t LEN = cmdlen + 1;
@@ -1608,6 +1744,11 @@ void PN532::writecommand(uint8_t *cmd, uint8_t cmdlen) {
     Serial.println();
 #endif
 
-	//ch341a.I2CWriteBytes(PN532_I2C_ADDRESS, &packet[0], packet.size());
-	ch341SoftwareI2C.writeBytesToDevice(&packet[0], packet.size());
+	if (_iface == INTERFACE_SPI) {
+		packet.insert(packet.begin(), PN532_SPI_DATAWRITE);
+		return spiTransfer(&packet[0], packet.size());
+	} else {
+		//ch341a.I2CWriteBytes(PN532_I2C_ADDRESS, &packet[0], packet.size());
+		return ch341SoftwareI2C.writeBytesToDevice(&packet[0], static_cast<uint8_t>(packet.size())) == 1;
+	}
 }

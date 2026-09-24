@@ -36,7 +36,22 @@ class CH341SoftwareI2C
 {
 public:
     CH341SoftwareI2C(void);
-    void begin();
+    /** Release the bus, check the RXD-SCL loopback and recover a stuck bus.
+        \return 0 on success, -1 on CH341 GPIO failure, -2 if SCL input (RXD) reads
+        low (loopback missing / SCL stuck), -3 if SDA stays low after recovery
+    */
+    int begin();
+    /** Clock SCL until a slave stuck mid-byte releases SDA, then send STOP.
+        \return 0 if both lines read high afterwards, -1 otherwise
+    */
+    int busRecover();
+
+    // Return value convention:
+    //  - high level methods (writeTo*, readFrom*, write1b*, read1b*, *Bytes*)
+    //    return 1 on success and 0 on failure (NACK, clock stretch timeout or
+    //    CH341 GPIO error) - as in the original SWI2C library
+    //  - low level methods returning int (sclHi, writeAddress) return 0 on
+    //    success and -1 on failure
 
     // Basic high level methods
     int writeToRegister(uint8_t regAddress, uint8_t data, bool sendStopBit = true);
@@ -79,6 +94,11 @@ public:
     void setDeviceID(uint8_t deviceid);
 
 private:
+    bool failed(void) const;
+    bool sendByteCheckAck(uint8_t data);
+    int transfer(const uint8_t *regAddress, const uint8_t *wbuf, uint8_t wcount,
+        uint8_t *rbuf, uint8_t rcount, bool sendStopBit);
+    int abortTransfer(void);
     enum {DEFAULT_STRETCH_TIMEOUT = 500UL};   // ms timeout waiting for device to release SCL line
     uint8_t _deviceID;
     unsigned long _stretch_timeout_delay;
