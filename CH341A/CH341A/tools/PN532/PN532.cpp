@@ -88,7 +88,9 @@ uint8_t pn532_packetbuffer[PN532_PACKBUFFSIZ]; ///< Packet buffer used in variou
                                             ///< transactions
 
 PN532::PN532(enum Interface iface):
-  _iface(iface) {
+  _iface(iface),
+  _lastAtqa(0),
+  _lastSak(0) {
 }
 
 namespace {
@@ -172,27 +174,37 @@ int PN532::wakeup(void) {
   }
 #endif
 
-  if (_iface == INTERFACE_SPI) {
-	// Falling CS edge wakes the PN532; it needs ~2 ms before it listens, so
-	// this first (status read) frame is only a wakeup and its result ignored.
-	uint8_t w[2] = {PN532_SPI_STATREAD, 0x00};
-	if (!spiTransfer(w, sizeof(w)))
-	{
-	  LOG("PN532: SPI transfer failed\n");
-	  return -1;
+  // SPI: a falling CS edge wakes the PN532, but its oscillator needs a few ms
+  // to start. Reference drivers hold CS low for 2 ms; the CH341 only asserts
+  // CS for the duration of a transfer (microseconds), so after power-up the
+  // first command can still be lost while the chip is starting. Retry the
+  // wakeup + SAMConfig sequence instead of failing the first Init.
+  // I2C: PN532 will clock stretch during SAMConfig as a "wakeup".
+  const int attempts = (_iface == INTERFACE_SPI) ? 3 : 1;
+  for (int attempt = 1; attempt <= attempts; attempt++) {
+	if (_iface == INTERFACE_SPI) {
+	  // wakeup frame (status read); its result is ignored
+	  uint8_t w[2] = {PN532_SPI_STATREAD, 0x00};
+	  if (!spiTransfer(w, sizeof(w)))
+	  {
+		LOG("PN532: SPI transfer failed\n");
+		return -1;
+	  }
+	  Sleep(attempt == 1 ? 5 : 50);
 	}
-	Sleep(5);
-  }
 
-  // PN532 will clock stretch I2C during SAMConfig as a "wakeup"
-
-  // need to config SAM to stay in Normal Mode
-  if (SAMConfig() == false)
-  {
-	LOG("PN532: failed to configure SAM (Secure Access Module)\n");
-	return -1;
+	// need to config SAM to stay in Normal Mode
+	if (SAMConfig())
+	{
+	  if (attempt > 1)
+		LOG("PN532: SAMConfig succeeded on attempt %d (chip was still waking up)\n", attempt);
+	  return 0;
+	}
+	if (attempt < attempts)
+	  LOG("PN532: SAMConfig attempt %d failed, retrying wakeup\n", attempt);
   }
-  return 0;
+  LOG("PN532: failed to configure SAM (Secure Access Module)\n");
+  return -1;
 }
 
 /**************************************************************************/
@@ -573,7 +585,8 @@ bool PN532::readDetectedPassiveTargetID(uint8_t *uid,
   uint16_t sens_res = pn532_packetbuffer[9];
   sens_res <<= 8;
   sens_res |= pn532_packetbuffer[10];
-  (void)sens_res;
+  _lastAtqa = sens_res;
+  _lastSak = pn532_packetbuffer[11];
 #ifdef MIFAREDEBUG
   PN532DEBUGPRINT.print(F("ATQA: 0x"));
   PN532DEBUGPRINT.println(sens_res, HEX);
@@ -1474,6 +1487,110 @@ uint8_t PN532::ntag2xx_WriteNDEFURI(uint8_t uriIdentifier, char *url,
     @brief  Tries to read the SPI or I2C ACK signal
 */
 /**************************************************************************/
+uint8_t PN532::ntag2xx_GetVersion(uint8_t *version) {
+  // Built like ntag2xx_ReadPage (card number hardcoded to 1) rather than via
+  // inDataExchange(), which uses _inListedTag - only set by inListPassiveTarget,
+  // not by the readPassiveTargetID the tools use.
+  pn532_packetbuffer[0] = PN532_COMMAND_INDATAEXCHANGE;
+  pn532_packetbuffer[1] = 1;    // card number
+  pn532_packetbuffer[2] = 0x60; // GET_VERSION
+
+  if (!sendCommandCheckAck(pn532_packetbuffer, 3))
+    return 0;
+
+  readdata(pn532_packetbuffer, 26);
+  if (pn532_packetbuffer[7] != 0x00)	// InDataExchange status byte
+    return 0;
+
+  memcpy(version, pn532_packetbuffer + 8, 8);
+  return 1;
+}
+
+const char* PN532::describeNtagFromVersion(const uint8_t *version) {
+  // GET_VERSION layout: [0]=fixed 0x00, [1]=vendor, [2]=product type,
+  // [3]=subtype, [4]=major, [5]=minor, [6]=storage size code, [7]=protocol.
+  uint8_t productType = version[2];
+  uint8_t storage = version[6];
+  if (productType == 0x04) {			// NTAG
+    switch (storage) {
+    case 0x0F: return "NTAG213 (144 bytes user memory)";
+    case 0x11: return "NTAG215 (504 bytes user memory)";
+    case 0x13: return "NTAG216 (888 bytes user memory)";
+    default:   return "NTAG21x (unknown storage size)";
+    }
+  }
+  if (productType == 0x03) {			// MIFARE Ultralight EV1
+    switch (storage) {
+    case 0x0B: return "MIFARE Ultralight EV1 MF0UL11 (48 bytes user memory)";
+    case 0x0E: return "MIFARE Ultralight EV1 MF0UL21 (128 bytes user memory)";
+    default:   return "MIFARE Ultralight EV1 (unknown storage size)";
+    }
+  }
+  return "unknown Ultralight/NTAG variant";
+}
+
+const char* PN532::describeManufacturer(uint8_t manufacturerByte) {
+  // ISO/IEC 7816-6 registered application provider identifiers (common subset).
+  switch (manufacturerByte) {
+  case 0x02: return "STMicroelectronics";
+  case 0x04: return "NXP Semiconductors";
+  case 0x05: return "Infineon Technologies";
+  case 0x07: return "Texas Instruments";
+  case 0x08: return "Fujitsu";
+  case 0x16: return "EM Microelectronic-Marin";
+  case 0x21: return "EM Microelectronic-Marin";
+  case 0x28: return "LG-Semiconductors";
+  case 0x2B: return "Maxim";
+  default:   return "unknown manufacturer";
+  }
+}
+
+const char* PN532::describeMifareMemory(uint8_t sak) {
+  switch (sak) {
+  case 0x08: return "1 KB: 16 sectors x 4 blocks (64 blocks x 16 B)";
+  case 0x09: return "MIFARE Mini: 320 B, 5 sectors x 4 blocks";
+  case 0x18: return "4 KB: 32 sectors x 4 + 8 sectors x 16 blocks (256 blocks)";
+  case 0x10: return "MIFARE Plus 2 KB (SL2)";
+  case 0x11: return "MIFARE Plus 4 KB (SL2)";
+  default:   return "";
+  }
+}
+
+const char* PN532::describeIso14443aCard(uint16_t atqa, uint8_t sak) {
+  // SAK identifies the type in most cases; ATQA separates the few SAK values
+  // shared by different families. Clones usually report the original's values.
+  switch (sak) {
+  case 0x00:
+    if (atqa == 0x0044)
+      return "MIFARE Ultralight / Ultralight C / NTAG2xx";
+    return "MIFARE Ultralight family (unusual ATQA)";
+  case 0x08:
+    return "MIFARE Classic 1K (or Plus 2K/4K in SL1, or clone)";
+  case 0x09:
+    return "MIFARE Mini";
+  case 0x10:
+    return "MIFARE Plus 2K (SL2)";
+  case 0x11:
+    return "MIFARE Plus 4K (SL2)";
+  case 0x18:
+    return "MIFARE Classic 4K (or Plus 4K in SL1, or clone)";
+  case 0x20:
+    if (atqa == 0x0344)
+      return "MIFARE DESFire (EV1/EV2/EV3)";
+    return "ISO14443-4 card (DESFire, Plus SL3, smart card, phone emulation...)";
+  case 0x28:
+    return "SmartMX with MIFARE Classic 1K emulation";
+  case 0x38:
+    return "SmartMX with MIFARE Classic 4K emulation";
+  case 0x88:
+    return "Infineon MIFARE Classic 1K";
+  case 0x98:
+    return "Gemplus MPCOS";
+  default:
+    return "unknown ISO14443A card";
+  }
+}
+
 /*! @brief  Abort the command the PN532 is currently executing.
     Per the PN532 user manual an ACK frame sent by the host aborts the
     current process; the chip then accepts new commands again.
@@ -1508,7 +1625,7 @@ bool PN532::checkResponseFrame(const uint8_t *buff, uint8_t n, uint8_t command) 
     LOG("PN532: response: bad length checksum\n");
     return false;
   }
-  if (len < 2 || 5u + len + 1u > n) {
+  if (len < 2 || 5 + len + 1 > n) {
     LOG("PN532: response: length %u does not fit %u bytes read\n",
       static_cast<unsigned int>(len), static_cast<unsigned int>(n));
     return false;

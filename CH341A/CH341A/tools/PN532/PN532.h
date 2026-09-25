@@ -160,6 +160,24 @@ public:
       uint16_t timeout = 0); // timeout 0 means no timeout - will block forever.
   bool startPassiveTargetIDDetection(uint8_t cardbaudrate);
   bool readDetectedPassiveTargetID(uint8_t *uid, uint8_t *uidLength);
+  /** ATQA (SENS_RES) of the last card found by readPassiveTargetID() */
+  uint16_t getLastAtqa(void) const { return _lastAtqa; }
+  /** SAK (SEL_RES) of the last card found by readPassiveTargetID() */
+  uint8_t getLastSak(void) const { return _lastSak; }
+  /** Probable ISO14443A card type from ATQA + SAK (NXP AN10833) */
+  static const char* describeIso14443aCard(uint16_t atqa, uint8_t sak);
+  /** IC manufacturer from the UID manufacturer byte (ISO/IEC 7816-6).
+      Only meaningful for 7- and 10-byte UIDs; a 4-byte UID is usually a
+      random/non-unique ID with no manufacturer byte. */
+  static const char* describeManufacturer(uint8_t manufacturerByte);
+  /** MIFARE Classic memory layout for a SAK value, or "" if not Classic. */
+  static const char* describeMifareMemory(uint8_t sak);
+  /** Send GET_VERSION (0x60) to an activated NTAG21x / Ultralight EV1 tag.
+      version must hold 8 bytes. Returns 1 on success, 0 if the tag NAKs
+      (e.g. an original Ultralight, which has no GET_VERSION). */
+  uint8_t ntag2xx_GetVersion(uint8_t *version);
+  /** Decode an 8-byte GET_VERSION response into a model + capacity string. */
+  static const char* describeNtagFromVersion(const uint8_t *version);
   bool inDataExchange(uint8_t *send, uint8_t sendLength, uint8_t *response,
                       uint8_t *responseLength);
   bool inListPassiveTarget();
@@ -195,6 +213,8 @@ private:
   int8_t _uidLen;      // uid len
   int8_t _key[6];      // Mifare Classic key
   int8_t _inListedTag; // Tg number of inlisted tag.
+  uint16_t _lastAtqa;
+  uint8_t _lastSak;
 
   // Low level communication functions that handle both SPI and I2C.
   // false on bus error (buffer then zeroed); callers that only parse the

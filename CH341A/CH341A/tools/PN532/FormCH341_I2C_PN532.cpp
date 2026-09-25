@@ -118,12 +118,18 @@ void TfrmCH341_I2C_PN532::Read(void)
 		AnsiString text;
 		text.cat_printf("Found card:\n");
 		text.cat_printf("UID Length: %d B\n", uidLength);
-		text.cat_printf("UID Value: %s", BufToSpaceSeparatedHexString(uid, uidLength).c_str());
-		memo->Text = text;
+		text.cat_printf("UID Value: %s\n", BufToSpaceSeparatedHexString(uid, uidLength).c_str());
+		uint16_t atqa = pn532.getLastAtqa();
+		uint8_t sak = pn532.getLastSak();
+		text.cat_printf("ATQA: %02X %02X, SAK: %02X\n", (atqa >> 8) & 0xFF, atqa & 0xFF, sak);
+		text.cat_printf("Probable type: %s", PN532::describeIso14443aCard(atqa, sak));
+		if (uidLength == 4 && uid[0] == 0x08)
+			text.cat_printf("\n(random UID - changes on every read)");
+		memo->Lines->Text = text;	///< \note if assigning to memo->Text \n newlines would not be properly interpreted
 	}
 	else
 	{
-		memo->Text = "No card found";
+		memo->Lines->Text = "No card found";
 	}
 }
 //---------------------------------------------------------------------------

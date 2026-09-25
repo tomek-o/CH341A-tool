@@ -89,6 +89,7 @@ Version 1.8
 - added MAX6675 thermocoupple
 - added BH1750 light sensor (by SimoSbara)
 - added TM1637 LED display
-- RDA5807M: added RDS reading, reduced status reading interval to 30 ms if RDS is enabled
+- RDA5807M: added RDS reading, reduced status reading interval to 30 ms if RDS is enabled to catch all the text
 - added MAX30102 heart rate sensor
+- added PN532 RFID reader using SPI interface
 */
