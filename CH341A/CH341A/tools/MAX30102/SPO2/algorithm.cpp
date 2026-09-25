@@ -176,7 +176,8 @@ void maxim_heart_rate_and_oxygen_saturation(uint32_t *pun_ir_buffer, int32_t n_i
   //using exact_ir_valley_locs , find ir-red DC andir-red AC for SPO2 calibration an_ratio
   //finding AC/DC maximum of raw
 
-  n_ratio_average =0; 
+  n_ratio_average =0;
+  (void)n_ratio_average; 
   n_i_ratio_count = 0; 
   for(k=0; k< 5; k++) an_ratio[k]=0;
   for (k=0; k< n_exact_ir_valley_locs_count; k++){

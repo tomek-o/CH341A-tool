@@ -460,7 +460,7 @@ uint8_t CH341SoftwareI2C::checkAckBit()   // Can also be used by controller to s
     }
     int ack = GetInput(SDA_IN_PIN_ID);
     sclLo();
-    return (ack == 0) ? 0 : 1;	// read failure (-1) counts as NACK, never as ACK
+	return static_cast<uint8_t>((ack == 0) ? 0 : 1);	// read failure (-1) counts as NACK, never as ACK
 }
 
 void CH341SoftwareI2C::writeAck()    // Used by controller to ACK to device bewteen multi-byte reads

@@ -128,7 +128,9 @@ int TfrmCH341I2CMAX30102::FilterHeartRate(int32_t heartRate, bool valid, AnsiStr
 	if (!hrHistory.empty())
 	{
 		std::vector<int> sorted(hrHistory.begin(), hrHistory.end());
+	#pragma warn -8091	// incorrectly issued by BDS2006
 		std::sort(sorted.begin(), sorted.end());
+	#pragma warn .8091
 		median = sorted[sorted.size() / 2];
 	}
 
@@ -162,7 +164,9 @@ int TfrmCH341I2CMAX30102::FilterHeartRate(int32_t heartRate, bool valid, AnsiStr
 		hrHistory.pop_front();
 
 	std::vector<int> sorted(hrHistory.begin(), hrHistory.end());
+#pragma warn -8091	// incorrectly issued by BDS2006
 	std::sort(sorted.begin(), sorted.end());
+#pragma warn .8091
 	return sorted[sorted.size() / 2];
 }
 
