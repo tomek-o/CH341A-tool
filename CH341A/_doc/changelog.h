@@ -92,4 +92,5 @@ Version 1.8
 - RDA5807M: added RDS reading, reduced status reading interval to 30 ms if RDS is enabled to catch all the text
 - added MAX30102 heart rate sensor
 - added PN532 RFID reader using SPI interface
+- added nRF24L01+ transmitter/receiver
 */
