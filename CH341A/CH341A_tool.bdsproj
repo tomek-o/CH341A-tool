@@ -573,6 +573,8 @@
         <FILE FILENAME="CH341A\tools\MAX30102\DFRobot_MAX30102.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="DFRobot_MAX30102" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="CH341A\tools\PN532\PN532.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="PN532" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\PN532\PN532.h"/>
         <FILE FILENAME="CH341A\tools\PN532\FormCH341_SPI_PN532.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341_SPI_PN532" FORMNAME="frmCH341_SPI_PN532" DESIGNCLASS="" ADDITIONAL="CH341A\tools\PN532\FormCH341_SPI_PN532.h"/>
+        <FILE FILENAME="CH341A\tools\NRF24L01\FormCH341SpiNrf24L01TxRx.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341SpiNrf24L01TxRx" FORMNAME="frmCH341SpiNrf24L01TxRx" DESIGNCLASS="" ADDITIONAL="CH341A\tools\NRF24L01\FormCH341SpiNrf24L01TxRx.h"/>
+        <FILE FILENAME="CH341A\tools\NRF24L01\nRF24L01.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="nRF24L01" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\NRF24L01\nRF24L01.h"/>
         <FILE FILENAME="CH341A\tools\GpioCfgPanel.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="GpioCfgPanel" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\GpioCfgPanel.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341Gpio.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341Gpio" FORMNAME="frmCH341Gpio" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341Gpio.h"/>
         <FILE FILENAME="CH341A\tools\FormCH341GpioPatternGenerator.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341GpioPatternGenerator" FORMNAME="frmCH341GpioPatternGenerator" DESIGNCLASS="" ADDITIONAL="CH341A\tools\FormCH341GpioPatternGenerator.h"/>
@@ -707,10 +709,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-			<buildevent file="turbocpp_template.bdsproj">
-				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+      <buildevent file="turbocpp_template.bdsproj">
+        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-			</buildevent>
-		</buildevents>
+      </buildevent>
+    </buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>

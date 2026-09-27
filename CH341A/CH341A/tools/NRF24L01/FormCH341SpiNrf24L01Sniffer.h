@@ -34,7 +34,12 @@ __published:	// IDE-managed Components
 	void __fastcall chbAutoReadClick(TObject *Sender);
 	void __fastcall chbAutoReadMouseDown(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y);
+	TButton *btnDumpRegisters;
+	void __fastcall btnDumpRegistersClick(TObject *Sender);
+	TLabel *lblAddressHint;
 private:	// User declarations
+	/** Re-entrancy guard: SPI/GPIO access from Init/Read/timer must not overlap */
+	bool busy;
 	void Read(void);
 public:		// User declarations
 	__fastcall TfrmCH341SpiNrf24L01Sniffer(TComponent* Owner);

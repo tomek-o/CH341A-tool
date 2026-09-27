@@ -7,7 +7,7 @@
 #include "CH341A.h"
 #include "nRF24L01.h"
 #include "TabManager.h"
-#include "common/BtnController.h"
+#include "common/ScopedBool.h"
 #include "common/bin2str.h"
 #include "ValueDescription.h"
 #include "Log.h"
@@ -33,7 +33,8 @@ ValueDescriptionU8 rfSpeedSel[] = {
 }	// namespace
 
 __fastcall TfrmCH341SpiNrf24L01Sniffer::TfrmCH341SpiNrf24L01Sniffer(TComponent* Owner)
-	: TForm(Owner)
+	: TForm(Owner),
+	busy(false)
 {
 	TabManager::Instance().Register(this, 1u << ToolGroupRadio);
 	FillComboboxWithValues(rfSpeedSel, cbRfSpeed, RF24_SPEED_2MBPS);
@@ -47,7 +48,9 @@ __fastcall TfrmCH341SpiNrf24L01Sniffer::TfrmCH341SpiNrf24L01Sniffer(TComponent* 
 
 void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnInitClick(TObject *Sender)
 {
-	BtnController btnCtrl(btnInit);
+	if (busy)
+		return;
+	ScopedBool guard(&busy);
 
 	if (!ch341a.IsOpened())
 	{
@@ -85,13 +88,18 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnInitClick(TObject *Sender)
 		}
 	}
 
-	int TODO__FIX_SPEED;
-	nRfInitProm( addressBytes, static_cast<uint8_t>(cbRfChannel->ItemIndex), cbRfSpeed->ItemIndex == 2 );
-	nRfWrite_registers( RX_ADDR_P0,addr, addressBytes );//write the address to nRF register
-    nRfFlush_tx();
-    nRfFlush_rx();
-	nRfWrite_register( STATUS, (1<<RX_DR) );		        //Clear Data ready flag
-
+	int status = nRfInitProm( addressBytes, static_cast<uint8_t>(cbRfChannel->ItemIndex), rfSpeedSel[cbRfSpeed->ItemIndex].value, addr );
+	if (status == -2)
+	{
+		lblStatus->Caption = "nRF24L01 not responding (register readback failed) - check wiring";
+		return;
+	}
+	else if (status != 0)
+	{
+		lblStatus->Caption = "Invalid nRF24L01 configuration";
+		return;
+	}
+	lblStatus->Caption = "Initialized, listening...";
 	LOG("nRF24 initialized\n");
 }
 //---------------------------------------------------------------------------
@@ -103,7 +111,9 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnReadClick(TObject *Sender)
 
 void TfrmCH341SpiNrf24L01Sniffer::Read(void)
 {
-	BtnController btnCtrl(btnRead);
+	if (busy)
+		return;
+	ScopedBool guard(&busy);
 
 	if (!ch341a.IsOpened())
 	{
@@ -111,22 +121,20 @@ void TfrmCH341SpiNrf24L01Sniffer::Read(void)
 		return;
 	}
 
-	for (unsigned int repeat = 0; repeat < 5; repeat++) {
-        if( nRfIsDataReceived() ){
-			while( !nRfIsRXempty() ){        //Readout and empty the RX FIFO
-                uint8_t recBuffer[255];
-				nRfRead_payload( recBuffer, RX_PROMISCUOUS_LENGTH );
-				AnsiString text = "nrf24 RX: ";
-				for (int i=0; i<RX_PROMISCUOUS_LENGTH; i++)
-				{
-					text.cat_printf("%02X ", recBuffer[i]);
-				}
-				LOG("%s\n", text.c_str());
-            }
-            nRfWrite_register( STATUS, (1<<RX_DR) );		//Clear Data ready flag
-        } else {
-			break;
+	// Poll the FIFO itself, not the RX_DR flag: clearing RX_DR after draining
+	// can also clear the flag of a packet that arrived in between, which then
+	// sat unseen in the FIFO until the next one came. Upper bound so a busy
+	// channel cannot keep this loop (and the UI) spinning.
+	for (unsigned int count = 0; count < 16 && !nRfIsRXempty(); count++) {
+		uint8_t recBuffer[RX_PROMISCUOUS_LENGTH];
+		nRfRead_payload( recBuffer, RX_PROMISCUOUS_LENGTH );
+		nRfWrite_register( STATUS, (1<<RX_DR) );		//Clear Data ready flag
+		AnsiString text = "nrf24 RX: ";
+		for (int i=0; i<RX_PROMISCUOUS_LENGTH; i++)
+		{
+			text.cat_printf("%02X ", recBuffer[i]);
 		}
+		LOG("%s\n", text.c_str());
 	}
 }
 //---------------------------------------------------------------------------
@@ -152,3 +160,19 @@ void __fastcall TfrmCH341SpiNrf24L01Sniffer::chbAutoReadMouseDown(TObject *Sende
 }
 //---------------------------------------------------------------------------
 
+
+void __fastcall TfrmCH341SpiNrf24L01Sniffer::btnDumpRegistersClick(TObject *Sender)
+{
+	if (busy)
+		return;
+	ScopedBool guard(&busy);
+
+	if (!ch341a.IsOpened())
+	{
+		lblStatus->Caption = "CH341 is not opened!";
+		return;
+	}
+	nRfDumpRegisters();
+	lblStatus->Caption = "Register dump written to log";
+}
+//---------------------------------------------------------------------------

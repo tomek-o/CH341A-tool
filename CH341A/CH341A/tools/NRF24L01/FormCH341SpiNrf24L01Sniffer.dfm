@@ -106,6 +106,18 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
     TabOrder = 0
     OnClick = btnInitClick
   end
+  object btnDumpRegisters: TButton
+    Left = 440
+    Top = 124
+    Width = 100
+    Height = 25
+    Hint = 'Read all registers and write them, decoded, to the log window'
+    Caption = 'Dump registers'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 7
+    OnClick = btnDumpRegistersClick
+  end
   object cbRfSpeed: TComboBox
     Left = 75
     Top = 49
@@ -153,6 +165,13 @@ object frmCH341SpiNrf24L01Sniffer: TfrmCH341SpiNrf24L01Sniffer
     ParentFont = False
     TabOrder = 6
     Text = '00AAAA'
+  end
+  object lblAddressHint: TLabel
+    Left = 452
+    Top = 77
+    Width = 64
+    Height = 13
+    Caption = '(LSByte first)'
   end
   object tmrAutoRead: TTimer
     Enabled = False
