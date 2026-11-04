@@ -130,6 +130,13 @@ __fastcall TfrmCH341Hmc5883L::TfrmCH341Hmc5883L(TComponent* Owner)
 	FillComboboxWithValues(gainSel, cbGainSel, CONFIG_B_GAIN_1_3_GA);
 	FillComboboxWithValues(measModeSel, cbMeasModeSel, CONFIG_A_MEAS_MODE_NORMAL);
 
+	for (unsigned int i=0; i<128; i++)
+	{
+		AnsiString text;
+		text.sprintf("0x%02X (%3u)", i, i);
+		cbI2CAddress->Items->Add(text);
+	}
+	cbI2CAddress->ItemIndex = HMC5883L_ADDRESS;
 }
 //---------------------------------------------------------------------------
 
@@ -145,7 +152,18 @@ void __fastcall TfrmCH341Hmc5883L::btnInitClick(TObject *Sender)
 
 	int status;
 
-	status = ch341a.I2CWriteCommandWriteByte(HMC5883L_ADDRESS, REG_CONFIG_A,
+	uint8_t address = GetAddress();
+
+	status = ch341a.I2CCheckDev(address);
+	if (status != 0)
+	{
+		AnsiString text;
+		text.sprintf("No ACK after sending expected address (0x%02X)!", address);
+		lblStatus->Caption = text;
+		return;
+	}
+
+	status = ch341a.I2CWriteCommandWriteByte(address, REG_CONFIG_A,
 		samplesAvgSel[cbAvgSel->ItemIndex].value |
 		outputRateSel[cbOutputRateSel->ItemIndex].value |
 		measModeSel[cbMeasModeSel->ItemIndex].value
@@ -156,7 +174,7 @@ void __fastcall TfrmCH341Hmc5883L::btnInitClick(TObject *Sender)
 		return;
 	}
 
-	status = ch341a.I2CWriteCommandWriteByte(HMC5883L_ADDRESS, REG_CONFIG_B,
+	status = ch341a.I2CWriteCommandWriteByte(address, REG_CONFIG_B,
 		gainSel[cbGainSel->ItemIndex].value
 	);
 	if (status != 0)
@@ -165,7 +183,7 @@ void __fastcall TfrmCH341Hmc5883L::btnInitClick(TObject *Sender)
 		return;
 	}
 
-	status = ch341a.I2CWriteCommandWriteByte(HMC5883L_ADDRESS, REG_MODE,
+	status = ch341a.I2CWriteCommandWriteByte(address, REG_MODE,
 		MODE_CONTINUOUS
 	);
 	if (status != 0)
@@ -192,17 +210,19 @@ void TfrmCH341Hmc5883L::Read(void)
 		return;
 	}
 
-	int status = ch341a.I2CCheckDev(HMC5883L_ADDRESS);
+	uint8_t address = GetAddress();
+
+	int status = ch341a.I2CCheckDev(address);
 	if (status != 0)
 	{
 		AnsiString text;
-		text.sprintf("No ACK after sending expected address (0x%02X)!", HMC5883L_ADDRESS);
+		text.sprintf("No ACK after sending expected address (0x%02X)!", address);
 		lblStatus->Caption = text;
 		return;
 	}
 
 	int16_t data[3];
-	status = ch341a.I2CWriteCommandReadBytes(HMC5883L_ADDRESS, REG_X_MSB, reinterpret_cast<uint8_t*>(data), sizeof(data));
+	status = ch341a.I2CWriteCommandReadBytes(address, REG_X_MSB, reinterpret_cast<uint8_t*>(data), sizeof(data));
 	if (status != 0)
 	{
 		lblStatus->Caption = "I2C operation failed";
@@ -386,4 +406,10 @@ double TfrmCH341Hmc5883L::GetGaussPerLsb(void)
 		return 0.0;
 	}
 }
+
+uint8_t TfrmCH341Hmc5883L::GetAddress(void)
+{
+	return static_cast<uint8_t>(cbI2CAddress->ItemIndex);
+}
+
 
