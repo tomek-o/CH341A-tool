@@ -15,13 +15,13 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   TextHeight = 13
   object lblStatus: TLabel
     Left = 8
-    Top = 108
-    Width = 121
+    Top = 92
+    Width = 3
     Height = 13
   end
   object lblLegend: TLabel
     Left = 8
-    Top = 133
+    Top = 117
     Width = 435
     Height = 13
     Caption = 
@@ -30,56 +30,56 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object lblX: TLabel
     Left = 8
-    Top = 155
+    Top = 139
     Width = 6
     Height = 13
     Caption = 'X'
   end
   object lblY: TLabel
     Left = 8
-    Top = 178
+    Top = 162
     Width = 6
     Height = 13
     Caption = 'Y'
   end
   object lblZ: TLabel
     Left = 8
-    Top = 201
+    Top = 185
     Width = 6
     Height = 13
     Caption = 'Z'
   end
   object lblAveraging: TLabel
     Left = 98
-    Top = 32
+    Top = 14
     Width = 49
     Height = 13
     Caption = 'Averaging'
   end
   object lblOutputRate: TLabel
     Left = 250
-    Top = 32
+    Top = 14
     Width = 57
     Height = 13
     Caption = 'Output rate'
   end
   object lblRange: TLabel
     Left = 98
-    Top = 54
+    Top = 38
     Width = 31
     Height = 13
     Caption = 'Range'
   end
   object lblBias: TLabel
     Left = 250
-    Top = 54
+    Top = 38
     Width = 48
     Height = 13
     Caption = 'Bias / test'
   end
   object lblNote: TLabel
     Left = 8
-    Top = 220
+    Top = 204
     Width = 338
     Height = 13
     Caption = 
@@ -88,49 +88,42 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object lblCalibration: TLabel
     Left = 8
-    Top = 267
+    Top = 251
     Width = 51
     Height = 13
     Caption = 'Calibration'
   end
   object lblPointsCount: TLabel
     Left = 64
-    Top = 292
+    Top = 276
     Width = 68
     Height = 13
     Caption = 'Data points: 0'
   end
   object lblMiddleX: TLabel
     Left = 160
-    Top = 292
+    Top = 276
     Width = 39
     Height = 13
     Caption = 'Middle X'
   end
   object lblMiddleY: TLabel
     Left = 288
-    Top = 292
+    Top = 276
     Width = 39
     Height = 13
     Caption = 'Middle Y'
   end
   object lblHeading: TLabel
     Left = 8
-    Top = 239
+    Top = 223
     Width = 146
     Height = 13
     Caption = 'Heading degrees for X-Y plane'
   end
-  object lblI2CAddress: TLabel
-    Left = 98
-    Top = 7
-    Width = 126
-    Height = 13
-    Caption = 'Device I2C address (7-bit)'
-  end
   object btnRead: TButton
     Left = 8
-    Top = 77
+    Top = 61
     Width = 75
     Height = 25
     Caption = 'Read'
@@ -139,7 +132,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object chbAutoRead: TCheckBox
     Left = 98
-    Top = 81
+    Top = 65
     Width = 264
     Height = 17
     Caption = 'auto refresh (repeat reading every 500 ms)'
@@ -158,7 +151,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edRawX: TEdit
     Left = 64
-    Top = 152
+    Top = 136
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -167,7 +160,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMagneticInductionX: TEdit
     Left = 313
-    Top = 152
+    Top = 136
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -176,7 +169,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edRawY: TEdit
     Left = 64
-    Top = 175
+    Top = 159
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -185,7 +178,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMagneticInductionY: TEdit
     Left = 313
-    Top = 175
+    Top = 159
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -194,7 +187,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edRawZ: TEdit
     Left = 64
-    Top = 198
+    Top = 182
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -203,7 +196,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMagneticInductionZ: TEdit
     Left = 313
-    Top = 198
+    Top = 182
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -212,43 +205,43 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object cbAvgSel: TComboBox
     Left = 155
-    Top = 29
+    Top = 11
     Width = 78
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 9
   end
   object cbOutputRateSel: TComboBox
     Left = 313
-    Top = 29
-    Width = 65
+    Top = 11
+    Width = 78
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 10
   end
   object cbGainSel: TComboBox
     Left = 155
-    Top = 51
+    Top = 35
     Width = 78
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 11
   end
   object cbMeasModeSel: TComboBox
     Left = 313
-    Top = 51
+    Top = 35
     Width = 104
     Height = 21
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 12
   end
   object chbCalibrationCollect: TCheckBox
     Left = 88
-    Top = 266
+    Top = 250
     Width = 97
     Height = 17
     Caption = 'collect data'
@@ -256,7 +249,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object btnCopyData: TButton
     Left = 191
-    Top = 262
+    Top = 246
     Width = 171
     Height = 25
     Caption = 'Copy data to clipboard as CSV'
@@ -265,7 +258,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object btnResetData: TButton
     Left = 368
-    Top = 262
+    Top = 246
     Width = 75
     Height = 25
     Caption = 'Reset data'
@@ -274,7 +267,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMiddleX: TEdit
     Left = 205
-    Top = 289
+    Top = 273
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -283,7 +276,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edMiddleY: TEdit
     Left = 333
-    Top = 289
+    Top = 273
     Width = 65
     Height = 21
     Color = clBtnFace
@@ -292,7 +285,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edOffsetX: TEdit
     Left = 177
-    Top = 152
+    Top = 136
     Width = 65
     Height = 21
     TabOrder = 18
@@ -300,7 +293,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edOffsetY: TEdit
     Left = 177
-    Top = 175
+    Top = 159
     Width = 65
     Height = 21
     TabOrder = 19
@@ -308,7 +301,7 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edOffsetZ: TEdit
     Left = 177
-    Top = 198
+    Top = 182
     Width = 65
     Height = 21
     TabOrder = 20
@@ -316,33 +309,18 @@ object frmCH341Hmc5883L: TfrmCH341Hmc5883L
   end
   object edHeadingDegrees: TEdit
     Left = 177
-    Top = 236
+    Top = 220
     Width = 65
     Height = 21
     Color = clBtnFace
     ReadOnly = True
     TabOrder = 21
   end
-  object cbI2CAddress: TComboBox
-    Left = 241
-    Top = 4
-    Width = 96
-    Height = 22
-    Style = csDropDownList
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Courier New'
-    Font.Style = []
-    ItemHeight = 14
-    ParentFont = False
-    TabOrder = 22
-  end
   object tmrAutoRead: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrAutoReadTimer
     Left = 376
-    Top = 77
+    Top = 61
   end
 end

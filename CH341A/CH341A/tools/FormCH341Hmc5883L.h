@@ -54,8 +54,6 @@ __published:	// IDE-managed Components
 	TEdit *edOffsetZ;
 	TLabel *lblHeading;
 	TEdit *edHeadingDegrees;
-	TComboBox *cbI2CAddress;
-	TLabel *lblI2CAddress;
 	void __fastcall btnReadClick(TObject *Sender);
 	void __fastcall tmrAutoReadTimer(TObject *Sender);
 	void __fastcall btnInitClick(TObject *Sender);
@@ -76,7 +74,6 @@ private:	// User declarations
 	std::vector<DataPoint> dataPoints;
 	void UpdateDataStats(void);
 	double GetGaussPerLsb(void);
-	uint8_t GetAddress(void);
 public:		// User declarations
 	__fastcall TfrmCH341Hmc5883L(TComponent* Owner);
 };
