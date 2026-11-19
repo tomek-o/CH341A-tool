@@ -15,13 +15,14 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341SpiST7567 *frmCH341SpiST7567;
+
+REGISTER_TOOL(TfrmCH341SpiST7567, frmCH341SpiST7567, 1u << ToolGroupDisplays)
 //---------------------------------------------------------------------------
 
 
 __fastcall TfrmCH341SpiST7567::TfrmCH341SpiST7567(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 

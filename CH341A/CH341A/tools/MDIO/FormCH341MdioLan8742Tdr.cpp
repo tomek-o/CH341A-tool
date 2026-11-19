@@ -15,12 +15,13 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341MdioLan8742Tdr *frmCH341MdioLan8742Tdr;
+
+REGISTER_TOOL(TfrmCH341MdioLan8742Tdr, frmCH341MdioLan8742Tdr, 1u << ToolGroupEthernetMdio)
 //---------------------------------------------------------------------------
 
 __fastcall TfrmCH341MdioLan8742Tdr::TfrmCH341MdioLan8742Tdr(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupEthernetMdio);
 	for (unsigned int i=0; i<32; i++)
 	{
 		cbPhyAddress->Items->Add(i);

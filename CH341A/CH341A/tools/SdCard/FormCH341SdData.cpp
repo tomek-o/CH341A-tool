@@ -12,6 +12,8 @@
 #pragma resource "*.dfm"
 TfrmCH341SdData *frmCH341SdData;
 
+REGISTER_TOOL(TfrmCH341SdData, frmCH341SdData, 1u << ToolGroupSdMmc)
+
 /** Adapts SdMmc progress/cancel hooks to the form */
 class SdDataProgress : public MemProg::Progress
 {
@@ -61,7 +63,6 @@ __fastcall TfrmCH341SdData::TfrmCH341SdData(TComponent* Owner)
 	progress(new SdDataProgress(this)),
 	trace(new SdDataTrace(this))
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSdMmc);
 
 	hexFrame = new TframeHexEditor(this);
 	hexFrame->Parent = pnlHex;
@@ -130,10 +131,16 @@ void TfrmCH341SdData::LogResult(const char *operation, int status)
 bool TfrmCH341SdData::ParseNumber(const AnsiString &text, unsigned long &value)
 {
 	AnsiString s = text.Trim();
+	int base = 10;
+	if (s.Length() > 2 && s[1] == '0' && (s[2] == 'x' || s[2] == 'X'))
+	{
+		base = 16;
+		s = s.SubString(3, s.Length() - 2);
+	}
 	if (s.IsEmpty())
 		return false;
 	char *end = NULL;
-	value = strtoul(s.c_str(), &end, 0);	// decimal or 0x hex
+	value = strtoul(s.c_str(), &end, base);	// decimal (leading zeros are fine) or 0x hex
 	return end && *end == 0;
 }
 //---------------------------------------------------------------------------

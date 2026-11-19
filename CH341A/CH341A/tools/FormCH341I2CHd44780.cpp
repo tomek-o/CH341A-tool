@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CHd44780 *frmCH341I2CHd44780;
+
+REGISTER_TOOL(TfrmCH341I2CHd44780, frmCH341I2CHd44780, 1u << ToolGroupDisplays)
 //---------------------------------------------------------------------------
 
 using namespace HD44780;
@@ -176,7 +178,6 @@ __fastcall TfrmCH341I2CHd44780::TfrmCH341I2CHd44780(TComponent* Owner)
 	}
 	cbI2CAddress->ItemIndex = 0x27;
 
-	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CHd44780::btnWriteClick(TObject *Sender)

@@ -15,6 +15,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341DS3231 *frmCH341DS3231;
+
+REGISTER_TOOL(TfrmCH341DS3231, frmCH341DS3231, 1u << ToolGroupRtc)
 //---------------------------------------------------------------------------
 
 #ifdef __BORLANDC__
@@ -116,7 +118,6 @@ uint8_t bin2bcd(int val)
 __fastcall TfrmCH341DS3231::TfrmCH341DS3231(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupRtc);
 	for (unsigned int i=0; i<ARRAY_SIZE(sqwOutModes); i++)
 	{
 		cbControl->Items->Add(sqwOutModes[i].description);

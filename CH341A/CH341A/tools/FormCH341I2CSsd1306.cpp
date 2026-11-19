@@ -15,6 +15,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CSsd1306 *frmCH341I2CSsd1306;
+
+REGISTER_TOOL(TfrmCH341I2CSsd1306, frmCH341I2CSsd1306, 1u << ToolGroupDisplays)
 //---------------------------------------------------------------------------
 
 namespace
@@ -27,7 +29,6 @@ __fastcall TfrmCH341I2CSsd1306::TfrmCH341I2CSsd1306(TComponent* Owner)
 	: TForm(Owner),
 	display(NULL)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 	for (unsigned int i=0; i<128; i++)
 	{
 		AnsiString text;

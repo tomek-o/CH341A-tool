@@ -17,6 +17,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341Ina226 *frmCH341Ina226;
+
+REGISTER_TOOL(TfrmCH341Ina226, frmCH341Ina226, 1u << ToolGroupSensors)
 //---------------------------------------------------------------------------
 
 namespace
@@ -121,7 +123,6 @@ __fastcall TfrmCH341Ina226::TfrmCH341Ina226(TComponent* Owner)
 	: TForm(Owner),
 	currentLsb(0)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 
 	STATIC_CHECK(I2C_ADDRESS_COUNT == C_ARRAY_SIZE(i2cAddressDescriptions), AddressCountMismatch);
 	cbAddress->Clear();

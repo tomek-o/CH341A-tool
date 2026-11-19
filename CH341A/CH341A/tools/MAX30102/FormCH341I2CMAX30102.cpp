@@ -18,6 +18,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CMAX30102 *frmCH341I2CMAX30102;
+
+REGISTER_TOOL(TfrmCH341I2CMAX30102, frmCH341I2CMAX30102, (1u << ToolGroupSensors))
 //---------------------------------------------------------------------------
 
 namespace
@@ -30,7 +32,6 @@ DFRobot_MAX30102 sensor;
 __fastcall TfrmCH341I2CMAX30102::TfrmCH341I2CMAX30102(TComponent* Owner)
 	: TForm(Owner), reading(false), busy(false), hrRejectedCount(0)
 {
-	TabManager::Instance().Register(this, (1u << ToolGroupSensors));
 	frmPlot1 = new TfrmPlot(pnlPlot1);
 	frmPlot1->Parent = pnlPlot1;
 	frmPlot1->Visible = true;

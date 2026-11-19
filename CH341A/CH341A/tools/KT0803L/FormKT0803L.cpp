@@ -15,12 +15,13 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmKT0803L *frmKT0803L;
+
+REGISTER_TOOL(TfrmKT0803L, frmKT0803L, (1u<<ToolGroupFmRadio))
 //---------------------------------------------------------------------------
 
 __fastcall TfrmKT0803L::TfrmKT0803L(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, (1u<<ToolGroupFmRadio));
 }
 //---------------------------------------------------------------------------
 

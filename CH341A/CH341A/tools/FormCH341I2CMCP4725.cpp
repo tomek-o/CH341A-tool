@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CMCP4725 *frmCH341I2CMCP4725;
+
+REGISTER_TOOL(TfrmCH341I2CMCP4725, frmCH341I2CMCP4725, 1u << ToolGroupDac)
 //---------------------------------------------------------------------------
 
 namespace
@@ -29,7 +31,6 @@ enum { MCP4725_GENERAL_CALL_CMD_WAKEUP = 0x09 };
 __fastcall TfrmCH341I2CMCP4725::TfrmCH341I2CMCP4725(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupDac);
 	edValueChange(NULL);
 }
 //---------------------------------------------------------------------------

@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CL3G4200D *frmCH341I2CL3G4200D;
+
+REGISTER_TOOL(TfrmCH341I2CL3G4200D, frmCH341I2CL3G4200D, 1u << ToolGroupSensors)
 //---------------------------------------------------------------------------
 
 #define L3G4200D_ADDRESS_A			0x68
@@ -56,7 +58,6 @@ __fastcall TfrmCH341I2CL3G4200D::TfrmCH341I2CL3G4200D(TComponent* Owner)
 	: TForm(Owner),
 	dpsPerBit(0)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 

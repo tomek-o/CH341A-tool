@@ -14,6 +14,8 @@
 #pragma resource "*.dfm"
 TfrmCH341I2CWriteRead *frmCH341I2CWriteRead;
 
+REGISTER_TOOL(TfrmCH341I2CWriteRead, frmCH341I2CWriteRead, 1u << ToolGroupGenericInterfaces)
+
 //---------------------------------------------------------------------------
 __fastcall TfrmCH341I2CWriteRead::TfrmCH341I2CWriteRead(TComponent* Owner)
 	: TForm(Owner)
@@ -32,7 +34,6 @@ __fastcall TfrmCH341I2CWriteRead::TfrmCH341I2CWriteRead(TComponent* Owner)
 	}
 	cbReadBytesCount->ItemIndex = 0;
 
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CWriteRead::btnWriteReadClick(TObject *Sender)

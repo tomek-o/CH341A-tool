@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CTea5767 *frmCH341I2CTea5767;
+
+REGISTER_TOOL(TfrmCH341I2CTea5767, frmCH341I2CTea5767, 1u << ToolGroupFmRadio)
 //---------------------------------------------------------------------------
 
 __fastcall TfrmCH341I2CTea5767::TfrmCH341I2CTea5767(TComponent* Owner)
@@ -20,7 +22,6 @@ __fastcall TfrmCH341I2CTea5767::TfrmCH341I2CTea5767(TComponent* Owner)
 	searching(false),
 	searchingUp(true)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupFmRadio);
 	btnInit->Enabled = true;
 	btnStopHandling->Enabled = false;
 }

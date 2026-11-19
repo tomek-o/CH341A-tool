@@ -12,6 +12,8 @@
 #pragma resource "*.dfm"
 TfrmCH341SdCard *frmCH341SdCard;
 
+REGISTER_TOOL(TfrmCH341SdCard, frmCH341SdCard, 1u << ToolGroupSdMmc)
+
 namespace
 {
 	struct Preset
@@ -84,7 +86,6 @@ __fastcall TfrmCH341SdCard::TfrmCH341SdCard(TComponent* Owner)
 	progress(new SdCmdProgress(this)),
 	trace(new SdCmdTrace(this))
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSdMmc);
 
 	progressBar->Min = 0;
 	progressBar->Max = 1000;

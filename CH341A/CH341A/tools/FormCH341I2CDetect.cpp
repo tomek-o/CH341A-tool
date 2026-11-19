@@ -11,11 +11,12 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CDetect *frmCH341I2CDetect;
+
+REGISTER_TOOL(TfrmCH341I2CDetect, frmCH341I2CDetect, 1u << ToolGroupGenericInterfaces)
 //---------------------------------------------------------------------------
 __fastcall TfrmCH341I2CDetect::TfrmCH341I2CDetect(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 
 	for (unsigned int i=0; i<128; i++)
 	{

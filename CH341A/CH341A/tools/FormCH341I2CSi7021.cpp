@@ -12,6 +12,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CSi7021 *frmCH341I2CSi7021;
+
+REGISTER_TOOL(TfrmCH341I2CSi7021, frmCH341I2CSi7021, 1u << ToolGroupSensors)
 //---------------------------------------------------------------------------
 
 namespace
@@ -124,7 +126,6 @@ public:
 __fastcall TfrmCH341I2CSi7021::TfrmCH341I2CSi7021(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CSi7021::btnReadClick(TObject *Sender)

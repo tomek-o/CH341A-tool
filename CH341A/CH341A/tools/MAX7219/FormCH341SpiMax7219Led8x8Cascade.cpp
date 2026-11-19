@@ -15,6 +15,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341SpiMax7219Led8x8Cascade *frmCH341SpiMax7219Led8x8Cascade;
+
+REGISTER_TOOL(TfrmCH341SpiMax7219Led8x8Cascade, frmCH341SpiMax7219Led8x8Cascade, 1u << ToolGroupDisplays)
 //---------------------------------------------------------------------------
 
 namespace
@@ -106,7 +108,6 @@ __fastcall TfrmCH341SpiMax7219Led8x8Cascade::TfrmCH341SpiMax7219Led8x8Cascade(TC
 		}
 	}
 
-	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341SpiMax7219Led8x8Cascade::btnInitClick(TObject *Sender)

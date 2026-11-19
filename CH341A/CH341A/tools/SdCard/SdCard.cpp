@@ -98,6 +98,8 @@ void SdCard::Log(const std::string &line)
 int SdCard::Command(uint8_t cmd, uint32_t arg, SdResponse type, uint8_t &r1, uint8_t *extra)
 {
 	const unsigned int extraCount = (type == SdR3R7) ? 4 : (type == SdR2) ? 1 : 0;
+	if (cmd == CMD0)
+		initialized = false;	// the card goes back to idle, it has to be initialized again
 	std::vector<uint8_t> buf(7 + R1_WAIT_BYTES + extraCount, 0xFF);
 	buf[1] = static_cast<uint8_t>(0x40 | (cmd & 0x3F));
 	buf[2] = static_cast<uint8_t>(arg >> 24);
@@ -145,6 +147,8 @@ int SdCard::AppCommand(uint8_t cmd, uint32_t arg, SdResponse type, uint8_t &r1, 
 	int status = Command(CMD55, 0, SdR1, r1, NULL);
 	if (status != StatusOk)
 		return status;
+	if (r1 & 0x04)
+		return StatusOk;	// CMD55 rejected (MMC card): r1 tells the caller, it is not a communication error
 	if (r1 & 0x7E)
 		return StatusCommError;
 	return Command(cmd, arg, type, r1, extra);
@@ -271,7 +275,7 @@ int SdCard::ReadOcr(uint32_t &value)
 
 int SdCard::ReadStatus(uint8_t &r1, uint8_t &r2)
 {
-	uint8_t ext[1];
+	uint8_t ext[1] = { 0 };
 	int status = Command(CMD13, 0, SdR2, r1, ext);
 	r2 = ext[0];
 	return status;

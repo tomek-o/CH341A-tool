@@ -12,6 +12,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341GpioHd44780 *frmCH341GpioHd44780;
+
+REGISTER_TOOL(TfrmCH341GpioHd44780, frmCH341GpioHd44780, 1u << ToolGroupDisplays)
 //---------------------------------------------------------------------------
 
 /*
@@ -150,7 +152,6 @@ public:
 __fastcall TfrmCH341GpioHd44780::TfrmCH341GpioHd44780(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 	// delayed wrapping to prevent wrapping at design time to fixed size
 	memoInstruction->WordWrap = true;
 }

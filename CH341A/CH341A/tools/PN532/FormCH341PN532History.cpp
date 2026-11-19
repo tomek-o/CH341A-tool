@@ -18,6 +18,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341PN532History *frmCH341PN532History;
+
+REGISTER_TOOL(TfrmCH341PN532History, frmCH341PN532History, 1u << ToolGroupMisc)
 //---------------------------------------------------------------------------
 
 namespace
@@ -31,7 +33,6 @@ __fastcall TfrmCH341PN532History::TfrmCH341PN532History(TComponent* Owner)
 	reading(false),
 	busy(false)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupMisc);
 
 	grdLog->ColCount = 5;
 	grdLog->FixedRows = 1;

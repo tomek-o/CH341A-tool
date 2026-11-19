@@ -13,11 +13,12 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341MdioDetect *frmCH341MdioDetect;
+
+REGISTER_TOOL(TfrmCH341MdioDetect, frmCH341MdioDetect, 1u << ToolGroupGenericInterfaces)
 //---------------------------------------------------------------------------
 __fastcall TfrmCH341MdioDetect::TfrmCH341MdioDetect(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341MdioDetect::btnDetectDevicesClick(TObject *Sender)

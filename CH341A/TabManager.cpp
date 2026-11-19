@@ -10,7 +10,6 @@
 #include <ComCtrls.hpp>
 #include <vector>
 #include <string>
-#include <stdio.h>
 #include <assert.h>
 //---------------------------------------------------------------------------
 
@@ -18,18 +17,65 @@
 
 namespace
 {
-	std::vector<TTabSheet*> tabSheets;
-	TTabSheet *prevTabSheet = NULL;	
-	// startup timing: time between consecutive Register() calls is the creation time of a form
-	std::vector<std::string> timings;
-	const char *const NL = "\r\n";
-	DWORD lastTick = 0;
-}
+	struct ToolEntry
+	{
+		std::string className;
+		std::string caption;
+		unsigned int groups;
+		ToolFormFactory factory;
+		TTabSheet *sheet;
+		TForm *form;
+	};
 
-TabManager TabManager::instance;
+	/** Function-local, since tools register before main() */
+	std::vector<ToolEntry>& Tools(void)
+	{
+		static std::vector<ToolEntry> tools;
+		return tools;
+	}
 
-namespace
-{
+	TTabSheet *prevTabSheet = NULL;
+
+	/** Caption of a form read from its DFM resource, without creating the form (class name if not found) */
+	AnsiString ReadFormCaption(const std::string &className)
+	{
+		AnsiString caption = className.c_str();
+		TResourceStream *stream = NULL;
+		TStringStream *text = NULL;
+		try
+		{
+			stream = new TResourceStream(reinterpret_cast<int>(HInstance), className.c_str(), RT_RCDATA);
+			text = new TStringStream("");
+			ObjectBinaryToText(stream, text);
+			// the form's own properties are indented by 2 spaces, those of its components by more
+			const AnsiString tag = "\n  Caption = '";
+			const AnsiString dfm = text->DataString;
+			const int pos = dfm.Pos(tag);
+			if (pos > 0)
+			{
+				AnsiString value;
+				for (int i = pos + tag.Length(); i <= dfm.Length(); i++)
+				{
+					if (dfm[i] == '\'')
+					{
+						if (i < dfm.Length() && dfm[i + 1] == '\'')	// doubled quote
+							i++;
+						else
+							break;
+					}
+					value += dfm[i];
+				}
+				caption = value;
+			}
+		}
+		catch (Exception &)
+		{
+		}
+		delete text;
+		delete stream;
+		return caption;
+	}
+
 	/** Milliseconds since this process was created (includes loading of DLLs and static initialization) */
 	unsigned long SinceProcessCreation(void)
 	{
@@ -43,13 +89,7 @@ namespace
 	}
 }
 
-void TabManager::MarkStartup(const char *label)
-{
-	char line[200];
-	_snprintf(line, sizeof(line), "%5lu ms since process start: %s", SinceProcessCreation(), label);
-	line[sizeof(line) - 1] = 0;
-	timings.push_back(line);
-}
+TabManager TabManager::instance;
 
 TabManager::TabManager(void):
 	pages(NULL),
@@ -58,80 +98,59 @@ TabManager::TabManager(void):
 
 }
 
+void TabManager::AddTool(const char *className, unsigned int groups, ToolFormFactory factory)
+{
+	ToolEntry entry;
+	entry.className = className;
+	entry.groups = groups;
+	entry.factory = factory;
+	entry.sheet = NULL;
+	entry.form = NULL;
+	Tools().push_back(entry);
+}
+
 void TabManager::Configure(Comctrls::TPageControl *pages, Comctrls::TTreeView *tree) {
 	this->pages = pages;
 	this->tree = tree;
-	MarkStartup("TabManager::Configure");
-	tree->Items->BeginUpdate();	// no repainting while ~100 nodes are added, see EndStartup()
-	lastTick = GetTickCount();
+
+	tree->Items->BeginUpdate();	// no repainting while ~100 nodes are added
 	for (int i=0; i<ToolGroup_Limiter; i++)
 	{
 		TTreeNode *node = tree->Items->Add(NULL, GetToolGroupName(static_cast<ToolGroup>(i)));
 		(void)node;
 	}
-}
 
-int TabManager::Register(TForm *frm, unsigned int groups)
-{
-	assert(pages);
-	assert(tree);
+	std::vector<ToolEntry> &tools = Tools();
+	for (size_t t=0; t<tools.size(); t++)
 	{
-		const DWORD now = GetTickCount();
-		char line[200];
-		_snprintf(line, sizeof(line), "%5lu ms  before registering %s", static_cast<unsigned long>(now - lastTick), AnsiString(frm->Caption).c_str());
-		line[sizeof(line) - 1] = 0;
-		timings.push_back(line);
-	}
-	TTabSheet *pTabSheet = new TTabSheet(pages);
-	pTabSheet->PageControl = pages;
-	pTabSheet->Caption = frm->Caption;
-	//pTabSheet->Align = alClient;
+		ToolEntry &tool = tools[t];
+		tool.caption = ReadFormCaption(tool.className).c_str();
 
-	groups += (1<<ToolGroupAll);
+		TTabSheet *pTabSheet = new TTabSheet(pages);
+		pTabSheet->PageControl = pages;
+		pTabSheet->Caption = tool.caption.c_str();
+		pTabSheet->Tag = static_cast<int>(t);	// index in Tools()
 
-	TTreeNode *parentNode = tree->Items->Item[0];
-	for (unsigned int i=0; i<32; i++)
-	{
-		if (i >= ToolGroup_Limiter)
-			break;
-		if (groups & (1u<<i))
+		unsigned int groups = tool.groups + (1u << ToolGroupAll);
+
+		TTreeNode *parentNode = tree->Items->Item[0];
+		for (unsigned int i=0; i<32; i++)
 		{
-			TTreeNode *node = tree->Items->AddChild(parentNode, pTabSheet->Caption);
-			node->Data = pTabSheet;
+			if (i >= ToolGroup_Limiter)
+				break;
+			if (groups & (1u<<i))
+			{
+				TTreeNode *node = tree->Items->AddChild(parentNode, pTabSheet->Caption);
+				node->Data = pTabSheet;
+			}
+			parentNode = parentNode->getNextSibling();
 		}
-		parentNode = parentNode->getNextSibling();
+
+		pTabSheet->TabVisible = false;
+		pTabSheet->Visible = false;
+		tool.sheet = pTabSheet;
 	}
-
-	pTabSheet->TabVisible = false;
-	pTabSheet->Visible = false;
-
-	frm->BorderStyle = bsNone;
-	frm->Align = alClient;
-	frm->Parent = pTabSheet;
-	frm->Visible = true;
-	frm->DoubleBuffered = true;
-
-	tabSheets.push_back(pTabSheet);
-	lastTick = GetTickCount();
-	if (tabSheets.size() == 60)
-		MarkStartup("last Register finished");
-	return 0;
-}
-
-void TabManager::EndStartup(DWORD processStartTick)
-{
-	MarkStartup("all forms created");
-	if (tree)
-		tree->Items->EndUpdate();
-	MarkStartup("tree update finished");
-	FILE *f = fopen(ChangeFileExt(Application->ExeName, "_startup.txt").c_str(), "w");
-	if (!f)
-		return;
-	fprintf(f, "form creation + constructor time (ms, up to the Register call of the form named):%s", NL);
-	for (size_t i=0; i<timings.size(); i++)
-		fprintf(f, "%s%s", timings[i].c_str(), NL);
-	fprintf(f, "total until Application->Run: %lu ms%s", static_cast<unsigned long>(GetTickCount() - processStartTick), NL);
-	fclose(f);
+	tree->Items->EndUpdate();
 }
 
 void TabManager::SwitchToPage(Comctrls::TTabSheet *tab)
@@ -139,11 +158,32 @@ void TabManager::SwitchToPage(Comctrls::TTabSheet *tab)
 	if (prevTabSheet)
 		prevTabSheet->Visible = false;
 
+	std::vector<ToolEntry> &tools = Tools();
+	assert(tab->Tag >= 0 && static_cast<size_t>(tab->Tag) < tools.size());
+	ToolEntry &tool = tools[tab->Tag];
+	if (!tool.form)
+	{
+		const DWORD start = GetTickCount();
+		TForm *frm = tool.factory();
+		frm->BorderStyle = bsNone;
+		frm->Align = alClient;
+		frm->Parent = tab;
+		frm->DoubleBuffered = true;
+		tool.form = frm;
+		LOG("Created tool form [%s] in %lu ms\n", tool.caption.c_str(), static_cast<unsigned long>(GetTickCount() - start));
+	}
+
 	tab->Visible = true;
+	if (!tool.form->Visible)
+		tool.form->Visible = true;
 	if (prevTabSheet != tab)
 	{
 		LOG("Switched to [%s] tab\n", tab->Caption.c_str());
 		prevTabSheet = tab;
-    }
+	}
 }
 
+void TabManager::LogStartupTime(void)
+{
+	LOG("Startup took %lu ms\n", SinceProcessCreation());
+}

@@ -13,13 +13,15 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341Template *frmCH341Template;
+
+// tool tab: titled with the form Caption, the form is created when the tab is first opened
+REGISTER_TOOL(TfrmCH341Template, frmCH341Template, 1u << ToolGroupMisc)
 //---------------------------------------------------------------------------
 
 
 __fastcall TfrmCH341Template::TfrmCH341Template(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this);
 }
 //---------------------------------------------------------------------------
 

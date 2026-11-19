@@ -36,13 +36,14 @@ SOFTWARE.
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CBH1750 *frmCH341I2CBH1750;
+
+REGISTER_TOOL(TfrmCH341I2CBH1750, frmCH341I2CBH1750, (1u << ToolGroupSensors))
 //---------------------------------------------------------------------------
 
 
 __fastcall TfrmCH341I2CBH1750::TfrmCH341I2CBH1750(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, (1u << ToolGroupSensors));
 }
 //---------------------------------------------------------------------------
 

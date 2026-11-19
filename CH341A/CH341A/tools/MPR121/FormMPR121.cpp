@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmMPR121 *frmMPR121;
+
+REGISTER_TOOL(TfrmMPR121, frmMPR121, (1u<<ToolGroupKeypad))
 //---------------------------------------------------------------------------
 
 
@@ -20,7 +22,6 @@ __fastcall TfrmMPR121::TfrmMPR121(TComponent* Owner)
 	: TForm(Owner),
 	proximityEnable(false)
 {
-	TabManager::Instance().Register(this, (1u<<ToolGroupKeypad));
 	for (int i=0; i<=255; i++)
 	{
 		cbTouchThreshold->Items->Add(i);

@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CMax11601 *frmCH341I2CMax11601;
+
+REGISTER_TOOL(TfrmCH341I2CMax11601, frmCH341I2CMax11601, 1u << ToolGroupAdc)
 //---------------------------------------------------------------------------
 
 #define ARRAY_SIZE(a) ((sizeof(a))/(sizeof((a)[0])))
@@ -56,7 +58,6 @@ ValueDescription refSel[] = {
 __fastcall TfrmCH341I2CMax11601::TfrmCH341I2CMax11601(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupAdc);
 	cbReferenceVoltage->Clear();
 	for (unsigned int i=0; i<ARRAY_SIZE(refSel); i++)
 	{

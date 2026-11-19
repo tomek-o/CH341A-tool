@@ -14,6 +14,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CBMI160 *frmCH341I2CBMI160;
+
+REGISTER_TOOL(TfrmCH341I2CBMI160, frmCH341I2CBMI160, 1u << ToolGroupSensors)
 //---------------------------------------------------------------------------
 
 namespace
@@ -58,7 +60,6 @@ __fastcall TfrmCH341I2CBMI160::TfrmCH341I2CBMI160(TComponent* Owner)
 	: TForm(Owner),
 	dpsPerBit(0)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 
 	bmi160dev.write = write_i2c;
 	bmi160dev.read = read_i2c;

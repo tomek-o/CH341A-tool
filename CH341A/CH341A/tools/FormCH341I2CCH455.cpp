@@ -19,6 +19,8 @@ Slightly unusual I2C interface protocol: 1st byte is not a device address, but r
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CCH455 *frmCH341I2CCH455;
+
+REGISTER_TOOL(TfrmCH341I2CCH455, frmCH341I2CCH455, (1u << ToolGroupDisplays)|(1u << ToolGroupMisc))
 //---------------------------------------------------------------------------
 
 #define ARRAY_SIZE(a) ((sizeof(a))/(sizeof((a)[0])))
@@ -46,7 +48,6 @@ int WriteReg(uint8_t reg, uint8_t val)
 __fastcall TfrmCH341I2CCH455::TfrmCH341I2CCH455(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, (1u << ToolGroupDisplays)|(1u << ToolGroupMisc));
 	cbIntensity->ItemIndex = cbIntensity->Items->Count - 1;
 
 	for (unsigned int i=0; i<ARRAY_SIZE(chbBit); i++)

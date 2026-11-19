@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CLm75 *frmCH341I2CLm75;
+
+REGISTER_TOOL(TfrmCH341I2CLm75, frmCH341I2CLm75, 1u << ToolGroupSensors)
 //---------------------------------------------------------------------------
 
 namespace
@@ -42,7 +44,6 @@ float BufToTemperature(const unsigned char *buffer)
 __fastcall TfrmCH341I2CLm75::TfrmCH341I2CLm75(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 
 	for (unsigned int i=LM75B_SLAVE_FIRST_ADDR; i<=LM75B_SLAVE_LAST_ADDR; i++)
 	{

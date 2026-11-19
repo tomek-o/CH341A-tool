@@ -12,6 +12,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CSmartBatteryInfo *frmCH341I2CSmartBatteryInfo;
+
+REGISTER_TOOL(TfrmCH341I2CSmartBatteryInfo, frmCH341I2CSmartBatteryInfo, 1u << ToolGroupSmartBattery)
 //---------------------------------------------------------------------------
 
 using namespace SmartBattery;
@@ -27,7 +29,6 @@ __fastcall TfrmCH341I2CSmartBatteryInfo::TfrmCH341I2CSmartBatteryInfo(TComponent
 	}
 	cbI2CAddress->ItemIndex = SmartBattery::I2C_ADDRESS;
 
-	TabManager::Instance().Register(this, 1u << ToolGroupSmartBattery);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341I2CSmartBatteryInfo::btnReadInfoClick(TObject *Sender)

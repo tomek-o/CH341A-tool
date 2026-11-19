@@ -14,13 +14,14 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341Tm1637 *frmCH341Tm1637;
+
+REGISTER_TOOL(TfrmCH341Tm1637, frmCH341Tm1637, (1u << ToolGroupDisplays))
 //---------------------------------------------------------------------------
 
 
 __fastcall TfrmCH341Tm1637::TfrmCH341Tm1637(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, (1u << ToolGroupDisplays));
 
 	cbBrightness->Clear();
 	for (int i=0; i<TM1637::Brightness_Limiter; i++)

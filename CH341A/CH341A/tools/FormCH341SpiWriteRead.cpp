@@ -14,11 +14,12 @@
 #pragma resource "*.dfm"
 TfrmCH341SpiWriteRead *frmCH341SpiWriteRead;
 
+REGISTER_TOOL(TfrmCH341SpiWriteRead, frmCH341SpiWriteRead, 1u << ToolGroupGenericInterfaces)
+
 //---------------------------------------------------------------------------
 __fastcall TfrmCH341SpiWriteRead::TfrmCH341SpiWriteRead(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 void __fastcall TfrmCH341SpiWriteRead::btnWriteReadClick(TObject *Sender)

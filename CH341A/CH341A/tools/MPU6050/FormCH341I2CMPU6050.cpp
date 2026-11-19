@@ -14,6 +14,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CMPU6050 *frmCH341I2CMPU6050;
+
+REGISTER_TOOL(TfrmCH341I2CMPU6050, frmCH341I2CMPU6050, 1u << ToolGroupSensors)
 //---------------------------------------------------------------------------
 
 namespace
@@ -33,7 +35,6 @@ __fastcall TfrmCH341I2CMPU6050::TfrmCH341I2CMPU6050(TComponent* Owner)
 	: TForm(Owner),
 	dpsPerBit(0)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupSensors);
 }
 //---------------------------------------------------------------------------
 

@@ -13,6 +13,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CRda5807m *frmCH341I2CRda5807m;
+
+REGISTER_TOOL(TfrmCH341I2CRda5807m, frmCH341I2CRda5807m, 1u << ToolGroupFmRadio)
 //---------------------------------------------------------------------------
 
 namespace
@@ -25,7 +27,6 @@ namespace
 __fastcall TfrmCH341I2CRda5807m::TfrmCH341I2CRda5807m(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupFmRadio);
 	UpdateRdsUiState();
 }
 

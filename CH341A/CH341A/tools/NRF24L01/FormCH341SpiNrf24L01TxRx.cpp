@@ -17,6 +17,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341SpiNrf24L01TxRx *frmCH341SpiNrf24L01TxRx;
+
+REGISTER_TOOL(TfrmCH341SpiNrf24L01TxRx, frmCH341SpiNrf24L01TxRx, 1u << ToolGroupRadio)
 //---------------------------------------------------------------------------
 
 namespace
@@ -38,7 +40,6 @@ __fastcall TfrmCH341SpiNrf24L01TxRx::TfrmCH341SpiNrf24L01TxRx(TComponent* Owner)
 	busy(false),
 	activePayloadLength(32)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupRadio);
 
 	FillComboboxWithValues(rfSpeedSel, cbRfSpeed, RF24_SPEED_2MBPS);
 

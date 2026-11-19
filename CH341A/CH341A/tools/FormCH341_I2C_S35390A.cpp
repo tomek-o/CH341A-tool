@@ -14,6 +14,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341_I2C_S35390A *frmCH341_I2C_S35390A;
+
+REGISTER_TOOL(TfrmCH341_I2C_S35390A, frmCH341_I2C_S35390A, 1u << ToolGroupRtc)
 //---------------------------------------------------------------------------
 
 #define ARRAY_SIZE(a) ((sizeof(a))/(sizeof((a)[0])))
@@ -135,7 +137,6 @@ ValueDescriptionU8 int2Sel[] = {
 __fastcall TfrmCH341_I2C_S35390A::TfrmCH341_I2C_S35390A(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupRtc);
 	FillComboboxWithValues(int1Sel, cbInt1Sel, INT1_FREQ_OUTPUT);
 	FillComboboxWithValues(int2Sel, cbInt2Sel, INT2_FREQ_OUTPUT);
 }

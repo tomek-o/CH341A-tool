@@ -16,13 +16,14 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341MdioMmdWriteRead *frmCH341MdioMmdWriteRead;
+
+REGISTER_TOOL(TfrmCH341MdioMmdWriteRead, frmCH341MdioMmdWriteRead, 1u << ToolGroupGenericInterfaces)
 //---------------------------------------------------------------------------
 
 
 __fastcall TfrmCH341MdioMmdWriteRead::TfrmCH341MdioMmdWriteRead(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 	for (unsigned int i=0; i<32; i++)
 	{
 		cbPhyAddress->Items->Add(i);

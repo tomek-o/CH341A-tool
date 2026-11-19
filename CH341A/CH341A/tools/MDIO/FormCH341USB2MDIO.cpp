@@ -16,13 +16,14 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341USB2MDIO *frmCH341USB2MDIO;
+
+REGISTER_TOOL(TfrmCH341USB2MDIO, frmCH341USB2MDIO, (1 << ToolGroupEthernetMdio))
 //---------------------------------------------------------------------------
 
 
 __fastcall TfrmCH341USB2MDIO::TfrmCH341USB2MDIO(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, (1 << ToolGroupEthernetMdio));
 	for (unsigned int i=0; i<32; i++)
 	{
 		cbPhyAddress->Items->Add(i);

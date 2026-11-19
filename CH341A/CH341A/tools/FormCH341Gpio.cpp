@@ -15,6 +15,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341Gpio *frmCH341Gpio;
+
+REGISTER_TOOL(TfrmCH341Gpio, frmCH341Gpio, 1u << ToolGroupGenericInterfaces)
 //---------------------------------------------------------------------------
 
 #define ARRAY_SIZE(a) ((sizeof(a))/(sizeof((a)[0])))
@@ -85,7 +87,6 @@ AnsiString GetGpioDescription(unsigned int id)
 __fastcall TfrmCH341Gpio::TfrmCH341Gpio(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 
 	STATIC_CHECK(ARRAY_SIZE(panels) == sizeof(uint32_t)*8, UnexpectedNumberOfPanels);
 

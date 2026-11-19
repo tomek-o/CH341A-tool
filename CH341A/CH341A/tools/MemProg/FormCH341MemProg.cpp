@@ -14,6 +14,8 @@
 #pragma resource "*.dfm"
 TfrmCH341MemProg *frmCH341MemProg;
 
+REGISTER_TOOL(TfrmCH341MemProg, frmCH341MemProg, 1u << ToolGroupMemory)
+
 namespace
 {
 	enum DeviceIndex
@@ -86,7 +88,6 @@ __fastcall TfrmCH341MemProg::TfrmCH341MemProg(TComponent* Owner)
 	cancelRequested(false),
 	progress(new UiProgress(this))
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupMemory);
 
 	hexFrame = new TframeHexEditor(this);
 	hexFrame->Parent = pnlHex;

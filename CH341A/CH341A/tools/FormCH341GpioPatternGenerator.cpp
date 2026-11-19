@@ -17,6 +17,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341GpioPatternGenerator *frmCH341GpioPatternGenerator;
+
+REGISTER_TOOL(TfrmCH341GpioPatternGenerator, frmCH341GpioPatternGenerator, 1u << ToolGroupGenericInterfaces)
 //---------------------------------------------------------------------------
 
 
@@ -26,7 +28,6 @@ __fastcall TfrmCH341GpioPatternGenerator::TfrmCH341GpioPatternGenerator(TCompone
 	currentPos(-1),
 	started(false)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupGenericInterfaces);
 }
 //---------------------------------------------------------------------------
 

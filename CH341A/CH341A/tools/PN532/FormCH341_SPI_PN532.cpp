@@ -16,6 +16,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341_SPI_PN532 *frmCH341_SPI_PN532;
+
+REGISTER_TOOL(TfrmCH341_SPI_PN532, frmCH341_SPI_PN532, 1u << ToolGroupMisc)
 //---------------------------------------------------------------------------
 
 namespace
@@ -124,7 +126,6 @@ __fastcall TfrmCH341_SPI_PN532::TfrmCH341_SPI_PN532(TComponent* Owner)
 	reading(false),
 	busy(false)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupMisc);
 }
 //---------------------------------------------------------------------------
 

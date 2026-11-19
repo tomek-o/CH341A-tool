@@ -16,6 +16,8 @@
 #pragma package(smart_init)
 #pragma resource "*.dfm"
 TfrmCH341I2CCH1115 *frmCH341I2CCH1115;
+
+REGISTER_TOOL(TfrmCH341I2CCH1115, frmCH341I2CCH1115, 1u << ToolGroupDisplays)
 //---------------------------------------------------------------------------
 
 
@@ -109,7 +111,6 @@ uint8_t image2[]={
 __fastcall TfrmCH341I2CCH1115::TfrmCH341I2CCH1115(TComponent* Owner)
 	: TForm(Owner)
 {
-	TabManager::Instance().Register(this, 1u << ToolGroupDisplays);
 }
 //---------------------------------------------------------------------------
 
