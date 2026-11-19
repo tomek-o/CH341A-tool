@@ -1,0 +1,61 @@
+SD card in SPI mode - connection to CH341A
+==========================================
+
+Signals (same CH341A pins as the SPI FLASH tab):
+
+  SD signal (SPI mode)   CH341A         25xx socket pin   SD card   microSD
+  ---------------------  -------------  ----------------  --------  -------
+  CS   (chip select)     CS0 / D0       1                 pin 1     pin 2
+  DI   (card input)      MOSI / D5      5                 pin 2     pin 3 (CMD)
+  CLK                    SCK / D3       6                 pin 5     pin 5
+  DO   (card output)     MISO / D7      2                 pin 7     pin 7 (DAT0)
+  VDD  (3.3 V ONLY)      3.3 V          8                 pin 4     pin 4
+  GND                    GND            4                 pin 3, 6  pin 6
+  unused DAT1/DAT2       -              -                 pin 8, 9  pin 8, 1
+                         pull up to 3.3 V with 10k each
+
+Notes
+-----
+1. Supply is 3.3 V. Never give the card 5 V. Many CH341A boards drive the
+   data lines at 5 V even with the 3.3 V jumper set - measure with a scope or
+   multimeter, and use a level shifter (or series 1k + divider on CLK/MOSI/CS)
+   if so. The card's DO is 3.3 V, which the CH341A reads fine.
+2. Pull-ups of 10k to 3.3 V on CS, DI(MOSI), DO(MISO). The card is in an
+   undefined state before CMD0 with CS low.
+3. Put 100 nF + 10 uF close to the card's VDD. The card draws ~100 mA peaks;
+   the CH341A 3.3 V regulator is weak, so an external supply is safer
+   (connect its GND to the CH341A GND).
+4. Keep wires short (< 10 cm); SPI clock is a few hundred kHz at best.
+5. Use a card socket/breakout, never hot-plug the card on live wires.
+
+SD card window - functions
+--------------------------
+Init            80+ clocks with CS high, CMD0 (R1=0x01), CMD8 0x1AA (v2 card),
+                CMD55+ACMD41 until R1=0x00, CMD58 (OCR, CCS bit = SDHC).
+Raw command     index, 32-bit argument, CRC (auto for CMD0/CMD8); shows R1 and
+                the extra 4 bytes for R3/R7 responses.
+Read CID / CSD  CMD10 / CMD9, decoded: manufacturer, product name, serial,
+                capacity.
+Read sector(s)  CMD17 with sector number and count; data goes to the hex
+                editor (SDHC: block addressing, SDSC: byte addressing).
+Log             every command and response in hex.
+No write command (only commands that cannot damage the card).
+
+SparkFun microSD Sniffer (header JP1, verified from the V_1.0 schematic)
+--------------------------------------------------------------------------
+  The CD pin is the card's DAT3/CD (socket contact 2) = SPI chip select.
+  The socket's card-detect switch goes to GND on the board, not to the header.
+  Signals go straight from header to card, no resistors/buffers.
+  Use only the on-board card socket; do NOT plug the sniffer's plug side into
+  a host while the CH341A drives the lines.
+
+  JP1 pin  net       SPI role   connect to
+  1        DAT2      unused     leave open (optional 10k pull-up)
+  2        CD/DAT3   CS         CS0 / D0 (socket 1), 10k pull-up (recommended)
+  3        CMD       MOSI       D5 (socket 5)
+  4        GND       GND        GND (socket 4)
+  5        VCC       3.3 V      3.3 V (socket 8)
+  6        CLK       SCK        D3 (socket 6)
+  7        DAT0      MISO       D7 (socket 2), optional 10k pull-up
+  8        DAT1      unused     leave open (optional 10k pull-up)
+  (check the pin order against the silkscreen on your board)

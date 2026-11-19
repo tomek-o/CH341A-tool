@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include "TabManager.h"
 #pragma hdrstop
 //---------------------------------------------------------------------------
 USEFORM("CH341A\FormCH341A.cpp", frmCH341A);
@@ -24,6 +25,8 @@ USEFORM("CH341A\tools\MAX30102\FormCH341I2CMAX30102.cpp", frmCH341I2CMAX30102);
 USEFORM("CH341A\tools\PN532\FormCH341_SPI_PN532.cpp", frmCH341_SPI_PN532);
 USEFORM("CH341A\tools\NRF24L01\FormCH341SpiNrf24L01TxRx.cpp", frmCH341SpiNrf24L01TxRx);
 USEFORM("CH341A\tools\MemProg\FormCH341MemProg.cpp", frmCH341MemProg);
+USEFORM("CH341A\tools\SdCard\FormCH341SdCard.cpp", frmCH341SdCard);
+USEFORM("CH341A\tools\SdCard\FormCH341SdData.cpp", frmCH341SdData);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
@@ -75,18 +78,25 @@ USEFORM("CH341A\tools\PN532\FormCH341PN532History.cpp", frmCH341PN532History);
 
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+	const DWORD startTick = GetTickCount();
+	TabManager::MarkStartup("WinMain entered");
 	try
 	{
 		Application->Initialize();
+		TabManager::MarkStartup("Application->Initialize done");
 		Application->Title = "CH341 tool";
 		Application->CreateForm(__classid(TfrmMain), &frmMain);
+		TabManager::MarkStartup("main form created");
 		Application->CreateForm(__classid(TfrmSettings), &frmSettings);
 		Application->CreateForm(__classid(TfrmAbout), &frmAbout);
 		Application->CreateForm(__classid(TfrmLog), &frmLog);
+		TabManager::MarkStartup("settings, about, log forms created");
 		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
 		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
 		Application->CreateForm(__classid(TfrmCH341SpiWriteRead), &frmCH341SpiWriteRead);
 		Application->CreateForm(__classid(TfrmCH341MemProg), &frmCH341MemProg);
+		Application->CreateForm(__classid(TfrmCH341SdCard), &frmCH341SdCard);
+		Application->CreateForm(__classid(TfrmCH341SdData), &frmCH341SdData);
 		Application->CreateForm(__classid(TfrmCH341Gpio), &frmCH341Gpio);
 		Application->CreateForm(__classid(TfrmCH341GpioPatternGenerator), &frmCH341GpioPatternGenerator);
 		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);
@@ -141,6 +151,8 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341_SPI_PN532), &frmCH341_SPI_PN532);
 		Application->CreateForm(__classid(TfrmCH341PN532History), &frmCH341PN532History);
 		Application->CreateForm(__classid(TfrmCH341SpiNrf24L01TxRx), &frmCH341SpiNrf24L01TxRx);
+		TabManager::MarkStartup("last CreateForm returned");
+		TabManager::Instance().EndStartup(startTick);
 		Application->Run();
 	}
 	catch (Exception &exception)

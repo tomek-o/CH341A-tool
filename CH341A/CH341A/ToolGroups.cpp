@@ -39,6 +39,8 @@ const char* GetToolGroupName(enum ToolGroup group)
 		return "Keypad";
 	case ToolGroupMemory:
 		return "EEPROM / FLASH";
+	case ToolGroupSdMmc:
+		return "SD / MMC";
 	case ToolGroupMisc:
 		return "Miscellaneous";
 	default:

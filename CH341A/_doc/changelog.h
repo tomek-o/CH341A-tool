@@ -96,4 +96,5 @@ Version 1.8
 
 Version 1.9
 - added EEPROM / FLASH programmer, tested with I2C 24xx EEPROM and SPI 25xx FLASH
+- added SD / MMC tool group: card initialization and identification with raw commands, sector read/write (SPI mode, untested on hardware)
 */
