@@ -69,6 +69,9 @@ public:
 	int SetGpioOutputs(uint32_t direction, uint32_t dataOut);
 	int GetGpioInputs(uint32_t &dataIn);
 
+	/** Set direction and level of D5-D0 pins only (bit n = Dn), more efficient than SetGpioOutputs */
+	int SetD5D0(uint32_t direction, uint32_t dataOut);
+
 	/** Regular SPI with 4 lines */
 	int SpiTransfer(void *buffer, unsigned int count);
 

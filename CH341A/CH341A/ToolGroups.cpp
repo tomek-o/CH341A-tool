@@ -37,6 +37,8 @@ const char* GetToolGroupName(enum ToolGroup group)
 		return "DAC";
 	case ToolGroupKeypad:
 		return "Keypad";
+	case ToolGroupMemory:
+		return "EEPROM / FLASH";
 	case ToolGroupMisc:
 		return "Miscellaneous";
 	default:

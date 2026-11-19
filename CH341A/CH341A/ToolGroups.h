@@ -18,6 +18,7 @@ enum ToolGroup
 	ToolGroupAdc,
 	ToolGroupDac,
 	ToolGroupKeypad,
+	ToolGroupMemory,
 	ToolGroupMisc,
 
 	ToolGroup_Limiter

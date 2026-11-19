@@ -23,6 +23,7 @@ USEFORM("CH341A\tools\TM1637\FormCH341_TM1637.cpp", frmCH341Tm1637);
 USEFORM("CH341A\tools\MAX30102\FormCH341I2CMAX30102.cpp", frmCH341I2CMAX30102);
 USEFORM("CH341A\tools\PN532\FormCH341_SPI_PN532.cpp", frmCH341_SPI_PN532);
 USEFORM("CH341A\tools\NRF24L01\FormCH341SpiNrf24L01TxRx.cpp", frmCH341SpiNrf24L01TxRx);
+USEFORM("CH341A\tools\MemProg\FormCH341MemProg.cpp", frmCH341MemProg);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
 USEFORM("CH341A\tools\FormCH341I2CDetect.cpp", frmCH341I2CDetect);
@@ -34,6 +35,7 @@ USEFORM("CH341A\tools\FormCH341I2CSmartBatteryInfo.cpp", frmCH341I2CSmartBattery
 USEFORM("FormMain.cpp", frmMain);
 USEFORM("FormSettings.cpp", frmSettings);
 USEFORM("FormAbout.cpp", frmAbout);
+USEFORM("FrameHexEditor.cpp", frameHexEditor); /* TFrame: File Type */
 USEFORM("LogUnit.cpp", frmLog);
 USEFORM("CH341A\tools\FormCH341I2CSsd1306.cpp", frmCH341I2CSsd1306);
 USEFORM("CH341A\tools\FormCH341I2CBme280.cpp", frmCH341I2CBme280);
@@ -84,6 +86,7 @@ WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Application->CreateForm(__classid(TfrmCH341I2CDetect), &frmCH341I2CDetect);
 		Application->CreateForm(__classid(TfrmCH341I2CWriteRead), &frmCH341I2CWriteRead);
 		Application->CreateForm(__classid(TfrmCH341SpiWriteRead), &frmCH341SpiWriteRead);
+		Application->CreateForm(__classid(TfrmCH341MemProg), &frmCH341MemProg);
 		Application->CreateForm(__classid(TfrmCH341Gpio), &frmCH341Gpio);
 		Application->CreateForm(__classid(TfrmCH341GpioPatternGenerator), &frmCH341GpioPatternGenerator);
 		Application->CreateForm(__classid(TfrmCH341I2CSmartBatteryInfo), &frmCH341I2CSmartBatteryInfo);

@@ -93,4 +93,7 @@ Version 1.8
 - added MAX30102 heart rate sensor
 - added PN532 RFID reader using SPI interface
 - added nRF24L01+ transmitter/receiver
+
+Version 1.9
+- added EEPROM / FLASH programmer, tested with I2C 24xx EEPROM and SPI 25xx FLASH
 */

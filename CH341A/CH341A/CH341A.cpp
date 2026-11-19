@@ -673,6 +673,17 @@ int CH341A::GetGpioInputs(uint32_t &dataIn)
 	return -2;
 }
 
+int CH341A::SetD5D0(uint32_t direction, uint32_t dataOut)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	if (CH341Set_D5_D0(index, direction, dataOut))
+		return 0;
+	return -2;
+}
+
 int CH341A::SpiTransfer(void *buffer, unsigned int count)
 {
 	if (index == INVALID_INDEX)
