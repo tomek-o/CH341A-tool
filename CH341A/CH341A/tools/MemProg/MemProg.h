@@ -54,6 +54,34 @@ struct SpiFlashId
 	const char* ManufacturerName(void) const;
 };
 
+/** One erase type of the SFDP table */
+struct SfdpEraseType
+{
+	unsigned long size;	///< bytes, 0 if the type is not used
+	uint8_t opcode;
+};
+
+/** What a chip tells about itself in its SFDP (JESD216) basic flash parameter table */
+struct SfdpInfo
+{
+	unsigned int major, minor;	///< SFDP revision
+	unsigned long size;		///< bytes
+	unsigned int pageSize;		///< bytes, 0 if the table is too old to tell
+	unsigned int addrMode;		///< 0: 3-byte address only, 1: 3 or 4 bytes, 2: 4 bytes only
+	bool has4kErase;
+	uint8_t erase4kOpcode;
+	SfdpEraseType eraseTypes[4];
+
+	SfdpInfo(void): major(0), minor(0), size(0), pageSize(0), addrMode(0), has4kErase(false), erase4kOpcode(0)
+	{
+		for (int i=0; i<4; i++)
+		{
+			eraseTypes[i].size = 0;
+			eraseTypes[i].opcode = 0;
+		}
+	}
+};
+
 /** SPI flash, 25xx series (JEDEC compatible), uses CS0.
     Also used for SPI EEPROM (25xxx/95xxx): same bus and command set, only address length differs.
 */
@@ -79,6 +107,9 @@ public:
 	void SetProgramMode(ProgramMode mode) { programMode = mode; }
 
 	int ReadId(SpiFlashId &id);
+	/** Reads SFDP (command 0x5A, always 3-byte address): size, page size and erase commands.
+		StatusNoDevice if the chip has no (usable) SFDP. Does not depend on Configure(). */
+	int ReadSfdp(SfdpInfo &info);
 	int ReadStatus(uint8_t &sr);
 	/** Clear block protection bits (SR1 = 0) */
 	int Unprotect(void);
@@ -116,6 +147,7 @@ private:
 	unsigned long lastProgrammedPages;
 
 	int Command(uint8_t cmd);
+	int ReadSfdpBytes(uint32_t addr, uint8_t *data, unsigned int count);
 	int WriteEnable(void);
 	int WaitReady(unsigned int timeoutMs, Progress *progress);
 	unsigned int AddrLen(void) const;

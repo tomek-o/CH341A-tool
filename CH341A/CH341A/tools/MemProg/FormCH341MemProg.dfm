@@ -119,7 +119,9 @@ object frmCH341MemProg: TfrmCH341MemProg
         Top = 6
         Width = 80
         Height = 25
-        Caption = 'Read ID'
+        Caption = 'Detect'
+        Hint = 'Reads the JEDEC ID and the SFDP table'#13#10'and selects the chip size and page size'
+        ShowHint = True
         TabOrder = 2
         OnClick = btnReadIdClick
       end

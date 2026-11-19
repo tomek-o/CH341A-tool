@@ -56,7 +56,8 @@ Things to watch:
 | Verify chip | compares the chip with the contents of the hex editor |
 | Erase chip / Fill with 0xFF | chip erase for flash/AT45/Microwire, writes 0xFF over the whole chip for 24xx and 25xxx EEPROMs |
 | Cancel | stops the current operation (a chip erase or a page write in progress is finished by the chip itself) |
-| Read ID / Detect | JEDEC ID (flash) or ID + geometry (AT45) |
+| Detect (SPI flash) | reads the JEDEC ID and the SFDP table, selects size and page size (see below) |
+| Read ID / Detect (AT45) | ID + geometry |
 | Detect | I2C: scans the addresses and suggests the chip type |
 | Unprotect | clears the block protection bits of the status register |
 
@@ -78,8 +79,12 @@ Operations ask for confirmation before writing/erasing. Every result is logged w
 
 ### SPI flash
 
-- Size and page size are selected manually. "Read ID" reads the JEDEC ID and sets size from the
-  capacity byte (2^n bytes); this guess can be wrong for some vendors, check the log.
+- Size and page size can be selected manually or detected: "Detect" reads the JEDEC ID and then the
+  SFDP table (JESD216, command 0x5A) that almost every chip made since about 2010 has. SFDP gives the exact
+  size, the page size and the erase commands; the log lists them and the Size / Page boxes are set.
+  Chips without SFDP fall back to the capacity byte of the ID (2^n bytes), which can be wrong for some
+  vendors - check the log. If the chip has no 4 KB erase with opcode 0x20 the log says so: use
+  *Erase whole chip* for such a chip.
 - "Before write" selects:
   - *None (chip is blank)* - writes everything, does not erase. Use for blank chips.
   - *Erase whole chip* - chip erase (0xC7), then programs only non-blank pages.

@@ -219,6 +219,56 @@ AnsiString TfrmCH341MemProg::DescribeI2cScan(const MemProg::I2cScanResult &scan)
 	return text;
 }
 //---------------------------------------------------------------------------
+void TfrmCH341MemProg::ApplySfdp(const MemProg::SfdpInfo &info)
+{
+	AnsiString text;
+	text.sprintf("SFDP %u.%u: %lu KB", info.major, info.minor, info.size / 1024);
+	if (info.pageSize != 0)
+		text.cat_printf(", page %u B", info.pageSize);
+	text += (info.addrMode == 0) ? ", 3-byte address" : ((info.addrMode == 1) ? ", 3 or 4-byte address" : ", 4-byte address");
+	Log(text);
+
+	text = "Erase:";
+	for (int i=0; i<4; i++)
+	{
+		if (info.eraseTypes[i].size == 0)
+			continue;
+		if (info.eraseTypes[i].size >= 1024)
+			text.cat_printf(" %lu KB", info.eraseTypes[i].size / 1024);
+		else
+			text.cat_printf(" %lu B", info.eraseTypes[i].size);
+		text.cat_printf(" (0x%02X)", info.eraseTypes[i].opcode);
+	}
+	Log(text);
+
+	bool found = false;
+	for (unsigned int i=0; i<spiSizesCount; i++)
+	{
+		if (spiSizes[i].size == info.size)
+		{
+			cbSpiSize->ItemIndex = static_cast<int>(i);
+			found = true;
+			break;
+		}
+	}
+	if (!found)
+		Log("Size reported by the chip is not in the Size list, select the closest one manually");
+
+	if (info.pageSize != 0)
+	{
+		for (unsigned int i=0; i<spiPageSizesCount; i++)
+		{
+			if (spiPageSizes[i] == info.pageSize)
+			{
+				cbSpiPage->ItemIndex = static_cast<int>(i);
+				break;
+			}
+		}
+	}
+	if (!info.has4kErase || info.erase4kOpcode != 0x20)
+		Log("No 4 KB erase with opcode 0x20 on this chip: \"Erase 4 KB sectors\" will not work, use chip erase");
+}
+//---------------------------------------------------------------------------
 bool TfrmCH341MemProg::CheckPresent(void)
 {
 	if (GetDevice() != DeviceI2cEeprom)
@@ -507,6 +557,15 @@ void __fastcall TfrmCH341MemProg::btnReadIdClick(TObject *Sender)
 		}
 	}
 	Log(text);
+
+	MemProg::SfdpInfo sfdp;
+	status = spi.ReadSfdp(sfdp);
+	if (status == MemProg::StatusOk)
+		ApplySfdp(sfdp);
+	else if (status == MemProg::StatusNoDevice)
+		Log(guess != 0 ? "SFDP: not supported by this chip, size taken from the ID" : "SFDP: not supported by this chip");
+	else
+		Log(AnsiString("SFDP: ") + MemProg::StatusText(status));
 
 	uint8_t sr;
 	if (spi.ReadStatus(sr) == MemProg::StatusOk)

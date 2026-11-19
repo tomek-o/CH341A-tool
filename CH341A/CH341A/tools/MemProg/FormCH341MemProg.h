@@ -90,6 +90,8 @@ private:	// User declarations
 	/** Checks if the selected device is present, if it can be told (I2C only) */
 	bool CheckPresent(void);
 	static AnsiString DescribeI2cScan(const MemProg::I2cScanResult &scan);
+	/** Logs what SFDP tells and selects matching size / page size */
+	void ApplySfdp(const MemProg::SfdpInfo &info);
 	/** Applies chip settings from UI to selected device object, returns chip size or 0 on error */
 	unsigned long Configure(void);
 	void SetBusy(bool state);

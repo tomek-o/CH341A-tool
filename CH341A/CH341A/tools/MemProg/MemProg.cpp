@@ -155,6 +155,119 @@ int SpiFlash::ReadId(SpiFlashId &id)
 	return id.IsValid() ? StatusOk : StatusNoDevice;
 }
 
+int SpiFlash::ReadSfdpBytes(uint32_t addr, uint8_t *data, unsigned int count)
+{
+	// 5A, 24-bit address, 8 dummy clocks, data
+	std::vector<uint8_t> buf(5 + count, 0xFF);
+	buf[0] = 0x5A;
+	buf[1] = static_cast<uint8_t>(addr >> 16);
+	buf[2] = static_cast<uint8_t>(addr >> 8);
+	buf[3] = static_cast<uint8_t>(addr);
+	int status = MapError(ch341a.SpiTransfer(&buf[0], static_cast<unsigned int>(buf.size())));
+	if (status != StatusOk)
+		return status;
+	memcpy(data, &buf[5], count);
+	return StatusOk;
+}
+
+int SpiFlash::ReadSfdp(SfdpInfo &info)
+{
+	info = SfdpInfo();
+
+	// SFDP header (8 bytes), then the parameter headers (8 bytes each)
+	uint8_t header[8];
+	int status = ReadSfdpBytes(0, header, sizeof(header));
+	if (status != StatusOk)
+		return status;
+	if (memcmp(header, "SFDP", 4) != 0)
+		return StatusNoDevice;
+	info.minor = header[4];
+	info.major = header[5];
+
+	// the JEDEC basic flash parameter table has ID 0xFF00
+	unsigned int tableDwords = 0;
+	uint32_t tableAddr = 0;
+	const unsigned int headers = static_cast<unsigned int>(header[6]) + 1;
+	for (unsigned int i=0; i<headers && i<8; i++)
+	{
+		uint8_t ph[8];
+		status = ReadSfdpBytes(8 + 8 * i, ph, sizeof(ph));
+		if (status != StatusOk)
+			return status;
+		if (ph[0] == 0x00 && ph[7] == 0xFF)
+		{
+			tableDwords = ph[3];
+			tableAddr = ph[4] | (static_cast<uint32_t>(ph[5]) << 8) | (static_cast<uint32_t>(ph[6]) << 16);
+			break;
+		}
+	}
+	if (tableDwords < 2)
+		return StatusNoDevice;
+	if (tableDwords > 23)
+		tableDwords = 23;
+
+	uint8_t table[23 * 4];
+	status = ReadSfdpBytes(tableAddr, table, tableDwords * 4);
+	if (status != StatusOk)
+		return status;
+	uint32_t d[23];	// d[n - 1] is DWORD n of the table
+	for (unsigned int i=0; i<23; i++)
+	{
+		d[i] = 0;
+		if (i < tableDwords)
+			d[i] = table[4*i] | (static_cast<uint32_t>(table[4*i + 1]) << 8) |
+				(static_cast<uint32_t>(table[4*i + 2]) << 16) | (static_cast<uint32_t>(table[4*i + 3]) << 24);
+	}
+
+	// DWORD 1: 4 KB erase, address bytes
+	info.has4kErase = ((d[0] & 3) == 1);
+	info.erase4kOpcode = static_cast<uint8_t>((d[0] >> 8) & 0xFF);
+	info.addrMode = (d[0] >> 17) & 3;
+	if (info.addrMode > 2)
+		info.addrMode = 0;
+
+	// DWORD 2: density, in bits: bit 31 = 0: value + 1, bit 31 = 1: 2^value
+	unsigned __int64 bits;
+	if (d[1] & 0x80000000UL)
+	{
+		const unsigned int n = static_cast<unsigned int>(d[1] & 0x7FFFFFFFUL);
+		if (n < 3 || n > 34)
+			return StatusNoDevice;
+		bits = static_cast<unsigned __int64>(1) << n;
+	}
+	else
+		bits = static_cast<unsigned __int64>(d[1]) + 1;
+	const unsigned __int64 bytes = bits / 8;
+	if (bytes == 0 || bytes > 0xFFFFFFFFUL)
+		return StatusNoDevice;
+	info.size = static_cast<unsigned long>(bytes);
+
+	// DWORDs 8 and 9: erase types 1..4 (size as power of two, opcode)
+	if (tableDwords >= 9)
+	{
+		for (unsigned int t=0; t<4; t++)
+		{
+			const uint32_t dw = d[7 + t / 2];
+			const unsigned int shift = (t % 2) * 16;
+			const unsigned int n = (dw >> shift) & 0xFF;
+			if (n != 0 && n < 32)
+			{
+				info.eraseTypes[t].size = 1UL << n;
+				info.eraseTypes[t].opcode = static_cast<uint8_t>((dw >> (shift + 8)) & 0xFF);
+			}
+		}
+	}
+
+	// DWORD 11 (JESD216A and later): page size as power of two
+	if (tableDwords >= 11)
+	{
+		const unsigned int n = (d[10] >> 4) & 0x0F;
+		if (n != 0)
+			info.pageSize = 1u << n;
+	}
+	return StatusOk;
+}
+
 int SpiFlash::ReadStatus(uint8_t &sr)
 {
 	uint8_t buf[2] = {0x05, 0xFF};

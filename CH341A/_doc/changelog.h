@@ -97,6 +97,7 @@ Version 1.8
 Version 1.9
 - added EEPROM / FLASH programmer: SPI flash (25xx, with SST AAI programming and 4 KB sector erase), SPI EEPROM (25xxx/95xxx), I2C EEPROM (24xx, address detected automatically), Microwire (93Cxx) and AT45 DataFlash; tested with I2C 24xx EEPROM and SPI 25xx FLASH
 - EEPROM / FLASH programmer: data is shown and edited in a hex editor, can write only changed data (chip is read first) or only the bytes edited in the editor
+- SPI flash: "Detect" reads the JEDEC ID and the SFDP table and selects the chip size and page size
 - added reusable hex editor (open/save file, go to, copy/paste, edited bytes highlighted)
 - added SD / MMC tool group: card initialization and identification (CID, CSD, OCR), raw commands, sector read/write in SPI mode (untested on hardware)
 - faster startup: tool forms are created when their tab is first opened (tools register with REGISTER_TOOL)
