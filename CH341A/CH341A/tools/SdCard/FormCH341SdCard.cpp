@@ -291,3 +291,9 @@ void __fastcall TfrmCH341SdCard::btnCancelClick(TObject *Sender)
 	cancelRequested = true;
 }
 //---------------------------------------------------------------------------
+void __fastcall TfrmCH341SdCard::btnClearLogClick(TObject *Sender)
+{
+	memoInfo->Clear();	
+}
+//---------------------------------------------------------------------------
+

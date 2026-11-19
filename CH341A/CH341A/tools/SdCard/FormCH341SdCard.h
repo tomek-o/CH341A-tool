@@ -39,12 +39,14 @@ __published:	// IDE-managed Components
 	TMemo *memoInfo;
 	TProgressBar *progressBar;
 	TMemo *memoLog;
+	TButton *btnClearLog;
 	void __fastcall btnInitClick(TObject *Sender);
 	void __fastcall btnInfoClick(TObject *Sender);
 	void __fastcall btnStatusClick(TObject *Sender);
 	void __fastcall btnPresetClick(TObject *Sender);
 	void __fastcall btnSendClick(TObject *Sender);
 	void __fastcall btnCancelClick(TObject *Sender);
+	void __fastcall btnClearLogClick(TObject *Sender);
 private:	// User declarations
 	bool busy;
 	bool cancelRequested;
