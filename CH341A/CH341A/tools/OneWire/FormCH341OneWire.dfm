@@ -57,9 +57,10 @@ object frmCH341OneWire: TfrmCH341OneWire
     Height = 89
     TabStop = False
     Anchors = [akLeft, akTop, akRight]
-    BorderStyle = bsNone
+    BevelInner = bvNone
     Color = clBtnFace
     ReadOnly = True
+    ScrollBars = ssVertical
     TabOrder = 0
   end
   object cbPin: TComboBox

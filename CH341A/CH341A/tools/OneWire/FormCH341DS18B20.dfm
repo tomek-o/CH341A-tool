@@ -33,7 +33,7 @@ object frmCH341DS18B20: TfrmCH341DS18B20
   object lblTemperature: TLabel
     Left = 8
     Top = 282
-    Width = 90
+    Width = 8
     Height = 29
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -61,7 +61,7 @@ object frmCH341DS18B20: TfrmCH341DS18B20
   object lblStatus: TLabel
     Left = 8
     Top = 349
-    Width = 90
+    Width = 3
     Height = 13
   end
   object memInfo: TMemo
@@ -71,9 +71,9 @@ object frmCH341DS18B20: TfrmCH341DS18B20
     Height = 89
     TabStop = False
     Anchors = [akLeft, akTop, akRight]
-    BorderStyle = bsNone
     Color = clBtnFace
     ReadOnly = True
+    ScrollBars = ssVertical
     TabOrder = 0
   end
   object cbPin: TComboBox

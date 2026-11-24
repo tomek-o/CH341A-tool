@@ -95,7 +95,7 @@ __fastcall TfrmCH341OneWire::TfrmCH341OneWire(TComponent* Owner)
 		"\r\n"
 		"Connection: 1-Wire DQ (data)  ->  D0 = SPI CS0 (default), or D3 = SPI CLK or D5 = SPI MOSI\r\n"
 		"pull-up ~4.7k from DQ to the same voltage as the 1-Wire device supply (3.3 V tested)\r\n"
-		"Parasite powered devices (VDD to GND) might need the stronger pull-up.";
+		"Parasite powered devices (VDD to GND) might need the stronger pull-up, but single DS1820 works with 5.6k pull-up.";
 }
 //---------------------------------------------------------------------------
 
