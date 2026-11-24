@@ -11,13 +11,17 @@
 	<Default.Personality>  <Projects>
       <Projects Name="common.lib">common\common.bdsproj</Projects>
       <Projects Name="jsoncpp.lib">jsoncpp\jsoncpp.bdsproj</Projects>
+      <Projects Name="png.lib">libpng\png.bdsproj</Projects>
+      <Projects Name="zlib.lib">zlib\zlib.bdsproj</Projects>
       <Projects Name="CH341A_tool.exe">CH341A\CH341A_tool.bdsproj</Projects>
-      <Projects Name="Targets">common.lib jsoncpp.lib CH341A_tool.exe</Projects>
+      <Projects Name="Targets">common.lib jsoncpp.lib png.lib zlib.lib CH341A_tool.exe</Projects>
     </Projects>
     <Dependencies>
       <Dependency GUID="{5A2C6F65-D176-4077-829F-5D6CA6F17D03}">
         <Dependency GUID="{690A683A-7576-4D98-9293-8AA35B0903D5}"/>
         <Dependency GUID="{B2993EC5-7934-47AB-AEEE-40DED652D62C}"/>
+        <Dependency GUID="{FA3E41E4-EB34-4D61-AC23-B8D6A595C489}"/>
+        <Dependency GUID="{D93E1114-38D6-4F17-B8DF-615F1788632E}"/>
       </Dependency>
     </Dependencies>
   </Default.Personality>
