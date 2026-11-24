@@ -28,6 +28,8 @@ USEFORM("CH341A\tools\PN532\FormCH341_SPI_PN532.cpp", frmCH341_SPI_PN532);
 USEFORM("CH341A\tools\NRF24L01\FormCH341SpiNrf24L01TxRx.cpp", frmCH341SpiNrf24L01TxRx);
 USEFORM("CH341A\tools\MemProg\FormCH341MemProg.cpp", frmCH341MemProg);
 USEFORM("CH341A\tools\SdCard\FormCH341SdCard.cpp", frmCH341SdCard);
+USEFORM("CH341A\tools\AT58MP1T1RS32A\FormAT58MP1T1RS32A.cpp", frmAT58MP1T1RS32A);
+USEFORM("CH341A\tools\DYP_A01\FormDYP_A01.cpp", frmDYP_A01);
 USEFORM("CH341A\tools\SdCard\FormCH341SdData.cpp", frmCH341SdData);
 USEFORM("CH341A\tools\FormCH341Gpio.cpp", frmCH341Gpio);
 USEFORM("CH341A\tools\FormCH341GpioPatternGenerator.cpp", frmCH341GpioPatternGenerator);
@@ -41,6 +43,7 @@ USEFORM("FormMain.cpp", frmMain);
 USEFORM("FormSettings.cpp", frmSettings);
 USEFORM("FormAbout.cpp", frmAbout);
 USEFORM("FrameHexEditor.cpp", frameHexEditor); /* TFrame: File Type */
+USEFORM("FrameUartPanel.cpp", frameUartPanel); /* TFrame: File Type */
 USEFORM("LogUnit.cpp", frmLog);
 USEFORM("CH341A\tools\FormCH341I2CSsd1306.cpp", frmCH341I2CSsd1306);
 USEFORM("CH341A\tools\FormCH341I2CBme280.cpp", frmCH341I2CBme280);
@@ -138,6 +141,8 @@ static const char *const toolOrder[] = {
 	"TfrmCH341I2CBH1750",
 	"TfrmMPR121",
 	"TfrmCH341Max6675",
+	"TfrmAT58MP1T1RS32A",
+	"TfrmDYP_A01",
 	"TfrmCH341Tm1637",
 	"TfrmCH341I2CMAX30102",
 	"TfrmCH341_SPI_PN532",
