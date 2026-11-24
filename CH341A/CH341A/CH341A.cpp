@@ -684,6 +684,41 @@ int CH341A::SetD5D0(uint32_t direction, uint32_t dataOut)
 	return -2;
 }
 
+int CH341A::UioStream(const uint8_t *commands, unsigned int count, unsigned int expectedIn, uint8_t *in)
+{
+	if (index == INVALID_INDEX)
+	{
+		return -1;
+	}
+	if (count == 0 || count > UIO_MAX_COMMANDS || expectedIn > UIO_MAX_COMMANDS)
+	{
+		return -3;
+	}
+	uint8_t buf[mCH341_PACKET_LENGTH];
+	buf[0] = mCH341A_CMD_UIO_STREAM;
+	memcpy(&buf[1], commands, count);
+	buf[1 + count] = mCH341A_CMD_UIO_STM_END;
+	unsigned long length = count + 2;
+	if (expectedIn == 0)
+	{
+		// nothing to read back: CH341WriteRead would wait for data
+		if (CH341WriteData(index, buf, &length))
+			return 0;
+		return -2;
+	}
+	uint8_t inBuf[mCH341_PACKET_LENGTH] = {0};
+	unsigned long inLength = 0;
+	if (!CH341WriteRead(index, length, buf, mCH341_PACKET_LENGTH, 1, &inLength, inBuf))
+		return -2;
+	if (inLength != expectedIn)
+	{
+		LOG("UioStream: expected %u bytes, got %lu\n", expectedIn, inLength);
+		return -4;
+	}
+	memcpy(in, inBuf, expectedIn);
+	return 0;
+}
+
 int CH341A::SpiTransfer(void *buffer, unsigned int count)
 {
 	if (index == INVALID_INDEX)

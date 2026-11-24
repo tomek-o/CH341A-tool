@@ -72,6 +72,17 @@ public:
 	/** Set direction and level of D5-D0 pins only (bit n = Dn), more efficient than SetGpioOutputs */
 	int SetD5D0(uint32_t direction, uint32_t dataOut);
 
+	/** Maximum number of command bytes in one UIO stream (a USB packet is 32 bytes: 0xAB + commands + END) */
+	enum { UIO_MAX_COMMANDS = 30 };
+
+	/** Executes one UIO stream packet: count command bytes (see mCH341A_CMD_UIO_STM_* in CH341DLL.H:
+		DIR 0x40|mask, OUT 0x80|levels, IN 0x00, US 0xC0|n) with the 0xAB header and END added here.
+		Pins D5-D0 can be driven, D7-D0 can be read. Timing of the commands is generated inside the CH341.
+		\param expectedIn number of IN commands in the stream (= bytes returned)
+		\return 0 on success
+	*/
+	int UioStream(const uint8_t *commands, unsigned int count, unsigned int expectedIn, uint8_t *in);
+
 	/** Regular SPI with 4 lines */
 	int SpiTransfer(void *buffer, unsigned int count);
 

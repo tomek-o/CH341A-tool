@@ -14,7 +14,7 @@
 		</Source>
 		<BCBPROJECT>
       <project version="10.0">
-        <property category="build.config" name="active" value="1"/>
+        <property category="build.config" name="active" value="0"/>
         <property category="build.config" name="count" value="1"/>
         <property category="build.config" name="excludedefaultforzero" value="0"/>
         <property category="build.config.0" name="builddir" value="Debug"/>
@@ -145,6 +145,7 @@
           <property category="win32.*.win32b.bcc32" name="option.I.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.40" value="..\jsoncpp\include"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.41" value="..\"/>
+          <property category="win32.*.win32b.bcc32" name="option.I.arg.42" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.6" value="CH341A\tools\KT0803L"/>
           <property category="win32.*.win32b.bcc32" name="option.I.arg.7" value="CH341A\tools\TSL2591"/>
@@ -236,6 +237,7 @@
           <property category="win32.*.win32b.dcc32" name="option.I.arg.35" value="CH341A\tools"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.36" value="CH341A"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.37" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.I.arg.38" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.dcc32" name="option.I.arg.6" value="CH341A\tools\KT0803L"/>
@@ -275,6 +277,7 @@
           <property category="win32.*.win32b.dcc32" name="option.O.arg.35" value="CH341A\tools"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.36" value="CH341A"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.37" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.O.arg.38" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.dcc32" name="option.O.arg.6" value="CH341A\tools\KT0803L"/>
@@ -314,6 +317,7 @@
           <property category="win32.*.win32b.dcc32" name="option.R.arg.35" value="CH341A\tools"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.36" value="CH341A"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.37" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.dcc32" name="option.R.arg.38" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.dcc32" name="option.R.arg.6" value="CH341A\tools\KT0803L"/>
@@ -357,6 +361,7 @@
           <property category="win32.*.win32b.dcc32" name="option.U.arg.39" value="$(BDS)\lib"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.40" value="$(BDS)\lib\obj"/>
+          <property category="win32.*.win32b.dcc32" name="option.U.arg.41" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.6" value="CH341A\tools\KT0803L"/>
           <property category="win32.*.win32b.dcc32" name="option.U.arg.7" value="CH341A\tools\TSL2591"/>
@@ -396,6 +401,7 @@
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.35" value="CH341A\tools"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.36" value="CH341A"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.37" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.idl2cpp" name="option.I.arg.38" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.idl2cpp" name="option.I.arg.6" value="CH341A\tools\KT0803L"/>
@@ -444,6 +450,7 @@
           <property category="win32.*.win32b.ilink32" name="option.L.arg.39" value="$(BDS)\lib\psdk"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.40" value="..\ch341par\lib\c"/>
+          <property category="win32.*.win32b.ilink32" name="option.L.arg.41" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.6" value="CH341A\tools\KT0803L"/>
           <property category="win32.*.win32b.ilink32" name="option.L.arg.7" value="CH341A\tools\TSL2591"/>
@@ -488,6 +495,7 @@
           <property category="win32.*.win32b.ilink32" name="option.j.arg.35" value="CH341A\tools"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.36" value="CH341A"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.37" value="..\_PROJEKTY\turbocpp_template"/>
+          <property category="win32.*.win32b.ilink32" name="option.j.arg.38" value="CH341A\tools\OneWire"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.4" value="CH341A\tools\BH1750"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.5" value="CH341A\tools\MPR121"/>
           <property category="win32.*.win32b.ilink32" name="option.j.arg.6" value="CH341A\tools\KT0803L"/>
@@ -570,6 +578,10 @@
         <FILE FILENAME="CH341A\tools\MDIO\MDIO.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="MDIO" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MDIO\MDIO.h"/>
         <FILE FILENAME="CH341A\tools\SHT11\FormCH341SHT11.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341SHT11" FORMNAME="frmCH341SHT11" DESIGNCLASS="" ADDITIONAL="CH341A\tools\SHT11\FormCH341SHT11.h"/>
         <FILE FILENAME="CH341A\tools\SHT11\SHT1x.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="SHT1x" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\SHT11\SHT1x.h"/>
+        <FILE FILENAME="CH341A\tools\OneWire\OneWire.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="OneWire" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\OneWire\OneWire.h"/>
+        <FILE FILENAME="CH341A\tools\OneWire\Ds18b20.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="Ds18b20" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\OneWire\Ds18b20.h"/>
+        <FILE FILENAME="CH341A\tools\OneWire\FormCH341OneWire.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341OneWire" FORMNAME="frmCH341OneWire" DESIGNCLASS="" ADDITIONAL="CH341A\tools\OneWire\FormCH341OneWire.h"/>
+        <FILE FILENAME="CH341A\tools\OneWire\FormCH341DS18B20.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341DS18B20" FORMNAME="frmCH341DS18B20" DESIGNCLASS="" ADDITIONAL="CH341A\tools\OneWire\FormCH341DS18B20.h"/>
         <FILE FILENAME="CH341A\tools\MDIO\MDIORegisters.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="MDIORegisters" FORMNAME="" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MDIO\MDIORegisters.h"/>
         <FILE FILENAME="CH341A\tools\MDIO\FormCH341MdioDetect.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341MdioDetect" FORMNAME="frmCH341MdioDetect" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MDIO\FormCH341MdioDetect.h"/>
         <FILE FILENAME="CH341A\tools\MDIO\FormCH341MdioWriteRead.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FormCH341MdioWriteRead" FORMNAME="frmCH341MdioWriteRead" DESIGNCLASS="" ADDITIONAL="CH341A\tools\MDIO\FormCH341MdioWriteRead.h"/>
@@ -732,10 +744,10 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<buildevents>
-			<buildevent file="turbocpp_template.bdsproj">
-				<precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
+      <buildevent file="turbocpp_template.bdsproj">
+        <precompile mode="0" cancancel="-1" capture="0" showconsole="0">$(PROJECTDIR)\build-tools\touch.exe $(PROJECTDIR)\FormAbout.cpp
 </precompile>
-			</buildevent>
-		</buildevents>
+      </buildevent>
+    </buildevents>
 	</CPlusPlusBuilder.Personality>
 </BorlandProject>
