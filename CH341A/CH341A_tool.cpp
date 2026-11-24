@@ -78,11 +78,80 @@ USEFORM("CH341A\tools\PN532\FormCH341PN532History.cpp", frmCH341PN532History);
 #pragma link "jsoncpp.lib"
 #pragma link "CH341DLL.lib"
 
+// Order of the tools in the tool list (form class names). A new tool needs no entry here: it registers itself
+// with REGISTER_TOOL and shows up after the listed ones.
+static const char *const toolOrder[] = {
+	"TfrmCH341I2CDetect",
+	"TfrmCH341I2CWriteRead",
+	"TfrmCH341SpiWriteRead",
+	"TfrmCH341MemProg",
+	"TfrmCH341SdCard",
+	"TfrmCH341SdData",
+	"TfrmCH341Gpio",
+	"TfrmCH341GpioPatternGenerator",
+	"TfrmCH341OneWire",
+	"TfrmCH341I2CSmartBatteryInfo",
+	"TfrmCH341I2CSi7021",
+	"TfrmCH341I2CBme280",
+	"TfrmCH341I2CBmp180",
+	"TfrmCH341SHT11",
+	"TfrmCH341I2CSHT4x",
+	"TfrmCH341I2CLm75",
+	"TfrmCH341DS18B20",
+	"TfrmCH341I2CAHT20",
+	"TfrmCH341I2CAs5600",
+	"TfrmCH341I2CSsd1306",
+	"TfrmCH341I2CCH1115",
+	"TfrmCH341GpioHd44780",
+	"TfrmCH341I2CHd44780",
+	"TfrmCH341I2CRda5807m",
+	"TfrmCH341I2CTea5767",
+	"TfrmCH341I2CSi4713",
+	"TfrmKT0803L",
+	"TfrmCH341SpiMax7219Led8x8",
+	"TfrmCH341SpiMax7219Led8x8Cascade",
+	"TfrmCH341SpiST7567",
+	"TfrmCH341I2CSi5351",
+	"TfrmCH341I2CVl53l0x",
+	"TfrmCH341I2CApds9960",
+	"TfrmCH341I2CMCP4725",
+	"TfrmCH341I2CAds1115",
+	"TfrmCH341I2CMax11601",
+	"TfrmCH341I2CL3G4200D",
+	"TfrmCH341I2CBMI160",
+	"TfrmCH341I2CMPU6050",
+	"TfrmCH341MdioDetect",
+	"TfrmCH341MdioWriteRead",
+	"TfrmCH341MdioMmdWriteRead",
+	"TfrmCH341USB2MDIO",
+	"TfrmCH341MdioLan8742Tdr",
+	"TfrmCH341MdioLan8742Cbln",
+	"TfrmCH341DS1302",
+	"TfrmCH341DS1307",
+	"TfrmCH341DS3231",
+	"TfrmCH341_I2C_S35390A",
+	"TfrmCH341I2CCH455",
+	"TfrmCH341Hmc5883L",
+	"TfrmCH341Ina226",
+	"TfrmCH341I2CVeml7700",
+	"TfrmCH341I2CTSL2591",
+	"TfrmCH341I2CBH1750",
+	"TfrmMPR121",
+	"TfrmCH341Max6675",
+	"TfrmCH341Tm1637",
+	"TfrmCH341I2CMAX30102",
+	"TfrmCH341_SPI_PN532",
+	"TfrmCH341PN532History",
+	"TfrmCH341SpiNrf24L01TxRx",
+	NULL
+};
+
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	try
 	{
 		Application->Initialize();
+		TabManager::SetToolOrder(toolOrder);
 		Application->Title = "CH341 tool";
 		Application->CreateForm(__classid(TfrmMain), &frmMain);
 		Application->CreateForm(__classid(TfrmSettings), &frmSettings);

@@ -99,6 +99,8 @@ Version 1.9
 - EEPROM / FLASH programmer: data is shown and edited in a hex editor, can write only changed data (chip is read first) or only the bytes edited in the editor
 - SPI flash: "Detect" reads the JEDEC ID and the SFDP table and selects the chip size and page size
 - added reusable hex editor (open/save file, go to, copy/paste, edited bytes highlighted)
-- added SD / MMC tool group: card initialization and identification (CID, CSD, OCR), raw commands, sector read/write in SPI mode (untested on hardware)
+- added SD / MMC in SPI mode: card initialization and identification (CID, CSD, OCR), raw commands, sector read/write
 - faster startup: tool forms are created when their tab is first opened (tools register with REGISTER_TOOL)
+- added generic 1-Wire master (reset/presence, Read ROM, Search ROM, raw bytes) using a CH341A GPIO UIO stream
+- added DS18B20 / DS1822 / DS18S20 temperature sensor
 */

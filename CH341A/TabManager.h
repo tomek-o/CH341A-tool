@@ -47,6 +47,10 @@ public:
 	/** Called before main() by REGISTER_TOOL; \a className is the form class name (the name of its DFM resource) */
 	static void AddTool(const char *className, unsigned int groups, ToolFormFactory factory);
 
+	/** Optional order of the tools: NULL-terminated array of form class names. Tools that are not listed
+		follow the listed ones in alphabetical order. Call before Configure(). */
+	static void SetToolOrder(const char *const *classNames);
+
 	/** Creates the tree nodes and tabs of all registered tools */
 	void Configure(Comctrls::TPageControl *pages, Comctrls::TTreeView *tree);
 	/** Shows the tab, creating its form if this is the first time */

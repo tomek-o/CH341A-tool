@@ -21,6 +21,7 @@ namespace
 	{
 		std::string className;
 		std::string caption;
+		unsigned int rank;	// position in the order list
 		unsigned int groups;
 		ToolFormFactory factory;
 		TTabSheet *sheet;
@@ -35,6 +36,16 @@ namespace
 	}
 
 	TTabSheet *prevTabSheet = NULL;
+	const char *const *toolOrder = NULL;
+
+	bool ToolBefore(const ToolEntry &a, const ToolEntry &b)
+	{
+		if (a.rank != b.rank)
+			return a.rank < b.rank;
+		if (a.caption != b.caption)
+			return a.caption < b.caption;
+		return a.className < b.className;
+	}
 
 	/** Caption of a form read from its DFM resource, without creating the form (class name if not found) */
 	AnsiString ReadFormCaption(const std::string &className)
@@ -98,11 +109,17 @@ TabManager::TabManager(void):
 
 }
 
+void TabManager::SetToolOrder(const char *const *classNames)
+{
+	toolOrder = classNames;
+}
+
 void TabManager::AddTool(const char *className, unsigned int groups, ToolFormFactory factory)
 {
 	ToolEntry entry;
 	entry.className = className;
 	entry.groups = groups;
+	entry.rank = 0xFFFFFFFFu;
 	entry.factory = factory;
 	entry.sheet = NULL;
 	entry.form = NULL;
@@ -125,6 +142,32 @@ void TabManager::Configure(Comctrls::TPageControl *pages, Comctrls::TTreeView *t
 	{
 		ToolEntry &tool = tools[t];
 		tool.caption = ReadFormCaption(tool.className).c_str();
+		tool.rank = 0xFFFFFFFFu;	// not listed: after the listed ones
+		for (unsigned int i=0; toolOrder && toolOrder[i]; i++)
+		{
+			if (tool.className == toolOrder[i])
+			{
+				tool.rank = i;
+				break;
+			}
+		}
+	}
+	// insertion sort (a few dozen entries)
+	for (size_t i=1; i<tools.size(); i++)
+	{
+		const ToolEntry entry = tools[i];
+		size_t j = i;
+		while (j > 0 && ToolBefore(entry, tools[j - 1]))
+		{
+			tools[j] = tools[j - 1];
+			j--;
+		}
+		tools[j] = entry;
+	}
+
+	for (size_t t=0; t<tools.size(); t++)
+	{
+		ToolEntry &tool = tools[t];
 
 		TTabSheet *pTabSheet = new TTabSheet(pages);
 		pTabSheet->PageControl = pages;
